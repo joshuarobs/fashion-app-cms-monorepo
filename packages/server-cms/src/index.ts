@@ -2,6 +2,7 @@
 // const express = require('express');
 import express from 'express';
 import path from 'path';
+
 const app = express();
 const port = process.env.PORT || 3001;
 // const server = require('http').Server(app);
@@ -9,7 +10,7 @@ const port = process.env.PORT || 3001;
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../../client-cms/build')));
 
-app.use("/health", (req: any, res: any) => {
+app.use('/health', (req: any, res: any) => {
   res.status(200).json({
     appName: 'API',
     version: process.env.npm_package_version,
@@ -17,8 +18,8 @@ app.use("/health", (req: any, res: any) => {
   });
 });
 
-app.get("/api", (req: any, res: any) => {
-  res.json({ message: "Hello from server!" });
+app.get('/api', (req: any, res: any) => {
+  res.json({ message: 'Hello from server!' });
 });
 
 // All other GET requests not handled before will return our React app
@@ -28,7 +29,7 @@ app.get('*', (req: any, res: any) => {
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
-})
+});
 //
 // server.listen(port, (error: any) => {
 //   if (error) {

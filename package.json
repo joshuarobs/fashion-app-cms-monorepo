@@ -55,47 +55,6 @@
       "packages/*/src/**/*.{js,jsx,ts,tsx}"
     ]
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "airbnb",
-      "plugin:react/recommended",
-      "plugin:@typescript-eslint/recommended",
-      "prettier/@typescript-eslint",
-      "prettier/react",
-      "plugin:prettier/recommended"
-    ],
-    "rules": {
-      "@typescript-eslint/no-explicit-any": [
-        "error"
-      ],
-      "@typescript-eslint/explicit-function-return-type": [
-        "error"
-      ],
-      "react/jsx-filename-extension": [
-        1,
-        {
-          "extensions": [
-            ".tsx"
-          ]
-        }
-      ]
-    },
-    "settings": {
-      "react": {
-        "version": "detect"
-      },
-      "import/resolver": {
-        "node": {
-          "extensions": [
-            ".js",
-            ".ts",
-            ".tsx"
-          ]
-        }
-      }
-    }
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -107,12 +66,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "prettier": {
-    "semi": true,
-    "trailingComma": "all",
-    "singleQuote": true,
-    "printWidth": 120,
-    "tabWidth": 2
   }
 }
