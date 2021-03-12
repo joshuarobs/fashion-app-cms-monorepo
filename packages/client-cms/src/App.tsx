@@ -13,7 +13,7 @@ const App = (): ReactElement => {
 
   return (
     <div className="App">
-      <h2>Title A</h2>
+      <h2>Title AA</h2>
       <p>{!data ? 'Loading...' : data}</p>
       <Button />
       <Input />
