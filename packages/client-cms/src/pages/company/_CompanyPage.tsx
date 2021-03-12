@@ -1,0 +1,93 @@
+import React from 'react';
+import { HeaderFrame } from '../../components/company/HeaderFrame';
+import { Footer } from '../../components/app-shell/Footer';
+import {
+  Link,
+  Route,
+  Switch,
+  useParams,
+  useRouteMatch,
+} from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { Routes } from '../../routes';
+import { ColumnOfFrames } from '../../components/common/frames/ColumnOfFrames';
+import { pageStyles } from '../pageStyles';
+import { OverviewTab } from './OverviewTab';
+import { ItemsTab } from './ItemsTab';
+import { LocalisationsTab } from './LocalisationsTab';
+import { Get_Company } from '../../queries/companies/getCompany';
+import { Button, Result } from 'antd';
+
+function CompanyPage() {
+  let { path, url } = useRouteMatch();
+
+  // const [item, setItem] = useState();
+  // @ts-ignore
+  const { id } = useParams();
+  console.log('id:', id);
+
+  const { loading, error, data } = useQuery(Get_Company, {
+    variables: { id },
+  });
+
+  if (loading) return <div />;
+  if (error) return <div>Error! ${error}</div>;
+  console.log('data:', data);
+
+  const company = data.companies_by_pk;
+  // useEffect(() => {
+  //   setItem(data.items_by_pk);
+  // });
+  // setItem(data.items_by_pk);
+
+  // 404 result if item doesn't exist in the database
+  if (!company) {
+    return (
+      <Result
+        status="404"
+        title="404"
+        subTitle={`Sorry, a company with id "${id}" does not exist.`}
+        extra={
+          <Link to={Routes.Companies__Company}>
+            <Button type="primary">Back to Companies</Button>
+          </Link>
+        }
+        style={{
+          paddingTop: 96,
+        }}
+      />
+    );
+  }
+
+  return (
+    <>
+      <HeaderFrame data={company} />
+      {/* @ts-ignore */}
+      <div style={pageStyles.content}>
+        <Switch>
+          <Route exact path={path}>
+            <OverviewTab company={company} />
+          </Route>
+          <Route exact path={path + Routes.Items}>
+            <ItemsTab />
+          </Route>
+          <Route path={path + Routes.Collections}>
+            <ColumnOfFrames>Collections</ColumnOfFrames>
+          </Route>
+          <Route path={path + Routes.Localisations}>
+            <LocalisationsTab />
+          </Route>
+          <Route exact path={path + Routes.Change_History}>
+            <ColumnOfFrames>Change history</ColumnOfFrames>
+          </Route>
+          <Route exact path={path + Routes.Settings}>
+            <ColumnOfFrames>Settings</ColumnOfFrames>
+          </Route>
+        </Switch>
+      </div>
+      <Footer />
+    </>
+  );
+}
+
+export { CompanyPage };

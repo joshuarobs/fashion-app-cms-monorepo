@@ -1,0 +1,42 @@
+enum VersionablePageErrors {
+  No_Maindata_Revision = 'No_Maindata_Revision',
+  No_Maindata = 'No_Maindata',
+  // Item related
+  Item_No_Maindata_Revisions = 'Item_No_Maindata_Revisions',
+  Item_No_Maindata = 'Item_No_Maindata',
+  Item_No_Database_Name = 'Item_No_Database_Name',
+  Item_No_Clothing_Shell = 'Item_No_Clothing_Shell',
+  Item_No_Styles = 'Item_No_Styles',
+  Item_No_Item_Category = 'Item_No_Item_Category',
+  Item_No_Production_Revision_Released = 'Item_No_Production_Revision_Released',
+  Item_No_Localisations = 'Item_No_Localisations',
+  Item_No_Localisations_English_US = 'Item_No_Localisations_English_US',
+  Item_No_Published_Localisations_English_US = 'Item_No_Published_Localisations_English_US',
+  Item_No_Localisation_Fully_Done_English_US = 'Item_No_Localisation_Fully_Done_English_US',
+  // Clothing shell related
+  Clothing_Shell_No_Maindata_Revisions = 'Clothing_Shell_No_Maindata_Revisions',
+  Clothing_Shell_No_Maindata = 'Clothing_Shell_No_Maindata',
+  Clothing_Shell_No_Name = 'Clothing_Shell_No_Name',
+  Clothing_Shell_No_Shell_Fabric_Layer = 'Clothing_Shell_No_Shell_Fabric_Layer',
+  Clothing_Shell_No_Lining_Fabric_Layer = 'Clothing_Shell_No_Lining_Fabric_Layer',
+  Clothing_Shell_No_Clothing_Segment_Data = 'Clothing_Shell_No_Clothing_Segment_Data',
+  Clothing_Shell_Invalid_Values_For_Clothing_Segment_Data = 'Clothing_Shell_Invalid_Values_For_Clothing_Segment_Data',
+  Clothing_Shell_Invalid_Sleeve_Bounds_For_Clothing_Segment_Data = 'Clothing_Shell_Invalid_Sleeve_Bounds_For_Clothing_Segment_Data',
+  Clothing_Shell_Invalid_Body_Bounds_For_Clothing_Segment_Data = 'Clothing_Shell_Invalid_Body_Bounds_For_Clothing_Segment_Data',
+  Clothing_Shell_No_Sleeve_Shell_Layer_For_Clothing_Segment_Data = 'Clothing_Shell_No_Sleeve_Shell_Layer_For_Clothing_Segment_Data',
+  Clothing_Shell_No_Sleeve_Lining_Layer_For_Clothing_Segment_Data = 'Clothing_Shell_No_Sleeve_Lining_Layer_For_Clothing_Segment_Data',
+  Clothing_Shell_No_Body_Shell_Layer_For_Clothing_Segment_Data = 'Clothing_Shell_No_Body_Shell_Layer_For_Clothing_Segment_Data',
+  Clothing_Shell_No_Body_Lining_Layer_For_Clothing_Segment_Data = 'Clothing_Shell_No_Body_Lining_Layer_For_Clothing_Segment_Data',
+  Clothing_Shell_No_Production_Revision_Released = 'Clothing_Shell_No_Production_Revision_Released',
+  // Clothing segment data related
+  Clothing_Segment_Data_Invalid_Right_Front_Sleeve_Bounds = 'Clothing_Segment_Data_Invalid_Right_Front_Sleeve_Bounds',
+  Clothing_Segment_Data_Invalid_Right_Back_Sleeve_Bounds = 'Clothing_Segment_Data_Invalid_Right_Back_Sleeve_Bounds',
+  Clothing_Segment_Data_Invalid_Left_Front_Sleeve_Bounds = 'Clothing_Segment_Data_Invalid_Left_Front_Sleeve_Bounds',
+  Clothing_Segment_Data_Invalid_Left_Back_Sleeve_Bounds = 'Clothing_Segment_Data_Invalid_Left_Back_Sleeve_Bounds',
+  Clothing_Segment_Data_Invalid_Right_Front_Body_Bounds = 'Clothing_Segment_Data_Invalid_Right_Front_Body_Bounds',
+  Clothing_Segment_Data_Invalid_Right_Back_Body_Bounds = 'Clothing_Segment_Data_Invalid_Right_Back_Body_Bounds',
+  Clothing_Segment_Data_Invalid_Left_Front_Body_Bounds = 'Clothing_Segment_Data_Invalid_Left_Front_Body_Bounds',
+  Clothing_Segment_Data_Invalid_Left_Back_Body_Bounds = 'Clothing_Segment_Data_Invalid_Left_Back_Body_Bounds',
+}
+
+export { VersionablePageErrors };

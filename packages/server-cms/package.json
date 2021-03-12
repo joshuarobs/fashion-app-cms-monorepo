@@ -1,5 +1,5 @@
 {
-  "name": "@namespace/client-server",
+  "name": "@namespace/server-cms",
   "description": "Example of using ts-node in a TS monorepo",
   "private": true,
   "version": "1.0.0",
@@ -9,8 +9,10 @@
     "test": "yarn run start"
   },
   "dependencies": {
+    "@apollo/client": "^3.3.11",
     "@types/node": "^14.14.33",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",

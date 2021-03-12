@@ -1,0 +1,17 @@
+This folder contains interfaces of the various tables found in the database
+(Hasura).
+
+As of writing (2021-1-20) there is no current way for WebStorm to work nicely
+with Typescript, Graphql and Hasura at the same time.
+
+To make coding more easier, we'll have to manually create an interface for each
+of the tables in Hasura.
+
+Any changes in Hasura will need to be reflected in the appropriate table file in
+this folder.
+
+If ever Graphql schemas (especially from Hasura) will work with Typescript, then
+we can delete these interfaces, as that would be achieving the same thing, but
+done automatically.
+
+This is the workaround for now, so we'll have to deal with it manually.

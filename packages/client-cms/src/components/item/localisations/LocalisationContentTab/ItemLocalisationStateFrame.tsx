@@ -1,0 +1,465 @@
+import React, { useEffect, useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
+import { DataState, DataChangeType } from '@joshuarobs/clothing-enums';
+import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
+import { message } from 'antd';
+import { Common } from '../../../../strings';
+import { useHistory } from 'react-router-dom';
+import { Insert_Item_Translation_Revision } from '../../../../queries/item_translation_revisions/insertItemTranslationRevision';
+import { Insert_Item_Translation_Revision_Change } from '../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChange';
+import { Insert_Item_Translation_Blank_Draft } from '../../../../queries/item_translations/insertItemTranslationBlankDraft';
+import { Insert_Item_Translation } from '../../../../queries/item_translations/insertItemTranslation';
+import { Update_Item_Updated_At } from '../../../../queries/items/updateItemUpdatedAt';
+import { Get_Item_Translation_Revision_Changes_Promos_Only } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesPromosOnly';
+import { Update_Item_Translation_Revision_To_Review } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionToReview';
+import { Insert_Item_Translation_Revision_Change_Promo_Review } from '../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChangePromoReview';
+import { Update_Item_Translation_Revision_To_Production } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionToProduction';
+import { Insert_Item_Translation_Revision_Change_Promo_Production } from '../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChangePromoProduction';
+import { Update_Item_Translation_Revision_To_Retired } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionToRetired';
+import { Insert_Item_Translation_Revision_Change_Promo_Retired } from '../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChangePromoRetired';
+
+const key = 'state-localisations';
+
+interface ItemLocalisationStateFrameProps {
+  itemId: number;
+  currentTab: string;
+  paramsRevision: any;
+  refetchTranslations?: Function;
+  refetchItemTransRevs: Function;
+  uniqueRevisions: any;
+}
+
+function ItemLocalisationStateFrame({
+  itemId,
+  currentTab,
+  paramsRevision,
+  refetchTranslations,
+  refetchItemTransRevs,
+  uniqueRevisions,
+}: ItemLocalisationStateFrameProps) {
+  const history = useHistory();
+  console.log('STATE - history:', history);
+
+  const [currentRevision, setCurrentRevision] = useState(uniqueRevisions[0]);
+  const [state, setState] = useState(null);
+  const [revision_id, setRevisionId] = useState(null);
+
+  useEffect(() => {
+    const matchingRevision = uniqueRevisions.find(
+      // @ts-ignore
+      ({ revision }) => revision === Number.parseInt(paramsRevision)
+    );
+    setCurrentRevision(matchingRevision);
+    // setState(currentRevision ? currentRevision.state : null);
+    setState(matchingRevision.state);
+    setRevisionId(matchingRevision.id);
+    console.log(
+      'SET CURRENT REVISION:',
+      currentRevision,
+      '\nParams:',
+      paramsRevision,
+      '\nMatching revision:',
+      matchingRevision,
+      '\nUnique revs:',
+      uniqueRevisions
+    );
+  }, [currentTab, paramsRevision]);
+
+  //======================================================================
+  // Hooks for GraphQL queries
+  //======================================================================
+  const [updateItemUpdatedAt] = useMutation(Update_Item_Updated_At, {
+    onCompleted() {},
+  });
+
+  const { loading, error, data } = useQuery(
+    Get_Item_Translation_Revision_Changes_Promos_Only,
+    {
+      variables: {
+        itemId,
+        localeCode: currentTab,
+        revision: Number.parseInt(paramsRevision),
+      },
+    }
+  );
+
+  const [
+    insertItemTranslationIsRelease,
+    { loading: loadingInsertRelease, error: errorInsertRelease },
+  ] = useMutation(Insert_Item_Translation, {
+    onCompleted() {
+      // TODO: Get the refetch from the content frame that loads all
+      //  revisions and then call it
+      // refetchTranslations();
+      // const variables = {
+      //   revisionId: currentRevision.id,
+      //   userId: 1
+      // };
+      // insertItemTranslationRevisionChangeActUpdate({ variables }).then(r => {});
+    },
+    notifyOnNetworkStatusChange: true,
+  });
+
+  //==================================================
+  // PROMOTE TO REVIEW
+  //==================================================
+  const [
+    updateItemTranslationRevisionToReview,
+    { loading: loadingUpdateRevisionReview, error: errorUpdateRevisionReview },
+  ] = useMutation(Update_Item_Translation_Revision_To_Review, {
+    onCompleted() {
+      // Redirect to the page
+      // history.push(`${pathNoRelease}true`);
+      // message.success({
+      //   content: COMMON.STATE_RELATED.PROMOTED_TO_REVIEW,
+      //   key
+      // });
+    },
+  });
+
+  const [
+    insertItemTranslationRevisionChangePromoReview,
+    { loading: loadingChangePromoReview, error: errorChangePromoReview },
+  ] = useMutation(Insert_Item_Translation_Revision_Change_Promo_Review, {
+    onCompleted() {
+      // Redirect to the page
+      // history.push(`${pathNoRelease}true`);
+      history.push(
+        history.location.pathname +
+          `?rev=${currentRevision.revision}&release=true`
+      );
+      message
+        .success({
+          content: Common.State_Related.Promoted_To_Review,
+          key,
+        })
+        .then();
+    },
+  });
+
+  //==================================================
+  // PROMOTE TO PRODUCTION
+  //==================================================
+  const [
+    updateItemTranslationRevisionToProduction,
+    {
+      loading: loadingUpdateRevisionProduction,
+      error: errorUpdateRevisionProduction,
+    },
+  ] = useMutation(Update_Item_Translation_Revision_To_Production, {
+    onCompleted() {
+      // Refresh the page
+      history.go(0);
+      message
+        .success({
+          content: Common.State_Related.Promoted_To_Production,
+          key,
+        })
+        .then();
+    },
+  });
+
+  const [
+    insertItemTranslationRevisionChangePromoProduction,
+    {
+      loading: loadingChangePromoProduction,
+      error: errorChangePromoProduction,
+    },
+  ] = useMutation(Insert_Item_Translation_Revision_Change_Promo_Production, {
+    onCompleted() {},
+  });
+
+  //==================================================
+  // PROMOTE TO RETIRED
+  //==================================================
+  const [
+    updateItemTranslationRevisionToRetired,
+    {
+      loading: loadingUpdateRevisionRetired,
+      error: errorUpdateRevisionRetired,
+    },
+  ] = useMutation(Update_Item_Translation_Revision_To_Retired, {
+    onCompleted() {},
+  });
+
+  const [
+    insertItemTranslationRevisionChangePromoRetired,
+    { loading: loadingChangePromoRetired, error: errorChangePromoRetired },
+  ] = useMutation(Insert_Item_Translation_Revision_Change_Promo_Retired, {
+    onCompleted() {},
+  });
+
+  //==================================================
+  // NEW REVISION
+  //==================================================
+  const [
+    insertItemTranslationBlankDraft,
+    { loading: loadingInsertTransBlank, error: errorInsertTransBlank },
+  ] = useMutation(Insert_Item_Translation_Blank_Draft, {
+    onCompleted() {},
+  });
+
+  const [
+    insertItemTranslationRevisionChangePromoDevelopment,
+    {
+      loading: loadingChangePromoDevelopment,
+      error: errorChangePromoDevelopment,
+    },
+  ] = useMutation(Insert_Item_Translation_Revision_Change, {
+    onCompleted() {},
+  });
+
+  const [
+    insertItemTranslationRevision,
+    {
+      loading: loadingInsertTransRev,
+      error: errorInsertTransRev,
+      data: dataInsertTransRev,
+    },
+  ] = useMutation(Insert_Item_Translation_Revision, {
+    notifyOnNetworkStatusChange: true,
+    async onCompleted({ insert_item_translation_revisions_one }) {
+      const {
+        id,
+        locale_code,
+        revision,
+      } = insert_item_translation_revisions_one;
+      // console.log("!!!translationDraft:", translationDraft);
+      // console.log("!!!translationRelease:", translationRelease);
+      // 1. Create a release translation version
+      // Somehow we're getting the previous version's release from the
+      // "draft" variable, but that's just how it works
+      const { full_name, short_name, description } = translationDraft;
+      // insertItemTranslationIsRelease({
+
+      await refetchItemTransRevs();
+      await insertItemTranslationIsRelease({
+        variables: {
+          revision_id: id,
+          is_release: false,
+          full_name,
+          short_name,
+          description,
+        },
+      });
+      await insertItemTranslationRevisionChangePromoDevelopment({
+        variables: {
+          revisionId: id,
+          userId: 1,
+          changeType: DataChangeType.Promotion,
+          toState: DataState.Development,
+        },
+      });
+
+      await updateItemUpdatedAt({
+        variables: {
+          id: itemId,
+        },
+      });
+
+      // Redirect to the next revision
+      history.push(
+        history.location.pathname +
+          `?rev=${currentRevision.revision + 1}&release=false`
+      );
+      message.success(
+        {
+          content: Common.State_Related.Created_New_Revision,
+          key,
+        },
+        2
+      );
+    },
+  });
+
+  if (!currentRevision) {
+    return <StateFrame />;
+  }
+
+  console.log('Current Revision:', currentRevision);
+  const translationDraft = currentRevision.item_translations[0];
+  // const translationRelease = currentRevision.item_translations[1];
+
+  // const { pathNoRelease } = currentRevision;
+  // console.log("REDIRECT TO:", pathNoRelease);
+
+  const promoteToReview = async () => {
+    message.loading({ content: Common.State_Related.Promoting_To_Review, key });
+    // 1. Create a release translation version
+    const { full_name, short_name, description } = translationDraft;
+    await insertItemTranslationIsRelease({
+      variables: {
+        revision_id: currentRevision.id,
+        is_release: true,
+        full_name,
+        short_name,
+        description,
+      },
+    });
+
+    // 2. Update the item translation revision state to REVIEW
+    await updateItemTranslationRevisionToReview({
+      variables: {
+        revisionId: currentRevision.id,
+      },
+    });
+
+    // 3. Create an activity entry
+    await insertItemTranslationRevisionChangePromoReview({
+      variables: {
+        revisionId: currentRevision.id,
+        userId: 1,
+      },
+    });
+
+    await updateItemUpdatedAt({
+      variables: {
+        id: itemId,
+      },
+    });
+
+    // Refresh the page
+    history.go(0);
+    // console.log("!!!translationDraft:", translationDraft);
+    // console.log("!!!translationRelease:", translationRelease);
+    // console.log("translations:", translations);
+  };
+
+  const promoteToProduction = async () => {
+    message.loading({
+      content: Common.State_Related.Promoting_To_Production,
+      key,
+    });
+    // 1. Update the item translation revision state to PRODUCTION
+    await updateItemTranslationRevisionToProduction({
+      variables: {
+        revisionId: currentRevision.id,
+      },
+    });
+
+    // 2. If there is a previous revision, retire it
+    const matchingPreviousRevision = uniqueRevisions.find(
+      // @ts-ignore
+      ({ revision }) => revision === Number.parseInt(paramsRevision) - 1
+    );
+    console.log('matchingPreviousRevision:', matchingPreviousRevision);
+    if (matchingPreviousRevision) {
+      await updateItemTranslationRevisionToRetired({
+        variables: {
+          revisionId: matchingPreviousRevision.id,
+        },
+      });
+      await insertItemTranslationRevisionChangePromoRetired({
+        variables: {
+          revisionId: matchingPreviousRevision.id,
+          userId: 1,
+        },
+      });
+    }
+
+    // 3. Create an activity entry
+    insertItemTranslationRevisionChangePromoProduction({
+      variables: {
+        revisionId: currentRevision.id,
+        userId: 1,
+      },
+    }).then();
+
+    await updateItemUpdatedAt({
+      variables: {
+        id: itemId,
+      },
+    });
+
+    // Refresh the page
+    history.go(0);
+  };
+
+  const newRevision = async () => {
+    message.loading({
+      content: Common.State_Related.Creating_New_Revision,
+      key,
+    });
+    // console.log("currentRevision:", currentRevision);
+    const { revision } = currentRevision;
+    const variables = {
+      localeCode: currentTab,
+      entryId: itemId,
+      revision: revision + 1,
+    };
+    await insertItemTranslationRevision({ variables });
+  };
+
+  if (loading) return <StateFrame />;
+  if (error) return <div>Error! ${error}</div>;
+
+  const { item_translation_revision_changes } = data;
+
+  console.log(
+    'item_translation_revision_changes:',
+    item_translation_revision_changes
+  );
+
+  // Find each of the state's revision
+  const changeToDevelopment = item_translation_revision_changes.find(
+    // @ts-ignore
+    ({ to_state }) => to_state === DataState.Development
+  );
+  const changeToReview = item_translation_revision_changes.find(
+    // @ts-ignore
+    ({ to_state }) => to_state === DataState.Review
+  );
+  const changeToProduction = item_translation_revision_changes.find(
+    // @ts-ignore
+    ({ to_state }) => to_state === DataState.Production
+  );
+  const changeToRetired = item_translation_revision_changes.find(
+    // @ts-ignore
+    ({ to_state }) => to_state === DataState.Retired
+  );
+
+  console.log('changeToDevelopment:', changeToDevelopment);
+  console.log('changeToReview:', changeToReview);
+  console.log('changeToProduction:', changeToProduction);
+  console.log('changeToRetired:', changeToRetired);
+
+  // Decide whether we hide the promote button regardless of state or not
+  let overrideHidePromoteButton = false;
+  // Disable it if there's a new revision already made, and we are in the
+  // production state. No need to create another revision if there's already
+  // an existing new one.
+  const matchingNextRevision = uniqueRevisions.find(
+    // @ts-ignore
+    ({ revision }) => revision === Number.parseInt(paramsRevision) + 1
+  );
+  if (state === DataState.Production && matchingNextRevision) {
+    overrideHidePromoteButton = true;
+  }
+
+  // Decide whether to force show the promote button regardless of state or not
+  let overrideShowPromoteButton = false;
+  // Enable the button if we have no new revision (maybe it was deleted
+  // before) and we are in the retired state, to allow getting out of a
+  // "stuck state"
+  if (state === DataState.Retired && !matchingNextRevision) {
+    overrideShowPromoteButton = true;
+    console.log('OVERRIDE SHOW');
+  }
+
+  return (
+    <StateFrame
+      currentState={state}
+      changeToDevelopment={changeToDevelopment}
+      changeToReview={changeToReview}
+      changeToProduction={changeToProduction}
+      changeToRetired={changeToRetired}
+      promoteToReview={promoteToReview}
+      promoteToProduction={promoteToProduction}
+      newRevision={newRevision}
+      overrideHidePromoteButton={overrideHidePromoteButton}
+      overrideShowPromoteButton={overrideShowPromoteButton}
+    />
+  );
+}
+
+export { ItemLocalisationStateFrame };

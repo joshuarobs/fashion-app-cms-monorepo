@@ -1,10 +1,39 @@
 {
-  "name": "@namespace/react-app",
+  "name": "@namespace/client-cms",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3001",
   "dependencies": {
-    "@namespace/components": "^0.1.0"
+    "@ant-design/colors": "^6.0.0",
+    "@ant-design/icons": "^4.5.0",
+    "@apollo/client": "^3.3.11",
+    "@iconfu/svg-inject": "^1.2.3",
+    "@namespace/components": "^0.1.0",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/node": "^14.14.34",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.2",
+    "antd": "^4.13.1",
+    "babel-plugin-import": "^1.13.3",
+    "date-fns": "^2.19.0",
+    "dayjs": "^1.10.4",
+    "fuse.js": "^6.4.6",
+    "graphql": "^15.5.0",
+    "lodash": "^4.17.21",
+    "qs": "^6.9.6",
+    "react": "^17.0.1",
+    "react-custom-scrollbars": "^4.2.1",
+    "react-dom": "^17.0.1",
+    "react-hotkeys-hook": "^3.2.1",
+    "react-responsive": "^8.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scrollbars-custom": "^4.0.25",
+    "react-transition-group": "^4.4.1",
+    "recharts": "^2.0.8",
+    "uuid": "^8.3.2",
+    "web-vitals": "^1.1.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -13,6 +42,7 @@
     "eject": "react-scripts eject"
   },
   "peerDependencies": {
+    "@testing-library/dom": "^7.30.0",
     "@types/jest": "24.0.19",
     "@types/node": "12.11.1",
     "@types/react": "16.9.9",
@@ -22,6 +52,5 @@
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
     "typescript": "3.6.4"
-  },
-  "devDependencies": {}
+  }
 }
