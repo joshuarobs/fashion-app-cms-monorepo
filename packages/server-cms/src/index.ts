@@ -3,11 +3,22 @@
 import express from 'express';
 import path from 'path';
 
+console.log('Node environment:', process.env.NODE_ENV);
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 // const server = require('http').Server(app);
 
-const ROOT_PATH = path.resolve(__dirname, '../../client-cms/build');
+// Add an extra level up if we're in production, since we need to go 3
+// levels up to the `packages/` folder if we're in the build folder (production)
+const PATH_PREFIX = process.env.NODE_ENV === 'production' ? '../' : '';
+
+// Calculate the root path to the client cms' built html and js files
+const ROOT_PATH = path.resolve(
+  __dirname,
+  PATH_PREFIX,
+  '../../client-cms/build'
+);
 
 // Have Node serve the files for our built React app
 app.use(express.static(ROOT_PATH));
