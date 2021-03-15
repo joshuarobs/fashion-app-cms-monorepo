@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
+    "@joshuarobs/clothing-enums": "^0.4.1",
+    "@joshuarobs/clothing-framework": "^0.4.0",
     "@types/node": "^14.14.33",
+    "@types/react-router-dom": "^5.1.7",
     "express": "^4.17.1",
     "uuid": "^8.3.2"
   },

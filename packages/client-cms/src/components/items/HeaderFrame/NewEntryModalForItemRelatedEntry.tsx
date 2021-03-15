@@ -3,6 +3,7 @@ import { Button, Input, Modal, Radio, Row, Typography, Alert } from 'antd';
 import { ItemFilterValuesItemType } from '../../../framework/itemFilterValuesItemType';
 import { ItemType } from '@joshuarobs/clothing-enums';
 import { Common } from '../../../strings';
+import {NewEntryModalProps} from './NewEntryModalProps';
 
 const { Text } = Typography;
 
@@ -20,20 +21,6 @@ const styles = {
 
 // console.log('ItemFilterValuesItemType.Map:', ItemFilterValuesItemType.Map);
 const VALUES = Array.from(ItemFilterValuesItemType.Map.values());
-
-interface NewEntryModalProps {
-  title: string;
-  showModal: boolean;
-  onCancel: (e: React.MouseEvent) => void;
-  onSubmit: (e: React.MouseEvent) => void;
-  inputRef: any;
-  name: string | null;
-  setName: Function;
-  itemType: string;
-  setItemType: Function;
-  loading?: boolean;
-  showTestingPurposeWarning?: boolean;
-}
 
 function NewEntryModalForItemRelatedEntry({
   title,
@@ -135,4 +122,4 @@ function NewEntryModalForItemRelatedEntry({
 }
 
 export { NewEntryModalForItemRelatedEntry };
-export type { NewEntryModalProps };
+// export type { NewEntryModalProps };
