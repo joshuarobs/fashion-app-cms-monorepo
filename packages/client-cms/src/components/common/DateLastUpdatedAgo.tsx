@@ -4,11 +4,11 @@ import { Tooltip, Typography } from 'antd';
 
 const { Text } = Typography;
 
-interface DateLastUpdatedAgo {
+interface DateLastUpdatedAgoProps {
   text: string;
 }
 
-function DateLastUpdatedAgo({ text }: DateLastUpdatedAgo) {
+function DateLastUpdatedAgo({ text }: DateLastUpdatedAgoProps) {
   return (
     <Tooltip title={format(new Date(text), 'yyyy-mm-dd (HH:mm:ss)')}>
       <Text

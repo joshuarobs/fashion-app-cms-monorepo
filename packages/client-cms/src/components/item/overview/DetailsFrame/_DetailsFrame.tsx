@@ -280,7 +280,7 @@ function DetailsFrame({
   console.log('DetailsFrame > itemMaindataRevision:', itemMaindataRevision);
   // console.log("DetailsFrame > brand_id:", brand_id);
   const history = useHistory();
-  let location = useLocation();
+  const location = useLocation();
 
   const [selectValue, setSelectValue] = useState(null);
   useEffect(() => {

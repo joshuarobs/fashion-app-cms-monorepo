@@ -16,6 +16,7 @@
     "typescript": "3.6.4"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.5.0",
     "@apollo/client": "^3.3.11",
     "@joshuarobs/clothing-enums": "^0.4.1",
     "@joshuarobs/clothing-framework": "^0.4.0",

@@ -35,13 +35,13 @@ const client = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
       fabric_layer_and_colour_mix_part: {
-        keyFields: ['colour_mix_part_id', 'fabric_layer_id']
-      }
+        keyFields: ['colour_mix_part_id', 'fabric_layer_id'],
+      },
       // item_translations: {
       //   keyFields: ["revision_id", "is_release"]
       // }
-    }
-  })
+    },
+  }),
 });
 
 const App = (): ReactElement => {
@@ -77,7 +77,7 @@ const App = (): ReactElement => {
               {/*  component={ClothingShellsPage} */}
               {/* /> */}
               {/* <Route path={Routes.Fabric_Layers} component={FabricLayersPage} /> */}
-              <Route path={Routes.Items} component={ItemsPage} />
+              {/* <Route path={Routes.Items} component={ItemsPage} /> */}
               {/* <Route path={Routes.Companies} component={CompaniesPage} /> */}
               {/* <Route path={Routes.Body_Segments} component={BodySegmentsPage} /> */}
               {/* <Route path={Routes.Base_Colours} component={BaseColoursPage} /> */}

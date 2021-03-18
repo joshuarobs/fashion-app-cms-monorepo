@@ -2,12 +2,12 @@ import React from 'react';
 import { Tag } from 'antd';
 import { Common } from '../../../strings';
 
-interface TagInReview {
+interface TagInReviewProps {
   showShortText?: boolean;
   notClickable?: boolean;
 }
 
-function TagInReview({ showShortText = false, notClickable }: TagInReview) {
+function TagInReview({ showShortText = false, notClickable }: TagInReviewProps) {
   return (
     <Tag
       color="purple"

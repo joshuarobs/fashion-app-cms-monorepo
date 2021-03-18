@@ -1,12 +1,12 @@
 import React from 'react';
-import logo from '../logo.svg';
+// import logo from '../logo.svg';
 import { Button } from 'antd';
 
 function HelloWorldPage() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {/*<img src={logo} className="App-logo" alt="logo" />*/}
         <Button type="primary">Button</Button>
         <p>
           Edit <code>src/App.tsx</code> and save to reload.

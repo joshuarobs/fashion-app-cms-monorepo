@@ -61,7 +61,7 @@ function getBaseRouteWithoutForwardSlash(str: string) {
 }
 
 function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
-  let location = useLocation();
+  const location = useLocation();
   const [currentPath, setCurrentPath] = useState(location.pathname);
   useEffect(() => {
     setCurrentPath(getBaseRouteWithoutForwardSlash(location.pathname));
