@@ -14,3 +14,4 @@ jobs:
         run: yarn test
         env:
           CI: true
+          NODE_AUTH_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
