@@ -8,10 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Fix .npmrc for CI/CD
-        run: |
-            rm .npmrc
-            echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_TOKEN }}" > ~/.npmrc
       - name: Install modules and test
         run: |
           yarn
