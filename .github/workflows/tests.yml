@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Fix .npmrc for CI/CD
+        run: |
+            rm .npmrc
       - name: Install modules and test
         run: |
           yarn
