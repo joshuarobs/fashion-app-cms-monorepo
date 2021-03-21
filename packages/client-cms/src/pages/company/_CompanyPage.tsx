@@ -19,7 +19,7 @@ import { Get_Company } from '../../queries/companies/getCompany';
 import { Button, Result } from 'antd';
 
 function CompanyPage() {
-  let { path, url } = useRouteMatch();
+  const { path, url } = useRouteMatch();
 
   // const [item, setItem] = useState();
   // @ts-ignore

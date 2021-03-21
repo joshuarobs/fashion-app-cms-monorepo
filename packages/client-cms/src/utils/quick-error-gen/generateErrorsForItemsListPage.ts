@@ -11,7 +11,7 @@ function calculateErrorsForItemMaindataRevision(
   const maindata_revisions = isLatestProd
     ? item.latest_prod
     : item.latest_revision;
-  let errorLocation = isLatestProd
+  const errorLocation = isLatestProd
     ? errors.maindataLatestProductionRevision
     : errors.maindataLatestRevision;
   if (!maindata_revisions || maindata_revisions.length === 0) {

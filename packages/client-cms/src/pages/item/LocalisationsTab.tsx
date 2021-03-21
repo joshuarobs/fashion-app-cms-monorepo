@@ -42,7 +42,7 @@ import { Get_Item_Translation_Revisions } from '../../queries/item_translation_r
 function LocalisationsTab() {
   const Url_Number_Of_Parts = 6;
 
-  let location = useLocation();
+  const location = useLocation();
 
   console.log('BASE location:', location);
 

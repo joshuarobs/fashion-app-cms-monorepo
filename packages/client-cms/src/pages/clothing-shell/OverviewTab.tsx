@@ -34,7 +34,7 @@ function OverviewTab({
   refetchRevisions,
   refetchClothingShellBaseData,
 }: OverviewTabProps) {
-  let location = useLocation();
+  const location = useLocation();
   const history = useHistory();
   // console.error("location:", location.pathname);
 

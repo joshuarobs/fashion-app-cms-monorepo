@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout } from 'antd';
 
 const { Content } = Layout;
 
 function HomePage() {
+  const [data, setData] = useState(null);
+
+  React.useEffect(() => {
+    fetch('/api')
+      .then((res) => res.json())
+      // eslint-disable-next-line no-shadow
+      .then((data) => setData(data.message));
+  }, []);
+
   return (
     <>
       <Content
@@ -14,7 +23,8 @@ function HomePage() {
           minHeight: 280,
         }}
       >
-        Home Page
+        <h1>Home Page</h1>
+        <p>{data}</p>
       </Content>
     </>
   );

@@ -11,8 +11,8 @@ function getFormattedData(companies: any) {
   const companiesCopy = [...companies];
   // Sort alphabetically
   companiesCopy.sort((a, b) => {
-    var nameA = a.name.toUpperCase(); // ignore upper and lowercase
-    var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+    const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.name.toUpperCase(); // ignore upper and lowercase
     if (nameA < nameB) {
       return -1;
     }

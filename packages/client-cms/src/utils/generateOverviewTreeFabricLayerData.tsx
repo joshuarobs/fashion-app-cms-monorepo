@@ -42,8 +42,8 @@ function generateOverviewTreeFabricLayerData(
     if (overrideData) {
       console.log('overrideData:', overrideData);
       const { color, fabric, materials } = overrideData;
-      let a = 0;
-      let b = 1;
+      // let a = 0;
+      // let b = 1;
       // ----------------------------------------
       // Display the fabric
       // ----------------------------------------

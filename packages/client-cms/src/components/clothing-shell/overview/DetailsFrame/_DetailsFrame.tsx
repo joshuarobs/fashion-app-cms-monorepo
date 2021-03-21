@@ -141,7 +141,7 @@ function DetailsFrame({
   setDefaultInterliningLayerId,
 }: DetailsFrameProps) {
   const history = useHistory();
-  let location = useLocation();
+  const location = useLocation();
 
   const [selectValue, setSelectValue] = useState(null);
   useEffect(() => {

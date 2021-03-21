@@ -180,6 +180,7 @@ function ClothingShellOverviewFrame({
   // console.error("numItems:", numItemsInClothingShell);
 
   if (originalClothingShellId !== currentClothingShellId) {
+    // TODO: Add some stuff
   } else {
     numItemsInClothingShell -= 1;
   }
@@ -231,6 +232,7 @@ function ClothingShellOverviewFrame({
     const { base_clothing_segments } = heuristicItem;
 
     if (clothingShell) {
+      // TODO: Add some stuff
     } else if (base_clothing_segments) {
       console.log('base_clothing_segments:', base_clothing_segments);
       const {

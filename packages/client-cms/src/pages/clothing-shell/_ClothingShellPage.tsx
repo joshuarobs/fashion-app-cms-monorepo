@@ -8,7 +8,7 @@ import {
   useRouteMatch,
   Link,
 } from 'react-router-dom';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { ColumnOfFrames } from '../../components/common/frames/ColumnOfFrames';
 import { pageStyles } from '../pageStyles';
 import { OverviewTab } from './OverviewTab';
@@ -26,7 +26,7 @@ function ClothingShellPage() {
   // The `path` lets us build <Route> paths that are
   // relative to the parent route, while the `url` lets
   // us build relative links.
-  let { path, url } = useRouteMatch();
+  const { path, url } = useRouteMatch();
 
   // @ts-ignore
   const { id } = useParams();

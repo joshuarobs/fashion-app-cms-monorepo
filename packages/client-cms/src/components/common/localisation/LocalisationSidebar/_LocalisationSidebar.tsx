@@ -168,7 +168,7 @@ function LocalisationSidebar({
     setShowModal(false);
   };
 
-  let location = useLocation();
+  const location = useLocation();
   const [currentTab, setCurrentTab] = useState('');
   useEffect(() => {
     if (invalidPath) {

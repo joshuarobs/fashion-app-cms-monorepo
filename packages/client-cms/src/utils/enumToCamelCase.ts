@@ -1,6 +1,6 @@
 const enumToCamelCase = function (str = '') {
   const fixedString = str.replace(/_/g, ' ');
-  let newStringArray = fixedString.split(' ');
+  const newStringArray = fixedString.split(' ');
 
   newStringArray.forEach(function (word, index) {
     if (word === 'OF' || word === 'AND') {

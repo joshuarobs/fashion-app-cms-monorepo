@@ -13,6 +13,9 @@ module.exports = {
     "no-empty-function": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "no-empty-pattern": "off",
   },
 };
 

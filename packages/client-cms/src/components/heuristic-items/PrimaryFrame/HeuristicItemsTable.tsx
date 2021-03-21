@@ -44,7 +44,7 @@ const columns = [
       // const state = mainData ? mainData.state : null;
 
       // Calculate any errors and whether to show an error icon or not
-      let showError = false;
+      // let showError = false;
       const errors = [];
       if (!name) {
         errors.push('\nNo name');

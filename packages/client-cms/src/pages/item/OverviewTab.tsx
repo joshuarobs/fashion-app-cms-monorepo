@@ -36,7 +36,7 @@ function OverviewTab({
 }: OverviewTabProps) {
   const URL_NUMBER_OF_PARTS = 5;
 
-  let location = useLocation();
+  const location = useLocation();
   const history = useHistory();
   // console.error("location:", location.pathname);
 

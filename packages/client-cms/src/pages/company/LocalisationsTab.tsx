@@ -17,7 +17,7 @@ import { Get_Company_Translation_Revisions } from '../../queries/company_transla
 function LocalisationsTab() {
   const Url_Number_Of_Parts = 5;
 
-  let location = useLocation();
+  const location = useLocation();
   // console.error("location:", location.pathname);
 
   const optionalParams = qs.parse(location.search, { ignoreQueryPrefix: true });
