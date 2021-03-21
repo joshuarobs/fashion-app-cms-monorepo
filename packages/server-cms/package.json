@@ -15,7 +15,9 @@
     "@joshuarobs/clothing-framework": "^0.4.0",
     "@types/node": "^14.14.33",
     "@types/react-router-dom": "^5.1.7",
+    "apollo-server": "^2.21.2",
     "express": "^4.17.1",
+    "graphql": "^15.5.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

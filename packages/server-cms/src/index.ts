@@ -1,7 +1,8 @@
-// const path = require('path');
-// const express = require('express');
 import express from 'express';
 import path from 'path';
+import { ApolloServer, gql } from 'apollo-server';
+import { resolvers } from './resolvers';
+import { typeDefs } from './type-defs';
 
 console.log('Node environment:', process.env.NODE_ENV);
 
@@ -27,7 +28,7 @@ app.use('/health', (req: any, res: any) => {
   res.status(200).json({
     appName: 'API',
     version: process.env.npm_package_version,
-    status: 'OK'
+    status: 'OK',
   });
 });
 
@@ -43,6 +44,14 @@ app.get('*', (req: any, res: any) => {
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);
 });
+
+const server = new ApolloServer({ typeDefs, resolvers });
+
+// The `listen` method launches a web server.
+server.listen().then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
+});
+
 //
 // server.listen(port, (error: any) => {
 //   if (error) {
