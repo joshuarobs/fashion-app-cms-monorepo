@@ -6,8 +6,7 @@
   "scripts": {
     "start": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "rm -rf build/ && npx tsc",
-    "test": "yarn run start",
-    "heroku-prebuild": "echo //registry.npmjs.org/:_authToken=${PACKAGE_TOKEN} >> ../../.npmrc"
+    "test": "yarn run start"
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
