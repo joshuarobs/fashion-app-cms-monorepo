@@ -1,5 +1,6 @@
-import express, { Response } from 'express';
 import path from 'path';
+import fs from 'fs';
+import express, { Response } from 'express';
 import cors from 'cors';
 import { ApolloServer, gql } from 'apollo-server-express';
 import { resolvers } from './resolvers';
@@ -21,6 +22,10 @@ const ROOT_PATH = path.resolve(
   PATH_PREFIX,
   '../../client-cms/build'
 );
+
+if (process.env.NODE_ENV === 'production') {
+  fs.writeFileSync(path.resolve(ROOT_PATH, '.env'), `PORT=${PORT}`);
+}
 
 // Have Node serve the files for our built React app
 app.use(express.static(ROOT_PATH));
