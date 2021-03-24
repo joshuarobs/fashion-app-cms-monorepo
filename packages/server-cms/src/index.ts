@@ -23,8 +23,12 @@ const ROOT_PATH = path.resolve(
   '../../client-cms/build'
 );
 
+// Create an .env file for the client to get the correct (same) port as this
+// server's to connect to
 if (process.env.NODE_ENV === 'production') {
   fs.writeFileSync(path.resolve(ROOT_PATH, '.env'), `PORT=${PORT}`);
+} else {
+  fs.writeFileSync(path.resolve('../client-cms', '.env'), `PORT=${PORT}`);
 }
 
 // Have Node serve the files for our built React app
