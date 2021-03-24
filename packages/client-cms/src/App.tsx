@@ -30,7 +30,8 @@ import { HomePage } from './pages/HomePage';
 import { LocalisationsPage } from './pages/LocalisationsPage';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:8090/v1/graphql',
+  // uri: 'http://localhost:8090/v1/graphql',
+  uri: 'http://localhost:3000/graphql',
   // cache: new InMemoryCache()
   cache: new InMemoryCache({
     typePolicies: {

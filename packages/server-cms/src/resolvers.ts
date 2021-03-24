@@ -1,7 +1,7 @@
 const resolvers = {
   Query: {
     hello: () => {
-      return 'Hello';
+      return 'Hello from Apollo Server';
     },
   },
 };

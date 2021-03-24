@@ -1,17 +1,26 @@
 import React, { useState } from 'react';
 import { Layout } from 'antd';
+import { gql, useQuery } from '@apollo/client';
+import { Get_Base_Colours } from '../queries/base_colours/getBaseColours';
 
 const { Content } = Layout;
 
 function HomePage() {
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
 
-  React.useEffect(() => {
-    fetch('/api')
-      .then((res) => res.json())
-      // eslint-disable-next-line no-shadow
-      .then((data) => setData(data.message));
-  }, []);
+  const { loading, error, data } = useQuery(gql`
+    query {
+      hello
+    }
+  `);
+
+  if (loading) return <div />;
+  if (error) {
+    console.error(error);
+    return <p>Error :(</p>;
+  }
+  console.log('data:', data);
+  const { hello } = data;
 
   return (
     <>
@@ -24,7 +33,7 @@ function HomePage() {
         }}
       >
         <h1>Home Page</h1>
-        <p>{data}</p>
+        <p>{hello}</p>
       </Content>
     </>
   );

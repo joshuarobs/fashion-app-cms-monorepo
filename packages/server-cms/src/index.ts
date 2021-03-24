@@ -1,6 +1,7 @@
-import express from 'express';
+import express, { Response } from 'express';
 import path from 'path';
-import { ApolloServer, gql } from 'apollo-server';
+import cors from 'cors';
+import { ApolloServer, gql } from 'apollo-server-express';
 import { resolvers } from './resolvers';
 import { typeDefs } from './type-defs';
 
@@ -24,16 +25,32 @@ const ROOT_PATH = path.resolve(
 // Have Node serve the files for our built React app
 app.use(express.static(ROOT_PATH));
 
+const corsOptions = {
+  origin: '*',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
+// Add Apollo Server to our express server
+const server = new ApolloServer({ typeDefs, resolvers });
+server.applyMiddleware({ app });
+server.applyMiddleware({ app, cors: false });
+
+app.get('/api', (req: any, res: any) => {
+  res.json({ message: 'Hello from server!' });
+});
+
+app.get('/api/hello', (req: any, res: Response) => {
+  res.json({ data: 'Hello from server!' });
+});
+
 app.use('/health', (req: any, res: any) => {
   res.status(200).json({
     appName: 'API',
     version: process.env.npm_package_version,
     status: 'OK',
   });
-});
-
-app.get('/api', (req: any, res: any) => {
-  res.json({ message: 'Hello from server!' });
 });
 
 // All other GET requests not handled before will return our React app
@@ -45,12 +62,10 @@ app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);
 });
 
-const server = new ApolloServer({ typeDefs, resolvers });
-
 // The `listen` method launches a web server.
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+// server.listen().then(({ url }) => {
+//   console.log(`🚀  Server ready at ${url}`);
+// });
 
 //
 // server.listen(port, (error: any) => {
