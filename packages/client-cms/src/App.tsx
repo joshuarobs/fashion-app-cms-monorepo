@@ -29,9 +29,15 @@ import { Exception404Page } from './pages/Exception404Page';
 import { HomePage } from './pages/HomePage';
 import { LocalisationsPage } from './pages/LocalisationsPage';
 
+// process.env.PORT
+
+console.log('PORT:', process.env.PORT);
+
+const PORT = process.env.PORT || 3001;
+
 const client = new ApolloClient({
   // uri: 'http://localhost:8090/v1/graphql',
-  uri: 'http://localhost:3000/graphql',
+  uri: `http://localhost:${PORT}/graphql`,
   // cache: new InMemoryCache()
   cache: new InMemoryCache({
     typePolicies: {
