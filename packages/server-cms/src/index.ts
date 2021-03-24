@@ -26,6 +26,8 @@ const ROOT_PATH = path.resolve(
 // Create an .env file for the client to get the correct (same) port as this
 // server's to connect to
 if (process.env.NODE_ENV === 'production') {
+  const url = path.resolve(ROOT_PATH, '.env');
+  console.log('.env file path:', url);
   fs.writeFileSync(path.resolve(ROOT_PATH, '.env'), `PORT=${PORT}`);
 } else {
   fs.writeFileSync(path.resolve('../client-cms', '.env'), `PORT=${PORT}`);
