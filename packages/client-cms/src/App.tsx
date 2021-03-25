@@ -32,6 +32,7 @@ import { LocalisationsPage } from './pages/LocalisationsPage';
 // process.env.PORT
 
 console.log('PORT:', process.env.PORT);
+console.log('REACT_APP_PORT:', process.env.REACT_APP_PORT);
 
 const PORT = process.env.PORT || 3001;
 
