@@ -33,7 +33,7 @@ function HomePage() {
         }}
       >
         <h1>Home Page</h1>
-        <p>Test</p>
+        <p>PORT: {process.env.PORT}</p>
         <p>{hello}</p>
       </Content>
     </>

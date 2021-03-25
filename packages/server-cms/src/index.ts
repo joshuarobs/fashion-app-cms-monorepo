@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
   const url = path.resolve(__dirname, PATH_PREFIX, '../../client-cms/', '.env');
   console.log('.env file path:', url);
   console.log('to write with PORT=', PORT);
-  fs.writeFileSync(url, `PORT=${PORT}`);
+  fs.writeFileSync(url, `REACT_APP_PORT=${PORT}`);
 } else {
   // fs.writeFileSync(path.resolve('../client-cms', '.env'), `PORT=6969`);
 }
