@@ -24,9 +24,10 @@ const ROOT_PATH_BUILD = path.resolve(ROOT_PATH, '/build');
 // Create an .env file for the client to get the correct (same) port as this
 // server's to connect to
 if (process.env.NODE_ENV === 'production') {
-  const url = path.resolve(ROOT_PATH, '.env');
-  console.log('.env file path:', url);
-  fs.writeFileSync(path.resolve(ROOT_PATH_BUILD, '.env'), `PORT=${PORT}`);
+  const filePathURL = path.resolve(ROOT_PATH, '.env');
+  console.log('.env file path:', filePathURL);
+  console.log('REACT_APP_PORT:', process.env.REACT_APP_PORT);
+  fs.writeFileSync(filePathURL, `PORT=${PORT}`);
 } else {
   // fs.writeFileSync(path.resolve('../client-cms', '.env'), `PORT=6969`);
 }
