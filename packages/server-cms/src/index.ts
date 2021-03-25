@@ -17,24 +17,22 @@ const PORT = process.env.PORT || 3001;
 const PATH_PREFIX = process.env.NODE_ENV === 'production' ? '../' : '';
 
 // Calculate the root path to the client cms' built html and js files
-const ROOT_PATH = path.resolve(
-  __dirname,
-  PATH_PREFIX,
-  '../../client-cms/build'
-);
+const ROOT_PATH = path.resolve(__dirname, PATH_PREFIX, '../../client-cms');
+
+const ROOT_PATH_BUILD = path.resolve(ROOT_PATH, '/build');
 
 // Create an .env file for the client to get the correct (same) port as this
 // server's to connect to
 if (process.env.NODE_ENV === 'production') {
   const url = path.resolve(ROOT_PATH, '.env');
   console.log('.env file path:', url);
-  fs.writeFileSync(path.resolve(ROOT_PATH, '.env'), `PORT=${PORT}`);
+  fs.writeFileSync(path.resolve(ROOT_PATH_BUILD, '.env'), `PORT=${PORT}`);
 } else {
   // fs.writeFileSync(path.resolve('../client-cms', '.env'), `PORT=6969`);
 }
 
 // Have Node serve the files for our built React app
-app.use(express.static(ROOT_PATH));
+app.use(express.static(ROOT_PATH_BUILD));
 
 const corsOptions = {
   origin: '*',
@@ -66,7 +64,7 @@ app.use('/health', (req: any, res: any) => {
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req: any, res: any) => {
-  res.sendFile(path.resolve(ROOT_PATH, 'index.html'));
+  res.sendFile(path.resolve(ROOT_PATH_BUILD, 'index.html'));
 });
 
 app.listen(PORT, () => {
