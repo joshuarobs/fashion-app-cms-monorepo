@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'production') {
   console.log('.env file path:', url);
   fs.writeFileSync(path.resolve(ROOT_PATH, '.env'), `PORT=${PORT}`);
 } else {
-  fs.writeFileSync(path.resolve('../client-cms', '.env'), `PORT=${PORT}`);
+  // fs.writeFileSync(path.resolve('../client-cms', '.env'), `PORT=6969`);
 }
 
 // Have Node serve the files for our built React app
