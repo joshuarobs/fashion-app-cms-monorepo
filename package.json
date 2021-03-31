@@ -10,7 +10,7 @@
     "start": "lerna run start --stream",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "jest",
-    "heroku-prebuild": "heroku-prebuild.sh"
+    "heroku-prebuild": "./heroku-prebuild.sh"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.13.10",
