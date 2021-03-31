@@ -10,7 +10,7 @@
     "start": "lerna run start --stream",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "jest",
-    "heroku-prebuild": "echo //npm.pkg.github.com/:_authToken=${PACKAGE_TOKEN} >> .npmrc && cat .npmrc"
+    "heroku-prebuild": "heroku-prebuild.sh"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.13.10",

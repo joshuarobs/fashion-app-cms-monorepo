@@ -1,12 +1,15 @@
-import dotenv from 'dotenv';
-dotenv.config();
+// import dotenv from 'dotenv';
+// dotenv.config();
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
 
-console.log('INDEX:', process.env.PORT);
+console.log(
+  'process.env.REACT_APP_DB_ENDPOINT:',
+  process.env.REACT_APP_DB_ENDPOINT
+);
 
 ReactDOM.render(
   <React.StrictMode>
