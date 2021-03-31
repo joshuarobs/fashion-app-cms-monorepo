@@ -1,9 +1,12 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import fetch from 'node-fetch';
 
 // Authorization header variables (for production)
 const httpLink = createHttpLink({
   uri: process.env.DB_ENDPOINT,
+  // @ts-ignore
+  fetch,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -18,6 +21,8 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
+
+console.log('process.env.DB_ENDPOINT:', process.env.DB_ENDPOINT);
 
 const client = new ApolloClient({
   uri: process.env.DB_ENDPOINT,

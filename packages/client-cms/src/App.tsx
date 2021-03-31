@@ -7,7 +7,7 @@ import { Sidebar } from './components/app-shell/Sidebar';
 import { ScrollToTop } from './utils/ScrollToTop';
 import { AppShellHeader } from './components/app-shell/Header';
 import { Routes } from './routes';
-// import { ItemsPage } from './pages/ItemsPage';
+import { ItemsPage } from './pages/ItemsPage';
 // import { ItemPage } from './pages/item/_ItemPage';
 // import { CompaniesPage } from './pages/CompaniesPage';
 // import { FabricLayersPage } from './pages/FabricLayersPage';
@@ -30,7 +30,6 @@ import { HomePage } from './pages/HomePage';
 import { LocalisationsPage } from './pages/LocalisationsPage';
 
 const client = new ApolloClient({
-  // uri: 'http://localhost:8090/v1/graphql',
   uri: process.env.REACT_APP_DB_ENDPOINT || 'http://localhost:3001/graphql',
   // cache: new InMemoryCache()
   cache: new InMemoryCache({
@@ -78,7 +77,7 @@ const App = (): ReactElement => {
               {/*  component={ClothingShellsPage}*/}
               {/*/>*/}
               {/*<Route path={Routes.Fabric_Layers} component={FabricLayersPage} />*/}
-              {/*<Route path={Routes.Items} component={ItemsPage} />*/}
+              <Route path={Routes.Items} component={ItemsPage} />
               {/*<Route path={Routes.Companies} component={CompaniesPage} />*/}
               {/*<Route path={Routes.Body_Segments} component={BodySegmentsPage} />*/}
               {/*<Route path={Routes.Base_Colours} component={BaseColoursPage} />*/}

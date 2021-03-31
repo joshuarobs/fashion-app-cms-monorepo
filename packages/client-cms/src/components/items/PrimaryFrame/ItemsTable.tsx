@@ -3,7 +3,7 @@ import { DataState } from '@joshuarobs/clothing-enums';
 import { Table, Typography, Button, Avatar, Badge, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import { Routes } from '../../../routes';
-import { useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { addKeysToArrayObjects } from '../../../utils/addKeysToArrayObjects';
 import { Get_Items_For_Items_Table_Latest } from '../../../queries/items/getItemsForItemsTableLatest';
 import { TagInProduction } from '../../common/localisation/TagInProduction';
@@ -289,7 +289,14 @@ interface ItemsTableProps {
 function ItemsTable({ show }: ItemsTableProps) {
   const { loading, error, data } = useQuery(
     // GET_ITEMS_AND_THEIR_CLOTHING_SHELLS
-    Get_Items_For_Items_Table_Latest
+    // Get_Items_For_Items_Table_Latest
+    gql`
+      query getItemsForItemsTableLatest {
+        items {
+          id
+        }
+      }
+    `
   );
 
   // const [selectedRows, setSelectedRows] = useState([]);

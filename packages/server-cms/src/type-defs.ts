@@ -6,6 +6,17 @@ import { gql } from 'apollo-server';
 const typeDefs = gql`
   type Query {
     hello: String
+    getItemsForItemsTableLatest: [Items]
+    getBaseColours: [base_colours]
+  }
+
+  type Items {
+    id: Int
+  }
+
+  type base_colours {
+    value: String!
+    description: String
   }
 `;
 

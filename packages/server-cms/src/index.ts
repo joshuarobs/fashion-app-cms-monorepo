@@ -1,7 +1,9 @@
 import path from 'path';
 import fs from 'fs';
+import dotenv from 'dotenv';
+dotenv.config();
 import express, { Response } from 'express';
-import cors from 'cors';
+// import cors from 'cors';
 import { ApolloServer, gql } from 'apollo-server-express';
 import { resolvers } from './resolvers';
 import { typeDefs } from './type-defs';
@@ -25,29 +27,29 @@ const ROOT_PATH = path.resolve(
 
 // Create an .env file for the client to get the correct (same) port as this
 // server's to connect to
-if (process.env.NODE_ENV === 'production') {
-  const url = path.resolve(__dirname, PATH_PREFIX, '../../client-cms/', '.env');
-  console.log('.env file path:', url);
-  console.log('to write with PORT=', PORT);
-  fs.writeFileSync(url, `REACT_APP_PORT=${PORT}`);
-} else {
-  // fs.writeFileSync(path.resolve('../client-cms', '.env'), `PORT=6969`);
-}
+// if (process.env.NODE_ENV === 'production') {
+//   const url = path.resolve(__dirname, PATH_PREFIX, '../../client-cms/', '.env');
+//   console.log('.env file path:', url);
+//   console.log('to write with PORT=', PORT);
+//   fs.writeFileSync(url, `REACT_APP_PORT=${PORT}`);
+// } else {
+//   fs.writeFileSync(path.resolve('../client-cms', '.env'), `PORT=6969`);
+// }
 
 // Have Node serve the files for our built React app
 app.use(express.static(ROOT_PATH));
 
-const corsOptions = {
-  origin: '*',
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: '*',
+//   credentials: true,
+// };
+//
+// app.use(cors(corsOptions));
 
 // Add Apollo Server to our express server
 const server = new ApolloServer({ typeDefs, resolvers });
 server.applyMiddleware({ app });
-server.applyMiddleware({ app, cors: false });
+// server.applyMiddleware({ app, cors: false });
 
 app.get('/api', (req: any, res: any) => {
   res.json({ message: 'Hello from server!' });
