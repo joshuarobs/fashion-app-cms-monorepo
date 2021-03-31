@@ -22,4 +22,3 @@ echo //npm.pkg.github.com/:_authToken=${PACKAGE_TOKEN} >> .npmrc && cat .npmrc
 #    - REMEMBER: Update this variable if you ever change the url of the
 #    heroku app
 echo REACT_APP_DB_ENDPOINT=https://fashion-app-cms.herokuapp.com/graphql >> packages/client-cms/.env
-

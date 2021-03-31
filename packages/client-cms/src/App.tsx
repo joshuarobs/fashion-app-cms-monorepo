@@ -29,10 +29,6 @@ import { Exception404Page } from './pages/Exception404Page';
 import { HomePage } from './pages/HomePage';
 import { LocalisationsPage } from './pages/LocalisationsPage';
 
-// process.env.PORT
-// console.log('PORT:', process.env.PORT);
-// console.log('REACT_APP_PORT:', process.env.REACT_APP_PORT);
-
 const client = new ApolloClient({
   // uri: 'http://localhost:8090/v1/graphql',
   uri: process.env.REACT_APP_DB_ENDPOINT || 'http://localhost:3001/graphql',
