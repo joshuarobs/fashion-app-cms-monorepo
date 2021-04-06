@@ -160,12 +160,12 @@ const resolvers = {
             }
           `,
         });
-        logger.trace(JSON.stringify(data.data, null, 2));
-        console.log('data.data:', data.data);
+        // logger.trace(JSON.stringify(data.data, null, 2));
+        // console.log('data.data:', JSON.stringify(data.data, null, 2));
         return data.data.items;
       } catch (e) {
         logger.error(e);
-        return 5;
+        return null;
       }
     },
   },
