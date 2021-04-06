@@ -1,29 +1,4 @@
-import { join } from 'path';
-import { readFileSync } from 'fs';
 import { gql } from 'apollo-server';
-import { importSchema } from 'graphql-import';
-
-/*
- * REMINDER: When importing, remove the first "schema" section from the
- * `schema.graphql` file. It's the first 5 lines that look like this:
- *
- * schema {
- *   query: query_root
- *   mutation: mutation_root
- *   subscription: subscription_root
- * }
- *
- * If you don't do this, it won't work.
- * */
-
-// Load the Hasura database's schema
-const schemaTypeDefs = importSchema(join(__dirname, '../schema.graphql'));
-// console.log('typeDefs2:', typeDefs2);
-
-const pre = `   type base_colours {
-      value: String!
-      description: String
-    }`;
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
