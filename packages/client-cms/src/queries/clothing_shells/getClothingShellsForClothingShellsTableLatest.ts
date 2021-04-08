@@ -8,8 +8,14 @@ import { gql } from '@apollo/client';
  * (and anything else that uses the clothing shells table popup)
  */
 const Get_Clothing_Shells_For_Clothing_Shells_Table_Latest = gql`
-  query getClothingShellsForClothingShellsTableLatest {
-    clothing_shells(order_by: { updated_at: desc }, limit: 20) {
+  query getClothingShellsForClothingShellsTableLatest(
+    $limit: Int
+    $offset: Int
+  ) {
+    getClothingShellsForClothingShellsTableLatest(
+      limit: $limit
+      offset: $offset
+    ) {
       id
       updated_at
       clothing_shell_maindata_revisions_aggregate {
@@ -22,14 +28,11 @@ const Get_Clothing_Shells_For_Clothing_Shells_Table_Latest = gql`
           count
         }
       }
-      latest_revision: clothing_shell_maindata_revisions(
-        order_by: { revision: desc }
-        limit: 1
-      ) {
+      latest_revision {
         id
         revision
         state
-        clothing_shell_maindata(order_by: { is_release: desc }, limit: 1) {
+        clothing_shell_maindata {
           id
           name
           default_shell_layer_id
@@ -57,15 +60,11 @@ const Get_Clothing_Shells_For_Clothing_Shells_Table_Latest = gql`
           }
         }
       }
-      latest_prod: clothing_shell_maindata_revisions(
-        where: { state: { _eq: Production } }
-        order_by: { revision: desc }
-        limit: 1
-      ) {
+      latest_prod {
         id
         revision
         state
-        clothing_shell_maindata(order_by: { is_release: desc }, limit: 1) {
+        clothing_shell_maindata {
           id
           name
           default_shell_layer_id

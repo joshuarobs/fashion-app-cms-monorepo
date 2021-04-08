@@ -11,8 +11,8 @@ import { ItemsPage } from './pages/ItemsPage';
 // import { ItemPage } from './pages/item/_ItemPage';
 import { CompaniesPage } from './pages/CompaniesPage';
 // import { FabricLayersPage } from './pages/FabricLayersPage';
-// import { HeuristicItemsPage } from './pages/HeuristicItemsPage';
-// import { ClothingShellsPage } from './pages/ClothingShellsPage';
+import { HeuristicItemsPage } from './pages/HeuristicItemsPage';
+import { ClothingShellsPage } from './pages/ClothingShellsPage';
 // import { BaseColoursPage } from './pages/enums/BaseColoursPage';
 // import { BodySegmentsPage } from './pages/enums/BodySegmentsPage';
 // import { MaskShapesPage } from './pages/enums/MaskShapesPage';
@@ -72,10 +72,10 @@ const App = (): ReactElement => {
               {/*  path={Routes.Heuristic_Items__Clothing__Item + Routes.Var_Id}*/}
               {/*  component={HeuristicItemPage}*/}
               {/*/>*/}
-              {/*<Route*/}
-              {/*  path={Routes.Clothing_Shells}*/}
-              {/*  component={ClothingShellsPage}*/}
-              {/*/>*/}
+              <Route
+                path={Routes.Clothing_Shells}
+                component={ClothingShellsPage}
+              />
               {/*<Route path={Routes.Fabric_Layers} component={FabricLayersPage} />*/}
               <Route path={Routes.Items} component={ItemsPage} />
               <Route path={Routes.Companies} component={CompaniesPage} />
@@ -87,10 +87,10 @@ const App = (): ReactElement => {
               {/*<Route path={Routes.Fabric_Types} component={FabricTypesPage} />*/}
               {/*<Route path={Routes.Materials} component={MaterialsPage} />*/}
               {/*<Route path={Routes.Other_Enums} component={OtherEnumsPage} />*/}
-              {/*<Route*/}
-              {/*  path={Routes.Heuristic_Items}*/}
-              {/*  component={HeuristicItemsPage}*/}
-              {/*/>*/}
+              <Route
+                path={Routes.Heuristic_Items}
+                component={HeuristicItemsPage}
+              />
               {/*<Route*/}
               {/*  path={Routes.Localisations}*/}
               {/*  component={LocalisationsPage}*/}

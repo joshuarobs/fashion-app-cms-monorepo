@@ -63,7 +63,13 @@ function ClothingShellsTableView({
   );
 
   const { loading, error, data } = useQuery(
-    Get_Clothing_Shells_For_Clothing_Shells_Table_Latest
+    Get_Clothing_Shells_For_Clothing_Shells_Table_Latest,
+    {
+      variables: {
+        limit: 20,
+        offset: 0,
+      },
+    }
   );
 
   // const [selectedRows, setSelectedRows] = useState([]);
@@ -88,10 +94,12 @@ function ClothingShellsTableView({
   console.log('data2:', data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.clothing_shells);
+  const newData = addKeysToArrayObjects(
+    data.getClothingShellsForClothingShellsTableLatest
+  );
 
   // Get the number of all clothing shells
-  const numResults = data.clothing_shells.length;
+  const numResults = data.getClothingShellsForClothingShellsTableLatest.length;
 
   return (
     <Content

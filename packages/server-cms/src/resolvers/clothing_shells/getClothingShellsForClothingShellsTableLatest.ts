@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
+import { Max_Limit_Data_Entry_Query_Amount } from '../../settings';
 
 /**
  * Gets relevant basic information about clothing shells
@@ -9,12 +10,25 @@ import { logger } from '../../logger';
  * This is used for going on the Items (list) page, and Clothing shells page
  * (and anything else that uses the clothing shells table popup)
  */
-async function getClothingShellsForClothingShellsTableLatest() {
+async function getClothingShellsForClothingShellsTableLatest(
+  limit: number,
+  offset: number
+) {
+  if (limit > Max_Limit_Data_Entry_Query_Amount)
+    limit = Max_Limit_Data_Entry_Query_Amount;
+
   try {
     const data = await client.query({
       query: gql`
-        query getClothingShellsForClothingShellsTableLatest {
-          clothing_shells(order_by: { updated_at: desc }, limit: 20) {
+        query getClothingShellsForClothingShellsTableLatest(
+          $limit: Int
+          $offset: Int
+        ) {
+          clothing_shells(
+            order_by: { updated_at: desc }
+            limit: $limit
+            offset: $offset
+          ) {
             id
             updated_at
             clothing_shell_maindata_revisions_aggregate {
@@ -105,6 +119,10 @@ async function getClothingShellsForClothingShellsTableLatest() {
           }
         }
       `,
+      variables: {
+        limit,
+        offset,
+      },
     });
     return data.data.clothing_shells;
   } catch (e) {

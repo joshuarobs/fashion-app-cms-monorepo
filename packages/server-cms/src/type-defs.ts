@@ -54,7 +54,10 @@ const typeDefs = gql`
     #--------------------------------------------------
     getClothingShell: clothing_shells
     getClothingShellBaseDataByPk: clothing_shells
-    getClothingShellsForClothingShellsTableLatest: [clothing_shells]
+    getClothingShellsForClothingShellsTableLatest(
+      limit: Int
+      offset: Int
+    ): [clothing_shells]
     getClothingShellsListBB: [clothing_shells]
     getItemClothingShell: clothing_shells
     insertEmptyClothingShell: clothing_shells
@@ -364,6 +367,12 @@ const typeDefs = gql`
     #    clothing_shell_and_clothing_features: [clothing_shell_and_clothing_feature]
     item_maindata: [item_maindata]
     clothing_shell_maindata_revisions: [clothing_shell_maindata_revisions]
+    # Special Relationships - used in queries
+    latest_revision: [clothing_shell_maindata_revisions]
+    latest_prod: [clothing_shell_maindata_revisions]
+    # Hasura Relationships
+    clothing_shell_maindata_revisions_aggregate: hasura_aggregate_holder
+    clothing_shell_and_body_segment_masks_aggregate: hasura_aggregate_holder
   }
 
   type collab_company_and_collection {

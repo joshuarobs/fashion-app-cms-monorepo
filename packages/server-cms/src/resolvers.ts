@@ -172,7 +172,9 @@ const resolvers = {
     //--------------------------------------------------
     getClothingShell,
     getClothingShellBaseDataByPk,
-    getClothingShellsForClothingShellsTableLatest,
+    // @ts-ignore
+    getClothingShellsForClothingShellsTableLatest: (_, { limit, offset }) =>
+      getClothingShellsForClothingShellsTableLatest(limit, offset),
     getClothingShellsListBB,
     getItemClothingShell,
     insertEmptyClothingShell,
