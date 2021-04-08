@@ -1,13 +1,27 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
+import {
+  Data_Entry_Query_Amount_Max_Limit,
+  Data_Entry_Query_Amount_Min_Standard,
+} from '../../settings';
 
-async function getCompanies() {
+async function getCompanies(
+  limit = Data_Entry_Query_Amount_Min_Standard,
+  offset: number
+) {
+  if (limit > Data_Entry_Query_Amount_Max_Limit)
+    limit = Data_Entry_Query_Amount_Max_Limit;
+
   try {
     const data = await client.query({
       query: gql`
-        query getCompanies {
-          companies(order_by: { updated_at: desc }, limit: 20) {
+        query getCompanies($limit: Int, $offset: Int) {
+          companies(
+            order_by: { updated_at: desc }
+            limit: $limit
+            offset: $offset
+          ) {
             id
             name
             is_reseller
@@ -26,6 +40,10 @@ async function getCompanies() {
           }
         }
       `,
+      variables: {
+        limit,
+        offset,
+      },
     });
     return data.data.companies;
   } catch (e) {

@@ -1,8 +1,18 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
+import {
+  Data_Entry_Query_Amount_Max_Limit,
+  Data_Entry_Query_Amount_Min_Standard,
+} from '../../settings';
 
-async function getClothingShellsListBB() {
+async function getClothingShellsListBB(
+  limit = Data_Entry_Query_Amount_Min_Standard,
+  offset: number
+) {
+  if (limit > Data_Entry_Query_Amount_Max_Limit)
+    limit = Data_Entry_Query_Amount_Max_Limit;
+
   try {
     const data = await client.query({
       query: gql`
@@ -21,6 +31,10 @@ async function getClothingShellsListBB() {
           }
         }
       `,
+      variables: {
+        limit,
+        offset,
+      },
     });
     return data.data.clothing_shells;
   } catch (e) {

@@ -1,12 +1,23 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
+import { Data_Entry_Query_Amount_Max_Limit } from '../../settings';
 
-async function getClothingShellMaindataRevisionChanges() {
+async function getClothingShellMaindataRevisionChanges(
+  limit: number,
+  offset: number
+) {
+  if (limit > Data_Entry_Query_Amount_Max_Limit)
+    limit = Data_Entry_Query_Amount_Max_Limit;
+
   try {
     const data = await client.query({
       query: gql`
-        query getClothingShellMaindataRevisionChanges($id: Int!, $limit: Int!) {
+        query getClothingShellMaindataRevisionChanges(
+          $id: Int!
+          $limit: Int
+          $offset: Int
+        ) {
           clothing_shell_maindata_revision_changes(
             where: {
               clothing_shell_maindata_revision: {
@@ -15,6 +26,7 @@ async function getClothingShellMaindataRevisionChanges() {
             }
             order_by: { date: desc }
             limit: $limit
+            offset: $offset
           ) {
             id
             to_state
@@ -37,6 +49,10 @@ async function getClothingShellMaindataRevisionChanges() {
           }
         }
       `,
+      variables: {
+        limit,
+        offset,
+      },
     });
     return data.data.clothing_shell_maindata_revision_changes;
   } catch (e) {

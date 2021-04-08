@@ -155,14 +155,19 @@ const resolvers = {
     //--------------------------------------------------
     // clothing_shell_maindata_revision_changes
     //--------------------------------------------------
-    getClothingShellMaindataRevisionChanges,
-    getClothingShellMaindataRevisionChangesPromosOnly,
+    getClothingShellMaindataRevisionChanges: (_, { limit, offset }) =>
+      getClothingShellMaindataRevisionChanges(limit, offset),
+    getClothingShellMaindataRevisionChangesPromosOnly: (_, { limit, offset }) =>
+      getClothingShellMaindataRevisionChangesPromosOnly(limit, offset),
     insertClothingShellMaindataRevisionChange,
     insertClothingShellMaindataRevisionChangePromoRetired,
     //--------------------------------------------------
     // clothing_shell_maindata_revisions
     //--------------------------------------------------
-    getAllClothingShellMaindataRevisionsForClothingShell,
+    getAllClothingShellMaindataRevisionsForClothingShell: (
+      _,
+      { limit, offset }
+    ) => getAllClothingShellMaindataRevisionsForClothingShell(limit, offset),
     getClothingShellMaindataRevisionByRevAndClothingShellId,
     getRevisionsForClothingShellBarebones,
     insertClothingShellMaindataRevision,
@@ -175,14 +180,15 @@ const resolvers = {
     getClothingShellBaseDataByPk,
     getClothingShellsForClothingShellsTableLatest: (_, { limit, offset }) =>
       getClothingShellsForClothingShellsTableLatest(limit, offset),
-    getClothingShellsListBB,
+    getClothingShellsListBB: (_, { limit, offset }) =>
+      getClothingShellsListBB(limit, offset),
     getItemClothingShell,
     insertEmptyClothingShell,
     updateClothingShellUpdatedAt,
     //--------------------------------------------------
     // companies
     //--------------------------------------------------
-    getCompanies,
+    getCompanies: (_, { limit, offset }) => getCompanies(limit, offset),
     getCompaniesListBB: (_, { limit, offset }) =>
       getCompaniesListBB(limit, offset),
     getCompany,
@@ -197,8 +203,10 @@ const resolvers = {
     // company_translation_revision_changes
     //--------------------------------------------------
     deleteCompanyTranslationRevisionChangesForRevision,
-    getCompanyTranslationRevisionChanges,
-    getCompanyTranslationRevisionChangesForLocale,
+    getCompanyTranslationRevisionChanges: (_, { limit, offset }) =>
+      getCompanyTranslationRevisionChanges(limit, offset),
+    getCompanyTranslationRevisionChangesForLocale: (_, { limit, offset }) =>
+      getCompanyTranslationRevisionChangesForLocale(limit, offset),
     getCompanyTranslationRevisionChangesPromosOnly,
     insertCompanyTranslationRevisionChange,
     insertCompanyTranslationRevisionChangeActUpdate,

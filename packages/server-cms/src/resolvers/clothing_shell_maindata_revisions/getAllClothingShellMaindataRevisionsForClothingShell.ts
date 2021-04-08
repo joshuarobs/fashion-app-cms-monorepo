@@ -7,7 +7,10 @@ import { logger } from '../../logger';
  * This is used for the Settings tab for the Clothing shell page.
  */
 // Filename is: getLatestProdClothingShellMaindataRevByClothingShellId ???
-async function getAllClothingShellMaindataRevisionsForClothingShell() {
+async function getAllClothingShellMaindataRevisionsForClothingShell(
+  limit: number,
+  offset: number
+) {
   try {
     const data = await client.query({
       query: gql`
@@ -29,6 +32,10 @@ async function getAllClothingShellMaindataRevisionsForClothingShell() {
           }
         }
       `,
+      variables: {
+        limit,
+        offset,
+      },
     });
     return data.data.clothing_shell_maindata_revisions;
   } catch (e) {
