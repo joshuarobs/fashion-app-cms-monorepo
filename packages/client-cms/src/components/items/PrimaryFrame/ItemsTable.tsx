@@ -292,8 +292,111 @@ function ItemsTable({ show }: ItemsTableProps) {
     // Get_Items_For_Items_Table_Latest
     gql`
       query getItemsForItemsTableLatest {
-        items {
+        getItemsForItemsTableLatest {
           id
+          short_id
+          updated_at
+          item_maindata_revisions_aggregate {
+            aggregate {
+              count
+            }
+          }
+          latest_revision {
+            id
+            revision
+            state
+            item_maindata {
+              id
+              name
+              clothing_shell_id
+              brand {
+                id
+                name
+              }
+              clothing_shell {
+                id
+                clothing_shell_maindata_revisions {
+                  id
+                  revision
+                  clothing_shell_maindata {
+                    id
+                    name
+                    clothing_segment_data_id
+                    default_shell_layer_id
+                    default_fill_layer_id
+                    default_lining_layer_id
+                    clothing_segment_data {
+                      id
+                      left_body_end_back
+                      left_body_end_front
+                      left_body_start_back
+                      left_body_start_front
+                      left_sleeve_end_back
+                      left_sleeve_end_front
+                      left_sleeve_start_back
+                      left_sleeve_start_front
+                      right_body_end_back
+                      right_body_end_front
+                      right_body_start_back
+                      right_body_start_front
+                      right_sleeve_end_back
+                      right_sleeve_end_front
+                      right_sleeve_start_back
+                      right_sleeve_start_front
+                    }
+                  }
+                }
+              }
+            }
+          }
+          latest_prod {
+            id
+            revision
+            state
+            item_maindata {
+              id
+              name
+              clothing_shell_id
+              brand {
+                id
+                name
+              }
+              clothing_shell {
+                id
+                clothing_shell_maindata_revisions {
+                  id
+                  revision
+                  clothing_shell_maindata {
+                    id
+                    name
+                    clothing_segment_data_id
+                    default_shell_layer_id
+                    default_fill_layer_id
+                    default_lining_layer_id
+                    clothing_segment_data {
+                      id
+                      left_body_end_back
+                      left_body_end_front
+                      left_body_start_back
+                      left_body_start_front
+                      left_sleeve_end_back
+                      left_sleeve_end_front
+                      left_sleeve_start_back
+                      left_sleeve_start_front
+                      right_body_end_back
+                      right_body_end_front
+                      right_body_start_back
+                      right_body_start_front
+                      right_sleeve_end_back
+                      right_sleeve_end_front
+                      right_sleeve_start_back
+                      right_sleeve_start_front
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     `
@@ -316,7 +419,7 @@ function ItemsTable({ show }: ItemsTableProps) {
   console.log('data:', data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.items);
+  const newData = addKeysToArrayObjects(data.getItemsForItemsTableLatest);
 
   console.log('newData:', newData);
 

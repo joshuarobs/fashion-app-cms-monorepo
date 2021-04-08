@@ -10,6 +10,15 @@ const typeDefs = gql`
     getBaseColours: [base_colours]
   }
 
+  # Special Hasura types
+  type hasura_aggregate {
+    count: Int
+  }
+
+  type hasura_aggregate_holder {
+    aggregate: hasura_aggregate
+  }
+
   type base_colours {
     value: String!
     description: String
@@ -430,6 +439,8 @@ const typeDefs = gql`
     # Relationships
     item_maindata_revisions: [item_maindata_revisions]
     item_translation_revisions: [item_translation_revisions]
+    # Hasura Relationships
+    item_maindata_revisions_aggregate: hasura_aggregate_holder
     # Special Relationships - used in queries
     latest_revision: [item_maindata_revisions]
     latest_prod: [item_maindata_revisions]
