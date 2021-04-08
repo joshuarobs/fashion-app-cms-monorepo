@@ -63,7 +63,7 @@ const typeDefs = gql`
     # companies
     #--------------------------------------------------
     getCompanies: [companies]
-    getCompaniesListBB: [companies]
+    getCompaniesListBB(limit: Int, offset: Int): [companies]
     getCompany: companies
     insertCompany: companies
     updateCompany: companies
@@ -426,6 +426,9 @@ const typeDefs = gql`
     company_translations: [company_translation_revisions]
     item_families: [item_families]
     item_maindata: [item_maindata]
+    # Hasura Relationships
+    item_maindata_aggregate: hasura_aggregate_holder
+    collections_aggregate: hasura_aggregate_holder
   }
 
   type company_counts {

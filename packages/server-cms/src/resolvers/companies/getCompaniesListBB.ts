@@ -1,8 +1,12 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
+import { Max_Limit_Data_Entry_Query_Amount } from '../../settings';
 
-async function getCompaniesListBB() {
+async function getCompaniesListBB(limit: number, offset: number) {
+  if (limit > Max_Limit_Data_Entry_Query_Amount)
+    limit = Max_Limit_Data_Entry_Query_Amount;
+
   try {
     const data = await client.query({
       query: gql`
@@ -35,7 +39,12 @@ async function getCompaniesListBB() {
           }
         }
       `,
+      variables: {
+        limit,
+        offset,
+      },
     });
+    // console.log('data:', data);
     return data.data.companies;
   } catch (e) {
     logger.error(e);

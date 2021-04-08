@@ -9,7 +9,7 @@ import { AppShellHeader } from './components/app-shell/Header';
 import { Routes } from './routes';
 import { ItemsPage } from './pages/ItemsPage';
 // import { ItemPage } from './pages/item/_ItemPage';
-// import { CompaniesPage } from './pages/CompaniesPage';
+import { CompaniesPage } from './pages/CompaniesPage';
 // import { FabricLayersPage } from './pages/FabricLayersPage';
 // import { HeuristicItemsPage } from './pages/HeuristicItemsPage';
 // import { ClothingShellsPage } from './pages/ClothingShellsPage';
@@ -78,7 +78,7 @@ const App = (): ReactElement => {
               {/*/>*/}
               {/*<Route path={Routes.Fabric_Layers} component={FabricLayersPage} />*/}
               <Route path={Routes.Items} component={ItemsPage} />
-              {/*<Route path={Routes.Companies} component={CompaniesPage} />*/}
+              <Route path={Routes.Companies} component={CompaniesPage} />
               {/*<Route path={Routes.Body_Segments} component={BodySegmentsPage} />*/}
               {/*<Route path={Routes.Base_Colours} component={BaseColoursPage} />*/}
               {/*<Route path={Routes.Mask_Shapes} component={MaskShapesPage} />*/}

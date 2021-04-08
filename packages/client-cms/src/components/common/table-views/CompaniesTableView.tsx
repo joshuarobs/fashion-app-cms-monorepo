@@ -45,7 +45,9 @@ function CompaniesTableView({
     SETTINGS.SHOW_ROWS[SETTINGS.SHOW_ROWS.length - 1]
   );
 
-  const { loading, error, data } = useQuery(Get_Companies_List_BB);
+  const { loading, error, data } = useQuery(Get_Companies_List_BB, {
+    variables: { limit: 20, offset: 0 },
+  });
 
   // const [selectedRows, setSelectedRows] = useState([]);
 
@@ -57,13 +59,13 @@ function CompaniesTableView({
   console.log('data2:', data);
 
   // Iterate through all data and set keys
-  const newData = _.cloneDeep(data.companies);
+  const newData = _.cloneDeep(data.getCompaniesListBB);
   newData.forEach((item: any, index: number) => {
     item.key = index;
   });
 
   // Get the number of all fabric layers
-  const numResults = data.companies.length;
+  const numResults = data.getCompaniesListBB.length;
 
   return (
     <Content

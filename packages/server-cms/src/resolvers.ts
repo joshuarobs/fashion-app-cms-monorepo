@@ -181,7 +181,9 @@ const resolvers = {
     // companies
     //--------------------------------------------------
     getCompanies,
-    getCompaniesListBB,
+    // @ts-ignore
+    getCompaniesListBB: (_, { limit, offset }) =>
+      getCompaniesListBB(limit, offset),
     getCompany,
     insertCompany,
     updateCompany,

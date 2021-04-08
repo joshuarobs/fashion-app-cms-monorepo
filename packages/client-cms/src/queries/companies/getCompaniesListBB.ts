@@ -1,8 +1,11 @@
 import { gql } from '@apollo/client';
 
+// query getCompaniesListBB($limit: Int, $offset: Int) {
+//   getCompaniesListBB(limit: $limit, offset: $offset) {
+
 const Get_Companies_List_BB = gql`
   query getCompaniesListBB($limit: Int, $offset: Int) {
-    companies(order_by: { updated_at: desc }, limit: $limit, offset: $offset) {
+    getCompaniesListBB(limit: $limit, offset: $offset) {
       id
       name
       is_reseller
