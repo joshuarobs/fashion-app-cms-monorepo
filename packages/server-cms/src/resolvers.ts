@@ -1,4 +1,4 @@
-import { getBaseColours } from './resolvers/getBaseColours';
+import { getBaseColours } from './resolvers/base_colours/getBaseColours';
 import { getItemsForItemsTableLatest } from './resolvers/getItemsForItemsTableLatest';
 
 const resolvers = {

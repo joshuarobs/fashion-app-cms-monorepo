@@ -1,6 +1,6 @@
-import { client } from '../graphql-client';
+import { client } from '../../graphql-client';
 import { gql } from 'apollo-server-express';
-import { logger } from '../logger';
+import { logger } from '../../logger';
 
 async function getBaseColours() {
   try {

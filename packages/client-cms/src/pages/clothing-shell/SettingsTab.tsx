@@ -19,6 +19,7 @@ function ClothingShellSettingsTab({ headerData }: SettingsProps) {
     data: dataProdClothingShellMaindataRev,
     // refetch: refetchProdItemMaindataRev
   } = useQuery(
+    // TODO: getAllClothingShellMaindataRevisionsForClothingShell renamed func
     Get_All_Clothing_Shell_Maindata_Revisions_For_Clothing_Shell_Id,
     {
       variables: { clothingShellId },
