@@ -6,8 +6,217 @@ import { gql } from 'apollo-server';
 const typeDefs = gql`
   type Query {
     hello: String
-    getItemsForItemsTableLatest: [items]
+    #    getItemsForItemsTableLatest: [items]
+    #--------------------------------------------------
+    # base_colours
+    #--------------------------------------------------
     getBaseColours: [base_colours]
+    #--------------------------------------------------
+    # body_segments
+    #--------------------------------------------------
+    getBodySegments: [body_segments]
+    #--------------------------------------------------
+    #clothing_segment_data
+    #--------------------------------------------------
+    insertClothingSegmentData: clothing_segment_data
+    insertNewBlankClothingSegmentData: clothing_segment_data
+    updateClothingSegmentData: clothing_segment_data
+    #--------------------------------------------------
+    # clothing_shell_counts
+    #--------------------------------------------------
+    insertClothingShellCount: clothing_shell_counts
+    updateClothingShellCount: clothing_shell_counts
+    updateClothingShellCountByClothingShellId: clothing_shell_counts
+    #--------------------------------------------------
+    # clothing_shell_maindata
+    #--------------------------------------------------
+    insertClothingShellMaindata: clothing_shell_maindata
+    insertClothingShellMaindataBarebones: clothing_shell_maindata
+    updateClothingShellMaindata: clothing_shell_maindata
+    #--------------------------------------------------
+    # clothing_shell_maindata_revision_changes
+    #--------------------------------------------------
+    getClothingShellMaindataRevisionChanges: [clothing_shell_maindata_revision_changes]
+    getClothingShellMaindataRevisionChangesPromosOnly: [clothing_shell_maindata_revision_changes]
+    insertClothingShellMaindataRevisionChange: clothing_shell_maindata_revision_changes
+    insertClothingShellMaindataRevisionChangePromoRetired: clothing_shell_maindata_revision_changes
+    #--------------------------------------------------
+    # clothing_shell_maindata_revisions
+    #--------------------------------------------------
+    getAllClothingShellMaindataRevisionsForClothingShell: [clothing_shell_maindata_revisions]
+    getClothingShellMaindataRevisionByRevAndClothingShellId: [clothing_shell_maindata_revisions]
+    getRevisionsForClothingShellBarebones: [clothing_shell_maindata_revisions]
+    insertClothingShellMaindataRevision: clothing_shell_maindata_revisions
+    updateClothingShellMaindataRevisionState: clothing_shell_maindata_revisions
+    updateClothingShellMaindataRevisionToRetired: clothing_shell_maindata_revisions
+    #--------------------------------------------------
+    # clothing_shells
+    #--------------------------------------------------
+    getClothingShell: clothing_shells
+    getClothingShellBaseDataByPk: clothing_shells
+    getClothingShellsForClothingShellsTableLatest: [clothing_shells]
+    getClothingShellsListBB: [clothing_shells]
+    getItemClothingShell: clothing_shells
+    insertEmptyClothingShell: clothing_shells
+    updateClothingShellUpdatedAt: clothing_shells
+    #--------------------------------------------------
+    # companies
+    #--------------------------------------------------
+    getCompanies: [companies]
+    getCompaniesListBB: [companies]
+    getCompany: companies
+    insertCompany: companies
+    updateCompany: companies
+    #--------------------------------------------------
+    # company_counts
+    #--------------------------------------------------
+    insertCompanyCount: company_counts
+    updateCompanyCount: company_counts
+    #--------------------------------------------------
+    # company_translation_revision_changes
+    #--------------------------------------------------
+    deleteCompanyTranslationRevisionChangesForRevision: company_translation_revision_changes
+    getCompanyTranslationRevisionChanges: [company_translation_revision_changes]
+    getCompanyTranslationRevisionChangesForLocale: [company_translation_revision_changes]
+    getCompanyTranslationRevisionChangesPromosOnly: [company_translation_revision_changes]
+    insertCompanyTranslationRevisionChange: company_translation_revision_changes
+    insertCompanyTranslationRevisionChangeActUpdate: company_translation_revision_changes
+    insertCompanyTranslationRevisionChangePromoProduction: company_translation_revision_changes
+    insertCompanyTranslationRevisionChangePromoRetired: company_translation_revision_changes
+    insertCompanyTranslationRevisionChangePromoReview: company_translation_revision_changes
+    #--------------------------------------------------
+    # company_translation_revisions
+    #--------------------------------------------------
+    deleteCompanyTranslationRevision: company_translation_revisions
+    getCompanyTranslationRevisions: [company_translation_revisions]
+    getCompanyTranslationRevisionsByLocaleCode: [company_translation_revisions]
+    insertCompanyTranslationRevision: company_translation_revisions
+    updateCompanyTranslationRevisionToProduction: company_translation_revisions
+    updateCompanyTranslationRevisionToRetired: company_translation_revisions
+    updateCompanyTranslationRevisionToReview: company_translation_revisions
+    #--------------------------------------------------
+    # company_translations
+    #--------------------------------------------------
+    deleteCompanyTranslationsForRevision: company_translations
+    getCompanyTranslationsGivenUniqueKeys: [company_translations]
+    insertCompanyTranslation: company_translations
+    insertCompanyTranslationBlankDraft: company_translations
+    updateCompanyTranslation: company_translations
+    #--------------------------------------------------
+    # countries
+    #--------------------------------------------------
+    getCountries: [countries]
+    #--------------------------------------------------
+    # fabric_layers
+    #--------------------------------------------------
+    getFabricLayersListBB: [fabric_layers]
+    #--------------------------------------------------
+    # genders
+    #--------------------------------------------------
+    getGenders: [genders]
+    #--------------------------------------------------
+    # item_maindata
+    #--------------------------------------------------
+    deleteItemMaindataForItem: item_maindata
+    insertItemMaindata: item_maindata
+    insertItemMaindataBarebones: item_maindata
+    updateItemMaindata: item_maindata
+    #--------------------------------------------------
+    # item_maindata_revision_changes
+    #--------------------------------------------------
+    deleteItemMaindataRevisionChangesForItem: item_maindata_revision_changes
+    getItemMaindataRevisionChanges: [item_maindata_revision_changes]
+    getItemMaindataRevisionChangesPromosOnly: [item_maindata_revision_changes]
+    insertItemMaindataRevisionChange: item_maindata_revision_changes
+    insertItemMaindataRevisionChangePromoRetired: item_maindata_revision_changes
+    #--------------------------------------------------
+    # item_maindata_revisions
+    #--------------------------------------------------
+    deleteItemMaindataRevisionsForItem: item_maindata_revisions
+    getItemMaindataRevision: item_maindata_revisions
+    getItemMaindataRevisionByRevAndItemId: item_maindata_revisions
+    getLatestProdItemMaindataRevByItemId: [item_maindata_revisions]
+    getNumberOfUniqueItemsForClothingShell: hasura_aggregate_holder
+    getNumberOfUniqueProdItemsForCompany: hasura_aggregate_holder
+    getRevisionsForItemBarebones: [item_maindata_revisions]
+    getTopXUniqueProdItemsForClothingShellBB: [item_maindata_revisions]
+    getTopXUniqueProdItemsForCompanyBB: [item_maindata_revisions]
+    getUniqueItemMaindataRevsForBrandProdOnly: [item_maindata_revisions]
+    getUniqueProdItemsForCompany: [item_maindata_revisions]
+    insertItemMaindataRevision: item_maindata_revisions
+    updateItemMaindataRevisionState: item_maindata_revisions
+    updateItemMaindataRevisionToRetired: item_maindata_revisions
+    #--------------------------------------------------
+    # item_translation_revision_changes
+    #--------------------------------------------------
+    deleteItemTranslationRevisionChangesForRevision: item_translation_revision_changes
+    deleteItemTranslationRevisionChangesForItem: item_translation_revision_changes
+    getItemTranslationRevisionChanges: [item_translation_revision_changes]
+    getItemTranslationRevisionChangesForLocale: [item_translation_revision_changes]
+    getItemTranslationRevisionChangesPromosOnly: [item_translation_revision_changes]
+    insertItemTranslationRevisionChange: item_translation_revision_changes
+    insertItemTranslationRevisionChangePromoProduction: item_translation_revision_changes
+    insertItemTranslationRevisionChangePromoRetired: item_translation_revision_changes
+    insertItemTranslationRevisionChangePromoReview: item_translation_revision_changes
+    #--------------------------------------------------
+    # item_translation_revisions
+    #--------------------------------------------------
+    deleteItemTranslationRevision: item_translation_revisions
+    deleteItemTranslationRevisionsForItem: item_translation_revisions
+    getItemTranslationRevisions: [item_translation_revisions]
+    getItemTranslationRevisionsGivenLocaleCode: [item_translation_revisions]
+    insertItemTranslationRevision: item_translation_revisions
+    updateItemTranslationRevisionToProduction: item_translation_revisions
+    updateItemTranslationRevisionToRetired: item_translation_revisions
+    updateItemTranslationRevisionToReview: item_translation_revisions
+    #--------------------------------------------------
+    # item_translations
+    #--------------------------------------------------
+    deleteItemTranslationsForRevision: item_translations
+    deleteItemTranslationsForItem: item_translations
+    getItemTranslationsGivenUniqueKeys: [item_translations]
+    insertItemTranslation: item_translations
+    insertItemTranslationBlankDraft: item_translations
+    updateItemTranslation: item_translations
+    #--------------------------------------------------
+    # item_types
+    #--------------------------------------------------
+    getItemTypes: [item_types]
+    #--------------------------------------------------
+    # items
+    #--------------------------------------------------
+    deleteItemByPk: items
+    getItemBaseDataByPk: items
+    getItemsForItemsTableDevelopmentOnly: [items]
+    getItemsForItemsTableLatest: [items]
+    getItemsForItemsTableProductionOnly: [items]
+    getItemWithLocaleData: items
+    newItem: items
+    updateItemUpdatedAt: items
+    #--------------------------------------------------
+    # language_families
+    #--------------------------------------------------
+    getLanguageFamilies: [language_families]
+    #--------------------------------------------------
+    # locales
+    #--------------------------------------------------
+    getLocales: [locales]
+    #--------------------------------------------------
+    # mask_shapes
+    #--------------------------------------------------
+    #    getMaskShapes: [mask_shapes]
+    #--------------------------------------------------
+    # materials
+    #--------------------------------------------------
+    getMaterials: [materials]
+    #--------------------------------------------------
+    # staff_users
+    #--------------------------------------------------
+    getStaffUsers: [staff_users]
+    #--------------------------------------------------
+    # other
+    #--------------------------------------------------
+    getFabricLayer: fabric_layers
   }
 
   # Special Hasura types

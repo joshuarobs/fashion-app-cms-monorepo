@@ -8,7 +8,7 @@ import { gql } from '@apollo/client';
  */
 const Get_Items_For_Items_Table_Latest = gql`
   query getItemsForItemsTableLatest {
-    items(order_by: { updated_at: desc }, limit: 20) {
+    getItemsForItemsTableLatest {
       id
       short_id
       updated_at
@@ -17,14 +17,11 @@ const Get_Items_For_Items_Table_Latest = gql`
           count
         }
       }
-      latest_revision: item_maindata_revisions(
-        order_by: { revision: desc }
-        limit: 1
-      ) {
+      latest_revision {
         id
         revision
         state
-        item_maindata(order_by: { is_release: desc }, limit: 1) {
+        item_maindata {
           id
           name
           clothing_shell_id
@@ -34,17 +31,10 @@ const Get_Items_For_Items_Table_Latest = gql`
           }
           clothing_shell {
             id
-            clothing_shell_maindata_revisions(
-              where: { state: { _eq: Production } }
-              order_by: { revision: desc }
-              limit: 1
-            ) {
+            clothing_shell_maindata_revisions {
               id
               revision
-              clothing_shell_maindata(
-                order_by: { is_release: desc }
-                limit: 1
-              ) {
+              clothing_shell_maindata {
                 id
                 name
                 clothing_segment_data_id
@@ -75,15 +65,11 @@ const Get_Items_For_Items_Table_Latest = gql`
           }
         }
       }
-      latest_prod: item_maindata_revisions(
-        where: { state: { _eq: Production } }
-        order_by: { revision: desc }
-        limit: 1
-      ) {
+      latest_prod {
         id
         revision
         state
-        item_maindata(order_by: { is_release: desc }, limit: 1) {
+        item_maindata {
           id
           name
           clothing_shell_id
@@ -93,16 +79,10 @@ const Get_Items_For_Items_Table_Latest = gql`
           }
           clothing_shell {
             id
-            clothing_shell_maindata_revisions(
-              where: { state: { _eq: Production } }
-              order_by: { revision: desc }
-              limit: 1
-            ) {
+            clothing_shell_maindata_revisions {
               id
-              clothing_shell_maindata(
-                order_by: { is_release: desc }
-                limit: 1
-              ) {
+              revision
+              clothing_shell_maindata {
                 id
                 name
                 clothing_segment_data_id
@@ -129,7 +109,6 @@ const Get_Items_For_Items_Table_Latest = gql`
                   right_sleeve_start_front
                 }
               }
-              revision
             }
           }
         }

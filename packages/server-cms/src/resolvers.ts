@@ -118,6 +118,7 @@ import { getMaskShapes } from './resolvers/mask_shapes/getMaskShapes';
 import { getStaffUsers } from './resolvers/staff_users/getStaffUsers';
 import { getFabricLayer } from './resolvers/getFabricLayer';
 import { GET_ITEM_REVISION_CHANGES_AGGREGATES } from './resolvers/getItemRevisionChangesAggregates';
+import { getGenders } from './resolvers/genders/getGenders';
 
 const resolvers = {
   Query: {
@@ -224,9 +225,13 @@ const resolvers = {
     //--------------------------------------------------
     getCountries,
     //--------------------------------------------------
-    // genders
+    // fabric_layers
     //--------------------------------------------------
     getFabricLayersListBB,
+    //--------------------------------------------------
+    // genders
+    //--------------------------------------------------
+    getGenders,
     //--------------------------------------------------
     // item_maindata
     //--------------------------------------------------
@@ -317,7 +322,7 @@ const resolvers = {
     //--------------------------------------------------
     // mask_shapes
     //--------------------------------------------------
-    getMaskShapes,
+    // getMaskShapes,
     //--------------------------------------------------
     // materials
     //--------------------------------------------------
@@ -330,7 +335,7 @@ const resolvers = {
     // other
     //--------------------------------------------------
     getFabricLayer,
-    GET_ITEM_REVISION_CHANGES_AGGREGATES
+    // GET_ITEM_REVISION_CHANGES_AGGREGATES,
   },
 };
 
