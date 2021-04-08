@@ -112,7 +112,11 @@ const typeDefs = gql`
     #--------------------------------------------------
     # fabric_layers
     #--------------------------------------------------
-    getFabricLayersListBB: [fabric_layers]
+    getFabricLayersListBB(
+      limit: Int
+      offset: Int
+      fabricLayerTypes: [fabric_layer_types_enum!]
+    ): [fabric_layers]
     #--------------------------------------------------
     # genders
     #--------------------------------------------------
@@ -222,6 +226,14 @@ const typeDefs = gql`
     getFabricLayer: fabric_layers
   }
 
+  # Enums
+  enum fabric_layer_types_enum {
+    Fill
+    Interlining
+    Lining
+    Shell
+  }
+
   # Special Hasura types
   type hasura_aggregate {
     count: Int
@@ -230,6 +242,8 @@ const typeDefs = gql`
   type hasura_aggregate_holder {
     aggregate: hasura_aggregate
   }
+
+  # Types we created in the database
 
   type base_colours {
     value: String!
@@ -402,7 +416,7 @@ const typeDefs = gql`
   type colour_mix_parts {
     id: Int!
     colour_id: Int
-    percent: Int!
+    percent: Float!
     # Relationships
     colour: colours
     fabric_layer_and_colour_mix_parts: [fabric_layer_and_colour_mix_part]

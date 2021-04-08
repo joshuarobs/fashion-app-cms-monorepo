@@ -87,6 +87,8 @@ function FabricLayersTableView({
         selectedFabricLayerTypes.length > 0
           ? selectedFabricLayerTypes
           : ALL_FABRIC_LAYER_TYPES,
+      limit: 20,
+      offset: 0,
     },
   });
 
@@ -98,13 +100,13 @@ function FabricLayersTableView({
   console.log('data2:', data);
 
   // Iterate through all data and set keys
-  const newData = _.cloneDeep(data.fabric_layers);
+  const newData = _.cloneDeep(data.getFabricLayersListBB);
   newData.forEach((item: any, index: any) => {
     item.key = index;
   });
 
   // Get the number of all fabric layers
-  const numResults = data.fabric_layers.length;
+  const numResults = data.getFabricLayersListBB.length;
 
   return (
     <Content

@@ -6,10 +6,8 @@ const Get_Fabric_Layers_List_BB = gql`
     $offset: Int
     $fabricLayerTypes: [fabric_layer_types_enum!]
   ) {
-    fabric_layers(
-      order_by: { updated_at: desc }
-      # $filters
-      where: { fabric_layer_type: { _in: $fabricLayerTypes } }
+    getFabricLayersListBB(
+      fabricLayerTypes: $fabricLayerTypes
       limit: $limit
       offset: $offset
     ) {

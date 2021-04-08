@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { getBaseColours } from './resolvers/base_colours/getBaseColours';
 import { getBodySegments } from './resolvers/body_segments/getBodySegments';
 import { insertClothingSegmentData } from './resolvers/clothing_segment_data/insertClothingSegmentData';
@@ -172,7 +173,6 @@ const resolvers = {
     //--------------------------------------------------
     getClothingShell,
     getClothingShellBaseDataByPk,
-    // @ts-ignore
     getClothingShellsForClothingShellsTableLatest: (_, { limit, offset }) =>
       getClothingShellsForClothingShellsTableLatest(limit, offset),
     getClothingShellsListBB,
@@ -183,7 +183,6 @@ const resolvers = {
     // companies
     //--------------------------------------------------
     getCompanies,
-    // @ts-ignore
     getCompaniesListBB: (_, { limit, offset }) =>
       getCompaniesListBB(limit, offset),
     getCompany,
@@ -231,7 +230,8 @@ const resolvers = {
     //--------------------------------------------------
     // fabric_layers
     //--------------------------------------------------
-    getFabricLayersListBB,
+    getFabricLayersListBB: (_, { limit, offset, fabricLayerTypes }) =>
+      getFabricLayersListBB(limit, offset, fabricLayerTypes),
     //--------------------------------------------------
     // genders
     //--------------------------------------------------

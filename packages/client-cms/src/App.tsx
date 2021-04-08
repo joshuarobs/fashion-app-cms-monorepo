@@ -8,23 +8,23 @@ import { ScrollToTop } from './utils/ScrollToTop';
 import { AppShellHeader } from './components/app-shell/Header';
 import { Routes } from './routes';
 import { ItemsPage } from './pages/ItemsPage';
-// import { ItemPage } from './pages/item/_ItemPage';
+import { ItemPage } from './pages/item/_ItemPage';
 import { CompaniesPage } from './pages/CompaniesPage';
-// import { FabricLayersPage } from './pages/FabricLayersPage';
+import { FabricLayersPage } from './pages/FabricLayersPage';
 import { HeuristicItemsPage } from './pages/HeuristicItemsPage';
 import { ClothingShellsPage } from './pages/ClothingShellsPage';
-// import { BaseColoursPage } from './pages/enums/BaseColoursPage';
-// import { BodySegmentsPage } from './pages/enums/BodySegmentsPage';
-// import { MaskShapesPage } from './pages/enums/MaskShapesPage';
-// import { FabricTypesPage } from './pages/enums/FabricTypesPage';
-// import { MaterialsPage } from './pages/enums/MaterialsPage';
-// import { LanguagesPage } from './pages/enums/LanguagesPage';
-// import { CountriesPage } from './pages/enums/CountriesPage';
-// import { OtherEnumsPage } from './pages/enums/OtherEnumsPage';
-// import { HeuristicItemPage } from './pages/HeuristicItemPage';
-// import { ClothingShellPage } from './pages/clothing-shell/_ClothingShellPage';
-// import { UsersPage } from './pages/UsersPage';
-// import { CompanyPage } from './pages/company/_CompanyPage';
+import { BaseColoursPage } from './pages/enums/BaseColoursPage';
+import { BodySegmentsPage } from './pages/enums/BodySegmentsPage';
+import { MaskShapesPage } from './pages/enums/MaskShapesPage';
+import { FabricTypesPage } from './pages/enums/FabricTypesPage';
+import { MaterialsPage } from './pages/enums/MaterialsPage';
+import { LanguagesPage } from './pages/enums/LanguagesPage';
+import { CountriesPage } from './pages/enums/CountriesPage';
+import { OtherEnumsPage } from './pages/enums/OtherEnumsPage';
+import { HeuristicItemPage } from './pages/HeuristicItemPage';
+import { ClothingShellPage } from './pages/clothing-shell/_ClothingShellPage';
+import { UsersPage } from './pages/UsersPage';
+import { CompanyPage } from './pages/company/_CompanyPage';
 import { Exception404Page } from './pages/Exception404Page';
 import { HomePage } from './pages/HomePage';
 import { LocalisationsPage } from './pages/LocalisationsPage';
@@ -76,7 +76,7 @@ const App = (): ReactElement => {
                 path={Routes.Clothing_Shells}
                 component={ClothingShellsPage}
               />
-              {/*<Route path={Routes.Fabric_Layers} component={FabricLayersPage} />*/}
+              <Route path={Routes.Fabric_Layers} component={FabricLayersPage} />
               <Route path={Routes.Items} component={ItemsPage} />
               <Route path={Routes.Companies} component={CompaniesPage} />
               {/*<Route path={Routes.Body_Segments} component={BodySegmentsPage} />*/}
