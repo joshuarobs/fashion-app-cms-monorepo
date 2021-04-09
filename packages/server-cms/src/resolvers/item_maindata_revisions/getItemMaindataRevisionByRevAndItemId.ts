@@ -2,7 +2,10 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
-async function getItemMaindataRevisionByRevAndItemId() {
+async function getItemMaindataRevisionByRevAndItemId(
+  itemId: number,
+  revision: number
+) {
   try {
     const data = await client.query({
       query: gql`
@@ -96,6 +99,10 @@ async function getItemMaindataRevisionByRevAndItemId() {
           }
         }
       `,
+      variables: {
+        itemId,
+        revision,
+      },
     });
     return data.data.item_maindata_revisions;
   } catch (e) {

@@ -41,7 +41,9 @@ function OverviewTab({
   // console.error("location:", location.pathname);
 
   const optionalParams = qs.parse(location.search, { ignoreQueryPrefix: true });
-  const paramsRevision = optionalParams.rev ? optionalParams.rev : 1;
+  const paramsRevision = optionalParams.rev
+    ? Number.parseInt(optionalParams.rev.toString())
+    : 1;
   const paramsIsRelease = optionalParams.release
     ? optionalParams.release
     : true;
@@ -71,7 +73,10 @@ function OverviewTab({
     data: dataItemMaindata,
     refetch: refetchItemMaindata,
   } = useQuery(Get_Item_Maindata_Revision_By_Rev_And_Item_Id, {
-    variables: { itemId: item.id, revision: paramsRevision },
+    variables: {
+      itemId: Number.parseInt(item.id),
+      revision: paramsRevision,
+    },
   });
 
   //--------------------------------------------------
@@ -152,10 +157,12 @@ function OverviewTab({
   // LOADING + FATAL ERROR
   //--------------------------------------------------
   if (loadingItemMaindata) return <div />;
-  if (errorItemMaindata) return <div>Error! ${errorItemMaindata}</div>;
+  if (errorItemMaindata)
+    return <div>Error! ${JSON.stringify(errorItemMaindata, null, 2)}</div>;
 
-  const { item_maindata_revisions } = dataItemMaindata;
-  const itemMaindataRevision = item_maindata_revisions[0];
+  const { getItemMaindataRevisionByRevAndItemId } = dataItemMaindata;
+  console.log('dataItemMaindata:', dataItemMaindata);
+  const itemMaindataRevision = getItemMaindataRevisionByRevAndItemId[0];
   console.log('###itemMaindataRevision:', itemMaindataRevision);
 
   //--------------------------------------------------

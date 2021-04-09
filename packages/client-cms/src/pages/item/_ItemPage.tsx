@@ -27,7 +27,7 @@ function ItemPage() {
 
   // @ts-ignore
   const { id } = useParams();
-  // console.log("id:", id);
+  console.log('id:', id);
 
   const {
     loading: loadingBaseData,
@@ -35,7 +35,7 @@ function ItemPage() {
     data: dataBaseData,
     refetch: refetchBaseData,
   } = useQuery(Get_Item_Base_Data_By_Pk, {
-    variables: { id },
+    variables: { id: Number.parseInt(id) },
   });
 
   const {
@@ -44,19 +44,25 @@ function ItemPage() {
     data: dataRevisions,
     refetch: refetchRevisions,
   } = useQuery(Get_Revisions_For_Item_BB, {
-    variables: { id },
+    variables: { id: Number.parseInt(id) },
   });
 
   if (loadingRevisions || loadingBaseData) return <div />;
-  if (errorRevisions) return <div>Error! ${errorRevisions}</div>;
-  if (errorBaseData) return <div>Error! ${errorBaseData}</div>;
-  // console.log("data:", data);
-  // console.log("dataRevisions:", dataRevisions);
+  if (errorRevisions) {
+    console.error('errorRevisions:', errorRevisions);
+    return <div>Error! ${JSON.stringify(errorRevisions, null, 2)}</div>;
+  }
+  if (errorBaseData) {
+    console.error('errorBaseData:', errorBaseData);
+    return <div>Error! ${errorBaseData}</div>;
+  }
+  // console.log('dataBaseData:', dataBaseData);
+  // console.log('dataRevisions:', dataRevisions);
   // console.log("dataItemBaseData:", dataItemBaseData);
 
   // const item = data.items_by_pk;
-  const headerData = dataBaseData.items_by_pk;
-  const uniqueRevisions = dataRevisions.item_maindata_revisions;
+  const headerData = dataBaseData.getItemBaseDataByPk;
+  const uniqueRevisions = dataRevisions.getRevisionsForItemBarebones;
 
   // 404 result if item doesn't exist in the database
   if (!headerData) {
@@ -94,15 +100,15 @@ function ItemPage() {
           {/*<Route path={path + Routes.BODY_SEGMENTS}>*/}
           {/*  <ColumnOfFrames>Body Segments</ColumnOfFrames>*/}
           {/*</Route>*/}
-          <Route path={path + Routes.Localisations}>
-            <LocalisationsTab />
-          </Route>
-          <Route path={path + Routes.Change_History}>
-            <ChangeHistoryTab />
-          </Route>
-          <Route path={path + Routes.Settings}>
-            <ItemSettingsTab headerData={headerData} />
-          </Route>
+          {/*<Route path={path + Routes.Localisations}>*/}
+          {/*  <LocalisationsTab />*/}
+          {/*</Route>*/}
+          {/*<Route path={path + Routes.Change_History}>*/}
+          {/*  <ChangeHistoryTab />*/}
+          {/*</Route>*/}
+          {/*<Route path={path + Routes.Settings}>*/}
+          {/*  <ItemSettingsTab headerData={headerData} />*/}
+          {/*</Route>*/}
         </Switch>
       </div>
       <Footer />

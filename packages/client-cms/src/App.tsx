@@ -60,18 +60,18 @@ const App = (): ReactElement => {
               {/*  path={Routes.Clothing_Shells__Clothing_Shell + Routes.Var_Id}*/}
               {/*  component={ClothingShellPage}*/}
               {/*/>*/}
-              {/*<Route*/}
-              {/*  path={Routes.Items__Clothing__Item + Routes.Var_Id}*/}
-              {/*  component={ItemPage}*/}
-              {/*/>*/}
+              <Route
+                path={Routes.Items__Clothing__Item + Routes.Var_Id}
+                component={ItemPage}
+              />
               {/*<Route*/}
               {/*  path={Routes.Companies__Company + Routes.Var_Id}*/}
               {/*  component={CompanyPage}*/}
               {/*/>*/}
-              {/*<Route*/}
-              {/*  path={Routes.Heuristic_Items__Clothing__Item + Routes.Var_Id}*/}
-              {/*  component={HeuristicItemPage}*/}
-              {/*/>*/}
+              <Route
+                path={Routes.Heuristic_Items__Clothing__Item + Routes.Var_Id}
+                component={HeuristicItemPage}
+              />
               <Route
                 path={Routes.Clothing_Shells}
                 component={ClothingShellsPage}

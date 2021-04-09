@@ -8,7 +8,7 @@ import { logger } from '../../logger';
  * This is used for going on the Item page, for data required by the Header,
  * overview and settings tab
  */
-async function getItemBaseDataByPk() {
+async function getItemBaseDataByPk(id: number) {
   try {
     const data = await client.query({
       query: gql`
@@ -36,6 +36,9 @@ async function getItemBaseDataByPk() {
           }
         }
       `,
+      variables: {
+        id,
+      },
     });
     return data.data.items_by_pk;
   } catch (e) {

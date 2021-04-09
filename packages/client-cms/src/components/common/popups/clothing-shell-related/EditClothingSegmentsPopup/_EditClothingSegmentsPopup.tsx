@@ -47,6 +47,8 @@ function _EditClothingSegmentsPopup({
   bodyCoverage,
   nameTitle,
 }: EditClothingSegmentsPopupProps) {
+  console.error('HEY');
+
   const [currentTab, setCurrentTab] = useState(TabIds.BaseShapeAndFabric);
 
   let laptopSizePreset = LaptopSizePreset.MacBookPro16;

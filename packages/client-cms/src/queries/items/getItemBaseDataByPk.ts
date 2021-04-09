@@ -8,22 +8,22 @@ import { gql } from '@apollo/client';
  */
 const Get_Item_Base_Data_By_Pk = gql`
   query getItemBaseDataByPk($id: Int!) {
-    items_by_pk(id: $id) {
+    getItemBaseDataByPk(id: $id) {
       id
       short_id
       created_at
       updated_at
-      item_maindata_revisions(order_by: { revision: desc }, limit: 1) {
+      item_maindata_revisions {
         id
         revision
         state
-        item_maindata(limit: 1, order_by: { is_release: desc }) {
+        item_maindata {
           id
           name
           brand_id
         }
       }
-      item_translation_revisions_aggregate(distinct_on: locale_code) {
+      item_translation_revisions_aggregate {
         aggregate {
           count
         }

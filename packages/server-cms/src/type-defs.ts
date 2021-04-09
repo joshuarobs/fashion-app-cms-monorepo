@@ -160,11 +160,14 @@ const typeDefs = gql`
     #--------------------------------------------------
     deleteItemMaindataRevisionsForItem: item_maindata_revisions
     getItemMaindataRevision: item_maindata_revisions
-    getItemMaindataRevisionByRevAndItemId: item_maindata_revisions
+    getItemMaindataRevisionByRevAndItemId(
+      itemId: Int!
+      revision: Int!
+    ): [item_maindata_revisions]
     getLatestProdItemMaindataRevByItemId: [item_maindata_revisions]
     getNumberOfUniqueItemsForClothingShell: hasura_aggregate_holder
     getNumberOfUniqueProdItemsForCompany: hasura_aggregate_holder
-    getRevisionsForItemBarebones: [item_maindata_revisions]
+    getRevisionsForItemBarebones(id: Int!): [item_maindata_revisions]
     getTopXUniqueProdItemsForClothingShellBB(
       limit: Int
       offset: Int
@@ -224,7 +227,7 @@ const typeDefs = gql`
     # items
     #--------------------------------------------------
     deleteItemByPk: items
-    getItemBaseDataByPk: items
+    getItemBaseDataByPk(id: Int!): items
     getItemsForItemsTableDevelopmentOnly: [items]
     getItemsForItemsTableLatest: [items]
     getItemsForItemsTableProductionOnly: [items]
@@ -367,8 +370,9 @@ const typeDefs = gql`
   type clothing_shell_maindata {
     id: String!
     revision_id: String!
+    is_release: Boolean!
     name: String
-    uniform_thickness: Int
+    uniform_thickness: Float
     default_shell_layer_id: Int
     default_fill_layer_id: Int
     default_lining_layer_id: Int
@@ -712,6 +716,7 @@ const typeDefs = gql`
     item_translation_revisions: [item_translation_revisions]
     # Hasura Relationships
     item_maindata_revisions_aggregate: hasura_aggregate_holder
+    item_translation_revisions_aggregate: hasura_aggregate_holder
     # Special Relationships - used in queries
     latest_revision: [item_maindata_revisions]
     latest_prod: [item_maindata_revisions]

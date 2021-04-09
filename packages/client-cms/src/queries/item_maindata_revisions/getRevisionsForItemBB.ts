@@ -7,10 +7,7 @@ import { gql } from '@apollo/client';
  */
 const Get_Revisions_For_Item_BB = gql`
   query getRevisionsForItemBarebones($id: Int!) {
-    item_maindata_revisions(
-      where: { item_id: { _eq: $id } }
-      order_by: { revision: desc }
-    ) {
+    getRevisionsForItemBarebones(id: $id) {
       id
       revision
       state

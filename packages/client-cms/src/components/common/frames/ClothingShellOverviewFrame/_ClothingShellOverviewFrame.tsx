@@ -160,8 +160,8 @@ function ClothingShellOverviewFrame({
   // console.log("data22aa:", data);
 
   let clothingShell = data
-    ? data.clothing_shells_by_pk
-      ? data.clothing_shells_by_pk
+    ? data.getClothingShellBaseDataByPk
+      ? data.getClothingShellBaseDataByPk
       : null
     : null;
 

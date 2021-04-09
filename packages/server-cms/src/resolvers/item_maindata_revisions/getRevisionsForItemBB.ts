@@ -7,7 +7,7 @@ import { logger } from '../../logger';
  * Barebones (BB) data only (no other relational or foreign data)
  * This is used for the Overview tab for the Item page (Revisions dropdown)
  */
-async function getRevisionsForItemBarebones() {
+async function getRevisionsForItemBarebones(id: number) {
   try {
     const data = await client.query({
       query: gql`
@@ -27,6 +27,9 @@ async function getRevisionsForItemBarebones() {
           }
         }
       `,
+      variables: {
+        id,
+      },
     });
     return data.data.item_maindata_revisions;
   } catch (e) {

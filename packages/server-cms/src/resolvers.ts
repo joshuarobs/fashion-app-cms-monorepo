@@ -269,11 +269,13 @@ const resolvers = {
     //--------------------------------------------------
     deleteItemMaindataRevisionsForItem,
     getItemMaindataRevision,
-    getItemMaindataRevisionByRevAndItemId,
+    getItemMaindataRevisionByRevAndItemId: (_, { itemId, revision }) =>
+      getItemMaindataRevisionByRevAndItemId(itemId, revision),
     getLatestProdItemMaindataRevByItemId,
     getNumberOfUniqueItemsForClothingShell,
     getNumberOfUniqueProdItemsForCompany,
-    getRevisionsForItemBarebones,
+    getRevisionsForItemBarebones: (_, { id }) =>
+      getRevisionsForItemBarebones(id),
     getTopXUniqueProdItemsForClothingShellBB: (_, { limit, offset }) =>
       getTopXUniqueProdItemsForClothingShellBB(limit, offset),
     getTopXUniqueProdItemsForCompanyBB: (_, { limit, offset }) =>
@@ -325,7 +327,7 @@ const resolvers = {
     // items
     //--------------------------------------------------
     deleteItemByPk,
-    getItemBaseDataByPk,
+    getItemBaseDataByPk: (_, { id }) => getItemBaseDataByPk(id),
     getItemsForItemsTableDevelopmentOnly,
     getItemsForItemsTableLatest,
     getItemsForItemsTableProductionOnly,

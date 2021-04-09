@@ -2,15 +2,15 @@ import { gql } from '@apollo/client';
 
 const Get_Item_Maindata_Revision_By_Rev_And_Item_Id = gql`
   query getItemMaindataRevisionByRevAndItemId($itemId: Int!, $revision: Int!) {
-    item_maindata_revisions(
-      where: { item_id: { _eq: $itemId }, revision: { _eq: $revision } }
-      limit: 1
+    getItemMaindataRevisionByRevAndItemId(
+      itemId: $itemId
+      revision: $revision
     ) {
       id
       item_id
       revision
       state
-      item_maindata(order_by: { is_release: desc }) {
+      item_maindata {
         id
         is_release
         name
@@ -34,13 +34,10 @@ const Get_Item_Maindata_Revision_By_Rev_And_Item_Id = gql`
             id
             item_count
           }
-          clothing_shell_maindata_revisions(
-            limit: 1
-            order_by: { revision: desc }
-          ) {
+          clothing_shell_maindata_revisions {
             id
             revision
-            clothing_shell_maindata(limit: 1, order_by: { is_release: desc }) {
+            clothing_shell_maindata {
               id
               is_release
               name

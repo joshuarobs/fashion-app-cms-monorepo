@@ -8,7 +8,7 @@ import { gql } from '@apollo/client';
  */
 const Get_Clothing_Shell_Base_Data_By_Pk = gql`
   query getClothingShellBaseDataByPk($id: Int!) {
-    clothing_shells_by_pk(id: $id) {
+    getClothingShellBaseDataByPk(id: $id) {
       id
       created_at
       updated_at
@@ -16,14 +16,11 @@ const Get_Clothing_Shell_Base_Data_By_Pk = gql`
         id
         item_count
       }
-      clothing_shell_maindata_revisions(
-        order_by: { revision: desc }
-        limit: 1
-      ) {
+      clothing_shell_maindata_revisions {
         id
         revision
         state
-        clothing_shell_maindata(limit: 1, order_by: { is_release: desc }) {
+        clothing_shell_maindata {
           id
           name
         }
