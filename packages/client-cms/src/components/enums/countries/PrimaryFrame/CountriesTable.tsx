@@ -26,7 +26,7 @@ function CountriesTable({ showActualValues }: CountriesTableProps) {
   console.log('data:', data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.countries);
+  const newData = addKeysToArrayObjects(data.getCountries);
 
   const columns = [
     {

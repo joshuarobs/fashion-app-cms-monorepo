@@ -27,7 +27,7 @@ function GendersTable({ showActualValues }: GendersTableProps) {
   // console.log("data:", data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.genders);
+  const newData = addKeysToArrayObjects(data.getGenders);
 
   const columns = [
     {

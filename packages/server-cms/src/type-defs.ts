@@ -133,6 +133,10 @@ const typeDefs = gql`
       fabricLayerTypes: [fabric_layer_types_enum!]
     ): [fabric_layers]
     #--------------------------------------------------
+    # fabric_types
+    #--------------------------------------------------
+    getFabricTypes: [fabric_types]
+    #--------------------------------------------------
     # genders
     #--------------------------------------------------
     getGenders: [genders]
@@ -238,7 +242,7 @@ const typeDefs = gql`
     #--------------------------------------------------
     # mask_shapes
     #--------------------------------------------------
-    #    getMaskShapes: [mask_shapes]
+    getMaskShapes: [body_segment_mask_shapes]
     #--------------------------------------------------
     # materials
     #--------------------------------------------------
@@ -282,6 +286,11 @@ const typeDefs = gql`
     description: String
     # Relationships
     body_segments: [body_segments]
+  }
+
+  type body_segment_mask_shapes {
+    value: String!
+    description: String
   }
 
   type body_segment_masks {

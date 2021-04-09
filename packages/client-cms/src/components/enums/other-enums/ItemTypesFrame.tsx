@@ -34,6 +34,9 @@ function ItemTypesFrame() {
             style={{
               userSelect: 'none',
               padding: 6,
+              // Disable the toggle label since we use fancy looking values
+              // on the database anyway
+              display: 'none',
             }}
           >
             <span

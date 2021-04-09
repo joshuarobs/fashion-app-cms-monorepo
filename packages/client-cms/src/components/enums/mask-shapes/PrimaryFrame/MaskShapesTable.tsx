@@ -27,7 +27,7 @@ function MaskShapesTable({ showActualValues }: MaskShapesTableProps) {
   console.log('data:', data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.body_segment_mask_shapes);
+  const newData = addKeysToArrayObjects(data.getMaskShapes);
 
   const columns = [
     {

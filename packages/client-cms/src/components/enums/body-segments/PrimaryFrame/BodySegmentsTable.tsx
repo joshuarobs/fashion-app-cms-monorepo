@@ -27,7 +27,7 @@ function BodySegmentsTable({ showActualValues }: BodySegmentsTableProps) {
   console.log('data:', data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.body_segments);
+  const newData = addKeysToArrayObjects(data.getBodySegments);
 
   const columns = [
     {

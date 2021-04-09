@@ -3,15 +3,7 @@ import { Table } from 'antd';
 import { enumToCamelCase } from '../../../../utils/enumToCamelCase';
 import { useQuery, gql } from '@apollo/client';
 import { addKeysToArrayObjects } from '../../../../utils/addKeysToArrayObjects';
-
-const Get_Fabric_Types = gql`
-  query getFabricTypes {
-    fabric_types(order_by: { id: asc }) {
-      id
-      name
-    }
-  }
-`;
+import { Get_Fabric_Types } from '../../../../queries/fabric_types/getFabricTypes';
 
 const styles = {
   cell: {
@@ -35,7 +27,7 @@ function FabricTypesTable({ showActualValues }: FabricTypesTableProps) {
   console.log('data:', data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.fabric_types);
+  const newData = addKeysToArrayObjects(data.getFabricTypes);
 
   const columns = [
     {

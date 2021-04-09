@@ -27,7 +27,7 @@ function ItemTypesTable({ showActualValues }: ItemTypesTableProps) {
   console.log('data:', data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.item_types);
+  const newData = addKeysToArrayObjects(data.getItemTypes);
 
   const columns = [
     {

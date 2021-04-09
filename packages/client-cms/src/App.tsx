@@ -79,23 +79,23 @@ const App = (): ReactElement => {
               <Route path={Routes.Fabric_Layers} component={FabricLayersPage} />
               <Route path={Routes.Items} component={ItemsPage} />
               <Route path={Routes.Companies} component={CompaniesPage} />
-              {/*<Route path={Routes.Body_Segments} component={BodySegmentsPage} />*/}
-              {/*<Route path={Routes.Base_Colours} component={BaseColoursPage} />*/}
-              {/*<Route path={Routes.Mask_Shapes} component={MaskShapesPage} />*/}
-              {/*<Route path={Routes.Countries} component={CountriesPage} />*/}
-              {/*<Route path={Routes.Languages} component={LanguagesPage} />*/}
-              {/*<Route path={Routes.Fabric_Types} component={FabricTypesPage} />*/}
-              {/*<Route path={Routes.Materials} component={MaterialsPage} />*/}
-              {/*<Route path={Routes.Other_Enums} component={OtherEnumsPage} />*/}
+              <Route path={Routes.Body_Segments} component={BodySegmentsPage} />
+              <Route path={Routes.Base_Colours} component={BaseColoursPage} />
+              <Route path={Routes.Mask_Shapes} component={MaskShapesPage} />
+              <Route path={Routes.Countries} component={CountriesPage} />
+              <Route path={Routes.Languages} component={LanguagesPage} />
+              <Route path={Routes.Fabric_Types} component={FabricTypesPage} />
+              <Route path={Routes.Materials} component={MaterialsPage} />
+              <Route path={Routes.Other_Enums} component={OtherEnumsPage} />
               <Route
                 path={Routes.Heuristic_Items}
                 component={HeuristicItemsPage}
               />
-              {/*<Route*/}
-              {/*  path={Routes.Localisations}*/}
-              {/*  component={LocalisationsPage}*/}
-              {/*/>*/}
-              {/*<Route path={Routes.Users} component={UsersPage} />*/}
+              <Route
+                path={Routes.Localisations}
+                component={LocalisationsPage}
+              />
+              <Route path={Routes.Users} component={UsersPage} />
               <Route path={Routes.Home} component={HomePage} />
               <Route path="*" component={Exception404Page} />
             </Switch>

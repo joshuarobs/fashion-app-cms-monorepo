@@ -27,7 +27,7 @@ function MaterialsTable({ showActualValues }: MaterialsTableProps) {
   console.log('data:', data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.materials);
+  const newData = addKeysToArrayObjects(data.getMaterials);
 
   const columns = [
     {

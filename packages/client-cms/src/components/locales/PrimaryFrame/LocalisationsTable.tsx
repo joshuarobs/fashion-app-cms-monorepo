@@ -27,7 +27,7 @@ function LocalisationsTable({
   console.log('data:', data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.locales);
+  const newData = addKeysToArrayObjects(data.getLocales);
 
   const columns = [
     {

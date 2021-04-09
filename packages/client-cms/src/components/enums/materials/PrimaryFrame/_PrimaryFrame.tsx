@@ -7,7 +7,7 @@ import { SwitchElement } from '../../../common/SwitchElement';
 const { Content } = Layout;
 
 function PrimaryFrame() {
-  const [showActualValues, toggleShowActualValues] = useState(false);
+  const [showActualValues, toggleShowActualValues] = useState(true);
 
   return (
     <Content
@@ -30,6 +30,9 @@ function PrimaryFrame() {
             style={{
               userSelect: 'none',
               padding: 6,
+              // Disable the toggle since we already have actual nice
+              // looking values in the database
+              display: 'none',
             }}
           >
             <span

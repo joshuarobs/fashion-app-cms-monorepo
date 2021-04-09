@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 const Get_Body_Segments = gql`
   query getBodySegments {
-    body_segments(order_by: { id: asc }) {
+    getBodySegments {
       id
       name
       body_group

@@ -120,6 +120,7 @@ import { getStaffUsers } from './resolvers/staff_users/getStaffUsers';
 import { getFabricLayer } from './resolvers/getFabricLayer';
 import { GET_ITEM_REVISION_CHANGES_AGGREGATES } from './resolvers/getItemRevisionChangesAggregates';
 import { getGenders } from './resolvers/genders/getGenders';
+import { getFabricTypes } from './resolvers/fabric_types/getFabricTypes';
 
 const resolvers = {
   Query: {
@@ -241,6 +242,10 @@ const resolvers = {
     getFabricLayersListBB: (_, { limit, offset, fabricLayerTypes }) =>
       getFabricLayersListBB(limit, offset, fabricLayerTypes),
     //--------------------------------------------------
+    // fabric_types
+    //--------------------------------------------------
+    getFabricTypes,
+    //--------------------------------------------------
     // genders
     //--------------------------------------------------
     getGenders,
@@ -338,7 +343,7 @@ const resolvers = {
     //--------------------------------------------------
     // mask_shapes
     //--------------------------------------------------
-    // getMaskShapes,
+    getMaskShapes,
     //--------------------------------------------------
     // materials
     //--------------------------------------------------

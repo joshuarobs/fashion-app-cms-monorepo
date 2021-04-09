@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 const Get_Genders = gql`
   query getGenders {
-    genders {
+    getGenders {
       value
       description
     }

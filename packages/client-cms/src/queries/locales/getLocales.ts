@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 const Get_Locales = gql`
   query getLocales {
-    locales {
+    getLocales {
       code
       name
       language {

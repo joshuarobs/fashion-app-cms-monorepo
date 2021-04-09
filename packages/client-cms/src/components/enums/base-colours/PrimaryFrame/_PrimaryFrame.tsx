@@ -30,6 +30,8 @@ function PrimaryFrame() {
             style={{
               userSelect: 'none',
               padding: 6,
+              // Disable toggle as we display actual values
+              display: 'none',
             }}
           >
             <span
@@ -42,6 +44,7 @@ function PrimaryFrame() {
             <SwitchElement
               checked={showActualValues}
               onChange={(checked: any) => toggleShowActualValues(checked)}
+              disabled
             />
           </label>
         </Col>

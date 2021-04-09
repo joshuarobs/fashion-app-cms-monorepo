@@ -26,7 +26,7 @@ function LanguagesTable({ showActualValues }: LanguagesTableProps) {
   console.log('data:', data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.language_families);
+  const newData = addKeysToArrayObjects(data.getLanguageFamilies);
 
   const columns = [
     {

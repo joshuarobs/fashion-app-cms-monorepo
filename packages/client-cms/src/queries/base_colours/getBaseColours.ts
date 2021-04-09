@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 const Get_Base_Colours = gql`
   query getBaseColours {
-    base_colours {
+    getBaseColours {
       value
       description
     }

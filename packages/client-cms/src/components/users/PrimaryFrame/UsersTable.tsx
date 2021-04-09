@@ -30,7 +30,7 @@ function UsersTable({ showActualValues }: UsersTableProps) {
   console.log('data:', data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.staff_users);
+  const newData = addKeysToArrayObjects(data.getStaffUsers);
 
   const columns = [
     {

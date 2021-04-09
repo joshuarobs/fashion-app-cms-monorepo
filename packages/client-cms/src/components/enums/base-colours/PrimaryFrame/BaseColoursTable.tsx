@@ -27,7 +27,7 @@ function BaseColoursTable({ showActualValues }: BaseColoursTableProps) {
   console.log('data:', data);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.base_colours);
+  const newData = addKeysToArrayObjects(data.getBaseColours);
 
   const columns = [
     {
