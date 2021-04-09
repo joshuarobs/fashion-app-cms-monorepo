@@ -1,16 +1,31 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
+import {
+  Data_Entry_Query_Amount_Max_Limit,
+  Data_Entry_Query_Amount_Min_Half,
+} from '../../settings';
 
-async function getItemTranslationRevisionChanges() {
+async function getItemTranslationRevisionChanges(
+  limit = Data_Entry_Query_Amount_Min_Half,
+  offset: number
+) {
+  if (limit > Data_Entry_Query_Amount_Max_Limit)
+    limit = Data_Entry_Query_Amount_Max_Limit;
+
   try {
     const data = await client.query({
       query: gql`
-        query getItemTranslationRevisionChanges($itemId: Int!, $limit: Int!) {
+        query getItemTranslationRevisionChanges(
+          $itemId: Int!
+          $limit: Int
+          $offset: Int
+        ) {
           item_translation_revision_changes(
             where: { item_translation_revision: { item_id: { _eq: $itemId } } }
             order_by: { date: desc }
             limit: $limit
+            offset: $offset
           ) {
             id
             to_state
@@ -43,6 +58,10 @@ async function getItemTranslationRevisionChanges() {
           }
         }
       `,
+      variables: {
+        limit,
+        offset,
+      },
     });
     return data.data.item_translation_revision_changes;
   } catch (e) {

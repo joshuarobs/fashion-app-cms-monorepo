@@ -234,7 +234,7 @@ const resolvers = {
     //--------------------------------------------------
     // countries
     //--------------------------------------------------
-    getCountries,
+    getCountries: (_, { limit, offset }) => getCountries(limit, offset),
     //--------------------------------------------------
     // fabric_layers
     //--------------------------------------------------
@@ -269,8 +269,10 @@ const resolvers = {
     getNumberOfUniqueItemsForClothingShell,
     getNumberOfUniqueProdItemsForCompany,
     getRevisionsForItemBarebones,
-    getTopXUniqueProdItemsForClothingShellBB,
-    getTopXUniqueProdItemsForCompanyBB,
+    getTopXUniqueProdItemsForClothingShellBB: (_, { limit, offset }) =>
+      getTopXUniqueProdItemsForClothingShellBB(limit, offset),
+    getTopXUniqueProdItemsForCompanyBB: (_, { limit, offset }) =>
+      getTopXUniqueProdItemsForCompanyBB(limit, offset),
     getUniqueItemMaindataRevsForBrandProdOnly,
     getUniqueProdItemsForCompany,
     insertItemMaindataRevision,
@@ -281,8 +283,10 @@ const resolvers = {
     //--------------------------------------------------
     deleteItemTranslationRevisionChangesForRevision,
     deleteItemTranslationRevisionChangesForItem,
-    getItemTranslationRevisionChanges,
-    getItemTranslationRevisionChangesForLocale,
+    getItemTranslationRevisionChanges: (_, { limit, offset }) =>
+      getItemTranslationRevisionChanges(limit, offset),
+    getItemTranslationRevisionChangesForLocale: (_, { limit, offset }) =>
+      getItemTranslationRevisionChangesForLocale(limit, offset),
     getItemTranslationRevisionChangesPromosOnly,
     insertItemTranslationRevisionChange,
     insertItemTranslationRevisionChangePromoProduction,

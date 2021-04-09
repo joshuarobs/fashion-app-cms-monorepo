@@ -36,14 +36,23 @@ const typeDefs = gql`
     #--------------------------------------------------
     # clothing_shell_maindata_revision_changes
     #--------------------------------------------------
-    getClothingShellMaindataRevisionChanges: [clothing_shell_maindata_revision_changes]
-    getClothingShellMaindataRevisionChangesPromosOnly: [clothing_shell_maindata_revision_changes]
+    getClothingShellMaindataRevisionChanges(
+      limit: Int
+      offset: Int
+    ): [clothing_shell_maindata_revision_changes]
+    getClothingShellMaindataRevisionChangesPromosOnly(
+      limit: Int
+      offset: Int
+    ): [clothing_shell_maindata_revision_changes]
     insertClothingShellMaindataRevisionChange: clothing_shell_maindata_revision_changes
     insertClothingShellMaindataRevisionChangePromoRetired: clothing_shell_maindata_revision_changes
     #--------------------------------------------------
     # clothing_shell_maindata_revisions
     #--------------------------------------------------
-    getAllClothingShellMaindataRevisionsForClothingShell: [clothing_shell_maindata_revisions]
+    getAllClothingShellMaindataRevisionsForClothingShell(
+      limit: Int
+      offset: Int
+    ): [clothing_shell_maindata_revisions]
     getClothingShellMaindataRevisionByRevAndClothingShellId: [clothing_shell_maindata_revisions]
     getRevisionsForClothingShellBarebones: [clothing_shell_maindata_revisions]
     insertClothingShellMaindataRevision: clothing_shell_maindata_revisions
@@ -58,14 +67,14 @@ const typeDefs = gql`
       limit: Int
       offset: Int
     ): [clothing_shells]
-    getClothingShellsListBB: [clothing_shells]
+    getClothingShellsListBB(limit: Int, offset: Int): [clothing_shells]
     getItemClothingShell: clothing_shells
     insertEmptyClothingShell: clothing_shells
     updateClothingShellUpdatedAt: clothing_shells
     #--------------------------------------------------
     # companies
     #--------------------------------------------------
-    getCompanies: [companies]
+    getCompanies(limit: Int, offset: Int): [companies]
     getCompaniesListBB(limit: Int, offset: Int): [companies]
     getCompany: companies
     insertCompany: companies
@@ -79,8 +88,14 @@ const typeDefs = gql`
     # company_translation_revision_changes
     #--------------------------------------------------
     deleteCompanyTranslationRevisionChangesForRevision: company_translation_revision_changes
-    getCompanyTranslationRevisionChanges: [company_translation_revision_changes]
-    getCompanyTranslationRevisionChangesForLocale: [company_translation_revision_changes]
+    getCompanyTranslationRevisionChanges(
+      limit: Int
+      offset: Int
+    ): [company_translation_revision_changes]
+    getCompanyTranslationRevisionChangesForLocale(
+      limit: Int
+      offset: Int
+    ): [company_translation_revision_changes]
     getCompanyTranslationRevisionChangesPromosOnly: [company_translation_revision_changes]
     insertCompanyTranslationRevisionChange: company_translation_revision_changes
     insertCompanyTranslationRevisionChangeActUpdate: company_translation_revision_changes
@@ -108,7 +123,7 @@ const typeDefs = gql`
     #--------------------------------------------------
     # countries
     #--------------------------------------------------
-    getCountries: [countries]
+    getCountries(limit: Int, offset: Int): [countries]
     #--------------------------------------------------
     # fabric_layers
     #--------------------------------------------------
@@ -146,8 +161,14 @@ const typeDefs = gql`
     getNumberOfUniqueItemsForClothingShell: hasura_aggregate_holder
     getNumberOfUniqueProdItemsForCompany: hasura_aggregate_holder
     getRevisionsForItemBarebones: [item_maindata_revisions]
-    getTopXUniqueProdItemsForClothingShellBB: [item_maindata_revisions]
-    getTopXUniqueProdItemsForCompanyBB: [item_maindata_revisions]
+    getTopXUniqueProdItemsForClothingShellBB(
+      limit: Int
+      offset: Int
+    ): [item_maindata_revisions]
+    getTopXUniqueProdItemsForCompanyBB(
+      limit: Int
+      offset: Int
+    ): [item_maindata_revisions]
     getUniqueItemMaindataRevsForBrandProdOnly: [item_maindata_revisions]
     getUniqueProdItemsForCompany: [item_maindata_revisions]
     insertItemMaindataRevision: item_maindata_revisions
@@ -158,8 +179,14 @@ const typeDefs = gql`
     #--------------------------------------------------
     deleteItemTranslationRevisionChangesForRevision: item_translation_revision_changes
     deleteItemTranslationRevisionChangesForItem: item_translation_revision_changes
-    getItemTranslationRevisionChanges: [item_translation_revision_changes]
-    getItemTranslationRevisionChangesForLocale: [item_translation_revision_changes]
+    getItemTranslationRevisionChanges(
+      limit: Int
+      offset: Int
+    ): [item_translation_revision_changes]
+    getItemTranslationRevisionChangesForLocale(
+      limit: Int
+      offset: Int
+    ): [item_translation_revision_changes]
     getItemTranslationRevisionChangesPromosOnly: [item_translation_revision_changes]
     insertItemTranslationRevisionChange: item_translation_revision_changes
     insertItemTranslationRevisionChangePromoProduction: item_translation_revision_changes

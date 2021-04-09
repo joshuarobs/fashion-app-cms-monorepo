@@ -1,14 +1,26 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
+import {
+  Data_Entry_Query_Amount_Max_Limit,
+  Data_Entry_Query_Amount_Min_Half,
+} from '../../settings';
 
-async function getItemTranslationRevisionChangesForLocale() {
+async function getItemTranslationRevisionChangesForLocale(
+  limit = Data_Entry_Query_Amount_Min_Half,
+  offset: number
+) {
+  if (limit > Data_Entry_Query_Amount_Max_Limit)
+    limit = Data_Entry_Query_Amount_Max_Limit;
+
   try {
     const data = await client.query({
       query: gql`
         query getItemTranslationRevisionChangesForLocale(
           $itemId: Int!
           $localeCode: String!
+          $limit: Int
+          $offset: Int
         ) {
           item_translation_revision_changes(
             where: {
@@ -51,6 +63,10 @@ async function getItemTranslationRevisionChangesForLocale() {
           }
         }
       `,
+      variables: {
+        limit,
+        offset,
+      },
     });
     return data.data.item_translation_revision_changes;
   } catch (e) {
