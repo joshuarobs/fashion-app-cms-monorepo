@@ -56,8 +56,10 @@ The "types" of enum types we'll be copying from that schema file are:
   table represented in an enum. Unlike the type above, this kind of enum 
   isn't typically visible at all the to the end user, as its all done by the 
   server and/or the react client, behind the scenes.
-* 
+* TODO
 
+#### Examples
+**Pure value table enum**
 ````
   enum fabric_layer_types_enum {
     Fill
@@ -66,7 +68,7 @@ The "types" of enum types we'll be copying from that schema file are:
     Shell
   }
 ````
-
+**Selection keys table enum**
 ````
   # select columns of table "item_maindata_revisions"
   enum item_maindata_revisions_select_column {
@@ -83,3 +85,12 @@ The "types" of enum types we'll be copying from that schema file are:
     state
   }
 ````
+#### Why do we need this?
+We need the types from these enums since some of our queries relies on these 
+various enums. Queries processed on the react client and server need these 
+types.
+
+We have a script to automatically generate a typescript file that'll contain 
+all of the enums that we need. This is so that whenever a developer will 
+make a change to any enum or table in the Hasura database, that one can 
+simply run the script to update all enums conveniently.

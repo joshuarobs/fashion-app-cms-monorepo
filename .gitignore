@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Package - server
+packages/server-cms/schema.graphql
+
 # dependencies
 node_modules
 /.pnp
