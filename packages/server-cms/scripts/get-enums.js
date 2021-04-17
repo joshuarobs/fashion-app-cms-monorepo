@@ -10,6 +10,10 @@ console.log('--------------------------------------------------');
 // Automatically calls prettier to format the code nicely without having to
 // do it manually yourself everytime
 
+// Note: `schema.graphql` isn't committed in the repo, so copy and paste it
+// from the `fashion-app-database-items` repo, or run the script to generate
+// it in the right place. Also that file should be in the `server-cms/` folder.
+
 const schemaTypeDefs = importSchema(join(__dirname, '../schema.graphql'));
 
 const stringByLines = schemaTypeDefs.split('\n');
