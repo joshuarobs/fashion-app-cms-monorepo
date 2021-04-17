@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 const Get_Company = gql`
   query getCompany($id: Int!) {
-    companies_by_pk(id: $id) {
+    getCompany(id: $id) {
       id
       name
       logo_url

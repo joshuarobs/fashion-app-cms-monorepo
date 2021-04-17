@@ -192,7 +192,7 @@ const resolvers = {
     getCompanies: (_, { limit, offset }) => getCompanies(limit, offset),
     getCompaniesListBB: (_, { limit, offset }) =>
       getCompaniesListBB(limit, offset),
-    getCompany,
+    getCompany: (_, { id }) => getCompany(id),
     insertCompany,
     updateCompany,
     //--------------------------------------------------
@@ -280,7 +280,8 @@ const resolvers = {
       getTopXUniqueProdItemsForClothingShellBB(limit, offset),
     getTopXUniqueProdItemsForCompanyBB: (_, { limit, offset }) =>
       getTopXUniqueProdItemsForCompanyBB(limit, offset),
-    getUniqueItemMaindataRevsForBrandProdOnly,
+    getUniqueItemMaindataRevsForBrandProdOnly: (_, { id }) =>
+      getUniqueItemMaindataRevsForBrandProdOnly(id),
     getUniqueProdItemsForCompany,
     insertItemMaindataRevision,
     updateItemMaindataRevisionState,

@@ -76,7 +76,7 @@ const typeDefs = gql`
     #--------------------------------------------------
     getCompanies(limit: Int, offset: Int): [companies]
     getCompaniesListBB(limit: Int, offset: Int): [companies]
-    getCompany: companies
+    getCompany(id: Int!): companies
     insertCompany: companies
     updateCompany: companies
     #--------------------------------------------------
@@ -176,7 +176,9 @@ const typeDefs = gql`
       limit: Int
       offset: Int
     ): [item_maindata_revisions]
-    getUniqueItemMaindataRevsForBrandProdOnly: [item_maindata_revisions]
+    getUniqueItemMaindataRevsForBrandProdOnly(
+      id: Int!
+    ): item_maindata_revisions_aggregate
     getUniqueProdItemsForCompany: [item_maindata_revisions]
     insertItemMaindataRevision: item_maindata_revisions
     updateItemMaindataRevisionState: item_maindata_revisions
@@ -268,6 +270,39 @@ const typeDefs = gql`
     Shell
   }
 
+  # select columns of table "item_maindata_revisions"
+  enum item_maindata_revisions_select_column {
+    # column name
+    id
+
+    # column name
+    item_id
+
+    # column name
+    revision
+
+    # column name
+    state
+  }
+
+  # select columns of table "company_translation_revisions"
+  enum company_translation_revisions_select_column {
+    # column name
+    company_id
+
+    # column name
+    id
+
+    # column name
+    locale_code
+
+    # column name
+    revision
+
+    # column name
+    state
+  }
+
   # Special Hasura types
   type hasura_aggregate {
     count: Int
@@ -275,10 +310,20 @@ const typeDefs = gql`
 
   type hasura_aggregate_holder {
     aggregate: hasura_aggregate
+    # distinct_on: item_maindata_revisions_select_column
+  }
+
+  type company_translation_revisions_aggregate {
+    aggregate: hasura_aggregate
+    # distinct_on: company_translation_revisions_select_column
+  }
+
+  # Hasura generated aggregate types
+  type item_maindata_revisions_aggregate {
+    aggregate: hasura_aggregate
   }
 
   # Types we created in the database
-
   type base_colours {
     value: String!
     description: String
@@ -492,6 +537,9 @@ const typeDefs = gql`
     # Hasura Relationships
     item_maindata_aggregate: hasura_aggregate_holder
     collections_aggregate: hasura_aggregate_holder
+    company_translations_aggregate(
+      distinct_on: company_translation_revisions_select_column
+    ): company_translation_revisions_aggregate
   }
 
   type company_counts {

@@ -7,6 +7,7 @@ import { useQuery, gql } from '@apollo/client';
 import { Get_Unique_Item_Maindata_Rev_Amount_For_Brand_Prod_Only } from '../../../../queries/item_maindata_revisions/getUniqueItemMaindataRevisionsForBrandInProduction';
 import { Item_Details_Frame } from '../../../../strings';
 import { FrameInputLabel } from '../../../common/typography/FrameInputLabel';
+import { Get_Company } from '../../../../queries/companies/getCompany';
 
 const size = 'small';
 
@@ -37,21 +38,6 @@ const styles = {
   },
 };
 
-const GET_BRAND = gql`
-  query getBrand($id: Int!) {
-    companies_by_pk(id: $id) {
-      id
-      name
-      logo_url
-      #items_aggregate {
-      #  aggregate {
-      #    count
-      #  }
-      #}
-    }
-  }
-`;
-
 interface BrandSectionProps {
   companyId: any;
   showPopup: any;
@@ -71,7 +57,7 @@ function BrandSection({
     loading: loadingBrand,
     error: errorBrand,
     data: dataBrand,
-  } = useQuery(GET_BRAND, {
+  } = useQuery(Get_Company, {
     variables: { id: companyId },
     skip: companyId === null,
   });
@@ -88,17 +74,18 @@ function BrandSection({
   const loading = loadingBrand || loadingItemsCount;
 
   // if (loading) return <div />;
-  if (errorBrand) return <div>Error (Brand)! ${errorBrand}</div>;
+  if (errorBrand)
+    return <div>Error (Brand)! ${JSON.stringify(errorBrand)}</div>;
   if (errorItemsCount)
     return <div>Error (Items Count)! ${errorItemsCount}</div>;
-  // console.log("dataBrand:", dataBrand, "\ncompanyId:", companyId);
-  // console.log("dataItemsCount:", dataItemsCount);
+  // console.log('dataBrand:', dataBrand, '\ncompanyId:', companyId);
+  console.log('dataItemsCount:', dataItemsCount);
   if (loading) {
     return <div />;
   }
   // Only number of items in production
   const itemCount = dataItemsCount
-    ? dataItemsCount.item_maindata_revisions_aggregate.aggregate.count
+    ? dataItemsCount.getUniqueItemMaindataRevsForBrandProdOnly.aggregate.count
     : null;
 
   return (

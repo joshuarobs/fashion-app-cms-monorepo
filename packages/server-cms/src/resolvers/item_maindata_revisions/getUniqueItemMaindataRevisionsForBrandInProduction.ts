@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
-async function getUniqueItemMaindataRevsForBrandProdOnly() {
+async function getUniqueItemMaindataRevsForBrandProdOnly(id: number) {
   try {
     const data = await client.query({
       query: gql`
@@ -20,7 +20,11 @@ async function getUniqueItemMaindataRevsForBrandProdOnly() {
           }
         }
       `,
+      variables: {
+        id,
+      },
     });
+    // console.log('data:', JSON.stringify(data, null, 2));
     return data.data.item_maindata_revisions_aggregate;
   } catch (e) {
     logger.error(e);
