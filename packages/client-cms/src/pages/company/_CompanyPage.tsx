@@ -77,12 +77,12 @@ function CompanyPage() {
           <Route path={path + Routes.Localisations}>
             <LocalisationsTab />
           </Route>
-          {/*<Route exact path={path + Routes.Change_History}>*/}
-          {/*  <ColumnOfFrames>Change history</ColumnOfFrames>*/}
-          {/*</Route>*/}
-          {/*<Route exact path={path + Routes.Settings}>*/}
-          {/*  <ColumnOfFrames>Settings</ColumnOfFrames>*/}
-          {/*</Route>*/}
+          <Route exact path={path + Routes.Change_History}>
+            <ColumnOfFrames>Change history</ColumnOfFrames>
+          </Route>
+          <Route exact path={path + Routes.Settings}>
+            <ColumnOfFrames>Settings</ColumnOfFrames>
+          </Route>
         </Switch>
       </div>
       <Footer />

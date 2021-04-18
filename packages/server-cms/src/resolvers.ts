@@ -207,8 +207,16 @@ const resolvers = {
     deleteCompanyTranslationRevisionChangesForRevision,
     getCompanyTranslationRevisionChanges: (_, { companyId, limit, offset }) =>
       getCompanyTranslationRevisionChanges(companyId, limit, offset),
-    getCompanyTranslationRevisionChangesForLocale: (_, { limit, offset }) =>
-      getCompanyTranslationRevisionChangesForLocale(limit, offset),
+    getCompanyTranslationRevisionChangesForLocale: (
+      _,
+      { companyId, localeCode, limit, offset }
+    ) =>
+      getCompanyTranslationRevisionChangesForLocale(
+        companyId,
+        localeCode,
+        limit,
+        offset
+      ),
     getCompanyTranslationRevisionChangesPromosOnly: (
       _,
       { companyId, localeCode, revision }

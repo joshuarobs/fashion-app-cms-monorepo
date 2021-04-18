@@ -95,6 +95,8 @@ const typeDefs = gql`
       offset: Int
     ): [company_translation_revision_changes]
     getCompanyTranslationRevisionChangesForLocale(
+      companyId: Int!
+      localeCode: String!
       limit: Int
       offset: Int
     ): [company_translation_revision_changes]

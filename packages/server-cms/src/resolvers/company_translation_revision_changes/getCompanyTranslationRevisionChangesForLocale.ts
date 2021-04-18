@@ -7,6 +7,8 @@ import {
 } from '../../settings';
 
 async function getCompanyTranslationRevisionChangesForLocale(
+  companyId: number,
+  localeCode: string,
   limit = Data_Entry_Query_Amount_Min_Half,
   offset: number
 ) {
@@ -65,6 +67,8 @@ async function getCompanyTranslationRevisionChangesForLocale(
         }
       `,
       variables: {
+        companyId,
+        localeCode,
         limit,
         offset,
       },

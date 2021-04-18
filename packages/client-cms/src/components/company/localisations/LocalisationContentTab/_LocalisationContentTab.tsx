@@ -126,10 +126,10 @@ function LocalisationContentTab({
       <ColumnOfFrames freeWidth>{mainFrameToDisplay}</ColumnOfFrames>
       <ColumnOfFrames>
         {stateFrameToDisplay}
-        {/*<LocalisationActivityFrame*/}
-        {/*  currentTab={currentTab}*/}
-        {/*  companyId={companyId}*/}
-        {/*/>*/}
+        <LocalisationActivityFrame
+          currentTab={currentTab}
+          companyId={companyId}
+        />
       </ColumnOfFrames>
     </>
   );

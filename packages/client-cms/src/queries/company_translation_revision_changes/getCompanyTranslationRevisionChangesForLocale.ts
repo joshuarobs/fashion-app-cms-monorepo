@@ -5,15 +5,9 @@ const Get_Company_Translation_Revision_Changes_For_Locale = gql`
     $companyId: Int!
     $localeCode: String!
   ) {
-    company_translation_revision_changes(
-      where: {
-        company_translation_revision: {
-          company_id: { _eq: $companyId }
-          locale_code: { _eq: $localeCode }
-        }
-      }
-      order_by: { date: desc }
-      limit: 10
+    getCompanyTranslationRevisionChangesForLocale(
+      companyId: $companyId
+      localeCode: $localeCode
     ) {
       id
       to_state
