@@ -22,6 +22,8 @@ function ClothingShellMoreDetails({
   pageIsItem,
   materialsData,
 }: ClothingShellMoreDetailsProps) {
+  console.log('materialsData:', materialsData);
+
   return (
     <>
       <Row

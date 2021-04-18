@@ -22,12 +22,16 @@ function ClothingShellSettingsTab({ headerData }: SettingsProps) {
     // TODO: getAllClothingShellMaindataRevisionsForClothingShell renamed func
     Get_All_Clothing_Shell_Maindata_Revisions_For_Clothing_Shell_Id,
     {
-      variables: { clothingShellId },
+      variables: { clothingShellId: Number.parseInt(clothingShellId) },
     }
   );
 
   if (errorProdClothingShellMaindataRev)
-    return <div>Error ${errorProdClothingShellMaindataRev}</div>;
+    return (
+      <div>
+        Error ${JSON.stringify(errorProdClothingShellMaindataRev, null, 2)}
+      </div>
+    );
   if (loadingProdClothingShellMaindataRev) return <div />;
   // return <div>Hey</div>;
   return (

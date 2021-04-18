@@ -89,7 +89,7 @@ function MiniItemsFrame({
   });
 
   if (loading) return <div />;
-  if (error) return <div>Error! ${error}</div>;
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
   // console.log("MiniItemsFrame > data:", data);
 
   // const items = addKeysToArrayObjects(data.items);

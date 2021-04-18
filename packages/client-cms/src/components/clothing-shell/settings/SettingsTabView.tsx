@@ -67,22 +67,28 @@ function SettingsTabView({
       ? clothing_shell_maindata_revisions[0].clothing_shell_maindata[0].name
       : 'null';
   const count_id =
-    dataProdClothingShellMaindataRev.clothing_shell_maindata_revisions[0] &&
-    dataProdClothingShellMaindataRev.clothing_shell_maindata_revisions[0]
+    dataProdClothingShellMaindataRev
+      .getAllClothingShellMaindataRevisionsForClothingShell[0] &&
+    dataProdClothingShellMaindataRev
+      .getAllClothingShellMaindataRevisionsForClothingShell[0]
       .clothing_shell_maindata[0].brand &&
-    dataProdClothingShellMaindataRev.clothing_shell_maindata_revisions[0]
+    dataProdClothingShellMaindataRev
+      .getAllClothingShellMaindataRevisionsForClothingShell[0]
       .clothing_shell_maindata[0].brand.counts
-      ? dataProdClothingShellMaindataRev.clothing_shell_maindata_revisions[0]
+      ? dataProdClothingShellMaindataRev
+          .getAllClothingShellMaindataRevisionsForClothingShell[0]
           .clothing_shell_maindata[0].brand.counts.id
       : null;
   const brand_id = dataProdClothingShellMaindataRev
-    .clothing_shell_maindata_revisions[0]
-    ? dataProdClothingShellMaindataRev.clothing_shell_maindata_revisions[0]
+    .getAllClothingShellMaindataRevisionsForClothingShell[0]
+    ? dataProdClothingShellMaindataRev
+        .getAllClothingShellMaindataRevisionsForClothingShell[0]
         .clothing_shell_maindata[0].brand_id
     : null;
   const clothing_shell_id = dataProdClothingShellMaindataRev
-    .clothing_shell_maindata_revisions[0]
-    ? dataProdClothingShellMaindataRev.clothing_shell_maindata_revisions[0]
+    .getAllClothingShellMaindataRevisionsForClothingShell[0]
+    ? dataProdClothingShellMaindataRev
+        .getAllClothingShellMaindataRevisionsForClothingShell[0]
         .clothing_shell_maindata[0].clothing_shell_id
     : null;
 
@@ -223,7 +229,7 @@ function SettingsTabView({
         // );
         const {
           clothing_shell,
-        } = dataProdClothingShellMaindataRev.clothing_shell_maindata_revisions[0].item_maindata[0];
+        } = dataProdClothingShellMaindataRev.getAllClothingShellMaindataRevisionsForClothingShell[0].item_maindata[0];
         // console.log(
         //   "currentRevision.item_maindata[0]:",
         //   currentRevision.item_maindata[0]
@@ -310,7 +316,10 @@ function SettingsTabView({
       });
     }
     // 2-E. Update the clothing shell's unique item count
-    if (dataProdClothingShellMaindataRev.clothing_shell_maindata_revisions[0]) {
+    if (
+      dataProdClothingShellMaindataRev
+        .getAllClothingShellMaindataRevisionsForClothingShell[0]
+    ) {
       await getItemCountForClothingShell({
         variables: {
           id:

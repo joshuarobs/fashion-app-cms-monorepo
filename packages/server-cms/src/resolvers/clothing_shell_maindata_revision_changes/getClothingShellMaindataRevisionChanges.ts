@@ -4,6 +4,7 @@ import { logger } from '../../logger';
 import { Data_Entry_Query_Amount_Max_Limit } from '../../settings';
 
 async function getClothingShellMaindataRevisionChanges(
+  id: number,
   limit: number,
   offset: number
 ) {
@@ -50,6 +51,7 @@ async function getClothingShellMaindataRevisionChanges(
         }
       `,
       variables: {
+        id,
         limit,
         offset,
       },

@@ -156,7 +156,7 @@ function ClothingShellOverviewFrame({
         }}
       />
     );
-  if (error) return <div>Error! ${error}</div>;
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
   // console.log("data22aa:", data);
 
   let clothingShell = data

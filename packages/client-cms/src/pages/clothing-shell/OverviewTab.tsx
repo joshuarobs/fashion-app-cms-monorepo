@@ -72,8 +72,8 @@ function OverviewTab({
     Get_Clothing_Shell_Maindata_Revision_By_Rev_And_Clothing_Shell_Id,
     {
       variables: {
-        clothingShellId: clothingShell.id,
-        revision: paramsRevision,
+        clothingShellId: Number.parseInt(clothingShell.id),
+        revision: Number.parseInt(String(paramsRevision)),
       },
     }
   );
@@ -161,10 +161,15 @@ function OverviewTab({
   //--------------------------------------------------
   if (loadingClothingShellMaindata) return <div />;
   if (errorClothingShellMaindata)
-    return <div>Error! ${errorClothingShellMaindata}</div>;
+    return (
+      <div>Error! ${JSON.stringify(errorClothingShellMaindata, null, 2)}</div>
+    );
 
-  const { clothing_shell_maindata_revisions } = dataClothingShellMaindata;
-  const clothingShellMaindataRevision = clothing_shell_maindata_revisions[0];
+  const {
+    getClothingShellMaindataRevisionByRevAndClothingShellId,
+  } = dataClothingShellMaindata;
+  const clothingShellMaindataRevision =
+    getClothingShellMaindataRevisionByRevAndClothingShellId[0];
   console.log('clothingShellMaindataRevision:', clothingShellMaindataRevision);
 
   //--------------------------------------------------

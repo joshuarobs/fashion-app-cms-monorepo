@@ -7,18 +7,18 @@ import { gql } from '@apollo/client';
  * the mini items frame
  */
 const Get_Top_X_Unique_Items_For_Clothing_Shell_BB = gql`
-  query getTopXUniqueProdItemsForClothingShellBB($id: Int!) {
-    item_maindata_revisions(
-      where: {
-        item_maindata: { clothing_shell_id: { _eq: $id } }
-        # state: { _eq: Production }
-      }
-      order_by: { item_id: desc, revision: desc }
-      distinct_on: item_id
-      limit: 10
+  query getTopXUniqueProdItemsForClothingShellBB(
+    $id: Int!
+    $limit: Int
+    $offset: Int
+  ) {
+    getTopXUniqueProdItemsForClothingShellBB(
+      id: $id
+      limit: $limit
+      offset: $offset
     ) {
       id
-      item_maindata(order_by: { is_release: desc }, limit: 1) {
+      item_maindata {
         id
         name
         short_id

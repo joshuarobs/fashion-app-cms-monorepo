@@ -5,16 +5,9 @@ const Get_Clothing_Shell_Maindata_Revision_Changes_Promos_Only = gql`
     $clothingShellId: Int!
     $revision: Int!
   ) {
-    clothing_shell_maindata_revision_changes(
-      where: {
-        clothing_shell_maindata_revision: {
-          clothing_shell_id: { _eq: $clothingShellId }
-          revision: { _eq: $revision }
-        }
-        change_type: { _eq: Promotion }
-      }
-      distinct_on: to_state
-      order_by: { to_state: asc, date: desc }
+    getClothingShellMaindataRevisionChangesPromosOnly(
+      clothingShellId: $clothingShellId
+      revision: $revision
     ) {
       id
       to_state

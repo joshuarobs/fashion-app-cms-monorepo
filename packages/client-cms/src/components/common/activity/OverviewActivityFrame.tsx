@@ -33,7 +33,7 @@ function OverviewActivityFrame({
         }}
       />
     );
-  if (error) return <div>Error! ${error}</div>;
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
 
   console.log('OverviewActivityFrame#data:', data);
 

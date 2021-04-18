@@ -15,7 +15,7 @@ function MiniItemsFrameClothingShell({
       id={clothingShell.id}
       count={counts.item_count}
       query={Get_Top_X_Unique_Items_For_Clothing_Shell_BB}
-      queryChildObjectName={''}
+      queryChildObjectName={'getTopXUniqueProdItemsForClothingShellBB'}
     />
   );
 }

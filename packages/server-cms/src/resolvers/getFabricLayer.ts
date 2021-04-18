@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import { client } from '../graphql-client';
 import { logger } from '../logger';
 
-async function getFabricLayer() {
+async function getFabricLayer(id: number) {
   try {
     const data = await client.query({
       query: gql`
@@ -25,6 +25,9 @@ async function getFabricLayer() {
           }
         }
       `,
+      variables: {
+        id,
+      },
     });
     return data.data.fabric_layers_by_pk;
   } catch (e) {

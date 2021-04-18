@@ -8,6 +8,7 @@ import { logger } from '../../logger';
  */
 // Filename is: getLatestProdClothingShellMaindataRevByClothingShellId ???
 async function getAllClothingShellMaindataRevisionsForClothingShell(
+  clothingShellId: number,
   limit: number,
   offset: number
 ) {
@@ -33,6 +34,7 @@ async function getAllClothingShellMaindataRevisionsForClothingShell(
         }
       `,
       variables: {
+        clothingShellId,
         limit,
         offset,
       },

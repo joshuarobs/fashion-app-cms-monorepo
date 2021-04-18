@@ -8,10 +8,7 @@ import { gql } from '@apollo/client';
  */
 const Get_Revisions_For_Clothing_Shell_BB = gql`
   query getRevisionsForClothingShellBarebones($id: Int!) {
-    clothing_shell_maindata_revisions(
-      where: { clothing_shell_id: { _eq: $id } }
-      order_by: { revision: desc }
-    ) {
+    getRevisionsForClothingShellBarebones(id: $id) {
       id
       revision
       state

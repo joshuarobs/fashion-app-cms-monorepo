@@ -156,10 +156,18 @@ const resolvers = {
     //--------------------------------------------------
     // clothing_shell_maindata_revision_changes
     //--------------------------------------------------
-    getClothingShellMaindataRevisionChanges: (_, { limit, offset }) =>
-      getClothingShellMaindataRevisionChanges(limit, offset),
-    getClothingShellMaindataRevisionChangesPromosOnly: (_, { limit, offset }) =>
-      getClothingShellMaindataRevisionChangesPromosOnly(limit, offset),
+    getClothingShellMaindataRevisionChanges: (_, { id, limit, offset }) =>
+      getClothingShellMaindataRevisionChanges(id, limit, offset),
+    getClothingShellMaindataRevisionChangesPromosOnly: (
+      _,
+      { clothingShellId, revision, limit, offset }
+    ) =>
+      getClothingShellMaindataRevisionChangesPromosOnly(
+        clothingShellId,
+        revision,
+        limit,
+        offset
+      ),
     insertClothingShellMaindataRevisionChange,
     insertClothingShellMaindataRevisionChangePromoRetired,
     //--------------------------------------------------
@@ -167,10 +175,23 @@ const resolvers = {
     //--------------------------------------------------
     getAllClothingShellMaindataRevisionsForClothingShell: (
       _,
-      { limit, offset }
-    ) => getAllClothingShellMaindataRevisionsForClothingShell(limit, offset),
-    getClothingShellMaindataRevisionByRevAndClothingShellId,
-    getRevisionsForClothingShellBarebones,
+      { clothingShellId, limit, offset }
+    ) =>
+      getAllClothingShellMaindataRevisionsForClothingShell(
+        clothingShellId,
+        limit,
+        offset
+      ),
+    getClothingShellMaindataRevisionByRevAndClothingShellId: (
+      _,
+      { clothingShellId, revision }
+    ) =>
+      getClothingShellMaindataRevisionByRevAndClothingShellId(
+        clothingShellId,
+        revision
+      ),
+    getRevisionsForClothingShellBarebones: (_, { id }) =>
+      getRevisionsForClothingShellBarebones(id),
     insertClothingShellMaindataRevision,
     updateClothingShellMaindataRevisionState,
     updateClothingShellMaindataRevisionToRetired,
@@ -303,8 +324,8 @@ const resolvers = {
     getNumberOfUniqueProdItemsForCompany,
     getRevisionsForItemBarebones: (_, { id }) =>
       getRevisionsForItemBarebones(id),
-    getTopXUniqueProdItemsForClothingShellBB: (_, { limit, offset }) =>
-      getTopXUniqueProdItemsForClothingShellBB(limit, offset),
+    getTopXUniqueProdItemsForClothingShellBB: (_, { id, limit, offset }) =>
+      getTopXUniqueProdItemsForClothingShellBB(id, limit, offset),
     getTopXUniqueProdItemsForCompanyBB: (_, { id, limit, offset }) =>
       getTopXUniqueProdItemsForCompanyBB(id, limit, offset),
     getUniqueItemMaindataRevsForBrandProdOnly: (_, { id }) =>
@@ -399,7 +420,7 @@ const resolvers = {
     //--------------------------------------------------
     // other
     //--------------------------------------------------
-    getFabricLayer,
+    getFabricLayer: (_, { id }) => getFabricLayer(id),
     getItemRevisionChangesAggregates: (_, { itemId }) =>
       getItemRevisionChangesAggregates(itemId),
   },

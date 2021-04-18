@@ -32,13 +32,13 @@ function FabricLayerDisplay({
   });
 
   if (loading) return <div />;
-  if (error) return <div>Error! ${error}</div>;
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
   // console.log('data22:', data);
 
   const treeData = [];
 
   if (data || overrideData) {
-    const fabricLayer = data ? data.fabric_layers_by_pk : null;
+    const fabricLayer = data ? data.getFabricLayer : null;
 
     if (fabricLayer || overrideData) {
       treeData.push(

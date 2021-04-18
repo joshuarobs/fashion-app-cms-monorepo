@@ -8,14 +8,13 @@ const Get_All_Clothing_Shell_Maindata_Revisions_For_Clothing_Shell_Id = gql`
   query getAllClothingShellMaindataRevisionsForClothingShell(
     $clothingShellId: Int!
   ) {
-    clothing_shell_maindata_revisions(
-      where: { clothing_shell_id: { _eq: $clothingShellId } }
-      order_by: { revision: desc }
+    getAllClothingShellMaindataRevisionsForClothingShell(
+      clothingShellId: $clothingShellId
     ) {
       id
       # item_id
       revision
-      clothing_shell_maindata(order_by: { is_release: desc }) {
+      clothing_shell_maindata {
         id
         name
         clothing_segment_data_id

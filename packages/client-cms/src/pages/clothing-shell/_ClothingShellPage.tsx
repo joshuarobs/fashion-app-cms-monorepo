@@ -38,7 +38,7 @@ function ClothingShellPage() {
     data: dataBaseData,
     refetch: refetchBaseData,
   } = useQuery(Get_Clothing_Shell_Base_Data_By_Pk, {
-    variables: { id },
+    variables: { id: Number.parseInt(id) },
   });
 
   const {
@@ -47,15 +47,21 @@ function ClothingShellPage() {
     data: dataRevisions,
     refetch: refetchRevisions,
   } = useQuery(Get_Revisions_For_Clothing_Shell_BB, {
-    variables: { id },
+    variables: { id: Number.parseInt(id) },
   });
 
   if (loadingRevisions || loadingBaseData) return <div />;
-  if (errorRevisions) return <div>Error! ${errorRevisions}</div>;
-  if (errorBaseData) return <div>Error! ${errorBaseData}</div>;
+  if (errorRevisions)
+    return (
+      <div>Error! (Revisions) ${JSON.stringify(errorRevisions, null, 2)}</div>
+    );
+  if (errorBaseData)
+    return (
+      <div>Error! (BaseData) ${JSON.stringify(errorBaseData, null, 2)}</div>
+    );
 
-  const clothingShell = dataBaseData.clothing_shells_by_pk;
-  const uniqueRevisions = dataRevisions.clothing_shell_maindata_revisions;
+  const clothingShell = dataBaseData.getClothingShellBaseDataByPk;
+  const uniqueRevisions = dataRevisions.getRevisionsForClothingShellBarebones;
   console.log('uniqueRevisions:', uniqueRevisions);
 
   // 404 result if item doesn't exist in the database
@@ -93,12 +99,9 @@ function ClothingShellPage() {
               refetchClothingShellBaseData={refetchBaseData}
             />
           </Route>
-          {/*<Route exact path={path + Routes.Body_Segments}>*/}
-          {/*  <BodySegmentsTab clothingShell={clothingShell} />*/}
+          {/*<Route exact path={path + Routes.Items_Implemented_In}>*/}
+          {/*  <ColumnOfFrames>Items implemented in</ColumnOfFrames>*/}
           {/*</Route>*/}
-          <Route exact path={path + Routes.Items_Implemented_In}>
-            <ColumnOfFrames>Items implemented in</ColumnOfFrames>
-          </Route>
           <Route exact path={path + Routes.Items_Implemented_In}>
             <ColumnOfFrames>Items implemented in</ColumnOfFrames>
           </Route>

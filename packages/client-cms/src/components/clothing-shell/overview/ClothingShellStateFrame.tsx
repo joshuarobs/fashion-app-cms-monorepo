@@ -66,19 +66,19 @@ function ClothingShellStateFrame({
   //======================================================================
   // Hooks for GraphQL queries
   //======================================================================
-  const [updateUpdatedAt] = useMutation(Update_Clothing_Shell_Updated_At, {
-    onCompleted() {},
-  });
-
   const { loading, error, data } = useQuery(
     Get_Clothing_Shell_Maindata_Revision_Changes_Promos_Only,
     {
       variables: {
-        clothingShellId,
+        clothingShellId: Number.parseInt(String(clothingShellId)),
         revision: Number.parseInt(paramsRevision),
       },
     }
   );
+
+  const [updateUpdatedAt] = useMutation(Update_Clothing_Shell_Updated_At, {
+    onCompleted() {},
+  });
 
   //==================================================
   // PROMOTIONS
@@ -335,7 +335,7 @@ function ClothingShellStateFrame({
   // });
 
   if (loading || !currentRevision) return <StateFrame />;
-  if (error) return <div>Error! ${error}</div>;
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
 
   // if (!currentRevision) {
   //   return <StateFrame />;
@@ -525,28 +525,28 @@ function ClothingShellStateFrame({
     await insertMaindataRevision({ variables });
   };
 
-  const { clothing_shell_maindata_revision_changes } = data;
+  const { getClothingShellMaindataRevisionChangesPromosOnly } = data;
 
   console.log('!!data:', data);
   console.log(
-    'clothing_shell_maindata_revision_changes:',
-    clothing_shell_maindata_revision_changes
+    'getClothingShellMaindataRevisionChangesPromosOnly:',
+    getClothingShellMaindataRevisionChangesPromosOnly
   );
 
   // Find each of the state's revision
-  const changeToDevelopment = clothing_shell_maindata_revision_changes.find(
+  const changeToDevelopment = getClothingShellMaindataRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Development
   );
-  const changeToReview = clothing_shell_maindata_revision_changes.find(
+  const changeToReview = getClothingShellMaindataRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Review
   );
-  const changeToProduction = clothing_shell_maindata_revision_changes.find(
+  const changeToProduction = getClothingShellMaindataRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Production
   );
-  const changeToRetired = clothing_shell_maindata_revision_changes.find(
+  const changeToRetired = getClothingShellMaindataRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Retired
   );

@@ -56,10 +56,10 @@ const App = (): ReactElement => {
           <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
             <AppShellHeader />
             <Switch>
-              {/*<Route*/}
-              {/*  path={Routes.Clothing_Shells__Clothing_Shell + Routes.Var_Id}*/}
-              {/*  component={ClothingShellPage}*/}
-              {/*/>*/}
+              <Route
+                path={Routes.Clothing_Shells__Clothing_Shell + Routes.Var_Id}
+                component={ClothingShellPage}
+              />
               <Route
                 path={Routes.Items__Clothing__Item + Routes.Var_Id}
                 component={ItemPage}

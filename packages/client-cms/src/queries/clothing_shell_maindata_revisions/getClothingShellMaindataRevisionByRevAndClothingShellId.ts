@@ -5,18 +5,15 @@ const Get_Clothing_Shell_Maindata_Revision_By_Rev_And_Clothing_Shell_Id = gql`
     $clothingShellId: Int!
     $revision: Int!
   ) {
-    clothing_shell_maindata_revisions(
-      where: {
-        clothing_shell_id: { _eq: $clothingShellId }
-        revision: { _eq: $revision }
-      }
-      limit: 1
+    getClothingShellMaindataRevisionByRevAndClothingShellId(
+      clothingShellId: $clothingShellId
+      revision: $revision
     ) {
       id
       clothing_shell_id
       revision
       state
-      clothing_shell_maindata(order_by: { is_release: desc }) {
+      clothing_shell_maindata {
         id
         is_release
         name

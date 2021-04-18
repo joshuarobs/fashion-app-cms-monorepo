@@ -8,7 +8,7 @@ import { logger } from '../../logger';
  * This is used for the Overview tab for the Clothing Shell page (Revisions
  * dropdown)
  */
-async function getRevisionsForClothingShellBarebones() {
+async function getRevisionsForClothingShellBarebones(id: number) {
   try {
     const data = await client.query({
       query: gql`
@@ -23,6 +23,9 @@ async function getRevisionsForClothingShellBarebones() {
           }
         }
       `,
+      variables: {
+        id,
+      },
     });
     return data.data.clothing_shell_maindata_revisions;
   } catch (e) {

@@ -561,7 +561,7 @@ function OverviewMainFrame({
         <OverviewActivityFrame
           id={clothingShell.id}
           query={Get_Clothing_Shell_Maindata_Revision_Changes}
-          childObjectString={'clothing_shell_maindata_revision_changes'}
+          childObjectString={'getClothingShellMaindataRevisionChanges'}
         />
       </ColumnOfFrames>
     </>

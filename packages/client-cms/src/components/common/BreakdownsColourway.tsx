@@ -59,8 +59,8 @@ function BreakdownsColourway({
     return <BreakdownsEmpty title={title} hasChangesMade={hasChangesMade} />;
   }
 
-  const defaultShellLayer = dataShell ? dataShell.fabric_layers_by_pk : null;
-  const defaultLiningLayer = dataLining ? dataLining.fabric_layers_by_pk : null;
+  const defaultShellLayer = dataShell ? dataShell.getFabricLayer : null;
+  const defaultLiningLayer = dataLining ? dataLining.getFabricLayer : null;
 
   const shellData = generateColourwayData(defaultShellLayer);
   const liningData = generateColourwayData(defaultLiningLayer);

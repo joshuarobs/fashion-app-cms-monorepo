@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 const Get_Fabric_Layer = gql`
   query getFabricLayer($id: Int!) {
-    fabric_layers_by_pk(id: $id) {
+    getFabricLayer(id: $id) {
       id
       fabric_layer_and_colour_mix_parts {
         fabric_layer_id

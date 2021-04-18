@@ -38,10 +38,13 @@ const typeDefs = gql`
     # clothing_shell_maindata_revision_changes
     #--------------------------------------------------
     getClothingShellMaindataRevisionChanges(
+      id: Int!
       limit: Int
       offset: Int
     ): [clothing_shell_maindata_revision_changes]
     getClothingShellMaindataRevisionChangesPromosOnly(
+      clothingShellId: Int!
+      revision: Int!
       limit: Int
       offset: Int
     ): [clothing_shell_maindata_revision_changes]
@@ -51,11 +54,17 @@ const typeDefs = gql`
     # clothing_shell_maindata_revisions
     #--------------------------------------------------
     getAllClothingShellMaindataRevisionsForClothingShell(
+      clothingShellId: Int!
       limit: Int
       offset: Int
     ): [clothing_shell_maindata_revisions]
-    getClothingShellMaindataRevisionByRevAndClothingShellId: [clothing_shell_maindata_revisions]
-    getRevisionsForClothingShellBarebones: [clothing_shell_maindata_revisions]
+    getClothingShellMaindataRevisionByRevAndClothingShellId(
+      clothingShellId: Int!
+      revision: Int!
+    ): [clothing_shell_maindata_revisions]
+    getRevisionsForClothingShellBarebones(
+      id: Int!
+    ): [clothing_shell_maindata_revisions]
     insertClothingShellMaindataRevision: clothing_shell_maindata_revisions
     updateClothingShellMaindataRevisionState: clothing_shell_maindata_revisions
     updateClothingShellMaindataRevisionToRetired: clothing_shell_maindata_revisions
@@ -192,6 +201,7 @@ const typeDefs = gql`
     getNumberOfUniqueProdItemsForCompany(id: Int!): hasura_aggregate_holder
     getRevisionsForItemBarebones(id: Int!): [item_maindata_revisions]
     getTopXUniqueProdItemsForClothingShellBB(
+      id: Int!
       limit: Int
       offset: Int
     ): [item_maindata_revisions]
@@ -295,7 +305,7 @@ const typeDefs = gql`
     #--------------------------------------------------
     # other
     #--------------------------------------------------
-    getFabricLayer: fabric_layers
+    getFabricLayer(id: Int!): fabric_layers
     getItemRevisionChangesAggregates(
       itemId: Int!
     ): item_translation_revision_changes_aggregate_holder
