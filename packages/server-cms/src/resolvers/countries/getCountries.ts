@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
-import { Data_Entry_Query_Amount_Min_Half } from '../../settings';
 
 async function getCountries(limit: number, offset: number) {
   try {

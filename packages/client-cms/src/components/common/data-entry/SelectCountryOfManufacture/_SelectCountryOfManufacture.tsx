@@ -39,12 +39,12 @@ function SelectCountryOfManufacture({
     );
   }
 
-  const { countries } = data;
-  // console.log("countries:", countries);
+  const { getCountries } = data;
+  console.log('countries:', getCountries);
 
   // Sort the countries so they appear in order
   const countriesWithOrder: any[] = [];
-  countries.forEach((country: any[]) => {
+  getCountries.forEach((country: any[]) => {
     // @ts-ignore
     const { value } = country;
     // console.log("translation 2:", translation);

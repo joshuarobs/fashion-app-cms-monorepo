@@ -79,10 +79,12 @@ function BrandSection({
   if (errorItemsCount)
     return <div>Error (Items Count)! ${errorItemsCount}</div>;
   // console.log('dataBrand:', dataBrand, '\ncompanyId:', companyId);
-  console.log('dataItemsCount:', dataItemsCount);
   if (loading) {
     return <div />;
   }
+
+  console.log('dataBrand:', dataBrand);
+  console.log('dataItemsCount:', dataItemsCount);
   // Only number of items in production
   const itemCount = dataItemsCount
     ? dataItemsCount.getUniqueItemMaindataRevsForBrandProdOnly.aggregate.count
@@ -96,7 +98,7 @@ function BrandSection({
           span={12}
           hasChanged={hasChanged}
         />
-        {!loading && dataBrand && dataBrand.companies_by_pk && (
+        {!loading && dataBrand && dataBrand.getCompany && (
           <Col
             span={12}
             style={{
@@ -117,10 +119,10 @@ function BrandSection({
           disabled={disabled}
         />
       )}
-      {!loading && dataBrand && dataBrand.companies_by_pk && (
+      {!loading && dataBrand && dataBrand.getCompany && (
         <Link
           className="no-blue"
-          to={Routes.Companies__Company + '/' + dataBrand.companies_by_pk.id}
+          to={Routes.Companies__Company + '/' + dataBrand.getCompany.id}
         >
           <Row
             style={{
@@ -136,12 +138,12 @@ function BrandSection({
               <Avatar
                 shape="square"
                 size={50}
-                src={dataBrand.companies_by_pk.logo_url}
+                src={dataBrand.getCompany.logo_url}
               />
             </Col>
             <Col span={12} style={styles.itemFamilyCell}>
               <span style={styles.itemFamilyCellContent}>
-                {dataBrand.companies_by_pk.name}
+                {dataBrand.getCompany.name}
               </span>
             </Col>
             <Col span={8} style={styles.itemFamilyCell}>

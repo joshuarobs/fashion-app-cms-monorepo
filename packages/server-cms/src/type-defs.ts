@@ -167,7 +167,7 @@ const typeDefs = gql`
     ): [item_maindata_revisions]
     getLatestProdItemMaindataRevByItemId: [item_maindata_revisions]
     getNumberOfUniqueItemsForClothingShell: hasura_aggregate_holder
-    getNumberOfUniqueProdItemsForCompany: hasura_aggregate_holder
+    getNumberOfUniqueProdItemsForCompany(id: Int!): hasura_aggregate_holder
     getRevisionsForItemBarebones(id: Int!): [item_maindata_revisions]
     getTopXUniqueProdItemsForClothingShellBB(
       limit: Int
