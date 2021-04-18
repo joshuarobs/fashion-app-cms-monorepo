@@ -5,15 +5,9 @@ const Get_Item_Translation_Revision_Changes_For_Locale = gql`
     $itemId: Int!
     $localeCode: String!
   ) {
-    item_translation_revision_changes(
-      where: {
-        item_translation_revision: {
-          item_id: { _eq: $itemId }
-          locale_code: { _eq: $localeCode }
-        }
-      }
-      order_by: { date: desc }
-      limit: 10
+    getItemTranslationRevisionChangesForLocale(
+      itemId: $itemId
+      localeCode: $localeCode
     ) {
       id
       to_state

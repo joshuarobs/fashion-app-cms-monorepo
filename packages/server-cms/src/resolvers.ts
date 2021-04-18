@@ -294,11 +294,23 @@ const resolvers = {
     //--------------------------------------------------
     deleteItemTranslationRevisionChangesForRevision,
     deleteItemTranslationRevisionChangesForItem,
-    getItemTranslationRevisionChanges: (_, { limit, offset }) =>
-      getItemTranslationRevisionChanges(limit, offset),
-    getItemTranslationRevisionChangesForLocale: (_, { limit, offset }) =>
-      getItemTranslationRevisionChangesForLocale(limit, offset),
-    getItemTranslationRevisionChangesPromosOnly,
+    getItemTranslationRevisionChanges: (_, { itemId, limit, offset }) =>
+      getItemTranslationRevisionChanges(itemId, limit, offset),
+    getItemTranslationRevisionChangesForLocale: (
+      _,
+      { itemId, localeCode, limit, offset }
+    ) =>
+      getItemTranslationRevisionChangesForLocale(
+        itemId,
+        localeCode,
+        limit,
+        offset
+      ),
+    getItemTranslationRevisionChangesPromosOnly: (
+      _,
+      { itemId, localeCode, revision }
+    ) =>
+      getItemTranslationRevisionChangesPromosOnly(itemId, localeCode, revision),
     insertItemTranslationRevisionChange,
     insertItemTranslationRevisionChangePromoProduction,
     insertItemTranslationRevisionChangePromoRetired,
@@ -308,8 +320,9 @@ const resolvers = {
     //--------------------------------------------------
     deleteItemTranslationRevision,
     deleteItemTranslationRevisionsForItem,
-    getItemTranslationRevisions,
-    getItemTranslationRevisionsGivenLocaleCode,
+    getItemTranslationRevisions: (_, { id }) => getItemTranslationRevisions(id),
+    getItemTranslationRevisionsGivenLocaleCode: (_, { itemId, localeCode }) =>
+      getItemTranslationRevisionsGivenLocaleCode(itemId, localeCode),
     insertItemTranslationRevision,
     updateItemTranslationRevisionToProduction,
     updateItemTranslationRevisionToRetired,
@@ -319,7 +332,8 @@ const resolvers = {
     //--------------------------------------------------
     deleteItemTranslationsForRevision,
     deleteItemTranslationsForItem,
-    getItemTranslationsGivenUniqueKeys,
+    getItemTranslationsGivenUniqueKeys: (_, { revision, itemId, localeCode }) =>
+      getItemTranslationsGivenUniqueKeys(revision, itemId, localeCode),
     insertItemTranslation,
     insertItemTranslationBlankDraft,
     updateItemTranslation,

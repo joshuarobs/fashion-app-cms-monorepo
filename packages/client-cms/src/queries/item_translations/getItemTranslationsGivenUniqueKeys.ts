@@ -6,15 +6,10 @@ const Get_Item_Translations_Given_Unique_Keys = gql`
     $itemId: Int!
     $localeCode: String!
   ) {
-    item_translations(
-      where: {
-        revision: {
-          revision: { _eq: $revision }
-          item_id: { _eq: $itemId }
-          locale_code: { _eq: $localeCode }
-        }
-      }
-      order_by: { is_release: asc }
+    getItemTranslationsGivenUniqueKeys(
+      revision: $revision
+      itemId: $itemId
+      localeCode: $localeCode
     ) {
       id
       revision_id

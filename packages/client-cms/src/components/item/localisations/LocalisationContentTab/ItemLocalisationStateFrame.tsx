@@ -76,7 +76,7 @@ function ItemLocalisationStateFrame({
     Get_Item_Translation_Revision_Changes_Promos_Only,
     {
       variables: {
-        itemId,
+        itemId: Number.parseInt(String(itemId)),
         localeCode: currentTab,
         revision: Number.parseInt(paramsRevision),
       },
@@ -391,29 +391,29 @@ function ItemLocalisationStateFrame({
   };
 
   if (loading) return <StateFrame />;
-  if (error) return <div>Error! ${error}</div>;
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
 
-  const { item_translation_revision_changes } = data;
+  const { getItemTranslationRevisionChangesPromosOnly } = data;
 
   console.log(
-    'item_translation_revision_changes:',
-    item_translation_revision_changes
+    'getItemTranslationRevisionChangesPromosOnly:',
+    getItemTranslationRevisionChangesPromosOnly
   );
 
   // Find each of the state's revision
-  const changeToDevelopment = item_translation_revision_changes.find(
+  const changeToDevelopment = getItemTranslationRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Development
   );
-  const changeToReview = item_translation_revision_changes.find(
+  const changeToReview = getItemTranslationRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Review
   );
-  const changeToProduction = item_translation_revision_changes.find(
+  const changeToProduction = getItemTranslationRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Production
   );
-  const changeToRetired = item_translation_revision_changes.find(
+  const changeToRetired = getItemTranslationRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Retired
   );

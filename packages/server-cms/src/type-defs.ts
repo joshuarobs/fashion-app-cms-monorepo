@@ -194,14 +194,21 @@ const typeDefs = gql`
     deleteItemTranslationRevisionChangesForRevision: item_translation_revision_changes
     deleteItemTranslationRevisionChangesForItem: item_translation_revision_changes
     getItemTranslationRevisionChanges(
+      itemId: Int!
       limit: Int
       offset: Int
     ): [item_translation_revision_changes]
     getItemTranslationRevisionChangesForLocale(
+      itemId: Int!
+      localeCode: String!
       limit: Int
       offset: Int
     ): [item_translation_revision_changes]
-    getItemTranslationRevisionChangesPromosOnly: [item_translation_revision_changes]
+    getItemTranslationRevisionChangesPromosOnly(
+      itemId: Int!
+      localeCode: String!
+      revision: Int!
+    ): [item_translation_revision_changes]
     insertItemTranslationRevisionChange: item_translation_revision_changes
     insertItemTranslationRevisionChangePromoProduction: item_translation_revision_changes
     insertItemTranslationRevisionChangePromoRetired: item_translation_revision_changes
@@ -211,8 +218,11 @@ const typeDefs = gql`
     #--------------------------------------------------
     deleteItemTranslationRevision: item_translation_revisions
     deleteItemTranslationRevisionsForItem: item_translation_revisions
-    getItemTranslationRevisions: [item_translation_revisions]
-    getItemTranslationRevisionsGivenLocaleCode: [item_translation_revisions]
+    getItemTranslationRevisions(id: Int!): [item_translation_revisions]
+    getItemTranslationRevisionsGivenLocaleCode(
+      itemId: Int!
+      localeCode: String!
+    ): [item_translation_revisions]
     insertItemTranslationRevision: item_translation_revisions
     updateItemTranslationRevisionToProduction: item_translation_revisions
     updateItemTranslationRevisionToRetired: item_translation_revisions
@@ -222,7 +232,11 @@ const typeDefs = gql`
     #--------------------------------------------------
     deleteItemTranslationsForRevision: item_translations
     deleteItemTranslationsForItem: item_translations
-    getItemTranslationsGivenUniqueKeys: [item_translations]
+    getItemTranslationsGivenUniqueKeys(
+      revision: Int!
+      itemId: Int!
+      localeCode: String!
+    ): [item_translations]
     insertItemTranslation: item_translations
     insertItemTranslationBlankDraft: item_translations
     updateItemTranslation: item_translations

@@ -100,9 +100,9 @@ function ItemPage() {
           {/*<Route path={path + Routes.BODY_SEGMENTS}>*/}
           {/*  <ColumnOfFrames>Body Segments</ColumnOfFrames>*/}
           {/*</Route>*/}
-          {/*<Route path={path + Routes.Localisations}>*/}
-          {/*  <LocalisationsTab />*/}
-          {/*</Route>*/}
+          <Route path={path + Routes.Localisations}>
+            <LocalisationsTab />
+          </Route>
           {/*<Route path={path + Routes.Change_History}>*/}
           {/*  <ChangeHistoryTab />*/}
           {/*</Route>*/}

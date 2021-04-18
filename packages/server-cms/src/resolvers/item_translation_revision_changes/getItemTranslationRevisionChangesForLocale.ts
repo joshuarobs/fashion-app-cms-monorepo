@@ -7,6 +7,8 @@ import {
 } from '../../settings';
 
 async function getItemTranslationRevisionChangesForLocale(
+  itemId: number,
+  localeCode: string,
   limit = Data_Entry_Query_Amount_Min_Half,
   offset: number
 ) {
@@ -30,7 +32,7 @@ async function getItemTranslationRevisionChangesForLocale(
               }
             }
             order_by: { date: desc }
-            limit: 10
+            limit: $limit
           ) {
             id
             to_state
@@ -64,6 +66,8 @@ async function getItemTranslationRevisionChangesForLocale(
         }
       `,
       variables: {
+        itemId,
+        localeCode,
         limit,
         offset,
       },

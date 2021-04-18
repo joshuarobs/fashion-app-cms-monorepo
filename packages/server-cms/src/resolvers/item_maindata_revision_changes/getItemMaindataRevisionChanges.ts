@@ -38,7 +38,7 @@ async function getItemMaindataRevisionChanges(id: number, limit: number) {
         limit,
       },
     });
-    console.log('data:', data);
+    // console.log('data:', data);
     return data.data.item_maindata_revision_changes;
   } catch (e) {
     logger.error(e);

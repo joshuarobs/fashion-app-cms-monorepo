@@ -17,7 +17,7 @@ function LocaleDashboardActivityFrame({
     Get_Item_Translation_Revision_Changes,
     {
       variables: {
-        itemId,
+        itemId: Number.parseInt(String(itemId)),
         limit: 10,
       },
     }
@@ -32,7 +32,7 @@ function LocaleDashboardActivityFrame({
         }}
       />
     );
-  if (error) return <div>Error! ${error}</div>;
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
 
   const { item_translation_revision_changes } = data;
 

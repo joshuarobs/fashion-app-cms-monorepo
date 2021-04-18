@@ -40,8 +40,8 @@ function LocalisationContentTab({
   } = useQuery(Get_Item_Translations_Given_Unique_Keys, {
     variables: {
       // revisionId: paramsRevisionId
-      revision: paramsRevision,
-      itemId,
+      revision: Number.parseInt(paramsRevision),
+      itemId: Number.parseInt(String(itemId)),
       localeCode: currentTab,
     },
   });
@@ -53,7 +53,7 @@ function LocalisationContentTab({
     refetch: refetchRevisions,
   } = useQuery(Get_Item_Translation_Revisions_Given_Locale_Code, {
     variables: {
-      itemId,
+      itemId: Number.parseInt(String(itemId)),
       localeCode: currentTab,
     },
   });
@@ -73,12 +73,26 @@ function LocalisationContentTab({
     );
     stateFrameToDisplay = <StateFrame />;
   } else if (errorTranslations) {
-    mainFrameToDisplay = <div>{`Error! ${errorTranslations}`}</div>;
+    mainFrameToDisplay = (
+      <div>{`Error! (Translations) ${JSON.stringify(
+        errorTranslations,
+        null,
+        2
+      )}`}</div>
+    );
   } else if (errorRevisions) {
-    mainFrameToDisplay = <div>{`Error! ${errorRevisions}`}</div>;
+    mainFrameToDisplay = (
+      <div>{`Error! (Revisions)${JSON.stringify(
+        errorRevisions,
+        null,
+        2
+      )}`}</div>
+    );
   } else {
-    const translations = dataTranslations.item_translations;
-    const uniqueRevisions = dataRevisions.item_translation_revisions;
+    console.log('else');
+    const translations = dataTranslations.getItemTranslationsGivenUniqueKeys;
+    const uniqueRevisions =
+      dataRevisions.getItemTranslationRevisionsGivenLocaleCode;
 
     // console.error("translations!:", translations);
     mainFrameToDisplay = (

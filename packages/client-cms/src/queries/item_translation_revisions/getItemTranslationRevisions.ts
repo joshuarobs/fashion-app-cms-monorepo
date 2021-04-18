@@ -2,11 +2,7 @@ import { gql } from '@apollo/client';
 
 const Get_Item_Translation_Revisions = gql`
   query getItemTranslationRevisions($id: Int!) {
-    item_translation_revisions(
-      where: { item_id: { _eq: $id } }
-      distinct_on: [locale_code]
-      order_by: [{ locale_code: asc }, { revision: desc }]
-    ) {
+    getItemTranslationRevisions(id: $id) {
       id
       item_id
       locale_code
@@ -22,7 +18,7 @@ const Get_Item_Translation_Revisions = gql`
           value
         }
       }
-      item_translations(order_by: { is_release: desc }, limit: 1) {
+      item_translations {
         id
         revision_id
         is_release

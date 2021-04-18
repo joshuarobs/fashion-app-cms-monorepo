@@ -70,19 +70,19 @@ function LocalisationsTab() {
   const { loading, error, data, refetch: refetchItemTransRevs } = useQuery(
     Get_Item_Translation_Revisions,
     {
-      variables: { id },
+      variables: { id: Number.parseInt(id) },
     }
   );
 
   if (loading) return <div />;
-  if (error) return <div>Error! ${error}</div>;
-  console.log('data 2:', data);
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
+  console.log('LocalisationsTab#data:', data);
 
   // const item_translation_revisions = data.item_translation_revisions;
   // console.log("item_translation_revisions:", item_translation_revisions);
 
   // Convert the latest translations map object into an array
-  const latestTranslationRevisions = data.item_translation_revisions.map(
+  const latestTranslationRevisions = data.getItemTranslationRevisions.map(
     (translationRevision: any) => {
       console.log('translationRevision:', translationRevision);
       const { locale_code, revision, item_translations } = translationRevision;

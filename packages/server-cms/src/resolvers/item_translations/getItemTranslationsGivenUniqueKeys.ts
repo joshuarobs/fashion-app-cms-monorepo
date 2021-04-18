@@ -2,7 +2,11 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
-async function getItemTranslationsGivenUniqueKeys() {
+async function getItemTranslationsGivenUniqueKeys(
+  revision: number,
+  itemId: number,
+  localeCode: string
+) {
   try {
     const data = await client.query({
       query: gql`
@@ -35,6 +39,11 @@ async function getItemTranslationsGivenUniqueKeys() {
           }
         }
       `,
+      variables: {
+        revision,
+        itemId,
+        localeCode,
+      },
     });
     return data.data.item_translations;
   } catch (e) {

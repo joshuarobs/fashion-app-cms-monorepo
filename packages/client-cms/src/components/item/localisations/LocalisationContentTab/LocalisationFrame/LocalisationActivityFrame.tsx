@@ -19,7 +19,7 @@ function LocalisationActivityFrame({
     Get_Item_Translation_Revision_Changes_For_Locale,
     {
       variables: {
-        itemId,
+        itemId: Number.parseInt(String(itemId)),
         localeCode: currentTab,
       },
     }
@@ -34,7 +34,7 @@ function LocalisationActivityFrame({
         }}
       />
     );
-  if (error) return <div>Error! ${error}</div>;
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
 
   const { item_translation_revision_changes } = data;
 
