@@ -1,5 +1,39 @@
 import { gql } from '@apollo/client';
 
+// Generated on: Sun, 18 Apr 2021 01:59:59 GMT
+
+/* ============================================================
+ * !!IMPORTANT!!
+ *
+ * This file should not be edited manually at all.
+ *
+ * If you need to update the enums, run the script:
+ * `server-cms/scripts/get-enums.js`
+ *
+ * Ensure you have a `server-cms/schema.graphql` file before
+ * doing so.
+ *
+ * All enums in this file are scraped from the schema file
+ * via the script.
+ * ============================================================
+ */
+
+/* ============================================================
+ * !!IMPORTANT!!
+ *
+ * This file should not be edited manually at all.
+ *
+ * If you need to update the enums, run the script:
+ * `server-cms/scripts/get-enums.js`
+ *
+ * Ensure you have a `server-cms/schema.graphql` file before
+ * doing so.
+ *
+ * All enums in this file are scraped from the schema file
+ * via the script.
+ * ============================================================
+ */
+
 const typeDefsEnums = gql`
   enum base_colours_enum {
     Black

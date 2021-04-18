@@ -2,6 +2,7 @@ const fs = require('fs');
 const { join } = require('path');
 const { importSchema } = require('graphql-import');
 const prettier = require('prettier');
+const dayjs = require('dayjs');
 
 console.log('--------------------------------------------------');
 console.log('get-enum');
@@ -66,7 +67,43 @@ stringByLines.forEach((stringByLine) => {
 
 const allArrays = pureValueTypeEnums.concat(selectionKeysTableEnums).join('\n');
 
+const date = dayjs();
+
 const filePrefix = `import { gql } from '@apollo/client';
+
+// Generated on: ${date}
+
+/* ============================================================
+ * !!IMPORTANT!!
+ *
+ * This file should not be edited manually at all.
+ *
+ * If you need to update the enums, run the script:
+ * \`server-cms/scripts/get-enums.js\`
+ *
+ * Ensure you have a \`server-cms/schema.graphql\` file before
+ * doing so.
+ *
+ * All enums in this file are scraped from the schema file
+ * via the script.
+ * ============================================================
+ */
+
+/* ============================================================
+ * !!IMPORTANT!!
+ *
+ * This file should not be edited manually at all.
+ *
+ * If you need to update the enums, run the script:
+ * \`server-cms/scripts/get-enums.js\`
+ *
+ * Ensure you have a \`server-cms/schema.graphql\` file before
+ * doing so.
+ * 
+ * All enums in this file are scraped from the schema file
+ * via the script.
+ * ============================================================
+ */
 
 const typeDefsEnums = gql\`
 `;
