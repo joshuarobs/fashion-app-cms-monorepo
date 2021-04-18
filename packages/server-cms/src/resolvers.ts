@@ -178,7 +178,8 @@ const resolvers = {
     // clothing_shells
     //--------------------------------------------------
     getClothingShell,
-    getClothingShellBaseDataByPk,
+    getClothingShellBaseDataByPk: (_, { id }) =>
+      getClothingShellBaseDataByPk(id),
     getClothingShellsForClothingShellsTableLatest: (_, { limit, offset }) =>
       getClothingShellsForClothingShellsTableLatest(limit, offset),
     getClothingShellsListBB: (_, { limit, offset }) =>
@@ -260,8 +261,10 @@ const resolvers = {
     // item_maindata_revision_changes
     //--------------------------------------------------
     deleteItemMaindataRevisionChangesForItem,
-    getItemMaindataRevisionChanges,
-    getItemMaindataRevisionChangesPromosOnly,
+    getItemMaindataRevisionChanges: (_, { id, limit }) =>
+      getItemMaindataRevisionChanges(id, limit),
+    getItemMaindataRevisionChangesPromosOnly: (_, { itemId, revision }) =>
+      getItemMaindataRevisionChangesPromosOnly(itemId, revision),
     insertItemMaindataRevisionChange,
     insertItemMaindataRevisionChangePromoRetired,
     //--------------------------------------------------

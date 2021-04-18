@@ -1,12 +1,8 @@
 import { gql } from '@apollo/client';
 
 const Get_Item_Maindata_Revision_Changes = gql`
-  query getItemMaindataRevisionChanges($id: Int!, $limit: Int!) {
-    item_maindata_revision_changes(
-      where: { item_maindata_revision: { item_id: { _eq: $id } } }
-      order_by: { date: desc }
-      limit: $limit
-    ) {
+  query getItemMaindataRevisionChanges($id: Int!, $limit: Int) {
+    getItemMaindataRevisionChanges(id: $id, limit: $limit) {
       id
       to_state
       date

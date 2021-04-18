@@ -483,36 +483,36 @@ function OverviewMainFrame({
           }
         />
       </ColumnOfFrames>
-      {/*<ColumnOfFrames>*/}
-      {/*  <ClothingShellOverviewFrame*/}
-      {/*    clothingSegmentsData={clothingSegmentsData}*/}
-      {/*    currentClothingShellId={clothing_shell_id}*/}
-      {/*    item={item}*/}
-      {/*    pageIsItem*/}
-      {/*    setClothingShellId={setClothingShellId}*/}
-      {/*    originalClothingShellId={originalClothingShellId}*/}
-      {/*    clothingShellOverviewError={clothingShellOverviewError}*/}
-      {/*    disabled={disabled}*/}
-      {/*  />*/}
-      {/*</ColumnOfFrames>*/}
-      {/*<ColumnOfFrames>*/}
-      {/*  <ItemStateFrame*/}
-      {/*    // translations={translations}*/}
-      {/*    itemId={item.id}*/}
-      {/*    itemMaindataRevision={itemMaindataRevision}*/}
-      {/*    paramsRevision={paramsRevision}*/}
-      {/*    // refetchTranslations={refetchTranslations}*/}
-      {/*    // refetchItemTransRevs={refetchItemTransRevs}*/}
-      {/*    uniqueRevisions={uniqueRevisions}*/}
-      {/*    refetchRevisions={refetchRevisions}*/}
-      {/*    refetchItemBaseData={refetchItemBaseData}*/}
-      {/*  />*/}
-      {/*  <OverviewActivityFrame*/}
-      {/*    id={item.id}*/}
-      {/*    query={Get_Item_Maindata_Revision_Changes}*/}
-      {/*    childObjectString={'item_maindata_revision_changes'}*/}
-      {/*  />*/}
-      {/*</ColumnOfFrames>*/}
+      <ColumnOfFrames>
+        <ClothingShellOverviewFrame
+          clothingSegmentsData={clothingSegmentsData}
+          currentClothingShellId={clothing_shell_id}
+          item={item}
+          pageIsItem
+          setClothingShellId={setClothingShellId}
+          originalClothingShellId={originalClothingShellId}
+          clothingShellOverviewError={clothingShellOverviewError}
+          disabled={disabled}
+        />
+      </ColumnOfFrames>
+      <ColumnOfFrames>
+        <ItemStateFrame
+          // translations={translations}
+          itemId={item.id}
+          itemMaindataRevision={itemMaindataRevision}
+          paramsRevision={paramsRevision}
+          // refetchTranslations={refetchTranslations}
+          // refetchItemTransRevs={refetchItemTransRevs}
+          uniqueRevisions={uniqueRevisions}
+          refetchRevisions={refetchRevisions}
+          refetchItemBaseData={refetchItemBaseData}
+        />
+        <OverviewActivityFrame
+          id={item.id}
+          query={Get_Item_Maindata_Revision_Changes}
+          childObjectString={'getItemMaindataRevisionChanges'}
+        />
+      </ColumnOfFrames>
     </>
   );
 }

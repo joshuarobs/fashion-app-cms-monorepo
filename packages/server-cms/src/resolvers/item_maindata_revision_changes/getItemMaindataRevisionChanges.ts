@@ -2,11 +2,11 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
-async function getItemMaindataRevisionChanges() {
+async function getItemMaindataRevisionChanges(id: number, limit: number) {
   try {
     const data = await client.query({
       query: gql`
-        query getItemMaindataRevisionChanges($id: Int!, $limit: Int!) {
+        query getItemMaindataRevisionChanges($id: Int!, $limit: Int) {
           item_maindata_revision_changes(
             where: { item_maindata_revision: { item_id: { _eq: $id } } }
             order_by: { date: desc }
@@ -33,8 +33,13 @@ async function getItemMaindataRevisionChanges() {
           }
         }
       `,
+      variables: {
+        id,
+        limit,
+      },
     });
-    return data.data.base_colours;
+    console.log('data:', data);
+    return data.data.item_maindata_revision_changes;
   } catch (e) {
     logger.error(e);
     return null;

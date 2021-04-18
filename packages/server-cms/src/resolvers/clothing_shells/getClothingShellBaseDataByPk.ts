@@ -8,7 +8,7 @@ import { logger } from '../../logger';
  * This is used for going on the Clothing Shell page, for data required by the
  * Header, overview and settings tab
  */
-async function getClothingShellBaseDataByPk() {
+async function getClothingShellBaseDataByPk(id: number) {
   try {
     const data = await client.query({
       query: gql`
@@ -39,6 +39,9 @@ async function getClothingShellBaseDataByPk() {
           }
         }
       `,
+      variables: {
+        id,
+      },
     });
     return data.data.clothing_shells_by_pk;
   } catch (e) {

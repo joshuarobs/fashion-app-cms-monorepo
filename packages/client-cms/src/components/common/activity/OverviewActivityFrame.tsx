@@ -35,6 +35,8 @@ function OverviewActivityFrame({
     );
   if (error) return <div>Error! ${error}</div>;
 
+  console.log('OverviewActivityFrame#data:', data);
+
   // const { item_maindata_revision_changes } = data;
   // console.log('Activity - loaded data:', item_maindata_revision_changes);
 

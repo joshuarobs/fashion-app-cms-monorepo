@@ -63,7 +63,7 @@ const typeDefs = gql`
     # clothing_shells
     #--------------------------------------------------
     getClothingShell: clothing_shells
-    getClothingShellBaseDataByPk: clothing_shells
+    getClothingShellBaseDataByPk(id: Int!): clothing_shells
     getClothingShellsForClothingShellsTableLatest(
       limit: Int
       offset: Int
@@ -152,8 +152,14 @@ const typeDefs = gql`
     # item_maindata_revision_changes
     #--------------------------------------------------
     deleteItemMaindataRevisionChangesForItem: item_maindata_revision_changes
-    getItemMaindataRevisionChanges: [item_maindata_revision_changes]
-    getItemMaindataRevisionChangesPromosOnly: [item_maindata_revision_changes]
+    getItemMaindataRevisionChanges(
+      id: Int!
+      limit: Int
+    ): [item_maindata_revision_changes]
+    getItemMaindataRevisionChangesPromosOnly(
+      itemId: Int!
+      revision: Int!
+    ): [item_maindata_revision_changes]
     insertItemMaindataRevisionChange: item_maindata_revision_changes
     insertItemMaindataRevisionChangePromoRetired: item_maindata_revision_changes
     #--------------------------------------------------

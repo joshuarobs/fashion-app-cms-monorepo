@@ -253,7 +253,9 @@ ItemStateFrameProps) {
   });
 
   if (loading || !currentRevision) return <StateFrame />;
-  if (error) return <div>Error! ${error}</div>;
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
+
+  console.log('data:', data);
 
   // if (!currentRevision) {
   //   return <StateFrame />;
@@ -443,27 +445,27 @@ ItemStateFrameProps) {
     await insertItemMaindataRevision({ variables });
   };
 
-  const { item_maindata_revision_changes } = data;
+  const { getItemMaindataRevisionChangesPromosOnly } = data;
 
   console.log(
     'item_maindata_revision_changes:',
-    item_maindata_revision_changes
+    getItemMaindataRevisionChangesPromosOnly
   );
 
   // Find each of the state's revision
-  const changeToDevelopment = item_maindata_revision_changes.find(
+  const changeToDevelopment = getItemMaindataRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Development
   );
-  const changeToReview = item_maindata_revision_changes.find(
+  const changeToReview = getItemMaindataRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Review
   );
-  const changeToProduction = item_maindata_revision_changes.find(
+  const changeToProduction = getItemMaindataRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Production
   );
-  const changeToRetired = item_maindata_revision_changes.find(
+  const changeToRetired = getItemMaindataRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Retired
   );

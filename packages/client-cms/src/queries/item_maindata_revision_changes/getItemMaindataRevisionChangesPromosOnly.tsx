@@ -5,16 +5,9 @@ const Get_Item_Maindata_Revision_Changes_Promos_Only = gql`
     $itemId: Int!
     $revision: Int!
   ) {
-    item_maindata_revision_changes(
-      where: {
-        item_maindata_revision: {
-          item_id: { _eq: $itemId }
-          revision: { _eq: $revision }
-        }
-        change_type: { _eq: Promotion }
-      }
-      distinct_on: to_state
-      order_by: { to_state: asc, date: desc }
+    getItemMaindataRevisionChangesPromosOnly(
+      itemId: $itemId
+      revision: $revision
     ) {
       id
       to_state

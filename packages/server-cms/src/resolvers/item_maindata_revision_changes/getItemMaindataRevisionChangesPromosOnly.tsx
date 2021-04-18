@@ -2,7 +2,10 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
-async function getItemMaindataRevisionChangesPromosOnly() {
+async function getItemMaindataRevisionChangesPromosOnly(
+  itemId: number,
+  revision: number
+) {
   try {
     const data = await client.query({
       query: gql`
@@ -44,6 +47,10 @@ async function getItemMaindataRevisionChangesPromosOnly() {
           }
         }
       `,
+      variables: {
+        itemId,
+        revision,
+      },
     });
     return data.data.item_maindata_revision_changes;
   } catch (e) {
