@@ -1,4 +1,5 @@
 import { gql } from 'apollo-server';
+import { typeDefsEnums } from './typeDefsEnums';
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -176,9 +177,7 @@ const typeDefs = gql`
       limit: Int
       offset: Int
     ): [item_maindata_revisions]
-    getUniqueItemMaindataRevsForBrandProdOnly(
-      id: Int!
-    ): item_maindata_revisions_aggregate
+    getUniqueItemMaindataRevsForBrandProdOnly(id: Int!): hasura_aggregate_holder
     getUniqueProdItemsForCompany: [item_maindata_revisions]
     insertItemMaindataRevision: item_maindata_revisions
     updateItemMaindataRevisionState: item_maindata_revisions
@@ -263,45 +262,7 @@ const typeDefs = gql`
   }
 
   # Enums
-  enum fabric_layer_types_enum {
-    Fill
-    Interlining
-    Lining
-    Shell
-  }
-
-  # select columns of table "item_maindata_revisions"
-  enum item_maindata_revisions_select_column {
-    # column name
-    id
-
-    # column name
-    item_id
-
-    # column name
-    revision
-
-    # column name
-    state
-  }
-
-  # select columns of table "company_translation_revisions"
-  enum company_translation_revisions_select_column {
-    # column name
-    company_id
-
-    # column name
-    id
-
-    # column name
-    locale_code
-
-    # column name
-    revision
-
-    # column name
-    state
-  }
+  ${typeDefsEnums}
 
   # Special Hasura types
   type hasura_aggregate {
@@ -311,16 +272,6 @@ const typeDefs = gql`
   type hasura_aggregate_holder {
     aggregate: hasura_aggregate
     # distinct_on: item_maindata_revisions_select_column
-  }
-
-  type company_translation_revisions_aggregate {
-    aggregate: hasura_aggregate
-    # distinct_on: company_translation_revisions_select_column
-  }
-
-  # Hasura generated aggregate types
-  type item_maindata_revisions_aggregate {
-    aggregate: hasura_aggregate
   }
 
   # Types we created in the database
@@ -539,7 +490,7 @@ const typeDefs = gql`
     collections_aggregate: hasura_aggregate_holder
     company_translations_aggregate(
       distinct_on: company_translation_revisions_select_column
-    ): company_translation_revisions_aggregate
+    ): hasura_aggregate_holder
   }
 
   type company_counts {
