@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
-async function updateItemMaindata() {
+async function updateItemMaindata(id: string, changes: any) {
   try {
     const data = await client.query({
       query: gql`
@@ -29,6 +29,10 @@ async function updateItemMaindata() {
           }
         }
       `,
+      variables: {
+        id,
+        changes,
+      },
     });
     return data.data.update_item_maindata_by_pk;
   } catch (e) {

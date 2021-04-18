@@ -143,15 +143,15 @@ function OverviewMainFrame({
     async onCompleted() {
       await setOriginalClothingShellId(clothing_shell_id);
       // message.success({ content: COMMON.CHANGES_SAVED, key }, 2);
-      const variables = {
-        revisionId: itemMaindataRevision.id,
-        userId: 1,
-        changeType: DataChangeType.Action,
-        action: DataAction.Update,
-      };
-      await insertItemMaindataRevisionChange({
-        variables,
-      });
+      // const variables = {
+      //   revisionId: itemMaindataRevision.id,
+      //   userId: 1,
+      //   changeType: DataChangeType.Action,
+      //   action: DataAction.Update,
+      // };
+      // await insertItemMaindataRevisionChange({
+      //   variables,
+      // });
     },
   });
 

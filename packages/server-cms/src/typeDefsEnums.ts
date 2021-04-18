@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-// Generated on: Sun, 18 Apr 2021 01:59:59 GMT
+// Generated on: Sun, 18 Apr 2021 11:50:30 GMT
 
 /* ============================================================
  * !!IMPORTANT!!
@@ -35,6 +35,9 @@ import { gql } from '@apollo/client';
  */
 
 const typeDefsEnums = gql`
+  #============================================================
+  # Pure Value Type Enums
+  #============================================================
   enum base_colours_enum {
     Black
     Blue
@@ -167,6 +170,9 @@ const typeDefsEnums = gql`
     zh
   }
 
+  #============================================================
+  # Selection Keys Table Enums
+  #============================================================
   enum base_colours_select_column {
     description
     value
@@ -558,6 +564,402 @@ const typeDefsEnums = gql`
     description
     id
     value
+  }
+
+  #============================================================
+  # Table Selection Keys
+  #============================================================
+  input base_colours_set_input {
+    description: String
+    value: String
+  }
+
+  input body_groups_set_input {
+    description: String
+    value: String
+  }
+
+  input body_segment_mask_shapes_set_input {
+    description: String
+    value: String
+  }
+
+  input body_segment_masks_set_input {
+    body_segment_id: Int
+    body_segment_mask_shape: body_segment_mask_shapes_enum
+    fill_layer_id: Int
+    fill_percent: Float
+    id: Int
+    interlining_layer_id: Int
+    lining_layer_id: Int
+    shell_layer_id: Int
+    uniform_segment_thickness: Float
+  }
+
+  input body_segments_set_input {
+    body_group: body_groups_enum
+    id: Int
+    name: String
+  }
+
+  input clothing_features_set_input {
+    description: String
+    value: String
+  }
+
+  input clothing_masks_set_input {
+    id: Int
+    iso_coverage: Float
+    iso_id: String
+    name: String
+  }
+
+  input clothing_segment_bounds_set_input {
+    value: Int
+  }
+
+  input clothing_segment_data_set_input {
+    body_front_back_is_same: Boolean
+    body_is_symmetrical: Boolean
+    id: String
+    left_body_end_back: Int
+    left_body_end_front: Int
+    left_body_start_back: Int
+    left_body_start_front: Int
+    left_sleeve_end_back: Int
+    left_sleeve_end_front: Int
+    left_sleeve_start_back: Int
+    left_sleeve_start_front: Int
+    right_body_end_back: Int
+    right_body_end_front: Int
+    right_body_start_back: Int
+    right_body_start_front: Int
+    right_sleeve_end_back: Int
+    right_sleeve_end_front: Int
+    right_sleeve_start_back: Int
+    right_sleeve_start_front: Int
+    sleeves_front_back_is_same: Boolean
+    sleeves_is_symmetrical: Boolean
+  }
+
+  input clothing_shell_and_body_segment_mask_set_input {
+    body_segment_mask_id: Int
+    clothing_shell_id: Int
+  }
+
+  input clothing_shell_and_clothing_feature_set_input {
+    clothing_feature: String
+    clothing_shell_id: Int
+  }
+
+  input clothing_shell_counts_set_input {
+    clothing_shell_id: Int
+    id: Int
+    item_count: Int
+  }
+
+  input clothing_shell_maindata_revision_changes_set_input {
+    action: data_actions_enum
+    change_type: data_change_types_enum
+    clothing_shell_maindata_revision_id: String
+    date: String
+    id: String
+    to_state: data_states_enum
+    user_id: Int
+  }
+
+  input clothing_shell_maindata_revisions_set_input {
+    clothing_shell_id: Int
+    id: String
+    revision: Int
+    state: data_states_enum
+  }
+
+  input clothing_shell_maindata_set_input {
+    clothing_segment_data_id: String
+    default_fill_layer_id: Int
+    default_interlining_layer_id: Int
+    default_lining_layer_id: Int
+    default_shell_layer_id: Int
+    id: String
+    is_release: Boolean
+    item_type: item_types_enum
+    name: String
+    revision_id: String
+    uniform_thickness: Float
+  }
+
+  input clothing_shells_set_input {
+    created_at: String
+    id: Int
+    updated_at: String
+  }
+
+  input collab_company_and_collection_set_input {
+    collection_id: Int
+    company_id: Int
+  }
+
+  input collections_set_input {
+    brand_id: Int
+    created_at: String
+    date_finished: String
+    date_started: String
+    for_gender: genders_enum
+    id: Int
+    name: String
+    updated_at: String
+    website_url: String
+  }
+
+  input colour_mix_parts_set_input {
+    colour_id: Int
+    id: Int
+    percent: Float
+  }
+
+  input colours_set_input {
+    base_colour: base_colours_enum
+    colour_code: String
+    id: Int
+    name: String
+  }
+
+  input companies_set_input {
+    affiliate_start_date: String
+    created_at: String
+    founded_in_id: countries_enum
+    id: Int
+    is_affiliate: Boolean
+    is_reseller: Boolean
+    logo_url: String
+    name: String
+    short_id: Int
+    updated_at: String
+    website_url: String
+  }
+
+  input company_counts_set_input {
+    company_id: Int
+    id: Int
+    item_count: Int
+  }
+
+  input company_translation_revision_changes_set_input {
+    action: data_actions_enum
+    change_type: data_change_types_enum
+    company_translation_revision_id: String
+    date: String
+    id: String
+    to_state: data_states_enum
+    user_id: Int
+  }
+
+  input company_translation_revisions_set_input {
+    company_id: Int
+    id: String
+    locale_code: String
+    revision: Int
+    state: data_states_enum
+  }
+
+  input company_translations_set_input {
+    bio: String
+    id: String
+    is_release: Boolean
+    revision_id: String
+    short_name: String
+    stylised_name: String
+  }
+
+  input countries_set_input {
+    description: String
+    value: String
+  }
+
+  input data_actions_set_input {
+    value: String
+  }
+
+  input data_change_types_set_input {
+    value: String
+  }
+
+  input data_promotions_set_input {
+    data_promotable_type: String
+    date: String
+    id: Int
+    item_translation_id: String
+    item_translation_revision_id: String
+    to_state: data_states_enum
+  }
+
+  input data_release_types_set_input {
+    value: String
+  }
+
+  input data_states_set_input {
+    value: String
+  }
+
+  input fabric_layer_and_colour_mix_part_set_input {
+    colour_mix_part_id: Int
+    fabric_layer_id: Int
+  }
+
+  input fabric_layer_types_set_input {
+    description: String
+    value: String
+  }
+
+  input fabric_layers_set_input {
+    created_at: String
+    density: Int
+    fabric_layer_type: fabric_layer_types_enum
+    id: Int
+    insulation: Float
+    permeability: Int
+    thickness: Float
+    type: String
+    updated_at: String
+  }
+
+  input fabric_types_set_input {
+    id: Int
+    name: String
+  }
+
+  input genders_set_input {
+    description: String
+    value: String
+  }
+
+  input item_and_clothing_shell_set_input {
+    clothing_shell_id: Int
+    item_id: Int
+  }
+
+  input item_families_set_input {
+    brand_id: Int
+    created_at: String
+    id: Int
+    name: String
+    updated_at: String
+  }
+
+  input item_maindata_revision_changes_set_input {
+    action: data_actions_enum
+    change_type: data_change_types_enum
+    date: String
+    id: String
+    item_maindata_revision_id: String
+    to_state: data_states_enum
+    user_id: Int
+  }
+
+  input item_maindata_revisions_set_input {
+    id: String
+    item_id: Int
+    revision: Int
+    state: data_states_enum
+  }
+
+  input item_maindata_set_input {
+    brand_id: Int
+    clothing_shell_id: Int
+    for_gender: genders_enum
+    id: String
+    is_release: Boolean
+    item_family_id: Int
+    made_in_id: countries_enum
+    name: String
+    revision_id: String
+    short_id: Int
+    type: item_types_enum
+  }
+
+  input item_translation_revision_changes_set_input {
+    action: data_actions_enum
+    change_type: data_change_types_enum
+    date: String
+    id: String
+    item_translation_revision_id: String
+    to_state: data_states_enum
+    user_id: Int
+  }
+
+  input item_translation_revisions_set_input {
+    id: String
+    item_id: Int
+    locale_code: String
+    revision: Int
+    state: data_states_enum
+  }
+
+  input item_translations_set_input {
+    description: String
+    full_name: String
+    id: String
+    is_release: Boolean
+    revision_id: String
+    short_name: String
+  }
+
+  input item_types_set_input {
+    description: String
+    value: String
+  }
+
+  input items_set_input {
+    created_at: String
+    id: Int
+    item_family_id: Int
+    short_id: Float
+    updated_at: String
+  }
+
+  input language_families_set_input {
+    description: String
+    value: String
+  }
+
+  input locales_set_input {
+    code: String
+    country_code: countries_enum
+    language_code: language_families_enum
+    name: String
+  }
+
+  input materials_mix_parts_set_input {
+    id: Int
+    material_id: Int
+    percent: Float
+  }
+
+  input materials_set_input {
+    fabric_id: Int
+    id: Int
+    name: String
+    non_fabric_id: Int
+  }
+
+  input staff_users_set_input {
+    avatar_url: String
+    created_at: String
+    email: String
+    id: Int
+    last_online: String
+    name: String
+    password: String
+    role_id: Int
+    title: String
+    updated_at: String
+  }
+
+  input version_cms_items_db_set_input {
+    description: String
+    id: Int
+    value: String
   }
 `;
 

@@ -25,8 +25,21 @@ for (let i = 0; i < 1000; i++) {
   buffer += schemaTypeDefs[i];
 }
 
-const pureValueTypeEnums = [];
-const selectionKeysTableEnums = [];
+const pureValueTypeEnums = [
+  '#============================================================',
+  '# Pure Value Type Enums',
+  '#============================================================',
+];
+const selectionKeysTableEnums = [
+  '#============================================================',
+  '# Selection Keys Table Enums',
+  '#============================================================',
+];
+const tableSelectionKeys = [
+  '#============================================================',
+  '# Table Selection Keys',
+  '#============================================================',
+];
 let i = 0;
 
 stringByLines.forEach((stringByLine) => {
@@ -38,15 +51,35 @@ stringByLines.forEach((stringByLine) => {
   // CASE: Get `selection keys table enums`
   // --------------------------------------------------
   const isSelectionKeysTableEnum = stringByLine.includes('_select_column {');
+  // --------------------------------------------------
+  // CASE: Get `table selection keys`
+  // --------------------------------------------------
+  const isTableSelectionKeys = stringByLine.includes('_set_input {');
 
-  if (isPureValueTypeEnum || isSelectionKeysTableEnum) {
+  if (isPureValueTypeEnum || isSelectionKeysTableEnum || isTableSelectionKeys) {
     let array = pureValueTypeEnums;
-    if (isSelectionKeysTableEnum) array = selectionKeysTableEnums;
+    if (isSelectionKeysTableEnum) {
+      array = selectionKeysTableEnums;
+    } else if (isTableSelectionKeys) {
+      array = tableSelectionKeys;
+    }
 
     // normalEnums.push(stringByLine);
     // If we got a match, then get all of the lines of the type
     for (let ii = i; ii < stringByLines.length; ii++) {
-      const str = stringByLines[ii];
+      let str = stringByLines[ii];
+      if (isTableSelectionKeys) {
+        if (str.includes(': numeric')) {
+          str = str.replace(': numeric', ': Float');
+        } else if (str.includes(': smallint')) {
+          str = str.replace(': smallint', ': Int');
+        } else if (str.includes(': uuid')) {
+          str = str.replace(': uuid', ': String');
+        } else if (str.includes(': timestamptz')) {
+          str = str.replace(': timestamptz', ': String');
+        }
+      }
+
       if (str !== '}') {
         array.push(str);
       } else {
@@ -65,7 +98,9 @@ stringByLines.forEach((stringByLine) => {
 // console.log('pureValueTypeEnums:', pureValueTypeEnums);
 // console.log('selectionKeysTableEnums:', selectionKeysTableEnums);
 
-const allArrays = pureValueTypeEnums.concat(selectionKeysTableEnums).join('\n');
+const allArrays = pureValueTypeEnums
+  .concat(selectionKeysTableEnums, tableSelectionKeys)
+  .join('\n');
 
 const date = dayjs();
 

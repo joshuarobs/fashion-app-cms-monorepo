@@ -300,7 +300,7 @@ const resolvers = {
     deleteItemMaindataForItem,
     insertItemMaindata,
     insertItemMaindataBarebones,
-    updateItemMaindata,
+    updateItemMaindata: (_, { id, changes }) => updateItemMaindata(id, changes),
     //--------------------------------------------------
     // item_maindata_revision_changes
     //--------------------------------------------------

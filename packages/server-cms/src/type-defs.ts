@@ -5,6 +5,19 @@ import { typeDefsEnums } from './typeDefsEnums';
 // that together define the "shape" of queries that are executed against
 // your data.
 const typeDefs = gql`
+  type Mutation {
+    #--------------------------------------------------
+    # item_maindata
+    #--------------------------------------------------
+    deleteItemMaindataForItem: item_maindata
+    insertItemMaindata: item_maindata
+    insertItemMaindataBarebones: item_maindata
+    updateItemMaindata(
+      id: String!
+      changes: item_maindata_set_input!
+    ): item_maindata
+  }
+
   type Query {
     hello: String
     #    getItemsForItemsTableLatest: [items]
@@ -170,7 +183,10 @@ const typeDefs = gql`
     deleteItemMaindataForItem: item_maindata
     insertItemMaindata: item_maindata
     insertItemMaindataBarebones: item_maindata
-    updateItemMaindata: item_maindata
+    updateItemMaindata(
+      id: String!
+      changes: item_maindata_set_input!
+    ): item_maindata
     #--------------------------------------------------
     # item_maindata_revision_changes
     #--------------------------------------------------
