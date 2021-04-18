@@ -7,15 +7,11 @@ import { gql } from '@apollo/client';
  */
 const Get_Latest_Production_Item_Maindata_Revision_By_Item_Id = gql`
   query getLatestProdItemMaindataRevByItemId($itemId: Int!) {
-    item_maindata_revisions(
-      where: { state: { _eq: Production }, item_id: { _eq: $itemId } }
-      order_by: { item_id: asc, revision: desc }
-      distinct_on: item_id
-    ) {
+    getLatestProdItemMaindataRevByItemId(itemId: $itemId) {
       id
       # item_id
       # revision
-      item_maindata(order_by: { is_release: desc }, limit: 1) {
+      item_maindata {
         id
         name
         brand_id

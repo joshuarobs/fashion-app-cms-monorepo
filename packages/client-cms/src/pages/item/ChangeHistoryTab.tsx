@@ -54,7 +54,7 @@ function ChangeHistoryTab() {
     data: dataAggregates,
   } = useQuery(Get_Item_Revision_Changes_Aggregates, {
     variables: {
-      itemId,
+      itemId: parseInt(itemId),
     },
   });
 
@@ -64,7 +64,7 @@ function ChangeHistoryTab() {
     data: dataMaindata,
   } = useQuery(Get_Item_Maindata_Revision_Changes, {
     variables: {
-      id: itemId,
+      id: parseInt(itemId),
       limit,
     },
   });
@@ -75,24 +75,35 @@ function ChangeHistoryTab() {
     data: dataTranslations,
   } = useQuery(Get_Item_Translation_Revision_Changes, {
     variables: {
-      itemId,
+      itemId: parseInt(itemId),
       limit,
     },
   });
 
   if (loadingAggregates || loadingMaindata || loadingTranslations)
     return <div />;
-  if (errorAggregates) return <div>Error! ${errorAggregates}</div>;
-  if (errorMaindata) return <div>Error! ${errorMaindata}</div>;
-  if (errorTranslations) return <div>Error! ${errorTranslations}</div>;
+  if (errorAggregates)
+    return (
+      <div>Error! (Aggregates) ${JSON.stringify(errorAggregates, null, 2)}</div>
+    );
+  if (errorMaindata)
+    return (
+      <div>Error! (Maindata) ${JSON.stringify(errorMaindata, null, 2)}</div>
+    );
+  if (errorTranslations)
+    return (
+      <div>
+        Error! (Translations) ${JSON.stringify(errorTranslations, null, 2)}
+      </div>
+    );
 
-  // console.log("dataAggregates:", dataAggregates);
-  const { item_maindata_revision_changes } = dataMaindata;
-  const { item_translation_revision_changes } = dataTranslations;
+  console.log('dataAggregates:', dataAggregates);
+  const { getItemMaindataRevisionChanges } = dataMaindata;
+  const { getItemTranslationRevisionChanges } = dataTranslations;
   const {
     item_maindata_revision_changes_aggregate,
     item_translation_revision_changes_aggregate,
-  } = dataAggregates;
+  } = dataAggregates.getItemRevisionChangesAggregates;
 
   const maindataCount =
     item_maindata_revision_changes_aggregate.aggregate.count;
@@ -109,8 +120,8 @@ function ChangeHistoryTab() {
   // );
 
   const allChanges = [
-    ...item_maindata_revision_changes,
-    ...item_translation_revision_changes,
+    ...getItemMaindataRevisionChanges,
+    ...getItemTranslationRevisionChanges,
   ].sort((a, b) => (a.date < b.date ? 1 : -1));
   console.log('allChanges:', allChanges);
 
@@ -190,14 +201,14 @@ function ChangeHistoryTab() {
         )}
         {keyFromCurrentTab === Tab.Maindata && (
           <AllActivityFrame
-            changes={item_maindata_revision_changes}
+            changes={getItemMaindataRevisionChanges}
             showType
             isAllActivity
           />
         )}
         {keyFromCurrentTab === Tab.Localisations && (
           <AllActivityFrame
-            changes={item_translation_revision_changes}
+            changes={getItemTranslationRevisionChanges}
             showType
             isAllActivity
           />

@@ -103,12 +103,12 @@ function ItemPage() {
           <Route path={path + Routes.Localisations}>
             <LocalisationsTab />
           </Route>
-          {/*<Route path={path + Routes.Change_History}>*/}
-          {/*  <ChangeHistoryTab />*/}
-          {/*</Route>*/}
-          {/*<Route path={path + Routes.Settings}>*/}
-          {/*  <ItemSettingsTab headerData={headerData} />*/}
-          {/*</Route>*/}
+          <Route path={path + Routes.Change_History}>
+            <ChangeHistoryTab />
+          </Route>
+          <Route path={path + Routes.Settings}>
+            <ItemSettingsTab headerData={headerData} />
+          </Route>
         </Switch>
       </div>
       <Footer />

@@ -171,7 +171,9 @@ const typeDefs = gql`
       itemId: Int!
       revision: Int!
     ): [item_maindata_revisions]
-    getLatestProdItemMaindataRevByItemId: [item_maindata_revisions]
+    getLatestProdItemMaindataRevByItemId(
+      itemId: Int!
+    ): [item_maindata_revisions]
     getNumberOfUniqueItemsForClothingShell: hasura_aggregate_holder
     getNumberOfUniqueProdItemsForCompany(id: Int!): hasura_aggregate_holder
     getRevisionsForItemBarebones(id: Int!): [item_maindata_revisions]
@@ -279,6 +281,9 @@ const typeDefs = gql`
     # other
     #--------------------------------------------------
     getFabricLayer: fabric_layers
+    getItemRevisionChangesAggregates(
+      itemId: Int!
+    ): item_translation_revision_changes_aggregate_holder
   }
 
   # Enums
@@ -292,6 +297,12 @@ const typeDefs = gql`
   type hasura_aggregate_holder {
     aggregate: hasura_aggregate
     # distinct_on: item_maindata_revisions_select_column
+  }
+
+  # Custom types for queries with multiple return types
+  type item_translation_revision_changes_aggregate_holder {
+    item_maindata_revision_changes_aggregate: hasura_aggregate_holder
+    item_translation_revision_changes_aggregate: hasura_aggregate_holder
   }
 
   # Types we created in the database

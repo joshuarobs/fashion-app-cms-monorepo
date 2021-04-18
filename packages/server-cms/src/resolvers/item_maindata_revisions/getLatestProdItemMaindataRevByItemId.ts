@@ -7,7 +7,7 @@ import { logger } from '../../logger';
  * This is used for the Settings tab for the Item page (Recalc company number of
  * items upon deleting)
  */
-async function getLatestProdItemMaindataRevByItemId() {
+async function getLatestProdItemMaindataRevByItemId(itemId: number) {
   try {
     const data = await client.query({
       query: gql`
@@ -35,6 +35,9 @@ async function getLatestProdItemMaindataRevByItemId() {
           }
         }
       `,
+      variables: {
+        itemId,
+      },
     });
     return data.data.item_maindata_revisions;
   } catch (e) {

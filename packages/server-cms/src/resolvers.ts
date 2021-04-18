@@ -118,7 +118,7 @@ import { getLocales } from './resolvers/locales/getLocales';
 import { getMaskShapes } from './resolvers/mask_shapes/getMaskShapes';
 import { getStaffUsers } from './resolvers/staff_users/getStaffUsers';
 import { getFabricLayer } from './resolvers/getFabricLayer';
-import { GET_ITEM_REVISION_CHANGES_AGGREGATES } from './resolvers/getItemRevisionChangesAggregates';
+import { getItemRevisionChangesAggregates } from './resolvers/getItemRevisionChangesAggregates';
 import { getGenders } from './resolvers/genders/getGenders';
 import { getFabricTypes } from './resolvers/fabric_types/getFabricTypes';
 
@@ -274,7 +274,8 @@ const resolvers = {
     getItemMaindataRevision,
     getItemMaindataRevisionByRevAndItemId: (_, { itemId, revision }) =>
       getItemMaindataRevisionByRevAndItemId(itemId, revision),
-    getLatestProdItemMaindataRevByItemId,
+    getLatestProdItemMaindataRevByItemId: (_, { itemId }) =>
+      getLatestProdItemMaindataRevByItemId(itemId),
     getNumberOfUniqueItemsForClothingShell,
     getNumberOfUniqueProdItemsForCompany,
     getRevisionsForItemBarebones: (_, { id }) =>
@@ -376,7 +377,8 @@ const resolvers = {
     // other
     //--------------------------------------------------
     getFabricLayer,
-    // GET_ITEM_REVISION_CHANGES_AGGREGATES,
+    getItemRevisionChangesAggregates: (_, { itemId }) =>
+      getItemRevisionChangesAggregates(itemId),
   },
 };
 

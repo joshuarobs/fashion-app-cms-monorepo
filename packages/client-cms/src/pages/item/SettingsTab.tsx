@@ -19,11 +19,13 @@ function ItemSettingsTab({ headerData }: SettingsProps) {
     data: dataProdItemMaindataRev,
     // refetch: refetchProdItemMaindataRev
   } = useQuery(Get_Latest_Production_Item_Maindata_Revision_By_Item_Id, {
-    variables: { itemId },
+    variables: { itemId: Number.parseInt(itemId) },
   });
 
   if (errorProdItemMaindataRev)
-    return <div>Error ${errorProdItemMaindataRev}</div>;
+    return (
+      <div>Error ${JSON.stringify(errorProdItemMaindataRev, null, 2)}</div>
+    );
   if (loadingProdItemMaindataRev) return <div />;
   return (
     <SettingsTabView

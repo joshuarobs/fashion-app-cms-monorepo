@@ -75,20 +75,23 @@ function SettingsTabView({
       ? item_maindata_revisions[0].item_maindata[0].name
       : 'null';
   const count_id =
-    dataProdItemMaindataRev.item_maindata_revisions[0] &&
-    dataProdItemMaindataRev.item_maindata_revisions[0].item_maindata[0].brand &&
-    dataProdItemMaindataRev.item_maindata_revisions[0].item_maindata[0].brand
-      .counts
-      ? dataProdItemMaindataRev.item_maindata_revisions[0].item_maindata[0]
-          .brand.counts.id
+    dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0] &&
+    dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]
+      .item_maindata[0].brand &&
+    dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]
+      .item_maindata[0].brand.counts
+      ? dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]
+          .item_maindata[0].brand.counts.id
       : null;
-  const brand_id = dataProdItemMaindataRev.item_maindata_revisions[0]
-    ? dataProdItemMaindataRev.item_maindata_revisions[0].item_maindata[0]
-        .brand_id
+  const brand_id = dataProdItemMaindataRev
+    .getLatestProdItemMaindataRevByItemId[0]
+    ? dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]
+        .item_maindata[0].brand_id
     : null;
-  const clothing_shell_id = dataProdItemMaindataRev.item_maindata_revisions[0]
-    ? dataProdItemMaindataRev.item_maindata_revisions[0].item_maindata[0]
-        .clothing_shell_id
+  const clothing_shell_id = dataProdItemMaindataRev
+    .getLatestProdItemMaindataRevByItemId[0]
+    ? dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]
+        .item_maindata[0].clothing_shell_id
     : null;
 
   console.log(
@@ -228,7 +231,7 @@ function SettingsTabView({
         // );
         const {
           clothing_shell,
-        } = dataProdItemMaindataRev.item_maindata_revisions[0].item_maindata[0];
+        } = dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0].item_maindata[0];
         // console.log(
         //   "currentRevision.item_maindata[0]:",
         //   currentRevision.item_maindata[0]
@@ -315,12 +318,12 @@ function SettingsTabView({
       });
     }
     // 2-E. Update the clothing shell's unique item count
-    if (dataProdItemMaindataRev.item_maindata_revisions[0]) {
+    if (dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]) {
       await getItemCountForClothingShell({
         variables: {
           id:
-            dataProdItemMaindataRev.item_maindata_revisions[0].item_maindata[0]
-              .clothing_shell_id,
+            dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]
+              .item_maindata[0].clothing_shell_id,
         },
       });
     }
