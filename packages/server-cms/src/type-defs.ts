@@ -90,6 +90,7 @@ const typeDefs = gql`
     #--------------------------------------------------
     deleteCompanyTranslationRevisionChangesForRevision: company_translation_revision_changes
     getCompanyTranslationRevisionChanges(
+      companyId: Int!
       limit: Int
       offset: Int
     ): [company_translation_revision_changes]
@@ -97,7 +98,11 @@ const typeDefs = gql`
       limit: Int
       offset: Int
     ): [company_translation_revision_changes]
-    getCompanyTranslationRevisionChangesPromosOnly: [company_translation_revision_changes]
+    getCompanyTranslationRevisionChangesPromosOnly(
+      companyId: Int!
+      localeCode: String!
+      revision: Int!
+    ): [company_translation_revision_changes]
     insertCompanyTranslationRevisionChange: company_translation_revision_changes
     insertCompanyTranslationRevisionChangeActUpdate: company_translation_revision_changes
     insertCompanyTranslationRevisionChangePromoProduction: company_translation_revision_changes
@@ -107,8 +112,11 @@ const typeDefs = gql`
     # company_translation_revisions
     #--------------------------------------------------
     deleteCompanyTranslationRevision: company_translation_revisions
-    getCompanyTranslationRevisions: [company_translation_revisions]
-    getCompanyTranslationRevisionsByLocaleCode: [company_translation_revisions]
+    getCompanyTranslationRevisions(id: Int!): [company_translation_revisions]
+    getCompanyTranslationRevisionsByLocaleCode(
+      companyId: Int!
+      localeCode: String!
+    ): [company_translation_revisions]
     insertCompanyTranslationRevision: company_translation_revisions
     updateCompanyTranslationRevisionToProduction: company_translation_revisions
     updateCompanyTranslationRevisionToRetired: company_translation_revisions
@@ -117,7 +125,11 @@ const typeDefs = gql`
     # company_translations
     #--------------------------------------------------
     deleteCompanyTranslationsForRevision: company_translations
-    getCompanyTranslationsGivenUniqueKeys: [company_translations]
+    getCompanyTranslationsGivenUniqueKeys(
+      revision: Int!
+      companyId: Int!
+      localeCode: String!
+    ): [company_translations]
     insertCompanyTranslation: company_translations
     insertCompanyTranslationBlankDraft: company_translations
     updateCompanyTranslation: company_translations
@@ -182,6 +194,7 @@ const typeDefs = gql`
       offset: Int
     ): [item_maindata_revisions]
     getTopXUniqueProdItemsForCompanyBB(
+      id: Int!
       limit: Int
       offset: Int
     ): [item_maindata_revisions]
@@ -541,7 +554,7 @@ const typeDefs = gql`
     action: String
     date: String!
     # Relationships
-    company_translation_revision_changes: company_translation_revisions
+    company_translation_revision: company_translation_revisions
     user: staff_users
   }
 
@@ -565,7 +578,7 @@ const typeDefs = gql`
     short_name: String!
     bio: String
     # Relationships
-    revision: company_translations
+    revision: company_translation_revisions
   }
 
   type countries {

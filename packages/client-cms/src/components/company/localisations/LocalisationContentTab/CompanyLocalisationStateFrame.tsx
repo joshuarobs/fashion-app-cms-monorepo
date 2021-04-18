@@ -75,7 +75,7 @@ function CompanyLocalisationStateFrame({
     Get_Company_Translation_Revision_Changes_Promos_Only,
     {
       variables: {
-        companyId,
+        companyId: Number.parseInt(String(companyId)),
         localeCode: currentTab,
         revision: Number.parseInt(paramsRevision),
       },
@@ -383,29 +383,29 @@ function CompanyLocalisationStateFrame({
   };
 
   if (loading) return <StateFrame />;
-  if (error) return <div>Error! ${error}</div>;
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
 
-  const { company_translation_revision_changes } = data;
+  const { getCompanyTranslationRevisionChangesPromosOnly } = data;
 
   console.log(
-    'company_translation_revision_changes:',
-    company_translation_revision_changes
+    'getCompanyTranslationRevisionChangesPromosOnly:',
+    getCompanyTranslationRevisionChangesPromosOnly
   );
 
   // Find each of the state's revision
-  const changeToDevelopment = company_translation_revision_changes.find(
+  const changeToDevelopment = getCompanyTranslationRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Development
   );
-  const changeToReview = company_translation_revision_changes.find(
+  const changeToReview = getCompanyTranslationRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Review
   );
-  const changeToProduction = company_translation_revision_changes.find(
+  const changeToProduction = getCompanyTranslationRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Production
   );
-  const changeToRetired = company_translation_revision_changes.find(
+  const changeToRetired = getCompanyTranslationRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Retired
   );

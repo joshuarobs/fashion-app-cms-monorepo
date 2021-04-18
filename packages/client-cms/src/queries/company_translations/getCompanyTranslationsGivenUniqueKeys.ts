@@ -6,15 +6,10 @@ const Get_Company_Translations_Given_Unique_Keys = gql`
     $companyId: Int!
     $localeCode: String!
   ) {
-    company_translations(
-      where: {
-        revision: {
-          revision: { _eq: $revision }
-          company_id: { _eq: $companyId }
-          locale_code: { _eq: $localeCode }
-        }
-      }
-      order_by: { is_release: asc }
+    getCompanyTranslationsGivenUniqueKeys(
+      revision: $revision
+      companyId: $companyId
+      localeCode: $localeCode
     ) {
       id
       revision_id

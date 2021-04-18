@@ -27,14 +27,14 @@ function CompanyPage() {
   console.log('id:', id);
 
   const { loading, error, data } = useQuery(Get_Company, {
-    variables: { id },
+    variables: { id: Number.parseInt(id) },
   });
 
   if (loading) return <div />;
-  if (error) return <div>Error! ${error}</div>;
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
   console.log('data:', data);
 
-  const company = data.companies_by_pk;
+  const company = data.getCompany;
   // useEffect(() => {
   //   setItem(data.items_by_pk);
   // });
@@ -77,12 +77,12 @@ function CompanyPage() {
           <Route path={path + Routes.Localisations}>
             <LocalisationsTab />
           </Route>
-          <Route exact path={path + Routes.Change_History}>
-            <ColumnOfFrames>Change history</ColumnOfFrames>
-          </Route>
-          <Route exact path={path + Routes.Settings}>
-            <ColumnOfFrames>Settings</ColumnOfFrames>
-          </Route>
+          {/*<Route exact path={path + Routes.Change_History}>*/}
+          {/*  <ColumnOfFrames>Change history</ColumnOfFrames>*/}
+          {/*</Route>*/}
+          {/*<Route exact path={path + Routes.Settings}>*/}
+          {/*  <ColumnOfFrames>Settings</ColumnOfFrames>*/}
+          {/*</Route>*/}
         </Switch>
       </div>
       <Footer />

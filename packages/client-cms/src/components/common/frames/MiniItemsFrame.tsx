@@ -73,6 +73,7 @@ interface MiniItemsFrameProps {
   query: any;
   viewAll?: boolean;
   updateCount?: any;
+  queryChildObjectName: string;
 }
 
 function MiniItemsFrame({
@@ -81,6 +82,7 @@ function MiniItemsFrame({
   query,
   viewAll,
   updateCount,
+  queryChildObjectName = '',
 }: MiniItemsFrameProps) {
   const { loading, error, data } = useQuery(query, {
     variables: { id },
@@ -91,7 +93,7 @@ function MiniItemsFrame({
   // console.log("MiniItemsFrame > data:", data);
 
   // const items = addKeysToArrayObjects(data.items);
-  const items = addKeysToArrayObjects(data.item_maindata_revisions);
+  const items = addKeysToArrayObjects(data[queryChildObjectName]);
   console.log('items:', items);
   // const items = [];
 

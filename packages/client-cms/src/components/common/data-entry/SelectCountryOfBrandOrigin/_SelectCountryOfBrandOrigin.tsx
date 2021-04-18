@@ -39,12 +39,12 @@ function SelectCountryOfBrandOrigin({
     );
   }
 
-  const { countries } = data;
+  const { getCountries } = data;
   // console.log("countries:", countries);
 
   // Sort the countries so they appear in order
   const countriesWithOrder: any[] = [];
-  countries.forEach((country: any) => {
+  getCountries.forEach((country: any) => {
     const { value } = country;
     // console.log("translation 2:", translation);
 

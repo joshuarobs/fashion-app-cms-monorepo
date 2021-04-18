@@ -61,6 +61,7 @@ function MiniItemsFrameCompany({ company }: MiniItemsFrameCompanyProps) {
       count={counts.item_count}
       query={Get_Top_X_Unique_Prod_Items_For_Company_BB}
       updateCount={updateCount}
+      queryChildObjectName={'getTopXUniqueProdItemsForCompanyBB'}
     />
   );
 }

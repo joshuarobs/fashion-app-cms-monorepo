@@ -38,8 +38,8 @@ function LocalisationContentTab({
   } = useQuery(Get_Company_Translations_Given_Unique_Keys, {
     variables: {
       // revisionId: paramsRevisionId
-      revision: paramsRevision,
-      companyId,
+      revision: Number.parseInt(paramsRevision),
+      companyId: Number.parseInt(String(companyId)),
       localeCode: currentTab,
     },
   });
@@ -51,7 +51,7 @@ function LocalisationContentTab({
     refetch: refetchRevisions,
   } = useQuery(Get_Company_Translation_Revisions_By_Locale_Code, {
     variables: {
-      companyId,
+      companyId: Number.parseInt(String(companyId)),
       localeCode: currentTab,
     },
   });
@@ -71,12 +71,25 @@ function LocalisationContentTab({
     );
     stateFrameToDisplay = <StateFrame />;
   } else if (errorTranslations) {
-    mainFrameToDisplay = <div>{`Error! ${errorTranslations}`}</div>;
+    mainFrameToDisplay = (
+      <div>{`Error! (Translations) ${JSON.stringify(
+        errorTranslations,
+        null,
+        2
+      )}`}</div>
+    );
   } else if (errorRevisions) {
-    mainFrameToDisplay = <div>{`Error! ${errorRevisions}`}</div>;
+    mainFrameToDisplay = (
+      <div>{`Error! (Revisions) ${JSON.stringify(
+        errorRevisions,
+        null,
+        2
+      )}`}</div>
+    );
   } else {
-    const translations = dataTranslations.company_translations;
-    const uniqueRevisions = dataRevisions.company_translation_revisions;
+    const translations = dataTranslations.getCompanyTranslationsGivenUniqueKeys;
+    const uniqueRevisions =
+      dataRevisions.getCompanyTranslationRevisionsByLocaleCode;
 
     // console.error("translations!:", translations);
     mainFrameToDisplay = (
@@ -113,10 +126,10 @@ function LocalisationContentTab({
       <ColumnOfFrames freeWidth>{mainFrameToDisplay}</ColumnOfFrames>
       <ColumnOfFrames>
         {stateFrameToDisplay}
-        <LocalisationActivityFrame
-          currentTab={currentTab}
-          companyId={companyId}
-        />
+        {/*<LocalisationActivityFrame*/}
+        {/*  currentTab={currentTab}*/}
+        {/*  companyId={companyId}*/}
+        {/*/>*/}
       </ColumnOfFrames>
     </>
   );

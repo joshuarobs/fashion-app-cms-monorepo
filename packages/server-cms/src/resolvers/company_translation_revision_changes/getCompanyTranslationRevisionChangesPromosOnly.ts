@@ -2,7 +2,11 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
-async function getCompanyTranslationRevisionChangesPromosOnly() {
+async function getCompanyTranslationRevisionChangesPromosOnly(
+  companyId: number,
+  localeCode: string,
+  revision: number
+) {
   try {
     const data = await client.query({
       query: gql`
@@ -54,6 +58,11 @@ async function getCompanyTranslationRevisionChangesPromosOnly() {
           }
         }
       `,
+      variables: {
+        companyId,
+        localeCode,
+        revision,
+      },
     });
     return data.data.company_translation_revision_changes;
   } catch (e) {

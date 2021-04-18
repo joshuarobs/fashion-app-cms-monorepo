@@ -7,6 +7,7 @@ import {
 } from '../../settings';
 
 async function getCompanyTranslationRevisionChanges(
+  companyId: number,
   limit = Data_Entry_Query_Amount_Min_Half,
   offset: number
 ) {
@@ -61,6 +62,7 @@ async function getCompanyTranslationRevisionChanges(
         }
       `,
       variables: {
+        companyId,
         limit,
         offset,
       },

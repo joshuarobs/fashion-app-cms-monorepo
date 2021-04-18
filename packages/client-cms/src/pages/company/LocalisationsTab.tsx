@@ -43,16 +43,16 @@ function LocalisationsTab() {
   const { loading, error, data, refetch: refetchCompanyTransRevs } = useQuery(
     Get_Company_Translation_Revisions,
     {
-      variables: { id },
+      variables: { id: Number.parseInt(id) },
     }
   );
 
   if (loading) return <div />;
-  if (error) return <div>Error! ${error}</div>;
+  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
   console.log('data 2:', data);
 
   // Convert the latest translations map object into an array
-  const latestTranslationRevisions = data.company_translation_revisions.map(
+  const latestTranslationRevisions = data.getCompanyTranslationRevisions.map(
     (translationRevision: any) => {
       console.log('translationRevision:', translationRevision);
       const {

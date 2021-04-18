@@ -6,15 +6,10 @@ const Get_Company_Translation_Revision_Changes_Promos_Only = gql`
     $localeCode: String!
     $revision: Int!
   ) {
-    company_translation_revision_changes(
-      where: {
-        company_translation_revision: {
-          company_id: { _eq: $companyId }
-          locale_code: { _eq: $localeCode }
-          revision: { _eq: $revision }
-        }
-        change_type: { _eq: Promotion }
-      }
+    getCompanyTranslationRevisionChangesPromosOnly(
+      companyId: $companyId
+      localeCode: $localeCode
+      revision: $revision
     ) {
       id
       to_state

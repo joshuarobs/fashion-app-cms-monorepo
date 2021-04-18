@@ -205,11 +205,19 @@ const resolvers = {
     // company_translation_revision_changes
     //--------------------------------------------------
     deleteCompanyTranslationRevisionChangesForRevision,
-    getCompanyTranslationRevisionChanges: (_, { limit, offset }) =>
-      getCompanyTranslationRevisionChanges(limit, offset),
+    getCompanyTranslationRevisionChanges: (_, { companyId, limit, offset }) =>
+      getCompanyTranslationRevisionChanges(companyId, limit, offset),
     getCompanyTranslationRevisionChangesForLocale: (_, { limit, offset }) =>
       getCompanyTranslationRevisionChangesForLocale(limit, offset),
-    getCompanyTranslationRevisionChangesPromosOnly,
+    getCompanyTranslationRevisionChangesPromosOnly: (
+      _,
+      { companyId, localeCode, revision }
+    ) =>
+      getCompanyTranslationRevisionChangesPromosOnly(
+        companyId,
+        localeCode,
+        revision
+      ),
     insertCompanyTranslationRevisionChange,
     insertCompanyTranslationRevisionChangeActUpdate,
     insertCompanyTranslationRevisionChangePromoProduction,
@@ -219,8 +227,12 @@ const resolvers = {
     // company_translation_revisions
     //--------------------------------------------------
     deleteCompanyTranslationRevision,
-    getCompanyTranslationRevisions,
-    getCompanyTranslationRevisionsByLocaleCode,
+    getCompanyTranslationRevisions: (_, { id }) =>
+      getCompanyTranslationRevisions(id),
+    getCompanyTranslationRevisionsByLocaleCode: (
+      _,
+      { companyId, localeCode }
+    ) => getCompanyTranslationRevisionsByLocaleCode(companyId, localeCode),
     insertCompanyTranslationRevision,
     updateCompanyTranslationRevisionToProduction,
     updateCompanyTranslationRevisionToRetired,
@@ -229,7 +241,10 @@ const resolvers = {
     // company_translations
     //--------------------------------------------------
     deleteCompanyTranslationsForRevision,
-    getCompanyTranslationsGivenUniqueKeys,
+    getCompanyTranslationsGivenUniqueKeys: (
+      _,
+      { revision, companyId, localeCode }
+    ) => getCompanyTranslationsGivenUniqueKeys(revision, companyId, localeCode),
     insertCompanyTranslation,
     insertCompanyTranslationBlankDraft,
     updateCompanyTranslation,
@@ -282,8 +297,8 @@ const resolvers = {
       getRevisionsForItemBarebones(id),
     getTopXUniqueProdItemsForClothingShellBB: (_, { limit, offset }) =>
       getTopXUniqueProdItemsForClothingShellBB(limit, offset),
-    getTopXUniqueProdItemsForCompanyBB: (_, { limit, offset }) =>
-      getTopXUniqueProdItemsForCompanyBB(limit, offset),
+    getTopXUniqueProdItemsForCompanyBB: (_, { id, limit, offset }) =>
+      getTopXUniqueProdItemsForCompanyBB(id, limit, offset),
     getUniqueItemMaindataRevsForBrandProdOnly: (_, { id }) =>
       getUniqueItemMaindataRevsForBrandProdOnly(id),
     getUniqueProdItemsForCompany,

@@ -13,6 +13,7 @@ import {
  * the mini items frame
  */
 async function getTopXUniqueProdItemsForCompanyBB(
+  id: number,
   limit = Data_Entry_Query_Amount_Min_Half,
   offset: number
 ) {
@@ -50,6 +51,7 @@ async function getTopXUniqueProdItemsForCompanyBB(
         }
       `,
       variables: {
+        id,
         limit,
         offset,
       },

@@ -8,17 +8,9 @@ import { gql } from '@apollo/client';
  */
 const Get_Top_X_Unique_Prod_Items_For_Company_BB = gql`
   query getTopXUniqueProdItemsForCompanyBB($id: Int!) {
-    item_maindata_revisions(
-      where: {
-        item_maindata: { brand_id: { _eq: $id } }
-        state: { _eq: Production }
-      }
-      order_by: { item_id: desc, revision: desc }
-      distinct_on: item_id
-      limit: 10
-    ) {
+    getTopXUniqueProdItemsForCompanyBB(id: $id) {
       id
-      item_maindata(order_by: { is_release: desc }, limit: 1) {
+      item_maindata {
         id
         name
         short_id

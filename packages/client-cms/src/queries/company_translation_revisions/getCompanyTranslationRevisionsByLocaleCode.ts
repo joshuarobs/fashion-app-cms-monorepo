@@ -5,12 +5,9 @@ const Get_Company_Translation_Revisions_By_Locale_Code = gql`
     $companyId: Int!
     $localeCode: String!
   ) {
-    company_translation_revisions(
-      where: {
-        company_id: { _eq: $companyId }
-        locale_code: { _eq: $localeCode }
-      }
-      order_by: { revision: desc }
+    getCompanyTranslationRevisionsByLocaleCode(
+      companyId: $companyId
+      localeCode: $localeCode
     ) {
       id
       locale_code
@@ -28,7 +25,7 @@ const Get_Company_Translation_Revisions_By_Locale_Code = gql`
           description
         }
       }
-      company_translations(order_by: { is_release: desc }, limit: 1) {
+      company_translations {
         revision_id
         is_release
         stylised_name

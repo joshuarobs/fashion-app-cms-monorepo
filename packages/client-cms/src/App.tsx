@@ -64,10 +64,10 @@ const App = (): ReactElement => {
                 path={Routes.Items__Clothing__Item + Routes.Var_Id}
                 component={ItemPage}
               />
-              {/*<Route*/}
-              {/*  path={Routes.Companies__Company + Routes.Var_Id}*/}
-              {/*  component={CompanyPage}*/}
-              {/*/>*/}
+              <Route
+                path={Routes.Companies__Company + Routes.Var_Id}
+                component={CompanyPage}
+              />
               <Route
                 path={Routes.Heuristic_Items__Clothing__Item + Routes.Var_Id}
                 component={HeuristicItemPage}
