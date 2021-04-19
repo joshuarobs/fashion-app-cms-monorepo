@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-// Generated on: Sun, 18 Apr 2021 11:50:30 GMT
+// Generated on: Mon, 19 Apr 2021 11:13:53 GMT
 
 /* ============================================================
  * !!IMPORTANT!!
@@ -18,23 +18,7 @@ import { gql } from '@apollo/client';
  * ============================================================
  */
 
-/* ============================================================
- * !!IMPORTANT!!
- *
- * This file should not be edited manually at all.
- *
- * If you need to update the enums, run the script:
- * `server-cms/scripts/get-enums.js`
- *
- * Ensure you have a `server-cms/schema.graphql` file before
- * doing so.
- *
- * All enums in this file are scraped from the schema file
- * via the script.
- * ============================================================
- */
-
-const typeDefsEnums = gql`
+const Enums = gql`
   #============================================================
   # Pure Value Type Enums
   #============================================================
@@ -963,4 +947,4 @@ const typeDefsEnums = gql`
   }
 `;
 
-export { typeDefsEnums };
+export { Enums };

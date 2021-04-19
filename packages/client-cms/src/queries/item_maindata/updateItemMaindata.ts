@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const Update_Item_Maindata = gql`
-  mutation updateItemMaindata($id: uuid!, $changes: item_maindata_set_input) {
+  mutation updateItemMaindata($id: String!, $changes: item_maindata_set_input) {
     updateItemMaindata(id: $id, changes: $changes) {
       id
       name

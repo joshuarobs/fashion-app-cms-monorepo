@@ -138,7 +138,7 @@ function OverviewMainFrame({
 
   const [
     updateItemMaindata,
-    // { loading: mutationLoading, error: mutationError }
+    { loading: mutationLoading, error: mutationError },
   ] = useMutation(Update_Item_Maindata, {
     async onCompleted() {
       await setOriginalClothingShellId(clothing_shell_id);
@@ -154,6 +154,10 @@ function OverviewMainFrame({
       // });
     },
   });
+
+  if (mutationError) {
+    console.error('mutationError:', mutationError);
+  }
 
   const [
     updateItemMaindataRevisionState,
@@ -362,22 +366,22 @@ function OverviewMainFrame({
       }
       message.loading({ content: Common.Saving_Changes, key });
       await updateItemMaindata({ variables });
-      await updateItemUpdatedAt({
-        variables: {
-          id: item.id,
-        },
-      });
+      // await updateItemUpdatedAt({
+      //   variables: {
+      //     id: item.id,
+      //   },
+      // });
       if (countsId) {
         // Update the clothing shell item's count only if changes are made in
         // development
         // Set the clothing shell id as one that we either we're going
         // towards, or going from, as sometimes one or the other value can
         // be null
-        await getItemCountForClothingShell({
-          variables: {
-            id: countsId,
-          },
-        });
+        // await getItemCountForClothingShell({
+        //   variables: {
+        //     id: countsId,
+        //   },
+        // });
       } else {
         message.success({ content: Common.Changes_Saved, key }, 2);
         history.go(0);

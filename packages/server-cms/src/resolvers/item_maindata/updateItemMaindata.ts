@@ -4,8 +4,8 @@ import { logger } from '../../logger';
 
 async function updateItemMaindata(id: string, changes: any) {
   try {
-    const data = await client.query({
-      query: gql`
+    const data = await client.mutate({
+      mutation: gql`
         mutation updateItemMaindata(
           $id: uuid!
           $changes: item_maindata_set_input

@@ -118,35 +118,19 @@ const filePrefix = `import { gql } from '@apollo/client';
  *
  * Ensure you have a \`server-cms/schema.graphql\` file before
  * doing so.
- *
- * All enums in this file are scraped from the schema file
- * via the script.
- * ============================================================
- */
-
-/* ============================================================
- * !!IMPORTANT!!
- *
- * This file should not be edited manually at all.
- *
- * If you need to update the enums, run the script:
- * \`server-cms/scripts/get-enums.js\`
- *
- * Ensure you have a \`server-cms/schema.graphql\` file before
- * doing so.
  * 
  * All enums in this file are scraped from the schema file
  * via the script.
  * ============================================================
  */
 
-const typeDefsEnums = gql\`
+const Enums = gql\`
 `;
 
 const fileSuffix = `
 \`;
 
-export { typeDefsEnums };
+export { Enums };
 
 `;
 
@@ -162,7 +146,7 @@ const finalString = prettier.format(filePrefix + allArrays + fileSuffix, {
 
 // console.log('schemaTypeDefs:\n', stringByLines);
 // console.log('string:', string);
-console.log('Writing file at: server-cms/src/typeDefsEnums.ts');
-fs.writeFileSync(join(__dirname, '../src/typeDefsEnums.ts'), finalString);
+console.log('Writing file at: server-cms/src/type-defs/enums.ts');
+fs.writeFileSync(join(__dirname, '../src/type-defs/enums.ts'), finalString);
 
 console.log('DONE!');

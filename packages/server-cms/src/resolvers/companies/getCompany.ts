@@ -49,7 +49,7 @@ async function getCompany(id: number) {
         id,
       },
     });
-    console.log('data:', data.data);
+    // console.log('data:', data.data);
     return data.data.companies_by_pk;
   } catch (e) {
     logger.error(e);

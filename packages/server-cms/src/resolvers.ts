@@ -123,18 +123,18 @@ import { getGenders } from './resolvers/genders/getGenders';
 import { getFabricTypes } from './resolvers/fabric_types/getFabricTypes';
 
 const resolvers = {
-  Query: {
-    hello: () => {
-      return 'Hello from Apollo Server';
-    },
+  //**********************************************************************
+  //======================================================================
+  // Mutation
+  //======================================================================
+  //**********************************************************************
+  Mutation: {
     //--------------------------------------------------
     // base_colours
     //--------------------------------------------------
-    getBaseColours,
     //--------------------------------------------------
     // body_segments
     //--------------------------------------------------
-    getBodySegments,
     //--------------------------------------------------
     // clothing_segment_data
     //--------------------------------------------------
@@ -156,6 +156,168 @@ const resolvers = {
     //--------------------------------------------------
     // clothing_shell_maindata_revision_changes
     //--------------------------------------------------
+    insertClothingShellMaindataRevisionChange,
+    insertClothingShellMaindataRevisionChangePromoRetired,
+    //--------------------------------------------------
+    // clothing_shell_maindata_revisions
+    //--------------------------------------------------
+    insertClothingShellMaindataRevision,
+    updateClothingShellMaindataRevisionState,
+    updateClothingShellMaindataRevisionToRetired,
+    //--------------------------------------------------
+    // clothing_shells
+    //--------------------------------------------------
+    insertEmptyClothingShell,
+    updateClothingShellUpdatedAt,
+    //--------------------------------------------------
+    // companies
+    //--------------------------------------------------
+    insertCompany,
+    updateCompany,
+    //--------------------------------------------------
+    // company_counts
+    //--------------------------------------------------
+    insertCompanyCount,
+    updateCompanyCount,
+    //--------------------------------------------------
+    // company_translation_revision_changes
+    //--------------------------------------------------
+    deleteCompanyTranslationRevisionChangesForRevision,
+    insertCompanyTranslationRevisionChange,
+    insertCompanyTranslationRevisionChangeActUpdate,
+    insertCompanyTranslationRevisionChangePromoProduction,
+    insertCompanyTranslationRevisionChangePromoRetired,
+    insertCompanyTranslationRevisionChangePromoReview,
+    //--------------------------------------------------
+    // company_translation_revisions
+    //--------------------------------------------------
+    deleteCompanyTranslationRevision,
+    insertCompanyTranslationRevision,
+    updateCompanyTranslationRevisionToProduction,
+    updateCompanyTranslationRevisionToRetired,
+    updateCompanyTranslationRevisionToReview,
+    //--------------------------------------------------
+    // company_translations
+    //--------------------------------------------------
+    deleteCompanyTranslationsForRevision,
+    insertCompanyTranslation,
+    insertCompanyTranslationBlankDraft,
+    updateCompanyTranslation,
+    //--------------------------------------------------
+    // countries
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // fabric_layers
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // fabric_types
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // genders
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // item_maindata
+    //--------------------------------------------------
+    deleteItemMaindataForItem,
+    insertItemMaindata,
+    insertItemMaindataBarebones,
+    updateItemMaindata: (_, { id, changes }) => updateItemMaindata(id, changes),
+    //--------------------------------------------------
+    // item_maindata_revision_changes
+    //--------------------------------------------------
+    deleteItemMaindataRevisionChangesForItem,
+    insertItemMaindataRevisionChange,
+    insertItemMaindataRevisionChangePromoRetired,
+    //--------------------------------------------------
+    // item_maindata_revisions
+    //--------------------------------------------------
+    deleteItemMaindataRevisionsForItem,
+    insertItemMaindataRevision,
+    updateItemMaindataRevisionState,
+    updateItemMaindataRevisionToRetired,
+    //--------------------------------------------------
+    // item_translation_revision_changes
+    //--------------------------------------------------
+    deleteItemTranslationRevisionChangesForRevision,
+    deleteItemTranslationRevisionChangesForItem,
+    insertItemTranslationRevisionChange,
+    insertItemTranslationRevisionChangePromoProduction,
+    insertItemTranslationRevisionChangePromoRetired,
+    insertItemTranslationRevisionChangePromoReview,
+    //--------------------------------------------------
+    // item_translation_revisions
+    //--------------------------------------------------
+    deleteItemTranslationRevision,
+    deleteItemTranslationRevisionsForItem,
+    insertItemTranslationRevision,
+    updateItemTranslationRevisionToProduction,
+    updateItemTranslationRevisionToRetired,
+    updateItemTranslationRevisionToReview,
+    //--------------------------------------------------
+    // item_translations
+    //--------------------------------------------------
+    deleteItemTranslationsForRevision,
+    deleteItemTranslationsForItem,
+    insertItemTranslation,
+    insertItemTranslationBlankDraft,
+    updateItemTranslation,
+    //--------------------------------------------------
+    // item_types
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // items
+    //--------------------------------------------------
+    deleteItemByPk,
+    newItem,
+    updateItemUpdatedAt,
+    //--------------------------------------------------
+    // language_families
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // locales
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // mask_shapes
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // materials
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // staff_users
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // other
+    //--------------------------------------------------
+  },
+  //**********************************************************************
+  //======================================================================
+  // Query
+  //======================================================================
+  //**********************************************************************
+  Query: {
+    hello: () => {
+      return 'Hello from Apollo Server';
+    },
+    //--------------------------------------------------
+    // base_colours
+    //--------------------------------------------------
+    getBaseColours,
+    //--------------------------------------------------
+    // body_segments
+    //--------------------------------------------------
+    getBodySegments,
+    //--------------------------------------------------
+    // clothing_segment_data
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // clothing_shell_counts
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // clothing_shell_maindata
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // clothing_shell_maindata_revision_changes
+    //--------------------------------------------------
     getClothingShellMaindataRevisionChanges: (_, { id, limit, offset }) =>
       getClothingShellMaindataRevisionChanges(id, limit, offset),
     getClothingShellMaindataRevisionChangesPromosOnly: (
@@ -168,8 +330,6 @@ const resolvers = {
         limit,
         offset
       ),
-    insertClothingShellMaindataRevisionChange,
-    insertClothingShellMaindataRevisionChangePromoRetired,
     //--------------------------------------------------
     // clothing_shell_maindata_revisions
     //--------------------------------------------------
@@ -192,9 +352,6 @@ const resolvers = {
       ),
     getRevisionsForClothingShellBarebones: (_, { id }) =>
       getRevisionsForClothingShellBarebones(id),
-    insertClothingShellMaindataRevision,
-    updateClothingShellMaindataRevisionState,
-    updateClothingShellMaindataRevisionToRetired,
     //--------------------------------------------------
     // clothing_shells
     //--------------------------------------------------
@@ -206,8 +363,6 @@ const resolvers = {
     getClothingShellsListBB: (_, { limit, offset }) =>
       getClothingShellsListBB(limit, offset),
     getItemClothingShell,
-    insertEmptyClothingShell,
-    updateClothingShellUpdatedAt,
     //--------------------------------------------------
     // companies
     //--------------------------------------------------
@@ -215,17 +370,12 @@ const resolvers = {
     getCompaniesListBB: (_, { limit, offset }) =>
       getCompaniesListBB(limit, offset),
     getCompany: (_, { id }) => getCompany(id),
-    insertCompany,
-    updateCompany,
     //--------------------------------------------------
     // company_counts
     //--------------------------------------------------
-    insertCompanyCount,
-    updateCompanyCount,
     //--------------------------------------------------
     // company_translation_revision_changes
     //--------------------------------------------------
-    deleteCompanyTranslationRevisionChangesForRevision,
     getCompanyTranslationRevisionChanges: (_, { companyId, limit, offset }) =>
       getCompanyTranslationRevisionChanges(companyId, limit, offset),
     getCompanyTranslationRevisionChangesForLocale: (
@@ -247,36 +397,22 @@ const resolvers = {
         localeCode,
         revision
       ),
-    insertCompanyTranslationRevisionChange,
-    insertCompanyTranslationRevisionChangeActUpdate,
-    insertCompanyTranslationRevisionChangePromoProduction,
-    insertCompanyTranslationRevisionChangePromoRetired,
-    insertCompanyTranslationRevisionChangePromoReview,
     //--------------------------------------------------
     // company_translation_revisions
     //--------------------------------------------------
-    deleteCompanyTranslationRevision,
     getCompanyTranslationRevisions: (_, { id }) =>
       getCompanyTranslationRevisions(id),
     getCompanyTranslationRevisionsByLocaleCode: (
       _,
       { companyId, localeCode }
     ) => getCompanyTranslationRevisionsByLocaleCode(companyId, localeCode),
-    insertCompanyTranslationRevision,
-    updateCompanyTranslationRevisionToProduction,
-    updateCompanyTranslationRevisionToRetired,
-    updateCompanyTranslationRevisionToReview,
     //--------------------------------------------------
     // company_translations
     //--------------------------------------------------
-    deleteCompanyTranslationsForRevision,
     getCompanyTranslationsGivenUniqueKeys: (
       _,
       { revision, companyId, localeCode }
     ) => getCompanyTranslationsGivenUniqueKeys(revision, companyId, localeCode),
-    insertCompanyTranslation,
-    insertCompanyTranslationBlankDraft,
-    updateCompanyTranslation,
     //--------------------------------------------------
     // countries
     //--------------------------------------------------
@@ -297,24 +433,16 @@ const resolvers = {
     //--------------------------------------------------
     // item_maindata
     //--------------------------------------------------
-    deleteItemMaindataForItem,
-    insertItemMaindata,
-    insertItemMaindataBarebones,
-    updateItemMaindata: (_, { id, changes }) => updateItemMaindata(id, changes),
     //--------------------------------------------------
     // item_maindata_revision_changes
     //--------------------------------------------------
-    deleteItemMaindataRevisionChangesForItem,
     getItemMaindataRevisionChanges: (_, { id, limit }) =>
       getItemMaindataRevisionChanges(id, limit),
     getItemMaindataRevisionChangesPromosOnly: (_, { itemId, revision }) =>
       getItemMaindataRevisionChangesPromosOnly(itemId, revision),
-    insertItemMaindataRevisionChange,
-    insertItemMaindataRevisionChangePromoRetired,
     //--------------------------------------------------
     // item_maindata_revisions
     //--------------------------------------------------
-    deleteItemMaindataRevisionsForItem,
     getItemMaindataRevision,
     getItemMaindataRevisionByRevAndItemId: (_, { itemId, revision }) =>
       getItemMaindataRevisionByRevAndItemId(itemId, revision),
@@ -331,14 +459,9 @@ const resolvers = {
     getUniqueItemMaindataRevsForBrandProdOnly: (_, { id }) =>
       getUniqueItemMaindataRevsForBrandProdOnly(id),
     getUniqueProdItemsForCompany,
-    insertItemMaindataRevision,
-    updateItemMaindataRevisionState,
-    updateItemMaindataRevisionToRetired,
     //--------------------------------------------------
     // item_translation_revision_changes
     //--------------------------------------------------
-    deleteItemTranslationRevisionChangesForRevision,
-    deleteItemTranslationRevisionChangesForItem,
     getItemTranslationRevisionChanges: (_, { itemId, limit, offset }) =>
       getItemTranslationRevisionChanges(itemId, limit, offset),
     getItemTranslationRevisionChangesForLocale: (
@@ -356,32 +479,17 @@ const resolvers = {
       { itemId, localeCode, revision }
     ) =>
       getItemTranslationRevisionChangesPromosOnly(itemId, localeCode, revision),
-    insertItemTranslationRevisionChange,
-    insertItemTranslationRevisionChangePromoProduction,
-    insertItemTranslationRevisionChangePromoRetired,
-    insertItemTranslationRevisionChangePromoReview,
     //--------------------------------------------------
     // item_translation_revisions
     //--------------------------------------------------
-    deleteItemTranslationRevision,
-    deleteItemTranslationRevisionsForItem,
     getItemTranslationRevisions: (_, { id }) => getItemTranslationRevisions(id),
     getItemTranslationRevisionsGivenLocaleCode: (_, { itemId, localeCode }) =>
       getItemTranslationRevisionsGivenLocaleCode(itemId, localeCode),
-    insertItemTranslationRevision,
-    updateItemTranslationRevisionToProduction,
-    updateItemTranslationRevisionToRetired,
-    updateItemTranslationRevisionToReview,
     //--------------------------------------------------
     // item_translations
     //--------------------------------------------------
-    deleteItemTranslationsForRevision,
-    deleteItemTranslationsForItem,
     getItemTranslationsGivenUniqueKeys: (_, { revision, itemId, localeCode }) =>
       getItemTranslationsGivenUniqueKeys(revision, itemId, localeCode),
-    insertItemTranslation,
-    insertItemTranslationBlankDraft,
-    updateItemTranslation,
     //--------------------------------------------------
     // item_types
     //--------------------------------------------------
@@ -389,14 +497,11 @@ const resolvers = {
     //--------------------------------------------------
     // items
     //--------------------------------------------------
-    deleteItemByPk,
     getItemBaseDataByPk: (_, { id }) => getItemBaseDataByPk(id),
     getItemsForItemsTableDevelopmentOnly,
     getItemsForItemsTableLatest,
     getItemsForItemsTableProductionOnly,
     getItemWithLocaleData,
-    newItem,
-    updateItemUpdatedAt,
     //--------------------------------------------------
     // language_families
     //--------------------------------------------------
