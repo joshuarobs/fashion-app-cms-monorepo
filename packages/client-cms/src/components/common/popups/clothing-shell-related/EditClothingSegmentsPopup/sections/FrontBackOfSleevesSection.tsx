@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row, Select } from 'antd';
 import { FrameInputLabel } from '../../../../typography/FrameInputLabel';
-import { ClothingSegmentBounds } from '@joshuarobs/clothing-enums';
+import { ClothingSegmentBounds } from '@joshuarobs/clothing-framework/build/enums';
 import { FabricLayerDisplay } from '../../../../../clothing-shell/overview/DetailsFrame/FabricLayerDisplay';
 import { ClothingSegmentsData } from '@joshuarobs/clothing-framework';
 import { Clothing_Segment_Bounds } from '../../../../../../strings';

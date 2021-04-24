@@ -19,7 +19,7 @@ import { NewEntryModal } from './NewEntryModal';
 import { ClothingShellsPageIcon } from '../../common/icons/page-icons/ClothingShellsPageIcon';
 import { Insert_Clothing_Shell_Count } from '../../../queries/clothing_shell_counts/insertClothingShellCount';
 import { NewEntryModalForItemRelatedEntry } from '../../items/HeaderFrame/NewEntryModalForItemRelatedEntry';
-import { ItemType } from '@joshuarobs/clothing-enums';
+import { ItemType } from '@joshuarobs/clothing-framework/build/enums';
 import { Insert_New_Blank_Clothing_Segment_Data } from '../../../queries/clothing_segment_data/insertNewBlankClothingSegmentData';
 import { Insert_Empty_Clothing_Shell } from '../../../queries/clothing_shells/insertEmptyClothingShell';
 import { Insert_Clothing_Shell_Maindata_Revision } from '../../../queries/clothing_shell_maindata_revisions/insertClothingShellMaindataRevision';

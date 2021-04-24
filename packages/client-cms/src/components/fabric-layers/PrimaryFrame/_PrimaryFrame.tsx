@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FilterOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Col, Input, Layout, Row, Select } from 'antd';
-import { FabricLayerType } from '@joshuarobs/clothing-enums';
+import { FabricLayerType } from '@joshuarobs/clothing-framework/build/enums';
 import { enumToCamelCase } from '../../../utils/enumToCamelCase';
 import { gql, useQuery } from '@apollo/client';
 import { FabricLayersTableView } from '../../common/table-views/FabricLayersTableView';

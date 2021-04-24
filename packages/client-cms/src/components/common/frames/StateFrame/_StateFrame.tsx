@@ -16,7 +16,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { Common } from '../../../../strings';
 import { PromotedBy } from './PromotedBy';
 import { FrameTitle } from '../../typography/FrameTitle';
-import { DataState } from '@joshuarobs/clothing-enums';
+import { DataState } from '@joshuarobs/clothing-framework/build/enums';
 
 const { Title, Text } = Typography;
 const { Content } = Layout;

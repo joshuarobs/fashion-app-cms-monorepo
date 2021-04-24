@@ -15,7 +15,10 @@ import { Locale_Sidebar_Order } from './localeSidebarOrders';
 import { PopupSelectLocale } from './PopupSelectLocale';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { Common } from '../../../../strings';
-import { DataChangeType, DataState } from '@joshuarobs/clothing-enums';
+import {
+  DataChangeType,
+  DataState,
+} from '@joshuarobs/clothing-framework/build/enums';
 import { LocaleStateDot } from '../LocaleStateDot';
 
 const { Content } = Layout;

@@ -5,7 +5,7 @@ import {
   DataChangeType,
   DataAction,
   DataState,
-} from '@joshuarobs/clothing-enums';
+} from '@joshuarobs/clothing-framework/build/enums';
 import { Col, Layout, message, Row, Tabs, Select } from 'antd';
 import { Common } from '../../../../../strings';
 import { UnsavedChangesCard } from '../../../../common/UnsavedChangesCard';

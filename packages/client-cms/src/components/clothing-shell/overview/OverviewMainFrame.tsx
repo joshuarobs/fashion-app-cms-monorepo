@@ -9,16 +9,11 @@ import { ColumnOfFrames } from '../../common/frames/ColumnOfFrames';
 import { DetailsFrame } from './DetailsFrame/_DetailsFrame';
 import { MiniItemsFrameClothingShell } from '../MiniItemsFrameClothingShell';
 import { ClothingShellOverviewFrame } from '../../common/frames/ClothingShellOverviewFrame/_ClothingShellOverviewFrame';
-import {
-  DataAction,
-  DataChangeType,
-  DataState,
-} from '@joshuarobs/clothing-enums';
 import { message } from 'antd';
 import { Common } from '../../../strings';
 import { Update_Clothing_Shell_Maindata } from '../../../queries/clothing_shell_maindata/updateClothingShellMaindata';
 import { Update_Clothing_Shell_Updated_At } from '../../../queries/clothing_shells/updateClothingShellUpdatedAt';
-import { ClothingSegmentsData } from '@joshuarobs/clothing-framework';
+import { ClothingSegmentsData, Enums } from '@joshuarobs/clothing-framework';
 import { Update_Clothing_Segment_Data } from '../../../queries/clothing_segment_data/updateClothingSegmentData';
 import { ClothingSegmentDataHasChangedProps } from './ClothingSegmentDataHasChangedProps';
 import { ClothingShellStateFrame } from './ClothingShellStateFrame';
@@ -199,8 +194,8 @@ function OverviewMainFrame({
       const variables = {
         revisionId: clothingShellMaindataRevision.id,
         userId: 1,
-        changeType: DataChangeType.Action,
-        action: DataAction.Update,
+        changeType: Enums.DataChangeType.Action,
+        action: Enums.DataAction.Update,
       };
       await insertClothingShellMaindataRevisionChange({
         variables,
@@ -219,7 +214,8 @@ function OverviewMainFrame({
   // 3 - State related vars
   //==================================================
   const disabled =
-    clothingShellMaindataRevision.state !== DataState.Development || isSaving;
+    clothingShellMaindataRevision.state !== Enums.DataState.Development ||
+    isSaving;
   //----------------------------------------
   // Maindata
   //----------------------------------------

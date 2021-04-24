@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
-import { DataChangeType, DataState } from '@joshuarobs/clothing-enums';
+import {
+  DataChangeType,
+  DataState,
+} from '@joshuarobs/clothing-framework/build/enums';
 import { StateFrame } from '../../common/frames/StateFrame/_StateFrame';
 import { message } from 'antd';
 import { Common } from '../../../strings';

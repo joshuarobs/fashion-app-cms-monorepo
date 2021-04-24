@@ -168,7 +168,7 @@ const Queries = gql`
     # item_translation_revision_changes
     #--------------------------------------------------
     getItemTranslationRevisionChanges(
-      itemId: Int!
+      id: Int!
       limit: Int
       offset: Int
     ): [item_translation_revision_changes]

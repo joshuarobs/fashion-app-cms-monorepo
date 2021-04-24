@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
-import { DataState } from '@joshuarobs/clothing-enums';
+import { DataState } from '@joshuarobs/clothing-framework/build/enums';
 import {
   Col,
   Input,

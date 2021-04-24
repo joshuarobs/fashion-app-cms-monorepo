@@ -5,7 +5,7 @@ import {
   DataAction,
   DataChangeType,
   DataState,
-} from '@joshuarobs/clothing-enums';
+} from '@joshuarobs/clothing-framework/build/enums';
 import { item_translation_revisions } from './item_translation_revisions';
 import { staff_users } from './staff_users';
 

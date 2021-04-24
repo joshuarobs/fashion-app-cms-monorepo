@@ -3,8 +3,8 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { generateOverviewTreeFabricLayerData } from '../../../../utils/generateOverviewTreeFabricLayerData';
 import { WarningFilled } from '@ant-design/icons';
-import { FabricLayerType } from '@joshuarobs/clothing-enums';
 import { Get_Fabric_Layer } from '../../../../queries/getFabricLayer';
+import { FabricLayerType } from '@joshuarobs/clothing-framework/build/enums';
 
 const { Title, Text } = Typography;
 const size = 'small';

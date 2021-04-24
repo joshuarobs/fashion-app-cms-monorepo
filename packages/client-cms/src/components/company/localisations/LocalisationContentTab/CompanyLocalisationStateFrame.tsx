@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { DataState } from '@joshuarobs/clothing-enums';
+import { DataState } from '@joshuarobs/clothing-framework/build/enums';
 import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
 import { Layout, message } from 'antd';
 import { Common } from '../../../../strings';

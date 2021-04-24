@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataState } from '@joshuarobs/clothing-enums';
+import { DataState } from '@joshuarobs/clothing-framework/build/enums';
 import { red, orange, green, purple } from '@ant-design/colors';
 
 interface LocaleStateDotProps {

@@ -1,7 +1,7 @@
 /*
  * http://localhost:9696/console/data/schema/public/tables/collections/modify
  */
-import { Gender } from '@joshuarobs/clothing-enums';
+import { Gender } from '@joshuarobs/clothing-framework/build/enums';
 import { companies } from './companies';
 
 interface collections {

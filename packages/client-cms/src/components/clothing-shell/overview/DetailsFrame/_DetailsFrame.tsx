@@ -15,7 +15,10 @@ import {
   message,
 } from 'antd';
 import { ItemFilterValuesStyle } from '../../../../framework/itemFilterValuesStyle';
-import { FabricLayerType, ItemType } from '@joshuarobs/clothing-enums';
+import {
+  FabricLayerType,
+  ItemType,
+} from '@joshuarobs/clothing-framework/build/enums';
 import { PopupSelectFabricLayer } from '../../PopupSelectFabricLayer/_PopupSelectFabricLayer';
 import { FabricLayerDisplay } from './FabricLayerDisplay';
 import { UnsavedChangesCard } from '../../../common/UnsavedChangesCard';

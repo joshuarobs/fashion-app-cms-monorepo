@@ -121,6 +121,7 @@ import { getFabricLayer } from './resolvers/getFabricLayer';
 import { getItemRevisionChangesAggregates } from './resolvers/getItemRevisionChangesAggregates';
 import { getGenders } from './resolvers/genders/getGenders';
 import { getFabricTypes } from './resolvers/fabric_types/getFabricTypes';
+import { updateItemMaindataRevisionStatePromoteToReview } from './resolvers/item_maindata_revisions/updateItemMaindataRevisionStatePromoteToReview';
 
 const resolvers = {
   //**********************************************************************
@@ -234,7 +235,12 @@ const resolvers = {
     //--------------------------------------------------
     deleteItemMaindataRevisionsForItem,
     insertItemMaindataRevision,
-    updateItemMaindataRevisionState,
+    updateItemMaindataRevisionState: (_, { id }) =>
+      updateItemMaindataRevisionState(id),
+    updateItemMaindataRevisionStatePromoteToReview: (_, { id }) =>
+      updateItemMaindataRevisionStatePromoteToReview(id),
+    // updateItemMaindataRevisionStatePromoteToProduction
+    // updateItemMaindataRevisionStatePromoteNewRevision
     updateItemMaindataRevisionToRetired,
     //--------------------------------------------------
     // item_translation_revision_changes
@@ -463,8 +469,8 @@ const resolvers = {
     //--------------------------------------------------
     // item_translation_revision_changes
     //--------------------------------------------------
-    getItemTranslationRevisionChanges: (_, { itemId, limit, offset }) =>
-      getItemTranslationRevisionChanges(itemId, limit, offset),
+    getItemTranslationRevisionChanges: (_, { id, limit, offset }) =>
+      getItemTranslationRevisionChanges(id, limit, offset),
     getItemTranslationRevisionChangesForLocale: (
       _,
       { itemId, localeCode, limit, offset }

@@ -1,6 +1,6 @@
 import React from 'react';
-import { ClothingSegmentBounds } from '@joshuarobs/clothing-enums';
 import { ClothingSegmentsData } from '@joshuarobs/clothing-framework';
+import { ClothingSegmentBounds } from '@joshuarobs/clothing-framework/build/enums';
 
 interface ClothingSegmentsBackProps {
   isRightSide?: boolean;

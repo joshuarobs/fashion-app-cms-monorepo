@@ -2,6 +2,10 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
+/**
+ * Updates the Item Maindata Revision's state
+ * Used in the Item page's StateFrame, typically when promoting to a newer state
+ */
 async function updateItemMaindataRevisionToRetired() {
   try {
     const data = await client.query({

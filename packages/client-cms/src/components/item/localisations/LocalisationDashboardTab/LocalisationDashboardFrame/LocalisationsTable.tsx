@@ -6,7 +6,7 @@ import { green } from '@ant-design/colors';
 import { TagInProduction } from '../../../../common/localisation/TagInProduction';
 import { TagInReview } from '../../../../common/localisation/TagInReview';
 import { TagInDevelopment } from '../../../../common/localisation/TagInDevelopment';
-import { DataState } from '@joshuarobs/clothing-enums';
+import { DataState } from '@joshuarobs/clothing-framework/build/enums';
 import { TagInRetirement } from '../../../../common/localisation/TagInRetirement';
 import { TagError } from '../../../../common/localisation/TagError';
 

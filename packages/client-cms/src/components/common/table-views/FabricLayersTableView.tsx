@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/client';
 import * as _ from 'lodash';
 import { Get_Fabric_Layers_List_BB } from '../../../queries/fabric_layers/getFabricLayersListBB';
 import { FabricLayersTable } from './FabricLayersTable';
-import { FabricLayerType } from '@joshuarobs/clothing-enums';
+import { FabricLayerType } from '@joshuarobs/clothing-framework/build/enums';
 import { enumToCamelCase } from '../../../utils/enumToCamelCase';
 import { TableType } from './TableType';
 

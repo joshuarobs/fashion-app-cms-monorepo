@@ -1,8 +1,7 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { LatestActivityFrame } from './LatestActivityFrame';
 import { Layout } from 'antd';
-import { Get_Item_Maindata_Revision_Changes } from '../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChanges';
 
 const { Content } = Layout;
 

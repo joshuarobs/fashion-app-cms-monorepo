@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
-import { DataChangeType, DataState } from '@joshuarobs/clothing-enums';
+import {
+  DataChangeType,
+  DataState,
+} from '@joshuarobs/clothing-framework/build/enums';
 import { StateFrame } from '../../common/frames/StateFrame/_StateFrame';
 import { message } from 'antd';
 import { Common } from '../../../strings';
@@ -17,6 +20,7 @@ import { Get_Item_Maindata_Revision_Changes_Promos_Only } from '../../../queries
 import { Update_Item_Maindata_Revision_To_Retired } from '../../../queries/item_maindata_revisions/updateItemMaindataRevisionToRetired';
 import { Insert_Item_Maindata_Revision_Change_Promo_Retired } from '../../../queries/item_maindata_revision_changes/insertItemMaindataRevisionChangePromoRetired';
 import { item_maindata_revisions } from '../../../utils/gql-interfaces/item_maindata_revisions';
+import { Update_Item_Maindata_Revision_State_Promote_To_Review } from '../../../queries/item_maindata_revisions/updateItemMaindataRevisionStatePromoteToReview';
 
 const key = 'state-localisations';
 
@@ -90,6 +94,12 @@ ItemStateFrameProps) {
   //==================================================
   // PROMOTIONS
   //==================================================
+
+  const [updateItemMaindataRevisionStatePromoteToReview] = useMutation(
+    Update_Item_Maindata_Revision_State_Promote_To_Review,
+    {}
+  );
+
   const [
     updateItemMaindataRevision,
     // { loading: loadingUpdateRevisionReview, error: errorUpdateRevisionReview }
@@ -273,28 +283,33 @@ ItemStateFrameProps) {
     message.loading({ content: Common.State_Related.Promoting_To_Review, key });
     // 1. (OBSOLETE) Create a release translation version
     // 2. Update the item translation revision state to REVIEW
-    await updateItemMaindataRevision({
+    await updateItemMaindataRevisionStatePromoteToReview({
       variables: {
-        // @ts-ignore
-        revisionId: currentRevision.id,
-        state: DataState.Review,
+        id: currentRevision.id,
       },
     });
+    // await updateItemMaindataRevision({
+    //   variables: {
+    //     // @ts-ignore
+    //     revisionId: currentRevision.id,
+    //     state: DataState.Review,
+    //   },
+    // });
     // 3. Create an activity entry
-    await insertItemMaindataRevisionChange({
-      variables: {
-        // @ts-ignore
-        revisionId: currentRevision.id,
-        userId: 1,
-        changeType: DataChangeType.Promotion,
-        toState: DataState.Review,
-      },
-    });
-    await updateItemUpdatedAt({
-      variables: {
-        id: itemId,
-      },
-    });
+    // await insertItemMaindataRevisionChange({
+    //   variables: {
+    //     // @ts-ignore
+    //     revisionId: currentRevision.id,
+    //     userId: 1,
+    //     changeType: DataChangeType.Promotion,
+    //     toState: DataState.Review,
+    //   },
+    // });
+    // await updateItemUpdatedAt({
+    //   variables: {
+    //     id: itemId,
+    //   },
+    // });
     // Refresh the page
     history.go(0);
     message.success(

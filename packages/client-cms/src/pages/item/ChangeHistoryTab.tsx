@@ -75,7 +75,7 @@ function ChangeHistoryTab() {
     data: dataTranslations,
   } = useQuery(Get_Item_Translation_Revision_Changes, {
     variables: {
-      itemId: parseInt(itemId),
+      id: parseInt(itemId),
       limit,
     },
   });

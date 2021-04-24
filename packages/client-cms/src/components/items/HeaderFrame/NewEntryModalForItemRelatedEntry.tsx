@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Input, Modal, Radio, Row, Typography, Alert } from 'antd';
 import { ItemFilterValuesItemType } from '../../../framework/itemFilterValuesItemType';
-import { ItemType } from '@joshuarobs/clothing-enums';
+import { ItemType } from '@joshuarobs/clothing-framework/build/enums';
 import { Common } from '../../../strings';
-import {NewEntryModalProps} from './NewEntryModalProps';
+import { NewEntryModalProps } from './NewEntryModalProps';
 
 const { Text } = Typography;
 

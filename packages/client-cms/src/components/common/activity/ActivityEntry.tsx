@@ -11,7 +11,7 @@ import {
   DataAction,
   DataChangeType,
   DataState,
-} from '@joshuarobs/clothing-enums';
+} from '@joshuarobs/clothing-framework/build/enums';
 import dayjs from 'dayjs';
 
 const { Text } = Typography;

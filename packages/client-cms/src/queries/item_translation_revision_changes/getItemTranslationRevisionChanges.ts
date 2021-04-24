@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 const Get_Item_Translation_Revision_Changes = gql`
-  query getItemTranslationRevisionChanges($itemId: Int!, $limit: Int) {
-    getItemTranslationRevisionChanges(itemId: $itemId, limit: $limit) {
+  query getItemTranslationRevisionChanges($id: Int!, $limit: Int) {
+    getItemTranslationRevisionChanges(id: $id, limit: $limit) {
       id
       to_state
       date

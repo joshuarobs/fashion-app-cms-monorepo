@@ -11,7 +11,7 @@ import { ClothingSegmentsData } from '@joshuarobs/clothing-framework';
 import { ModelAndStatistics } from './ModelAndStatistics/_ModelAndStatistics';
 import { ChangeClothingShellHeader } from './ChangeClothingShellHeader';
 import { Get_Clothing_Shell_Base_Data_By_Pk } from '../../../../queries/clothing_shells/getClothingShellBaseDataByPk';
-import { getBodyCoveragePercent } from '@joshuarobs/clothing-framework/build/classes/ClothingSegmentsData/getBodyCoveragePercent';
+import { getBodyCoveragePercent } from '@joshuarobs/clothing-framework/build/framework/classes/ClothingSegmentsData/getBodyCoveragePercent';
 import { VersionablePageErrors } from '../../../../utils/quick-error-gen/VersionablePageErrors';
 
 const { Content } = Layout;

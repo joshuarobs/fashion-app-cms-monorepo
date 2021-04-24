@@ -1,7 +1,7 @@
 /**
  * http://localhost:9696/console/data/schema/public/tables/item_translations/modify
  */
-import { DataState } from '@joshuarobs/clothing-enums';
+import { DataState } from '@joshuarobs/clothing-framework/build/enums';
 import { items } from './items';
 
 interface item_translation_revisions {

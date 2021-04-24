@@ -16,7 +16,7 @@ import {
   ItemType,
   DataState,
   DataChangeType,
-} from '@joshuarobs/clothing-enums';
+} from '@joshuarobs/clothing-framework/build/enums';
 import { ItemsPageIcon } from '../../common/icons/page-icons/ItemsPageIcon';
 import { Insert_Item_Maindata_Revision_Change } from '../../../queries/item_maindata_revision_changes/insertItemMaindataRevisionChange';
 import { Insert_Item_Maindata_Revision } from '../../../queries/item_maindata_revisions/insertItemMaindataRevision';

@@ -7,7 +7,7 @@ import {
 } from '../../settings';
 
 async function getItemTranslationRevisionChanges(
-  itemId: number,
+  id: number,
   limit = Data_Entry_Query_Amount_Min_Half,
   offset: number
 ) {
@@ -18,12 +18,12 @@ async function getItemTranslationRevisionChanges(
     const data = await client.query({
       query: gql`
         query getItemTranslationRevisionChanges(
-          $itemId: Int!
+          $id: Int!
           $limit: Int
           $offset: Int
         ) {
           item_translation_revision_changes(
-            where: { item_translation_revision: { item_id: { _eq: $itemId } } }
+            where: { item_translation_revision: { item_id: { _eq: $id } } }
             order_by: { date: desc }
             limit: $limit
             offset: $offset
@@ -60,7 +60,7 @@ async function getItemTranslationRevisionChanges(
         }
       `,
       variables: {
-        itemId,
+        id,
         limit,
         offset,
       },

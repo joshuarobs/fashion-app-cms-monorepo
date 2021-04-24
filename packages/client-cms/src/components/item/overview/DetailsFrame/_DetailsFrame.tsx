@@ -22,11 +22,14 @@ import {
 import { ClothingCategory } from '../../../../framework/clothingCategory';
 import { ItemFilterValuesOccasion } from '../../../../framework/itemFilterValuesOccasion';
 import { ItemFilterValuesStyle } from '../../../../framework/itemFilterValuesStyle';
-import { ItemType } from '@joshuarobs/clothing-enums';
 import { ItemFamilySection } from './ItemFamilySection';
 import { BrandSection } from './BrandSection';
 import { PopupSelectCompany } from '../../PopupSelectCompany';
-import { DataState, Gender as GENDERS_MAP } from '@joshuarobs/clothing-enums';
+import {
+  ItemType,
+  DataState,
+  Gender as GENDERS_MAP,
+} from '@joshuarobs/clothing-framework/build/enums';
 import { FrameTitle } from '../../../common/typography/FrameTitle';
 import { TagInProduction } from '../../../common/localisation/TagInProduction';
 import { BurgerMenuButton } from '../../../common/frames/BurgerMenuButton/_BurgerMenuButton';

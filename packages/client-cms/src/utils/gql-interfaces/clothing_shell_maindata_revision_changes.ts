@@ -2,7 +2,7 @@ import {
   DataAction,
   DataChangeType,
   DataState,
-} from '@joshuarobs/clothing-enums';
+} from '@joshuarobs/clothing-framework/build/enums';
 
 /**
  * http://localhost:9696/console/data/schema/public/tables/clothing_shell_maindata_revision_changes/modify

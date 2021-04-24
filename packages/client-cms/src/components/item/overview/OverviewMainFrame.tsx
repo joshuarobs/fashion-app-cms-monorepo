@@ -12,7 +12,7 @@ import {
   DataAction,
   DataChangeType,
   DataState,
-} from '@joshuarobs/clothing-enums';
+} from '@joshuarobs/clothing-framework/build/enums';
 import { useHistory } from 'react-router-dom';
 import { ItemStateFrame } from './ItemStateFrame';
 import { Update_Item_Maindata_Revision_State } from '../../../queries/item_maindata_revisions/updateItemMaindataRevisionState';
@@ -58,15 +58,6 @@ function OverviewMainFrame({
   // console.log('revisionDraft:', revisionDraft);
   console.log('revisionRelease:', revisionRelease);
 
-  // const [name, setName] = useState(item.name ? item.name : null);
-  // const [type, setType] = useState(item.type ? item.type : ITEM_TYPE.CLOTHING);
-  // const [short_id, setShortId] = useState(item.short_id ? item.short_id : null);
-  // const [occasions, setOccasions] = useState();
-  // const [brand_id, setBrandId] = useState(item.brand_id);
-  // const [for_gender, setForGender] = useState(item.for_gender);
-  // const [clothing_shell_id, setClothingShellId] = useState(
-  //   item.clothing_shell_id ? item.clothing_shell_id : null
-  // );
   const [name, setName] = useState<string | null>('null');
   useEffect(() => {
     setName(revisionRelease.name);
@@ -183,59 +174,59 @@ function OverviewMainFrame({
       });
     },
   });
-
-  const [updateItemUpdatedAt] = useMutation(Update_Item_Updated_At, {
-    onCompleted() {},
-  });
-
-  const [updateClothingShellCount] = useMutation(
-    Update_Clothing_Shell_Count_By_Clothing_Shell_Id,
-    {
-      onCompleted({ update_clothing_shell_counts_by_pk }) {
-        console.log(
-          'DONE updateClothingShellCount:',
-          update_clothing_shell_counts_by_pk
-        );
-      },
-    }
-  );
-
-  const [getItemCountForClothingShell] = useLazyQuery(
-    Get_Num_Of_Unique_Items_For_Clothing_Shell,
-    {
-      // NOTE: We can't use async for `onCompleted` in a `useLazyQuery` as it
-      // causes weird infinite page re-rendering bugs
-      onCompleted({ item_maindata_revisions_aggregate }) {
-        console.log(
-          'CLOTHING SHELL ITEM COUNT:',
-          item_maindata_revisions_aggregate.aggregate.count
-        );
-        let clothingShellId = null;
-        if (clothing_shell_id) {
-          clothingShellId = clothing_shell_id;
-        } else if (revisionRelease.clothing_shell_id) {
-          clothingShellId = revisionRelease.clothing_shell_id;
-        } else if (prevClothingShellId) {
-          clothingShellId = prevClothingShellId;
-        }
-        // console.log("prevClothingShellId:", prevClothingShellId);
-        if (clothingShellId) {
-          updateClothingShellCount({
-            variables: {
-              clothingShellId: clothingShellId,
-              changes: {
-                item_count: item_maindata_revisions_aggregate.aggregate.count,
-              },
-            },
-          }).then();
-          message.success({ content: Common.Changes_Saved, key }, 2).then();
-          history.go(0);
-        }
-        // message.success({ content: COMMON.UPDATED_ITEM_COUNT, key }, 2);
-      },
-      fetchPolicy: 'network-only',
-    }
-  );
+  //
+  // const [updateItemUpdatedAt] = useMutation(Update_Item_Updated_At, {
+  //   onCompleted() {},
+  // });
+  //
+  // const [updateClothingShellCount] = useMutation(
+  //   Update_Clothing_Shell_Count_By_Clothing_Shell_Id,
+  //   {
+  //     onCompleted({ update_clothing_shell_counts_by_pk }) {
+  //       console.log(
+  //         'DONE updateClothingShellCount:',
+  //         update_clothing_shell_counts_by_pk
+  //       );
+  //     },
+  //   }
+  // );
+  //
+  // const [getItemCountForClothingShell] = useLazyQuery(
+  //   Get_Num_Of_Unique_Items_For_Clothing_Shell,
+  //   {
+  //     // NOTE: We can't use async for `onCompleted` in a `useLazyQuery` as it
+  //     // causes weird infinite page re-rendering bugs
+  //     onCompleted({ item_maindata_revisions_aggregate }) {
+  //       console.log(
+  //         'CLOTHING SHELL ITEM COUNT:',
+  //         item_maindata_revisions_aggregate.aggregate.count
+  //       );
+  //       let clothingShellId = null;
+  //       if (clothing_shell_id) {
+  //         clothingShellId = clothing_shell_id;
+  //       } else if (revisionRelease.clothing_shell_id) {
+  //         clothingShellId = revisionRelease.clothing_shell_id;
+  //       } else if (prevClothingShellId) {
+  //         clothingShellId = prevClothingShellId;
+  //       }
+  //       // console.log("prevClothingShellId:", prevClothingShellId);
+  //       if (clothingShellId) {
+  //         updateClothingShellCount({
+  //           variables: {
+  //             clothingShellId: clothingShellId,
+  //             changes: {
+  //               item_count: item_maindata_revisions_aggregate.aggregate.count,
+  //             },
+  //           },
+  //         }).then();
+  //         message.success({ content: Common.Changes_Saved, key }, 2).then();
+  //         history.go(0);
+  //       }
+  //       // message.success({ content: COMMON.UPDATED_ITEM_COUNT, key }, 2);
+  //     },
+  //     fetchPolicy: 'network-only',
+  //   }
+  // );
 
   const overrideRevisionStateToRetired = () => {
     // TODO: Check if user is admin
@@ -367,13 +358,14 @@ function OverviewMainFrame({
         // );
       }
       message.loading({ content: Common.Saving_Changes, key });
+      // Update the clothing shell item's count only if changes are made in
+      // development
+      // Set the clothing shell id as one that we either we're going
+      // towards, or going from, as sometimes one or the other value can
+      // be null
       await updateItemMaindata({ variables });
-      // await updateItemUpdatedAt({
-      //   variables: {
-      //     id: item.id,
-      //   },
-      // });
       message.success({ content: Common.Changes_Saved, key }, 2);
+
       // Force refresh the page if changes were made to the clothing shell,
       // since if we don't the counter for the clothing shell doesn't update.
       // We don't need this when we don't edit the selected clothing shell,
