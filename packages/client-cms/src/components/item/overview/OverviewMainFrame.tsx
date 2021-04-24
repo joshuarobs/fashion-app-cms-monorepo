@@ -321,6 +321,8 @@ function OverviewMainFrame({
       const variables = {
         id: revisionRelease.id,
         changes,
+        itemId: item.id,
+        countsId: null,
       };
 
       if (hasChanged.name) {
@@ -349,11 +351,11 @@ function OverviewMainFrame({
         variables.changes.made_in_id = made_in_id;
       }
 
-      let countsId = null;
       if (hasChanged.clothing_shell_id) {
         setPrevClothingShellId(revisionRelease.clothing_shell_id);
         variables.changes.clothing_shell_id = clothing_shell_id;
-        countsId = clothing_shell_id
+        // @ts-ignore
+        variables.countsId = clothing_shell_id
           ? clothing_shell_id
           : revisionRelease.clothing_shell_id;
         // console.log(
@@ -371,21 +373,29 @@ function OverviewMainFrame({
       //     id: item.id,
       //   },
       // });
-      if (countsId) {
-        // Update the clothing shell item's count only if changes are made in
-        // development
-        // Set the clothing shell id as one that we either we're going
-        // towards, or going from, as sometimes one or the other value can
-        // be null
-        // await getItemCountForClothingShell({
-        //   variables: {
-        //     id: countsId,
-        //   },
-        // });
-      } else {
-        message.success({ content: Common.Changes_Saved, key }, 2);
+      message.success({ content: Common.Changes_Saved, key }, 2);
+      // Force refresh the page if changes were made to the clothing shell,
+      // since if we don't the counter for the clothing shell doesn't update.
+      // We don't need this when we don't edit the selected clothing shell,
+      // and the UI automatically updates without needing a refresh
+      if (variables.countsId) {
         history.go(0);
       }
+      // history.go(0);
+      // if (countsId) {
+      //   // Update the clothing shell item's count only if changes are made in
+      //   // development
+      //   // Set the clothing shell id as one that we either we're going
+      //   // towards, or going from, as sometimes one or the other value can
+      //   // be null
+      //   // await getItemCountForClothingShell({
+      //   //   variables: {
+      //   //     id: countsId,
+      //   //   },
+      //   // });
+      // } else {
+      //
+      // }
     }
   };
 

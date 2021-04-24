@@ -68,14 +68,16 @@ function PrimaryFrame({
   console.log('data2:', data);
 
   // Iterate through all data and set keys
-  const newData = _.cloneDeep(data.clothing_shells);
+  const newData = _.cloneDeep(
+    data.getClothingShellsForClothingShellsTableLatest
+  );
   newData.forEach((item: any, index: number) => {
     item.key = index;
   });
 
   // Get the number of all fabric layers
   // const totalNumber = data.fabric_layers_aggregate.aggregate.count;
-  const numResults = data.clothing_shells.length;
+  const numResults = data.getClothingShellsForClothingShellsTableLatest.length;
 
   return (
     <Content

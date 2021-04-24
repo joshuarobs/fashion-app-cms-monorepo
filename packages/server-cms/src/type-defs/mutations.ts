@@ -97,6 +97,8 @@ const Mutations = gql`
     updateItemMaindata(
       id: String!
       changes: item_maindata_set_input
+      itemId: Int!
+      countsId: Int
     ): item_maindata
     #--------------------------------------------------
     # item_maindata_revision_changes
