@@ -237,8 +237,8 @@ const resolvers = {
     insertItemMaindataRevision,
     updateItemMaindataRevisionState: (_, { id }) =>
       updateItemMaindataRevisionState(id),
-    updateItemMaindataRevisionStatePromoteToReview: (_, { id }) =>
-      updateItemMaindataRevisionStatePromoteToReview(id),
+    updateItemMaindataRevisionStatePromoteToReview: (_, { id, userId }) =>
+      updateItemMaindataRevisionStatePromoteToReview(id, userId),
     // updateItemMaindataRevisionStatePromoteToProduction
     // updateItemMaindataRevisionStatePromoteNewRevision
     updateItemMaindataRevisionToRetired,

@@ -286,6 +286,7 @@ ItemStateFrameProps) {
     await updateItemMaindataRevisionStatePromoteToReview({
       variables: {
         id: currentRevision.id,
+        userId: 1,
       },
     });
     // await updateItemMaindataRevision({

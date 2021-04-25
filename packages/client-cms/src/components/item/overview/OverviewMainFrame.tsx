@@ -4,7 +4,7 @@ import { Common } from '../../../strings';
 import { UnsavedChangesCard } from '../../common/UnsavedChangesCard';
 import { ColumnOfFrames } from '../../common/frames/ColumnOfFrames';
 import { DetailsFrame } from './DetailsFrame/_DetailsFrame';
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { OverviewActivityFrame } from '../../common/activity/OverviewActivityFrame';
 import { ClothingShellOverviewFrame } from '../../common/frames/ClothingShellOverviewFrame/_ClothingShellOverviewFrame';
 import { Insert_Item_Maindata_Revision_Change } from '../../../queries/item_maindata_revision_changes/insertItemMaindataRevisionChange';
@@ -16,9 +16,6 @@ import {
 import { useHistory } from 'react-router-dom';
 import { ItemStateFrame } from './ItemStateFrame';
 import { Update_Item_Maindata_Revision_State } from '../../../queries/item_maindata_revisions/updateItemMaindataRevisionState';
-import { Update_Item_Updated_At } from '../../../queries/items/updateItemUpdatedAt';
-import { Get_Num_Of_Unique_Items_For_Clothing_Shell } from '../../../queries/item_maindata_revisions/getNumberOfUniqueItemsForClothingShell';
-import { Update_Clothing_Shell_Count_By_Clothing_Shell_Id } from '../../../queries/clothing_shell_counts/updateClothingShellCountByClothingShellid';
 import { Update_Item_Maindata } from '../../../queries/item_maindata/updateItemMaindata';
 import { item_maindata } from '../../../utils/gql-interfaces/item_maindata';
 import { items } from '../../../utils/gql-interfaces/items';
