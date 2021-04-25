@@ -8,8 +8,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
   ClusterOutlined,
   FolderOpenOutlined,
   GoldOutlined,
@@ -26,11 +24,10 @@ import {
   GlobalOutlined,
   BgColorsOutlined,
   GatewayOutlined,
-  ManOutlined,
   AimOutlined,
   ContainerOutlined,
 } from '@ant-design/icons';
-import { Col, Layout, Menu } from 'antd';
+import { Layout, Menu } from 'antd';
 import { App_Shell } from '../../strings';
 import { Routes } from '../../routes';
 import { ExpandCollapseSidebarButton } from './ExpandCollapseSidebarButton';

@@ -1,7 +1,8 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
-import { Enums } from '@joshuarobs/clothing-framework';
+import { DataState } from '@joshuarobs/clothing-framework/build/enums';
+// import { Enums } from '@joshuarobs/clothing-framework';
 
 /**
  * Updates the Item Maindata Revision's state by promoting it:
@@ -40,8 +41,7 @@ async function updateItemMaindataRevisionStatePromoteToReview(id: string) {
 
     console.log(
       'State is dev:',
-      data1.data.item_maindata_revisions_by_pk.state ===
-        Enums.DataState.Development
+      data1.data.item_maindata_revisions_by_pk.state === DataState.Development
     );
 
     return data1.data.update_item_maindata_revisions_by_pk;
