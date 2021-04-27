@@ -4,23 +4,27 @@ import {
   DataChangeType,
   DataState,
 } from '@joshuarobs/clothing-framework/build/enums';
-import { StateFrame } from '../../common/frames/StateFrame/_StateFrame';
+import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
 import { message } from 'antd';
-import { Common } from '../../../strings';
+import { Common } from '../../../../strings';
 import { useHistory } from 'react-router-dom';
-import { Update_Item_Maindata_Revision_State } from '../../../queries/item_maindata_revisions/updateItemMaindataRevisionState';
-import { Insert_Item_Maindata_Revision_Change } from '../../../queries/item_maindata_revision_changes/insertItemMaindataRevisionChange';
-import { Routes } from '../../../routes';
-import { Insert_Item_Maindata_Revision } from '../../../queries/item_maindata_revisions/insertItemMaindataRevision';
-import { Insert_Item_Maindata } from '../../../queries/item_maindata/insertItemMaindata';
-import { Update_Item_Updated_At } from '../../../queries/items/updateItemUpdatedAt';
-import { Update_Company_Count } from '../../../queries/company_counts/updateCompanyCount';
-import { Get_Unique_Item_Maindata_Rev_Amount_For_Brand_Prod_Only } from '../../../queries/item_maindata_revisions/getUniqueItemMaindataRevisionsForBrandInProduction';
-import { Get_Item_Maindata_Revision_Changes_Promos_Only } from '../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChangesPromosOnly';
-import { Update_Item_Maindata_Revision_To_Retired } from '../../../queries/item_maindata_revisions/updateItemMaindataRevisionToRetired';
-import { Insert_Item_Maindata_Revision_Change_Promo_Retired } from '../../../queries/item_maindata_revision_changes/insertItemMaindataRevisionChangePromoRetired';
-import { item_maindata_revisions } from '../../../utils/gql-interfaces/item_maindata_revisions';
-import { Update_Item_Maindata_Revision_State_Promote_To_Review } from '../../../queries/item_maindata_revisions/updateItemMaindataRevisionStatePromoteToReview';
+import { Update_Item_Maindata_Revision_State } from '../../../../queries/item_maindata_revisions/updateItemMaindataRevisionState';
+import { Insert_Item_Maindata_Revision_Change } from '../../../../queries/item_maindata_revision_changes/insertItemMaindataRevisionChange';
+import { Routes } from '../../../../routes';
+import { Insert_Item_Maindata_Revision } from '../../../../queries/item_maindata_revisions/insertItemMaindataRevision';
+import { Insert_Item_Maindata } from '../../../../queries/item_maindata/insertItemMaindata';
+import { Update_Item_Updated_At } from '../../../../queries/items/updateItemUpdatedAt';
+import { Update_Company_Count } from '../../../../queries/company_counts/updateCompanyCount';
+import { Get_Unique_Item_Maindata_Rev_Amount_For_Brand_Prod_Only } from '../../../../queries/item_maindata_revisions/getUniqueItemMaindataRevisionsForBrandInProduction';
+import { Get_Item_Maindata_Revision_Changes_Promos_Only } from '../../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChangesPromosOnly';
+import { Update_Item_Maindata_Revision_To_Retired } from '../../../../queries/item_maindata_revisions/updateItemMaindataRevisionToRetired';
+import { Insert_Item_Maindata_Revision_Change_Promo_Retired } from '../../../../queries/item_maindata_revision_changes/insertItemMaindataRevisionChangePromoRetired';
+import { item_maindata_revisions } from '../../../../utils/gql-interfaces/item_maindata_revisions';
+import { Update_Item_Maindata_Revision_State_Promote_To_Review } from '../../../../queries/item_maindata_revisions/updateItemMaindataRevisionStatePromoteToReview';
+import { Update_Item_Maindata_Revision_State_Demote_To_Development } from '../../../../queries/item_maindata_revisions/updateItemMaindataRevisionStateDemoteToDevelopment';
+import { Get_Item_Maindata_Revision_Changes } from '../../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChanges';
+import { StateFrameHolder } from './StateFrameHolder';
+import { Get_Item_Maindata_Revision_By_Rev_And_Item_Id_BB } from '../../../../queries/item_maindata_revisions/getItemMaindataRevisionByRevAndItemIdBB';
 
 const key = 'state-localisations';
 
@@ -28,28 +32,31 @@ interface ItemStateFrameProps {
   itemId: number;
   itemMaindataRevision: item_maindata_revisions;
   paramsRevision: string;
-  refetchTranslations?: Function;
-  refetchItemTransRevs?: Function;
+  // refetchTranslations?: Function;
+  // refetchItemTransRevs?: Function;
   uniqueRevisions: any;
   refetchRevisions: Function;
   refetchItemBaseData: Function;
+  refetchLatestActivity: Function;
 }
 
 function ItemStateFrame({
   itemId,
   itemMaindataRevision,
   paramsRevision,
-  refetchTranslations = () => {},
-  refetchItemTransRevs = () => {},
+  // refetchTranslations = () => {},
+  // refetchItemTransRevs = () => {},
   uniqueRevisions,
   refetchRevisions = () => {},
   refetchItemBaseData = () => {},
+  refetchLatestActivity = () => {},
 }: // translations
 ItemStateFrameProps) {
   const history = useHistory();
   // console.log("STATE - history:", history);
 
-  // console.log("itemMaindataRevision:", itemMaindataRevision);
+  // console.log('itemMaindataRevision:', itemMaindataRevision);
+  console.log('ItemStateFrame!!!');
 
   const [
     currentRevision,
@@ -60,10 +67,12 @@ ItemStateFrameProps) {
     // }, [paramsRevision]);
   }, [paramsRevision, itemMaindataRevision]);
 
-  const [state, setState] = useState<DataState | null>(null);
+  const [state2, setState] = useState<DataState | null>(null);
   useEffect(() => {
     setState(itemMaindataRevision ? itemMaindataRevision.state : null);
   }, [paramsRevision]);
+
+  const [changeToDevelopment2, setChangeToDevelopment] = useState();
 
   // const [revision_id, setRevisionId] = useState(itemMaindataRevision.id);
   //======================================================================
@@ -81,15 +90,29 @@ ItemStateFrameProps) {
   //   variables: { revision: paramsRevision }
   // });
 
-  const { loading, error, data } = useQuery(
-    Get_Item_Maindata_Revision_Changes_Promos_Only,
-    {
-      variables: {
-        itemId,
-        revision: Number.parseInt(paramsRevision),
-      },
-    }
-  );
+  const {
+    loading: loadingRevisionChanges,
+    error: errorRevisionChanges,
+    data: dataRevisionChanges,
+  } = useQuery(Get_Item_Maindata_Revision_Changes_Promos_Only, {
+    variables: {
+      itemId,
+      revision: Number.parseInt(paramsRevision),
+    },
+    fetchPolicy: 'cache-and-network',
+  });
+
+  const {
+    loading: loadingMaindataRevisionBB,
+    error: errorMaindataRevisionBB,
+    data: dataMaindataRevisionBB,
+  } = useQuery(Get_Item_Maindata_Revision_By_Rev_And_Item_Id_BB, {
+    variables: {
+      itemId,
+      revision: Number.parseInt(paramsRevision),
+    },
+    fetchPolicy: 'cache-and-network',
+  });
 
   //==================================================
   // PROMOTIONS
@@ -97,8 +120,69 @@ ItemStateFrameProps) {
 
   const [updateItemMaindataRevisionStatePromoteToReview] = useMutation(
     Update_Item_Maindata_Revision_State_Promote_To_Review,
-    {}
+    {
+      refetchQueries: [
+        // {
+        //   query: Get_Item_Maindata_Revision_Changes,
+        //   variables: {
+        //     id: itemId,
+        //     limit: 10,
+        //   },
+        // },
+        {
+          query: Get_Item_Maindata_Revision_Changes_Promos_Only,
+          variables: {
+            itemId,
+            revision: Number.parseInt(paramsRevision),
+          },
+        },
+      ],
+    }
   );
+
+  const [updateItemMaindataRevisionStateDemoteToDevelopment] = useMutation(
+    Update_Item_Maindata_Revision_State_Demote_To_Development,
+    {
+      refetchQueries: [
+        // {
+        //   query: Get_Item_Maindata_Revision_Changes,
+        //   variables: {
+        //     id: itemId,
+        //     limit: 10,
+        //   },
+        // },
+        {
+          query: Get_Item_Maindata_Revision_Changes_Promos_Only,
+          variables: {
+            itemId,
+            revision: Number.parseInt(paramsRevision),
+          },
+        },
+      ],
+    }
+  );
+
+  // Get_Item_Maindata_Revision_Changes_Promos_Only,
+  // {
+  //   variables: {
+  //     itemId,
+  //     revision: Number.parseInt(paramsRevision),
+  //   },
+
+  console.log('QUERY 2: itemId:', itemId);
+
+  //
+  // const {
+  //   loading: loadingLatestActivity,
+  //   error: errorLatestActivity,
+  //   data: dataLatestActivity,
+  //   refetch: refetchLatestActivity,
+  // } = useQuery(Get_Item_Maindata_Revision_Changes, {
+  //   variables: {
+  //     id: item.id,
+  //     limit: 10,
+  //   },
+  // });
 
   const [
     updateItemMaindataRevision,
@@ -262,10 +346,28 @@ ItemStateFrameProps) {
     fetchPolicy: 'network-only',
   });
 
-  if (loading || !currentRevision) return <StateFrame />;
-  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
+  if (loadingRevisionChanges || loadingMaindataRevisionBB || !currentRevision) {
+    return <StateFrame />;
+  }
+  if (errorRevisionChanges) {
+    return (
+      <div>
+        Error! (Revision Changes) $
+        {JSON.stringify(errorRevisionChanges, null, 2)}
+      </div>
+    );
+  }
+  if (errorMaindataRevisionBB) {
+    return (
+      <div>
+        Error! (Maindata Revision BB) $
+        {JSON.stringify(errorMaindataRevisionBB, null, 2)}
+      </div>
+    );
+  }
 
-  console.log('data:', data);
+  console.log('ItemStateFrame#dataRevisionChanges:', dataRevisionChanges);
+  console.log('ItemStateFrame#dataMaindataRevisionBB:', dataMaindataRevisionBB);
 
   // if (!currentRevision) {
   //   return <StateFrame />;
@@ -289,6 +391,8 @@ ItemStateFrameProps) {
         userId: 1,
       },
     });
+    await refetchLatestActivity();
+    console.log('refetch latest activity()');
     // await updateItemMaindataRevision({
     //   variables: {
     //     // @ts-ignore
@@ -312,7 +416,7 @@ ItemStateFrameProps) {
     //   },
     // });
     // Refresh the page
-    history.go(0);
+    // history.go(0);
     message.success(
       {
         content: Common.State_Related.Promoting_To_Review,
@@ -327,35 +431,16 @@ ItemStateFrameProps) {
       content: Common.State_Related.Demoting_To_Development,
       key,
     });
-    // 1. (OBSOLETE) Create a release translation version
-    // 2. Update the item translation revision state to DEVELOPMENT
-    await updateItemMaindataRevision({
+    await updateItemMaindataRevisionStateDemoteToDevelopment({
       variables: {
-        // @ts-ignore
-        revisionId: currentRevision.id,
-        state: DataState.Development,
-      },
-    });
-
-    // 3. Create an activity entry
-    await insertItemMaindataRevisionChange({
-      variables: {
-        // @ts-ignore
-        revisionId: currentRevision.id,
+        id: currentRevision.id,
         userId: 1,
-        changeType: DataChangeType.Demotion,
-        toState: DataState.Development,
       },
     });
-
-    await updateItemUpdatedAt({
-      variables: {
-        id: itemId,
-      },
-    });
-
+    await refetchLatestActivity();
+    console.log('refetch latest activity()');
     // Refresh the page
-    history.go(0);
+    // history.go(0);
     message.success(
       {
         content: Common.State_Related.Demoted_To_Development,
@@ -461,7 +546,10 @@ ItemStateFrameProps) {
     await insertItemMaindataRevision({ variables });
   };
 
-  const { getItemMaindataRevisionChangesPromosOnly } = data;
+  const { getItemMaindataRevisionChangesPromosOnly } = dataRevisionChanges;
+  const {
+    getItemMaindataRevisionByRevAndItemIdBarebones,
+  } = dataMaindataRevisionBB;
 
   console.log(
     'item_maindata_revision_changes:',
@@ -486,6 +574,10 @@ ItemStateFrameProps) {
     ({ to_state }) => to_state === DataState.Retired
   );
 
+  // useEffect(() => {
+  //   setChangeToDevelopment(changeToDevelopment);
+  // });
+
   // console.log("changeToDevelopment:", changeToDevelopment);
   // console.log("changeToReview:", changeToReview);
   // console.log("changeToProduction:", changeToProduction);
@@ -500,6 +592,10 @@ ItemStateFrameProps) {
     // @ts-ignore
     ({ revision }) => revision === Number.parseInt(paramsRevision) + 1
   );
+
+  const { state } = getItemMaindataRevisionByRevAndItemIdBarebones[0];
+  console.log('!!state:', state);
+
   if (state === DataState.Production && matchingNextRevision) {
     overrideHidePromoteButton = true;
   }
@@ -515,6 +611,22 @@ ItemStateFrameProps) {
   }
 
   return (
+    // <StateFrameHolder
+    //   state={state}
+    //   // changeToDevelopment={changeToDevelopment}
+    //   // changeToReview={changeToReview}
+    //   // changeToProduction={changeToProduction}
+    //   // changeToRetired={changeToRetired}
+    //   getItemMaindataRevisionChangesPromosOnly={
+    //     getItemMaindataRevisionChangesPromosOnly
+    //   }
+    //   promoteToReview={promoteToReview}
+    //   promoteToProduction={promoteToProduction}
+    //   demoteBackToDevelopment={demoteBackToDevelopment}
+    //   newRevision={newRevision}
+    //   overrideHidePromoteButton={overrideHidePromoteButton}
+    //   overrideShowPromoteButton={overrideShowPromoteButton}
+    // />
     <StateFrame
       currentState={state}
       changeToDevelopment={changeToDevelopment}

@@ -4,7 +4,7 @@ import { Common } from '../../../strings';
 import { UnsavedChangesCard } from '../../common/UnsavedChangesCard';
 import { ColumnOfFrames } from '../../common/frames/ColumnOfFrames';
 import { DetailsFrame } from './DetailsFrame/_DetailsFrame';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { OverviewActivityFrame } from '../../common/activity/OverviewActivityFrame';
 import { ClothingShellOverviewFrame } from '../../common/frames/ClothingShellOverviewFrame/_ClothingShellOverviewFrame';
 import { Insert_Item_Maindata_Revision_Change } from '../../../queries/item_maindata_revision_changes/insertItemMaindataRevisionChange';
@@ -14,7 +14,7 @@ import {
   DataState,
 } from '@joshuarobs/clothing-framework/build/enums';
 import { useHistory } from 'react-router-dom';
-import { ItemStateFrame } from './ItemStateFrame';
+import { ItemStateFrame } from './ItemStateFrame/_ItemStateFrame';
 import { Update_Item_Maindata_Revision_State } from '../../../queries/item_maindata_revisions/updateItemMaindataRevisionState';
 import { Update_Item_Maindata } from '../../../queries/item_maindata/updateItemMaindata';
 import { item_maindata } from '../../../utils/gql-interfaces/item_maindata';
@@ -116,6 +116,21 @@ function OverviewMainFrame({
     setMadeInId(revisionRelease.made_in_id);
   }, [revisionRelease, paramsRevision]);
 
+  const {
+    loading: loadingLatestActivity,
+    error: errorLatestActivity,
+    data: dataLatestActivity,
+    refetch: refetchLatestActivity,
+  } = useQuery(Get_Item_Maindata_Revision_Changes, {
+    variables: {
+      id: item.id,
+      limit: 10,
+    },
+    fetchPolicy: 'cache-and-network',
+  });
+
+  //getItemMaindataRevisionChanges
+
   // Hooks for GraphQL queries
   const [
     insertItemMaindataRevisionChange,
@@ -171,6 +186,7 @@ function OverviewMainFrame({
       });
     },
   });
+
   //
   // const [updateItemUpdatedAt] = useMutation(Update_Item_Updated_At, {
   //   onCompleted() {},
@@ -509,11 +525,15 @@ function OverviewMainFrame({
           uniqueRevisions={uniqueRevisions}
           refetchRevisions={refetchRevisions}
           refetchItemBaseData={refetchItemBaseData}
+          refetchLatestActivity={refetchLatestActivity}
         />
         <OverviewActivityFrame
           id={item.id}
           query={Get_Item_Maindata_Revision_Changes}
           childObjectString={'getItemMaindataRevisionChanges'}
+          // overrideError={errorLatestActivity}
+          // overrideLoading={loadingLatestActivity}
+          // overrideData={dataLatestActivity}
         />
       </ColumnOfFrames>
     </>

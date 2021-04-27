@@ -16,7 +16,7 @@ import { Routes } from '../../routes';
 import { message } from 'antd';
 import { Common } from '../../strings';
 import { Insert_Item_Maindata_Revision_Change } from '../../queries/item_maindata_revision_changes/insertItemMaindataRevisionChange';
-import { Get_Item_Maindata_Revision_By_Rev_And_Item_Id } from '../../queries/item_maindata_revisions/getItemMaindataRevisionByRevAndItemId';
+import { Get_Item_Maindata_Revision_With_Item_Maindata_By_Rev_And_Item_Id } from '../../queries/item_maindata_revisions/getItemMaindataRevisionWithItemMaindataByRevAndItemId';
 import { item_maindata } from '../../utils/gql-interfaces/item_maindata';
 
 const key = 'items-overview';
@@ -72,12 +72,16 @@ function OverviewTab({
     error: errorItemMaindata,
     data: dataItemMaindata,
     refetch: refetchItemMaindata,
-  } = useQuery(Get_Item_Maindata_Revision_By_Rev_And_Item_Id, {
-    variables: {
-      itemId: Number.parseInt(item.id),
-      revision: paramsRevision,
-    },
-  });
+  } = useQuery(
+    Get_Item_Maindata_Revision_With_Item_Maindata_By_Rev_And_Item_Id,
+    {
+      variables: {
+        itemId: Number.parseInt(item.id),
+        revision: paramsRevision,
+      },
+      // fetchPolicy: 'cache-and-network',
+    }
+  );
 
   //--------------------------------------------------
   // Hooks for fixing errors
@@ -160,9 +164,12 @@ function OverviewTab({
   if (errorItemMaindata)
     return <div>Error! ${JSON.stringify(errorItemMaindata, null, 2)}</div>;
 
-  const { getItemMaindataRevisionByRevAndItemId } = dataItemMaindata;
+  const {
+    getItemMaindataRevisionWithItemMaindataByRevAndItemId,
+  } = dataItemMaindata;
   console.log('dataItemMaindata:', dataItemMaindata);
-  const itemMaindataRevision = getItemMaindataRevisionByRevAndItemId[0];
+  const itemMaindataRevision =
+    getItemMaindataRevisionWithItemMaindataByRevAndItemId[0];
   console.log('###itemMaindataRevision:', itemMaindataRevision);
 
   //--------------------------------------------------

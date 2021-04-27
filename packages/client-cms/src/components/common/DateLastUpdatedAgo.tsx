@@ -1,6 +1,6 @@
 import React from 'react';
-import { format, formatDistanceToNow } from 'date-fns';
 import { Tooltip, Typography } from 'antd';
+import dayjs from 'dayjs';
 
 const { Text } = Typography;
 
@@ -10,7 +10,7 @@ interface DateLastUpdatedAgoProps {
 
 function DateLastUpdatedAgo({ text }: DateLastUpdatedAgoProps) {
   return (
-    <Tooltip title={format(new Date(text), 'yyyy-mm-dd (HH:mm:ss)')}>
+    <Tooltip title={dayjs(text).format('YYYY-MM-DD' + ' (HH:mm:ss)')}>
       <Text
         type="secondary"
         style={{
@@ -19,7 +19,8 @@ function DateLastUpdatedAgo({ text }: DateLastUpdatedAgoProps) {
           // marginRight: 16
         }}
       >
-        {`${formatDistanceToNow(new Date(text))} ago`}
+        {/*{`${formatDistanceToNow(new Date(text))} ago`}*/}
+        {dayjs().to(dayjs(text))}
       </Text>
     </Tooltip>
   );

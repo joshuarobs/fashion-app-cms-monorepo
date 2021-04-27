@@ -5,20 +5,19 @@ import {
   DataChangeType,
   DataState,
 } from '@joshuarobs/clothing-framework/build/enums';
-// import { Enums } from '@joshuarobs/clothing-framework';
 
 /**
- * Updates the Item Maindata Revision's state by promoting it:
- * Development --> Review
+ * Updates the Item Maindata Revision's state by demoting it:
+ * Review --> Development
  *
- * Used in the Item page's StateFrame, when the current state is Development
+ * Used in the Item page's StateFrame, when the current state is Review
  */
-async function updateItemMaindataRevisionStatePromoteToReview(
+async function updateItemMaindataRevisionStateDemoteToDevelopment(
   id: string,
   userId: number
 ) {
   logger.info(
-    `graphql > updateItemMaindataRevisionStatePromoteToReview() | args: id: ${id} | userId: ${userId}`
+    `graphql > updateItemMaindataRevisionStateDemoteToDevelopment() | args: id: ${id} | userId: ${userId}`
   );
   // TODO: Verify that the user is allowed to make this change
   try {
@@ -46,16 +45,16 @@ async function updateItemMaindataRevisionStatePromoteToReview(
       data1.data.item_maindata_revisions_by_pk
     );
 
-    const stateIsDevelopment =
-      data1.data.item_maindata_revisions_by_pk.state === DataState.Development;
-    // console.log('State is development:', stateIsDevelopment);
+    const stateIsReview =
+      data1.data.item_maindata_revisions_by_pk.state === DataState.Review;
+    // console.log('State is review:', stateIsReview);
 
-    // If the state is not in Development, then just return the same data
-    if (!stateIsDevelopment) {
+    // If the state is not in Review, then just return the same data
+    if (!stateIsReview) {
       return data1.data.update_item_maindata_revisions_by_pk;
     }
 
-    // Otherwise, if everything is fine, (i.e. state is development), we
+    // Otherwise, if everything is fine, (i.e. state is review), we
     // continue.
 
     /**
@@ -80,7 +79,7 @@ async function updateItemMaindataRevisionStatePromoteToReview(
       `,
       variables: {
         id,
-        state: DataState.Review,
+        state: DataState.Development,
       },
     });
 
@@ -118,12 +117,12 @@ async function updateItemMaindataRevisionStatePromoteToReview(
       variables: {
         revisionId: id,
         userId,
-        changeType: DataChangeType.Promotion,
-        toState: DataState.Review,
+        changeType: DataChangeType.Demotion,
+        toState: DataState.Development,
       },
     });
 
-    console.log('data3:', data3);
+    // console.log('data3:', data3);
 
     /**
      * 3. Update the Item entry's `updated_at`
@@ -152,4 +151,4 @@ async function updateItemMaindataRevisionStatePromoteToReview(
   }
 }
 
-export { updateItemMaindataRevisionStatePromoteToReview };
+export { updateItemMaindataRevisionStateDemoteToDevelopment };

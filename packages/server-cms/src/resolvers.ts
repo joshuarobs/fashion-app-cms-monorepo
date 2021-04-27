@@ -69,7 +69,7 @@ import { getItemMaindataRevisionChangesPromosOnly } from './resolvers/item_maind
 import { getTopXUniqueProdItemsForCompanyBB } from './resolvers/item_maindata_revisions/getTopXUniqueProdItemsForCompanyBB';
 import { getRevisionsForItemBarebones } from './resolvers/item_maindata_revisions/getRevisionsForItemBB';
 import { updateItemMaindataRevisionToRetired } from './resolvers/item_maindata_revisions/updateItemMaindataRevisionToRetired';
-import { getItemMaindataRevisionByRevAndItemId } from './resolvers/item_maindata_revisions/getItemMaindataRevisionByRevAndItemId';
+import { getItemMaindataRevisionWithItemMaindataByRevAndItemId } from './resolvers/item_maindata_revisions/getItemMaindataRevisionWithItemMaindataByRevAndItemId';
 import { getNumberOfUniqueItemsForClothingShell } from './resolvers/item_maindata_revisions/getNumberOfUniqueItemsForClothingShell';
 import { getUniqueProdItemsForCompany } from './resolvers/item_maindata_revisions/getUniqueProdItemsForCompany';
 import { insertItemMaindataRevision } from './resolvers/item_maindata_revisions/insertItemMaindataRevision';
@@ -122,6 +122,8 @@ import { getItemRevisionChangesAggregates } from './resolvers/getItemRevisionCha
 import { getGenders } from './resolvers/genders/getGenders';
 import { getFabricTypes } from './resolvers/fabric_types/getFabricTypes';
 import { updateItemMaindataRevisionStatePromoteToReview } from './resolvers/item_maindata_revisions/updateItemMaindataRevisionStatePromoteToReview';
+import { updateItemMaindataRevisionStateDemoteToDevelopment } from './resolvers/item_maindata_revisions/updateItemMaindataRevisionStateDemoteToDevelopment';
+import { getItemMaindataRevisionByRevAndItemIdBarebones } from './resolvers/item_maindata_revisions/getItemMaindataRevisionByRevAndItemIdBB';
 
 const resolvers = {
   //**********************************************************************
@@ -239,6 +241,8 @@ const resolvers = {
       updateItemMaindataRevisionState(id),
     updateItemMaindataRevisionStatePromoteToReview: (_, { id, userId }) =>
       updateItemMaindataRevisionStatePromoteToReview(id, userId),
+    updateItemMaindataRevisionStateDemoteToDevelopment: (_, { id, userId }) =>
+      updateItemMaindataRevisionStateDemoteToDevelopment(id, userId),
     // updateItemMaindataRevisionStatePromoteToProduction
     // updateItemMaindataRevisionStatePromoteNewRevision
     updateItemMaindataRevisionToRetired,
@@ -451,8 +455,13 @@ const resolvers = {
     // item_maindata_revisions
     //--------------------------------------------------
     getItemMaindataRevision,
-    getItemMaindataRevisionByRevAndItemId: (_, { itemId, revision }) =>
-      getItemMaindataRevisionByRevAndItemId(itemId, revision),
+    getItemMaindataRevisionByRevAndItemIdBarebones: (_, { itemId, revision }) =>
+      getItemMaindataRevisionByRevAndItemIdBarebones(itemId, revision),
+    getItemMaindataRevisionWithItemMaindataByRevAndItemId: (
+      _,
+      { itemId, revision }
+    ) =>
+      getItemMaindataRevisionWithItemMaindataByRevAndItemId(itemId, revision),
     getLatestProdItemMaindataRevByItemId: (_, { itemId }) =>
       getLatestProdItemMaindataRevByItemId(itemId),
     getNumberOfUniqueItemsForClothingShell,

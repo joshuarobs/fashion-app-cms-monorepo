@@ -2,14 +2,21 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
-async function getItemMaindataRevisionByRevAndItemId(
+/**
+ * Obtains an Item Maindata Revision, and it's Item Maindata.
+ *
+ * This is for the item page, where an item's revision is loaded.
+ * @param itemId
+ * @param revision
+ */
+async function getItemMaindataRevisionWithItemMaindataByRevAndItemId(
   itemId: number,
   revision: number
 ) {
   try {
     const data = await client.query({
       query: gql`
-        query getItemMaindataRevisionByRevAndItemId(
+        query getItemMaindataRevisionWithItemMaindataByRevAndItemId(
           $itemId: Int!
           $revision: Int!
         ) {
@@ -111,4 +118,4 @@ async function getItemMaindataRevisionByRevAndItemId(
   }
 }
 
-export { getItemMaindataRevisionByRevAndItemId };
+export { getItemMaindataRevisionWithItemMaindataByRevAndItemId };

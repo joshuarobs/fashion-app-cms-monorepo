@@ -51,6 +51,7 @@ async function getItemMaindataRevisionChangesPromosOnly(
         itemId,
         revision,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.item_maindata_revision_changes;
   } catch (e) {

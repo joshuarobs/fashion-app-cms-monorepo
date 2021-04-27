@@ -6,7 +6,7 @@
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
     "@ant-design/icons": "^4.5.0",
-    "@apollo/client": "^3.3.11",
+    "@apollo/client": "^3.3.15",
     "@babel/preset-env": "^7.13.10",
     "@iconfu/svg-inject": "^1.2.3",
     "@joshuarobs/clothing-framework": "^0.5.0",

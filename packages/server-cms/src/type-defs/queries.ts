@@ -142,7 +142,11 @@ const Queries = gql`
     # item_maindata_revisions
     #--------------------------------------------------
     getItemMaindataRevision: item_maindata_revisions
-    getItemMaindataRevisionByRevAndItemId(
+    getItemMaindataRevisionByRevAndItemIdBarebones(
+      itemId: Int!
+      revision: Int!
+    ): [item_maindata_revisions]
+    getItemMaindataRevisionWithItemMaindataByRevAndItemId(
       itemId: Int!
       revision: Int!
     ): [item_maindata_revisions]

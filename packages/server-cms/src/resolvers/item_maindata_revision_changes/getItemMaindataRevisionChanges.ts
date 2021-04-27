@@ -37,6 +37,7 @@ async function getItemMaindataRevisionChanges(id: number, limit: number) {
         id,
         limit,
       },
+      fetchPolicy: 'network-only',
     });
     // console.log('data:', data);
     return data.data.item_maindata_revision_changes;

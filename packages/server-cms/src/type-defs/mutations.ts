@@ -116,6 +116,10 @@ const Mutations = gql`
       id: String!
       userId: Int
     ): item_maindata_revisions
+    updateItemMaindataRevisionStateDemoteToDevelopment(
+      id: String!
+      userId: Int
+    ): item_maindata_revisions
     updateItemMaindataRevisionStatePromoteToProduction(
       id: String!
     ): item_maindata_revisions

@@ -1,8 +1,11 @@
 import { gql } from '@apollo/client';
 
-const Get_Item_Maindata_Revision_By_Rev_And_Item_Id = gql`
-  query getItemMaindataRevisionByRevAndItemId($itemId: Int!, $revision: Int!) {
-    getItemMaindataRevisionByRevAndItemId(
+const Get_Item_Maindata_Revision_With_Item_Maindata_By_Rev_And_Item_Id = gql`
+  query getItemMaindataRevisionWithItemMaindataByRevAndItemId(
+    $itemId: Int!
+    $revision: Int!
+  ) {
+    getItemMaindataRevisionWithItemMaindataByRevAndItemId(
       itemId: $itemId
       revision: $revision
     ) {
@@ -83,4 +86,4 @@ const Get_Item_Maindata_Revision_By_Rev_And_Item_Id = gql`
   }
 `;
 
-export { Get_Item_Maindata_Revision_By_Rev_And_Item_Id };
+export { Get_Item_Maindata_Revision_With_Item_Maindata_By_Rev_And_Item_Id };

@@ -73,6 +73,7 @@ function StateFrame({
   overrideHidePromoteButton,
   overrideShowPromoteButton,
 }: StateFrameProps) {
+  console.log('StateFrame():', currentState);
   let latestStep = -1;
   let text = null;
   let onClick = null;
