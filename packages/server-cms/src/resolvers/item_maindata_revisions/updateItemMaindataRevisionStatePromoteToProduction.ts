@@ -58,7 +58,7 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
       data1.data.item_maindata_revisions_by_pk
     );
 
-    const { item_maindata } = data1.data.item_maindata_revisions_by_pk;
+    const { item_id, item_maindata } = data1.data.item_maindata_revisions_by_pk;
 
     const stateIsReview =
       data1.data.item_maindata_revisions_by_pk.state === DataState.Review;
@@ -66,8 +66,42 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
 
     // return data1.data.update_item_maindata_revisions_by_pk;
 
-    // If the state is not in Review, then just return the same data
-    if (!stateIsReview) {
+    /**
+     * Get information about the related item maindata revisions
+     * (potentially including this one already)
+     */
+    const data33 = await client.query({
+      query: gql`
+        query getRevisionsForItemBarebonesLatestTwo($id: Int!) {
+          item_maindata_revisions(
+            where: { item_id: { _eq: $id } }
+            order_by: { revision: desc }
+            limit: 2
+          ) {
+            id
+            revision
+            state
+          }
+        }
+      `,
+      variables: {
+        id: item_id,
+      },
+      fetchPolicy: 'network-only',
+    });
+    console.log('data33:', data33.data.item_maindata_revisions);
+
+    // TODO: Only allow if this is the latest revision
+    const latestRevision = data33.data.item_maindata_revisions[0];
+    const isLatestRevision = id === latestRevision.id;
+    console.log('isLatestRevision:', isLatestRevision);
+
+    /*
+     * Return the same data if:
+     * 1. State is NOT === Review
+     * 2. Is NOT the latest revision
+     */
+    if (!stateIsReview || !isLatestRevision) {
       return data1.data.update_item_maindata_revisions_by_pk;
     }
 
@@ -76,53 +110,96 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
     /**
      * 2. Update the Item Maindata Revision's current state
      */
-    // const data2 = await client.mutate({
-    //   mutation: gql`
-    //     mutation updateItemMaindataRevisionState(
-    //       $id: uuid!
-    //       $state: data_states_enum!
-    //     ) {
-    //       update_item_maindata_revisions_by_pk(
-    //         pk_columns: { id: $id }
-    //         _set: { state: $state }
-    //       ) {
-    //         id
-    //         item_id
-    //         revision
-    //         state
-    //       }
-    //     }
-    //   `,
-    //   variables: {
-    //     id,
-    //     state: DataState.Production,
-    //   },
-    // });
+    const data2 = await client.mutate({
+      mutation: gql`
+        mutation updateItemMaindataRevisionState(
+          $id: uuid!
+          $state: data_states_enum!
+        ) {
+          update_item_maindata_revisions_by_pk(
+            pk_columns: { id: $id }
+            _set: { state: $state }
+          ) {
+            id
+            item_id
+            revision
+            state
+          }
+        }
+      `,
+      variables: {
+        id,
+        state: DataState.Production,
+      },
+    });
 
-    /**
+    /*
      * 3. If there is a previous revision, retire it
      */
-    // const matchingPreviousRevision = uniqueRevisions.find(
-    //   // @ts-ignore
-    //   ({ revision }) => revision === Number.parseInt(paramsRevision) - 1
-    // );
-    // console.log("matchingPreviousRevision:", matchingPreviousRevision);
-    // TODO
-    // if (matchingPreviousRevision) {
-    //   await updateItemMaindataRevisionToRetired({
-    //     variables: {
-    //       revisionId: matchingPreviousRevision.id,
-    //     },
-    //   });
-    //   await insertItemMaindataRevisionChangePromoRetired({
-    //     variables: {
-    //       revisionId: matchingPreviousRevision.id,
-    //       userId: 1,
-    //     },
-    //   });
-    // }
+    if (data33.data.item_maindata_revisions.length > 1) {
+      const previousRevision = data33.data.item_maindata_revisions[1];
 
-    return data1.data.update_item_maindata_revisions_by_pk;
+      /** Update state of previous revision to retired */
+      const data55 = await client.mutate({
+        mutation: gql`
+          mutation updateItemMaindataRevisionState(
+            $id: uuid!
+            $state: data_states_enum!
+          ) {
+            update_item_maindata_revisions_by_pk(
+              pk_columns: { id: $id }
+              _set: { state: $state }
+            ) {
+              id
+              item_id
+              revision
+              state
+            }
+          }
+        `,
+        variables: {
+          id: previousRevision.id,
+          state: DataState.Retired,
+        },
+      });
+
+      /** Insert a revision change indicating a promotion to retired */
+      const data66 = await client.mutate({
+        mutation: gql`
+          mutation insertItemMaindataRevisionChange(
+            $revisionId: uuid!
+            $changeType: data_change_types_enum!
+            $toState: data_states_enum
+            $action: data_actions_enum
+            $userId: Int!
+          ) {
+            insert_item_maindata_revision_changes_one(
+              object: {
+                item_maindata_revision_id: $revisionId
+                change_type: $changeType
+                to_state: $toState
+                action: $action
+                user_id: $userId
+              }
+            ) {
+              id
+              date
+              action
+              change_type
+              to_state
+              item_maindata_revision_id
+              user_id
+            }
+          }
+        `,
+        variables: {
+          revisionId: previousRevision.id,
+          userId,
+          changeType: DataChangeType.Promotion,
+          toState: DataState.Retired,
+        },
+      });
+    }
 
     /**
      * 3. Create an activity entry
@@ -164,6 +241,8 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
     });
 
     console.log('data3:', data3);
+
+    // return data1.data.update_item_maindata_revisions_by_pk;
 
     /**
      * 3. Update the Item entry's `updated_at`

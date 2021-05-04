@@ -13,9 +13,14 @@ create this file.
 Simply create a `.env` file in the project root folder with the following 
 contents:
 ````
-DB_ENDPOINT=http://localhost:8080/v1/graphql
+DB_ENDPOINT=http://localhost:8090/v1/graphql
 DB_ENDPOINT_STAGING=https://fashion-app-db.herokuapp.com/graphql
 ````
 
 **NOTE:** This file shouldn't ever be committed to the repo. It may cause 
 some problems with production configurations.
+
+**NOTE-2:** The port in the first line may be either `8090` or `8080`. Just 
+play with the values around if it the client doesn't work. Sometimes I get 
+an error as seen here: https://github.com/apollographql/apollo-client/issues/5080
+

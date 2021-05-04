@@ -188,41 +188,9 @@ ItemStateFrameProps) {
   console.log('QUERY 2: itemId:', itemId);
 
   const [
-    updateItemMaindataRevision,
-    // { loading: loadingUpdateRevisionReview, error: errorUpdateRevisionReview }
-  ] = useMutation(Update_Item_Maindata_Revision_State, {
-    onCompleted() {},
-    // refetchQueries: () => [
-    //   {
-    //     query: GET_UNIQUE_PROD_ITEMS_FOR_COMPANY,
-    //     variables: {
-    //       id: currentRevision.item_maindata[0].brand_id
-    //     }
-    //   }
-    // ]
-  });
-
-  const [
     insertItemMaindataRevisionChange,
     // { loading: loadingChangePromoReview, error: errorChangePromoReview }
   ] = useMutation(Insert_Item_Maindata_Revision_Change, {
-    onCompleted() {},
-  });
-
-  //==================================================
-  // PROMOTE TO RETIRED
-  //==================================================
-  const [
-    updateItemMaindataRevisionToRetired,
-    // { loading: loadingUpdateRevisionRetired, error: errorUpdateRevisionRetired }
-  ] = useMutation(Update_Item_Maindata_Revision_To_Retired, {
-    onCompleted() {},
-  });
-
-  const [
-    insertItemMaindataRevisionChangePromoRetired,
-    // { loading: loadingChangePromoRetired, error: errorChangePromoRetired }
-  ] = useMutation(Insert_Item_Maindata_Revision_Change_Promo_Retired, {
     onCompleted() {},
   });
 
@@ -466,18 +434,21 @@ ItemStateFrameProps) {
     });
     await refetchLatestActivity();
     console.log('refetch latest activity()');
+    // TODO: Refresh unique revisions, otherwise if you open the dropdown
+    //  box after promoting, you'll still see a green dot next to the
+    //  previous revision
 
     // 4. Recalculate the number of items for the company
     // @ts-ignore
-    const { brand_id } = currentRevision.item_maindata[0];
-    console.log('brand_id:', brand_id);
-    if (brand_id) {
-      await getProductionItemCountForCompany({
-        variables: {
-          id: brand_id,
-        },
-      });
-    }
+    // const { brand_id } = currentRevision.item_maindata[0];
+    // console.log('brand_id:', brand_id);
+    // if (brand_id) {
+    //   await getProductionItemCountForCompany({
+    //     variables: {
+    //       id: brand_id,
+    //     },
+    //   });
+    // }
 
     // Refresh the page
     // history.go(0);
