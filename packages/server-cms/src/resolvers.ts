@@ -124,6 +124,7 @@ import { getFabricTypes } from './resolvers/fabric_types/getFabricTypes';
 import { updateItemMaindataRevisionStatePromoteToReview } from './resolvers/item_maindata_revisions/updateItemMaindataRevisionStatePromoteToReview';
 import { updateItemMaindataRevisionStateDemoteToDevelopment } from './resolvers/item_maindata_revisions/updateItemMaindataRevisionStateDemoteToDevelopment';
 import { getItemMaindataRevisionByRevAndItemIdBarebones } from './resolvers/item_maindata_revisions/getItemMaindataRevisionByRevAndItemIdBB';
+import { updateItemMaindataRevisionStatePromoteToProduction } from './resolvers/item_maindata_revisions/updateItemMaindataRevisionStatePromoteToProduction';
 
 const resolvers = {
   //**********************************************************************
@@ -181,7 +182,9 @@ const resolvers = {
     // company_counts
     //--------------------------------------------------
     insertCompanyCount,
-    updateCompanyCount,
+    // Not accessible for the user, it should all be done via another
+    // secure function
+    // updateCompanyCount,
     //--------------------------------------------------
     // company_translation_revision_changes
     //--------------------------------------------------
@@ -243,7 +246,8 @@ const resolvers = {
       updateItemMaindataRevisionStatePromoteToReview(id, userId),
     updateItemMaindataRevisionStateDemoteToDevelopment: (_, { id, userId }) =>
       updateItemMaindataRevisionStateDemoteToDevelopment(id, userId),
-    // updateItemMaindataRevisionStatePromoteToProduction
+    updateItemMaindataRevisionStatePromoteToProduction: (_, { id, userId }) =>
+      updateItemMaindataRevisionStatePromoteToProduction(id, userId),
     // updateItemMaindataRevisionStatePromoteNewRevision
     updateItemMaindataRevisionToRetired,
     //--------------------------------------------------

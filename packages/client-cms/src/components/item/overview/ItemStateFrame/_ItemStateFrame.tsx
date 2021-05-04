@@ -25,6 +25,7 @@ import { Update_Item_Maindata_Revision_State_Demote_To_Development } from '../..
 import { Get_Item_Maindata_Revision_Changes } from '../../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChanges';
 import { StateFrameHolder } from './StateFrameHolder';
 import { Get_Item_Maindata_Revision_By_Rev_And_Item_Id_BB } from '../../../../queries/item_maindata_revisions/getItemMaindataRevisionByRevAndItemIdBB';
+import { Update_Item_Maindata_Revision_State_Promote_To_Production } from '../../../../queries/item_maindata_revisions/updateItemMaindataRevisionStatePromoteToProduction';
 
 const key = 'state-localisations';
 
@@ -162,27 +163,29 @@ ItemStateFrameProps) {
     }
   );
 
-  // Get_Item_Maindata_Revision_Changes_Promos_Only,
-  // {
-  //   variables: {
-  //     itemId,
-  //     revision: Number.parseInt(paramsRevision),
-  //   },
+  const [updateItemMaindataRevisionStatePromoteToProduction] = useMutation(
+    Update_Item_Maindata_Revision_State_Promote_To_Production,
+    {
+      refetchQueries: [
+        // {
+        //   query: Get_Item_Maindata_Revision_Changes,
+        //   variables: {
+        //     id: itemId,
+        //     limit: 10,
+        //   },
+        // },
+        {
+          query: Get_Item_Maindata_Revision_Changes_Promos_Only,
+          variables: {
+            itemId,
+            revision: Number.parseInt(paramsRevision),
+          },
+        },
+      ],
+    }
+  );
 
   console.log('QUERY 2: itemId:', itemId);
-
-  //
-  // const {
-  //   loading: loadingLatestActivity,
-  //   error: errorLatestActivity,
-  //   data: dataLatestActivity,
-  //   refetch: refetchLatestActivity,
-  // } = useQuery(Get_Item_Maindata_Revision_Changes, {
-  //   variables: {
-  //     id: item.id,
-  //     limit: 10,
-  //   },
-  // });
 
   const [
     updateItemMaindataRevision,
@@ -455,45 +458,14 @@ ItemStateFrameProps) {
       content: Common.State_Related.Promoting_To_Production,
       key,
     });
-    // 1. Update the item translation revision state to PRODUCTION
-    await updateItemMaindataRevision({
+    await updateItemMaindataRevisionStatePromoteToProduction({
       variables: {
-        // @ts-ignore
-        revisionId: currentRevision.id,
-        state: DataState.Production,
-        // state: DATA_STATES.REVIEW
-      },
-    });
-    // 2. If there is a previous revision, retire it
-    const matchingPreviousRevision = uniqueRevisions.find(
-      // @ts-ignore
-      ({ revision }) => revision === Number.parseInt(paramsRevision) - 1
-    );
-    // console.log("matchingPreviousRevision:", matchingPreviousRevision);
-    if (matchingPreviousRevision) {
-      await updateItemMaindataRevisionToRetired({
-        variables: {
-          revisionId: matchingPreviousRevision.id,
-        },
-      });
-      await insertItemMaindataRevisionChangePromoRetired({
-        variables: {
-          revisionId: matchingPreviousRevision.id,
-          userId: 1,
-        },
-      });
-    }
-
-    // 3. Create an activity entry
-    await insertItemMaindataRevisionChange({
-      variables: {
-        // @ts-ignore
-        revisionId: currentRevision.id,
+        id: currentRevision.id,
         userId: 1,
-        changeType: DataChangeType.Promotion,
-        toState: DataState.Production,
       },
     });
+    await refetchLatestActivity();
+    console.log('refetch latest activity()');
 
     // 4. Recalculate the number of items for the company
     // @ts-ignore
@@ -507,14 +479,8 @@ ItemStateFrameProps) {
       });
     }
 
-    await updateItemUpdatedAt({
-      variables: {
-        id: itemId,
-      },
-    });
-
     // Refresh the page
-    history.go(0);
+    // history.go(0);
     message.success(
       {
         content: Common.State_Related.Promoted_To_Production,

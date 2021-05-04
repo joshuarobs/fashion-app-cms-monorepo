@@ -122,9 +122,11 @@ const Mutations = gql`
     ): item_maindata_revisions
     updateItemMaindataRevisionStatePromoteToProduction(
       id: String!
+      userId: Int
     ): item_maindata_revisions
     updateItemMaindataRevisionStatePromoteNewRevision(
       id: String!
+      userId: Int
     ): item_maindata_revisions
     updateItemMaindataRevisionToRetired: item_maindata_revisions
     #--------------------------------------------------
