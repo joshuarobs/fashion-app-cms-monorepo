@@ -19,6 +19,7 @@ const Update_Item_Maindata = gql`
       type
       brand_id
       for_gender
+      made_in_id
       clothing_shell_id
       clothing_shell {
         id

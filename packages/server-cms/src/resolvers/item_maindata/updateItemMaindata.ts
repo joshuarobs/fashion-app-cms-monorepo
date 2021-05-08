@@ -20,6 +20,14 @@ async function updateItemMaindata(
   itemId: number,
   countsId?: number
 ) {
+  logger.info(
+    `graphql > updateItemMaindata() | args: id: ${id} | changes: ${JSON.stringify(
+      changes,
+      null,
+      2
+    )} | itemId: ${itemId} | countsId: ${countsId}`
+  );
+
   // Delete all important fields of the maindata that should not be changed
   delete changes.id;
   delete changes.revision_id;
@@ -75,6 +83,7 @@ async function updateItemMaindata(
             type
             brand_id
             for_gender
+            made_in_id
             clothing_shell_id
             clothing_shell {
               id

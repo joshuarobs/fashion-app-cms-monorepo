@@ -325,7 +325,7 @@ function OverviewMainFrame({
     type?: any;
     brand_id?: number | null;
     for_gender?: any;
-    made_in_id?: number | null;
+    made_in_id?: string | null;
     clothing_shell_id?: number | null;
   }
 
@@ -362,7 +362,6 @@ function OverviewMainFrame({
       }
 
       if (hasChanged.made_in_id) {
-        // @ts-ignore
         variables.changes.made_in_id = made_in_id;
       }
 
@@ -387,6 +386,7 @@ function OverviewMainFrame({
       // Set the clothing shell id as one that we either we're going
       // towards, or going from, as sometimes one or the other value can
       // be null
+      // console.log('updateItemMaindata-variables:', variables);
       await updateItemMaindata({ variables });
       message.success({ content: Common.Changes_Saved, key }, 2);
 
