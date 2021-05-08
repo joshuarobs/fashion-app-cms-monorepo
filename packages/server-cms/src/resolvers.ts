@@ -125,6 +125,7 @@ import { updateItemMaindataRevisionStatePromoteToReview } from './resolvers/item
 import { updateItemMaindataRevisionStateDemoteToDevelopment } from './resolvers/item_maindata_revisions/updateItemMaindataRevisionStateDemoteToDevelopment';
 import { getItemMaindataRevisionByRevAndItemIdBarebones } from './resolvers/item_maindata_revisions/getItemMaindataRevisionByRevAndItemIdBB';
 import { updateItemMaindataRevisionStatePromoteToProduction } from './resolvers/item_maindata_revisions/updateItemMaindataRevisionStatePromoteToProduction';
+import { insertItemMaindataRevisionItemsPage } from './resolvers/item_maindata_revisions/insertItemMaindataRevisionItemsPage';
 
 const resolvers = {
   //**********************************************************************
@@ -240,6 +241,8 @@ const resolvers = {
     //--------------------------------------------------
     deleteItemMaindataRevisionsForItem,
     insertItemMaindataRevision,
+    insertItemMaindataRevisionItemsPage: (_, { id }) =>
+      insertItemMaindataRevisionItemsPage(id),
     updateItemMaindataRevisionState: (_, { id }) =>
       updateItemMaindataRevisionState(id),
     updateItemMaindataRevisionStatePromoteToReview: (_, { id, userId }) =>

@@ -26,6 +26,7 @@ import { Get_Item_Maindata_Revision_Changes } from '../../../../queries/item_mai
 import { StateFrameHolder } from './StateFrameHolder';
 import { Get_Item_Maindata_Revision_By_Rev_And_Item_Id_BB } from '../../../../queries/item_maindata_revisions/getItemMaindataRevisionByRevAndItemIdBB';
 import { Update_Item_Maindata_Revision_State_Promote_To_Production } from '../../../../queries/item_maindata_revisions/updateItemMaindataRevisionStatePromoteToProduction';
+import { Insert_Item_Maindata_Revision_Items_Page } from '../../../../queries/item_maindata_revisions/insertItemMaindataRevisionItemsPage';
 
 const key = 'state-localisations';
 
@@ -197,6 +198,26 @@ ItemStateFrameProps) {
   //==================================================
   // NEW REVISION
   //==================================================
+  const [insertItemMaindataRevisionItemPage] = useMutation(
+    Insert_Item_Maindata_Revision_Items_Page,
+    {
+      onCompleted({ insertItemMaindataRevisionItemsPage }) {
+        const { item_id, revision } = insertItemMaindataRevisionItemsPage;
+
+        history.push(
+          `${Routes.Items__Clothing__Item}/${item_id}?rev=${revision}`
+        );
+        history.go(0);
+        message
+          .success(
+            { content: Common.State_Related.Created_New_Revision, key },
+            2
+          )
+          .then();
+      },
+    }
+  );
+
   const [
     insertItemMaindata,
     // { loading: loadingInsertMainClothing, error: errorInsertMainClothing }
@@ -476,11 +497,12 @@ ItemStateFrameProps) {
     // insertItemTranslationRevision({ variables }).then();
     const variables = {
       id: itemId,
-      revision: revision + 1,
-      state: DataState.Development,
+      // revision: revision + 1,
+      // state: DataState.Development,
     };
     // 2. INSERT A REVISION
-    await insertItemMaindataRevision({ variables });
+    // await insertItemMaindataRevision({ variables });
+    await insertItemMaindataRevisionItemPage({ variables });
   };
 
   const { getItemMaindataRevisionChangesPromosOnly } = dataRevisionChanges;
