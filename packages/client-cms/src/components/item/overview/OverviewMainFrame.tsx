@@ -23,6 +23,8 @@ import { item_maindata_revisions } from '../../../utils/gql-interfaces/item_main
 import { Get_Item_Maindata_Revision_Changes } from '../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChanges';
 import { ClothingSegmentsData } from '@joshuarobs/clothing-framework';
 import { VersionablePageErrors } from '../../../utils/quick-error-gen/VersionablePageErrors';
+import { Get_Revisions_For_Item_BB } from '../../../queries/item_maindata_revisions/getRevisionsForItemBB';
+import { Get_Item_Maindata_Revision_Changes_Promos_Only } from '../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChangesPromosOnly';
 
 const key = 'unsaved-changes-overview';
 
@@ -156,6 +158,15 @@ function OverviewMainFrame({
       //   variables,
       // });
     },
+    refetchQueries: [
+      {
+        query: Get_Item_Maindata_Revision_Changes,
+        variables: {
+          id: item.id,
+          revision: Number.parseInt(paramsRevision),
+        },
+      },
+    ],
   });
 
   if (mutationError) {

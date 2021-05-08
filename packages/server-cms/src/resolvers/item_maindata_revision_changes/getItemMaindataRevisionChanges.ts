@@ -1,8 +1,16 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
+import {
+  Data_Entry_Query_Amount_Max_Limit,
+  Data_Entry_Query_Amount_Min_Half,
+} from '../../settings';
 
 async function getItemMaindataRevisionChanges(id: number, limit: number) {
+  if (!limit) limit = Data_Entry_Query_Amount_Min_Half;
+  if (limit > Data_Entry_Query_Amount_Max_Limit)
+    limit = Data_Entry_Query_Amount_Max_Limit;
+
   try {
     const data = await client.query({
       query: gql`
@@ -20,7 +28,9 @@ async function getItemMaindataRevisionChanges(id: number, limit: number) {
             user {
               id
               name
+              email
             }
+            item_maindata_revision_id
             item_maindata_revision {
               id
               item_id

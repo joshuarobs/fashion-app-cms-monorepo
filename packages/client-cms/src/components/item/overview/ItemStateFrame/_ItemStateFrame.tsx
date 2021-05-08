@@ -131,10 +131,17 @@ ItemStateFrameProps) {
         //     limit: 10,
         //   },
         // },
+        // {
+        //   query: Get_Item_Maindata_Revision_Changes_Promos_Only,
+        //   variables: {
+        //     itemId,
+        //     revision: Number.parseInt(paramsRevision),
+        //   },
+        // },
         {
-          query: Get_Item_Maindata_Revision_Changes_Promos_Only,
+          query: Get_Item_Maindata_Revision_Changes,
           variables: {
-            itemId,
+            id: itemId,
             revision: Number.parseInt(paramsRevision),
           },
         },
@@ -153,10 +160,17 @@ ItemStateFrameProps) {
         //     limit: 10,
         //   },
         // },
+        // {
+        //   query: Get_Item_Maindata_Revision_Changes_Promos_Only,
+        //   variables: {
+        //     itemId,
+        //     revision: Number.parseInt(paramsRevision),
+        //   },
+        // },
         {
-          query: Get_Item_Maindata_Revision_Changes_Promos_Only,
+          query: Get_Item_Maindata_Revision_Changes,
           variables: {
-            itemId,
+            id: itemId,
             revision: Number.parseInt(paramsRevision),
           },
         },
@@ -175,10 +189,17 @@ ItemStateFrameProps) {
         //     limit: 10,
         //   },
         // },
+        // {
+        //   query: Get_Item_Maindata_Revision_Changes_Promos_Only,
+        //   variables: {
+        //     itemId,
+        //     revision: Number.parseInt(paramsRevision),
+        //   },
+        // },
         {
-          query: Get_Item_Maindata_Revision_Changes_Promos_Only,
+          query: Get_Item_Maindata_Revision_Changes,
           variables: {
-            itemId,
+            id: itemId,
             revision: Number.parseInt(paramsRevision),
           },
         },
@@ -217,10 +238,17 @@ ItemStateFrameProps) {
           query: Get_Revisions_For_Item_BB,
           variables: { id: itemId },
         },
+        // {
+        //   query: Get_Item_Maindata_Revision_Changes_Promos_Only,
+        //   variables: {
+        //     itemId,
+        //     revision: Number.parseInt(paramsRevision),
+        //   },
+        // },
         {
-          query: Get_Item_Maindata_Revision_Changes_Promos_Only,
+          query: Get_Item_Maindata_Revision_Changes,
           variables: {
-            itemId,
+            id: itemId,
             revision: Number.parseInt(paramsRevision),
           },
         },
