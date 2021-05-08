@@ -1,13 +1,21 @@
 import { client } from '../../graphql-client';
 import { gql } from 'apollo-server-express';
 import { logger } from '../../logger';
+import {
+  Data_Entry_Query_Amount_Max_Limit,
+  Data_Entry_Query_Amount_Min_Standard,
+} from '../../settings';
 
-async function getItemsForItemsTableLatest() {
+async function getItemsForItemsTableLatest(limit: number) {
+  if (!limit) limit = Data_Entry_Query_Amount_Min_Standard;
+  if (limit > Data_Entry_Query_Amount_Max_Limit)
+    limit = Data_Entry_Query_Amount_Max_Limit;
+
   try {
     const data = await client.query({
       query: gql`
-        query getItemsForItemsTableLatest {
-          items(order_by: { updated_at: desc }, limit: 20) {
+        query getItemsForItemsTableLatest($limit: Int) {
+          items(order_by: { updated_at: desc }, limit: $limit) {
             id
             short_id
             updated_at
@@ -136,6 +144,10 @@ async function getItemsForItemsTableLatest() {
           }
         }
       `,
+      variables: {
+        limit,
+      },
+      fetchPolicy: 'network-only',
     });
     // logger.trace(JSON.stringify(data.data, null, 2));
     // console.log('data.data:', JSON.stringify(data.data, null, 2));

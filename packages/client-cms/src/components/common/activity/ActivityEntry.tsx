@@ -6,6 +6,7 @@ import {
   UpCircleOutlined,
   DownCircleOutlined,
   UserOutlined,
+  PlusSquareOutlined,
 } from '@ant-design/icons';
 import {
   DataAction,
@@ -62,7 +63,9 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
     icon = <UpCircleOutlined style={iconStyle} />;
     switch (to_state) {
       case DataState.Development:
-        text = 'promoted to Development';
+        // text = 'promoted to Development';
+        icon = <PlusSquareOutlined style={iconStyle} />;
+        text = `created a new revision r${revision}`;
         break;
       case DataState.Review:
         text = 'promoted to Review';

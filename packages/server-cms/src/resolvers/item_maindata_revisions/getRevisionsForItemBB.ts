@@ -17,6 +17,7 @@ async function getRevisionsForItemBarebones(id: number) {
             order_by: { revision: desc }
           ) {
             id
+            item_id
             revision
             state
             #item_maindata_aggregate {
@@ -30,6 +31,7 @@ async function getRevisionsForItemBarebones(id: number) {
       variables: {
         id,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.item_maindata_revisions;
   } catch (e) {

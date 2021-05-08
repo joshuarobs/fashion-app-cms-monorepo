@@ -27,6 +27,7 @@ import { StateFrameHolder } from './StateFrameHolder';
 import { Get_Item_Maindata_Revision_By_Rev_And_Item_Id_BB } from '../../../../queries/item_maindata_revisions/getItemMaindataRevisionByRevAndItemIdBB';
 import { Update_Item_Maindata_Revision_State_Promote_To_Production } from '../../../../queries/item_maindata_revisions/updateItemMaindataRevisionStatePromoteToProduction';
 import { Insert_Item_Maindata_Revision_Items_Page } from '../../../../queries/item_maindata_revisions/insertItemMaindataRevisionItemsPage';
+import { Get_Revisions_For_Item_BB } from '../../../../queries/item_maindata_revisions/getRevisionsForItemBB';
 
 const key = 'state-localisations';
 
@@ -116,10 +117,9 @@ ItemStateFrameProps) {
     fetchPolicy: 'cache-and-network',
   });
 
-  //==================================================
-  // PROMOTIONS
-  //==================================================
-
+  //======================================================================
+  // Promotion Mutations
+  //======================================================================
   const [updateItemMaindataRevisionStatePromoteToReview] = useMutation(
     Update_Item_Maindata_Revision_State_Promote_To_Review,
     {
@@ -186,28 +186,18 @@ ItemStateFrameProps) {
     }
   );
 
-  console.log('QUERY 2: itemId:', itemId);
-
-  const [
-    insertItemMaindataRevisionChange,
-    // { loading: loadingChangePromoReview, error: errorChangePromoReview }
-  ] = useMutation(Insert_Item_Maindata_Revision_Change, {
-    onCompleted() {},
-  });
-
-  //==================================================
-  // NEW REVISION
-  //==================================================
   const [insertItemMaindataRevisionItemPage] = useMutation(
     Insert_Item_Maindata_Revision_Items_Page,
     {
-      onCompleted({ insertItemMaindataRevisionItemsPage }) {
+      async onCompleted({ insertItemMaindataRevisionItemsPage }) {
+        // Not sure if we need this alongside the refetch query
+        // `Get_Revisions_For_Item_BB`. Might as well have both since it works
+        await refetchRevisions();
         const { item_id, revision } = insertItemMaindataRevisionItemsPage;
-
         history.push(
           `${Routes.Items__Clothing__Item}/${item_id}?rev=${revision}`
         );
-        history.go(0);
+        // history.go(0);
         message
           .success(
             { content: Common.State_Related.Created_New_Revision, key },
@@ -215,129 +205,32 @@ ItemStateFrameProps) {
           )
           .then();
       },
+      refetchQueries: [
+        // {
+        //   query: Get_Item_Maindata_Revision_Changes,
+        //   variables: {
+        //     id: itemId,
+        //     limit: 10,
+        //   },
+        // },
+        {
+          query: Get_Revisions_For_Item_BB,
+          variables: { id: itemId },
+        },
+        {
+          query: Get_Item_Maindata_Revision_Changes_Promos_Only,
+          variables: {
+            itemId,
+            revision: Number.parseInt(paramsRevision),
+          },
+        },
+      ],
     }
   );
 
-  const [
-    insertItemMaindata,
-    // { loading: loadingInsertMainClothing, error: errorInsertMainClothing }
-  ] = useMutation(Insert_Item_Maindata, {
-    onCompleted({ insert_item_maindata_one }) {
-      // Refetch the item base data so that the header overview link won't
-      // go back to the previous revision
-      refetchItemBaseData().then(() => {
-        console.log('insert_item_maindata_one:', insert_item_maindata_one);
-        const { revision_id } = insert_item_maindata_one;
-        const variables = {
-          revisionId: revision_id,
-          userId: 1,
-          changeType: DataChangeType.Promotion,
-          toState: DataState.Development,
-          // action: DATA_ACTIONS.CREATE
-        };
-        // console.log("currentRevision:", currentRevision);
-        insertItemMaindataRevisionChange({ variables }).then(() => {
-          const { revision } = insert_item_maindata_one;
-          const { item_id } = revision;
-          history.push(
-            `${Routes.Items__Clothing__Item}/${item_id}?rev=${revision.revision}`
-          );
-          history.go(0);
-          message
-            .success(
-              { content: Common.State_Related.Created_New_Revision, key },
-              2
-            )
-            .then();
-        });
-      });
-    },
-  });
-
-  const [
-    insertItemMaindataRevision,
-    // { loading: loadingInsertMainRev, error: errorInsertMainRev }
-  ] = useMutation(Insert_Item_Maindata_Revision, {
-    async onCompleted({ insert_item_maindata_revisions_one }) {
-      await refetchRevisions();
-      console.log(
-        'insert_item_maindata_revisions_one:',
-        insert_item_maindata_revisions_one
-      );
-      const { id } = insert_item_maindata_revisions_one;
-      console.log('currentRevision:', currentRevision);
-      const {
-        name,
-        type,
-        brand_id,
-        clothing_shell_id,
-        for_gender,
-        item_family_id,
-        // @ts-ignore
-      } = currentRevision.item_maindata[0];
-
-      const variables = {
-        revisionId: id,
-        isRelease: true,
-        name,
-        type,
-        brand_id,
-        clothing_shell_id,
-        for_gender,
-        item_family_id,
-      };
-      // 3. INSERT A MAINDATA FOR THAT REVISION
-      await insertItemMaindata({ variables });
-
-      await updateItemUpdatedAt({
-        variables: {
-          id: itemId,
-        },
-      });
-    },
-  });
-
-  const [
-    updateCompanyCount,
-    { loading: loadingUpdCompanyItemCount, error: errorUpdCompanyItemCount },
-  ] = useMutation(Update_Company_Count, {
-    onCompleted() {
-      console.log('DONE updateCompanyCount');
-    },
-  });
-
-  const [
-    getProductionItemCountForCompany,
-    { loading: loadingGetItemCount, error: errorGetItemCount },
-  ] = useLazyQuery(Get_Unique_Item_Maindata_Rev_Amount_For_Brand_Prod_Only, {
-    // NOTE: We can't use async for `onCompleted` in a `useLazyQuery` as it
-    // causes weird infinite page re-rendering bugs
-    onCompleted({ item_maindata_revisions_aggregate }) {
-      console.log(
-        'item_maindata_revisions_aggregate:',
-        item_maindata_revisions_aggregate
-      );
-      // @ts-ignore
-      const { brand } = currentRevision.item_maindata[0];
-      if (brand) {
-        const { counts } = brand;
-        // console.log("counts:", counts);
-        if (counts) {
-          updateCompanyCount({
-            variables: {
-              id: counts.id,
-              changes: {
-                item_count: item_maindata_revisions_aggregate.aggregate.count,
-              },
-            },
-          }).then();
-        }
-      }
-      // message.success({ content: COMMON.UPDATED_ITEM_COUNT, key }, 2);
-    },
-    fetchPolicy: 'network-only',
-  });
-
+  //======================================================================
+  // Loading and Errors
+  //======================================================================
   if (loadingRevisionChanges || loadingMaindataRevisionBB || !currentRevision) {
     return <StateFrame />;
   }
@@ -384,31 +277,7 @@ ItemStateFrameProps) {
       },
     });
     await refetchLatestActivity();
-    console.log('refetch latest activity()');
-    // await updateItemMaindataRevision({
-    //   variables: {
-    //     // @ts-ignore
-    //     revisionId: currentRevision.id,
-    //     state: DataState.Review,
-    //   },
-    // });
-    // 3. Create an activity entry
-    // await insertItemMaindataRevisionChange({
-    //   variables: {
-    //     // @ts-ignore
-    //     revisionId: currentRevision.id,
-    //     userId: 1,
-    //     changeType: DataChangeType.Promotion,
-    //     toState: DataState.Review,
-    //   },
-    // });
-    // await updateItemUpdatedAt({
-    //   variables: {
-    //     id: itemId,
-    //   },
-    // });
-    // Refresh the page
-    // history.go(0);
+    // console.log('refetch latest activity()');
     message.success(
       {
         content: Common.State_Related.Promoting_To_Review,
@@ -430,7 +299,7 @@ ItemStateFrameProps) {
       },
     });
     await refetchLatestActivity();
-    console.log('refetch latest activity()');
+    // console.log('refetch latest activity()');
     // Refresh the page
     // history.go(0);
     message.success(
@@ -454,7 +323,7 @@ ItemStateFrameProps) {
       },
     });
     await refetchLatestActivity();
-    console.log('refetch latest activity()');
+    // console.log('refetch latest activity()');
     // TODO: Refresh unique revisions, otherwise if you open the dropdown
     //  box after promoting, you'll still see a green dot next to the
     //  previous revision

@@ -103,7 +103,7 @@ function NewEntryModal({
         >
           <Input
             // autoFocus
-            ref={inputRef}
+            // ref={inputRef}
             value={websiteUrl}
             onChange={(e) => setWebsiteUrl(e.target.value)}
             // @ts-ignore

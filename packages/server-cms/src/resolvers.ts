@@ -522,7 +522,8 @@ const resolvers = {
     //--------------------------------------------------
     getItemBaseDataByPk: (_, { id }) => getItemBaseDataByPk(id),
     getItemsForItemsTableDevelopmentOnly,
-    getItemsForItemsTableLatest,
+    getItemsForItemsTableLatest: (_, { limit }) =>
+      getItemsForItemsTableLatest(limit),
     getItemsForItemsTableProductionOnly,
     getItemWithLocaleData,
     //--------------------------------------------------

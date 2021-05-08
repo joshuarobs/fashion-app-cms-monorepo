@@ -9,6 +9,7 @@ const Get_Revisions_For_Item_BB = gql`
   query getRevisionsForItemBarebones($id: Int!) {
     getRevisionsForItemBarebones(id: $id) {
       id
+      item_id
       revision
       state
       #item_maindata_aggregate {

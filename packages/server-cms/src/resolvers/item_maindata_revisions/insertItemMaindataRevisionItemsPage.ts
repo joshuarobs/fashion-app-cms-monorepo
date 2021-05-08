@@ -7,6 +7,9 @@ import {
 } from '@joshuarobs/clothing-framework/build/enums';
 
 async function insertItemMaindataRevisionItemsPage(id: number) {
+  logger.info(
+    `graphql > insertItemMaindataRevisionItemsPage() | args: id: ${id}`
+  );
   const userId = 1;
 
   try {
