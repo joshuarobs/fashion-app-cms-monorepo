@@ -42,9 +42,26 @@ function SelectCountryOfManufacture({
   const { getCountries } = data;
   console.log('countries:', getCountries);
 
+  // Add a styled description to all countries
+  const styledCountries: any[] = [];
+  getCountries.forEach((country: []) => {
+    // @ts-ignore
+    const { description } = country;
+    // @ts-ignore
+    styledCountries.push({
+      ...country,
+      styledDescription: (
+        <div>
+          <span style={{ marginRight: 5 }}>{description.substring(0, 4)}</span>
+          <span>{description.substring(4, description.length)}</span>
+        </div>
+      ),
+    });
+  });
+
   // Sort the countries so they appear in order
   const countriesWithOrder: any[] = [];
-  getCountries.forEach((country: any[]) => {
+  styledCountries.forEach((country: any[]) => {
     // @ts-ignore
     const { value } = country;
     // console.log("translation 2:", translation);
@@ -83,28 +100,28 @@ function SelectCountryOfManufacture({
       disabled={disabled}
     >
       <OptGroup label="Top 10 Manufacturers">
-        {top10.map(({ value, description }) => {
+        {top10.map(({ value, styledDescription }) => {
           return (
             <Option value={value} key={value}>
-              {description}
+              {styledDescription}
             </Option>
           );
         })}
       </OptGroup>
       <OptGroup label="Main Markets">
-        {mainMarkets.map(({ value, description }) => {
+        {mainMarkets.map(({ value, styledDescription }) => {
           return (
             <Option value={value} key={value}>
-              {description}
+              {styledDescription}
             </Option>
           );
         })}
       </OptGroup>
       <OptGroup label="Others">
-        {restOfMarkets.map(({ value, description }) => {
+        {restOfMarkets.map(({ value, styledDescription }) => {
           return (
             <Option value={value} key={value}>
-              {description}
+              {styledDescription}
             </Option>
           );
         })}
