@@ -36,14 +36,16 @@ function LocalisationActivityFrame({
     );
   if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
 
-  const { item_translation_revision_changes } = data;
+  const { getItemTranslationRevisionChangesForLocale } = data;
 
   console.log(
     'Localisation Activity Frame - loaded data:',
-    item_translation_revision_changes
+    getItemTranslationRevisionChangesForLocale
   );
 
-  return <LatestActivityFrame changes={item_translation_revision_changes} />;
+  return (
+    <LatestActivityFrame changes={getItemTranslationRevisionChangesForLocale} />
+  );
 }
 
 export { LocalisationActivityFrame };

@@ -26,6 +26,9 @@ import { Delete_Item_Translation_Revision_Changes_For_Revision } from '../../../
 import { Delete_Item_Translation_Revision } from '../../../../../queries/item_translation_revisions/deleteItemTranslationRevision';
 import { Update_Item_Updated_At } from '../../../../../queries/items/updateItemUpdatedAt';
 import { Update_Item_Translation } from '../../../../../queries/item_translations/updateItemTranslation';
+import { Get_Item_Maindata_Revision_Changes } from '../../../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChanges';
+import { Get_Item_Translation_Revision_Changes } from '../../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChanges';
+import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesForLocale';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -215,6 +218,15 @@ function LocalisationFrame({
       message.success({ content: Common.Changes_Saved, key }, 2);
       // history.go(0);
     },
+    refetchQueries: [
+      {
+        query: Get_Item_Translation_Revision_Changes_For_Locale,
+        variables: {
+          itemId: Number.parseInt(String(itemId)),
+          localeCode: locale_code,
+        },
+      },
+    ],
   });
 
   const [

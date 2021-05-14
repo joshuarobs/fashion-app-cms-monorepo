@@ -12,6 +12,10 @@ async function getItemTranslationRevisionChangesForLocale(
   limit = Data_Entry_Query_Amount_Min_Half,
   offset: number
 ) {
+  logger.info(
+    `graphql > getItemTranslationRevisionChangesForLocale() | args: itemId: ${itemId} | localeCode: ${localeCode} | limit: ${limit} | offset: ${offset}`
+  );
+
   if (limit > Data_Entry_Query_Amount_Max_Limit)
     limit = Data_Entry_Query_Amount_Max_Limit;
 
@@ -72,6 +76,10 @@ async function getItemTranslationRevisionChangesForLocale(
         offset,
       },
     });
+
+    logger.info(
+      `graphql > getItemTranslationRevisionChangesForLocale() | Successfully returned data`
+    );
     return data.data.item_translation_revision_changes;
   } catch (e) {
     logger.error(e);

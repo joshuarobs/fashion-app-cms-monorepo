@@ -60,6 +60,9 @@ async function updateItemMaindata(
     });
     // console.log('data1-query:', data1.data.item_maindata_by_pk);
 
+    /**
+     * 1-a. Check for valid state before continuing
+     */
     const relatedRevision = data1.data.item_maindata_by_pk.revision;
 
     // Do NOT continue if the state is NOT in Development
@@ -163,7 +166,7 @@ async function updateItemMaindata(
 
     /**
      * (Optional)
-     * 3. If we changed this item's clothing shell, update that clothing
+     * 5. If we changed this item's clothing shell, update that clothing
      * shell's item count (to reflect the recent change)
      */
     // Note, were this argument provided incorrectly via malice or accident,
@@ -173,9 +176,9 @@ async function updateItemMaindata(
     // time intervals).
     if (countsId) {
       /**
-       * 3a. Get the clothing shell's unique item count
+       * 5a. Get the clothing shell's unique item count
        */
-      const data3a = await client.query({
+      const data5a = await client.query({
         query: gql`
           query getNumOfUniqueItemsForClothingShell($id: Int!) {
             item_maindata_revisions_aggregate(
@@ -204,9 +207,9 @@ async function updateItemMaindata(
       // );
 
       /**
-       * 3b. Update the clothing shell with the value obtained in 3a
+       * 5b. Update the clothing shell with the value obtained in 3a
        */
-      const data4 = await client.mutate({
+      const data5b = await client.mutate({
         mutation: gql`
           mutation updateClothingShellCountByClothingShellId(
             $id: Int!
@@ -228,7 +231,7 @@ async function updateItemMaindata(
           id: countsId,
           changes: {
             item_count:
-              data3a.data.item_maindata_revisions_aggregate.aggregate.count,
+              data5a.data.item_maindata_revisions_aggregate.aggregate.count,
           },
         },
       });
