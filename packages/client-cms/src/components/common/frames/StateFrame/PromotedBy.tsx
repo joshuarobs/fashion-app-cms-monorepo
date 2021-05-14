@@ -15,9 +15,10 @@ const cssStyles = {
 
 interface PromotedByProps {
   change: any;
+  createdBy?: boolean;
 }
 
-function PromotedBy({ change }: PromotedByProps) {
+function PromotedBy({ change, createdBy }: PromotedByProps) {
   const value = change ? change.date : null;
   const user = change ? change.user : null;
 
@@ -33,7 +34,7 @@ function PromotedBy({ change }: PromotedByProps) {
         </Row>
       ) : (
         <>
-          <Row>Promoted By</Row>
+          {!createdBy ? <Row>Promoted by</Row> : <Row>Created by</Row>}
           <Row
             style={{
               marginBottom: 4,

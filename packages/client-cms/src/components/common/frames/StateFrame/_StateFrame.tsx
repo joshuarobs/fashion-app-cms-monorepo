@@ -220,7 +220,7 @@ function StateFrame({
           </Col>
           <Col span={2} />
           <Col span={10}>
-            <PromotedBy change={changeToDevelopment} />
+            <PromotedBy change={changeToDevelopment} createdBy />
             <PromotedBy change={changeToReview} />
             <PromotedBy change={changeToProduction} />
             <PromotedBy change={changeToRetired} />

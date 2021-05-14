@@ -236,7 +236,7 @@ const Common = {
     Desc_In_Retirement: 'Revision can no longer be seen nor edited.',
     Promote_To_Review: 'Promote to Review',
     Promote_To_Production: 'Promote to Production',
-    To_Be_Promoted: 'To Be Promoted',
+    To_Be_Promoted: 'To be promoted',
     New_Revision: 'New Revision',
     Creating_New_Revision: 'Creating new Revision...',
     Created_New_Revision: 'Created new Revision!',
