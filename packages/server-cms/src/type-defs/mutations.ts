@@ -155,7 +155,10 @@ const Mutations = gql`
     deleteItemTranslationsForItem: item_translations
     insertItemTranslation: item_translations
     insertItemTranslationBlankDraft: item_translations
-    updateItemTranslation: item_translations
+    updateItemTranslation(
+      id: String!
+      changes: item_translations_set_input!
+    ): item_translations
     #--------------------------------------------------
     # item_types
     #--------------------------------------------------

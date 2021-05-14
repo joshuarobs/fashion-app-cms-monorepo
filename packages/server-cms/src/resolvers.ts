@@ -278,7 +278,8 @@ const resolvers = {
     deleteItemTranslationsForItem,
     insertItemTranslation,
     insertItemTranslationBlankDraft,
-    updateItemTranslation,
+    updateItemTranslation: (_, { id, changes }) =>
+      updateItemTranslation(id, changes),
     //--------------------------------------------------
     // item_types
     //--------------------------------------------------

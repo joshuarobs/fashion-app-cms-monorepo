@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Col, Input, Row, Typography } from 'antd';
+import { Button, Col, Input, Row, Tooltip, Typography } from 'antd';
+import { WarningFilled } from '@ant-design/icons';
+import { red } from '@ant-design/colors';
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -67,6 +69,9 @@ function TabContentFrame({
   onPressEnterFullName,
   onPressEnterShortName,
 }: TabContentFrameProps) {
+  const errorShortNameLongerThanFullName =
+    short_name && full_name && short_name.length > full_name.length;
+
   return (
     <div
       style={{
@@ -102,6 +107,16 @@ function TabContentFrame({
               }
             >
               Short Name
+              {errorShortNameLongerThanFullName && (
+                <Tooltip title="Short name should be shorter than the full name.">
+                  <WarningFilled
+                    style={{
+                      color: red[3],
+                      marginLeft: 5,
+                    }}
+                  />
+                </Tooltip>
+              )}
             </Text>
           ) : (
             <Text strong mark>

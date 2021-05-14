@@ -5,11 +5,13 @@ import { Common } from '../../../strings';
 interface TagInDevelopmentProps {
   showShortText?: boolean;
   notClickable?: boolean;
+  notSelectable?: boolean;
 }
 
 function TagInDevelopment({
   showShortText = false,
   notClickable,
+  notSelectable = false,
 }: TagInDevelopmentProps) {
   return (
     <Tag
@@ -17,6 +19,7 @@ function TagInDevelopment({
       style={{
         cursor: notClickable ? 'auto' : 'pointer',
         marginRight: 0,
+        userSelect: notSelectable ? 'none' : 'initial',
       }}
     >
       <strong>

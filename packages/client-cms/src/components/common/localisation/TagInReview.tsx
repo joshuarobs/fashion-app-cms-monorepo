@@ -5,15 +5,21 @@ import { Common } from '../../../strings';
 interface TagInReviewProps {
   showShortText?: boolean;
   notClickable?: boolean;
+  notSelectable?: boolean;
 }
 
-function TagInReview({ showShortText = false, notClickable }: TagInReviewProps) {
+function TagInReview({
+  showShortText = false,
+  notClickable,
+  notSelectable = false,
+}: TagInReviewProps) {
   return (
     <Tag
       color="purple"
       style={{
         cursor: notClickable ? 'auto' : 'pointer',
         marginRight: 0,
+        userSelect: notSelectable ? 'none' : 'initial',
       }}
     >
       <strong>

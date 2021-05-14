@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
 import {
@@ -204,16 +204,16 @@ function LocalisationFrame({
         changeType: DataChangeType.Action,
         action: DataAction.Update,
       };
-      await insertItemTranslationRevisionChange({
-        variables,
-      });
-      await updateItemUpdatedAt({
-        variables: {
-          id: itemId,
-        },
-      });
+      // await insertItemTranslationRevisionChange({
+      //   variables,
+      // });
+      // await updateItemUpdatedAt({
+      //   variables: {
+      //     id: itemId,
+      //   },
+      // });
       message.success({ content: Common.Changes_Saved, key }, 2);
-      history.go(0);
+      // history.go(0);
     },
   });
 
@@ -451,11 +451,11 @@ function LocalisationFrame({
   let releaseTag = <div />;
   if (translationRelease) {
     if (state === DataState.Review) {
-      releaseTag = <TagInReview />;
+      releaseTag = <TagInReview notSelectable />;
     } else if (state === DataState.Production) {
-      releaseTag = <TagInProduction />;
+      releaseTag = <TagInProduction notSelectable />;
     } else if (state === DataState.Retired) {
-      releaseTag = <TagInRetirement />;
+      releaseTag = <TagInRetirement notSelectable />;
     }
     // switch (state) {
     //   case DATA_STATES.REVIEW:
@@ -547,6 +547,10 @@ function LocalisationFrame({
   if (uniqueRevisions.length >= 10) {
     selectWidth = 132;
   }
+
+  const defaultTabStyle: CSSProperties = {
+    userSelect: 'none',
+  };
 
   return (
     <>
@@ -656,14 +660,14 @@ function LocalisationFrame({
                     <span
                       style={
                         state === DataState.Development
-                          ? { marginRight: 8 }
-                          : {}
+                          ? { ...defaultTabStyle, marginRight: 8 }
+                          : defaultTabStyle
                       }
                     >
                       Draft{numberOfChanges1 > 0 && '*'}
                     </span>
                     {state === DataState.Development && (
-                      <TagInDevelopment showShortText />
+                      <TagInDevelopment showShortText notSelectable />
                     )}
                   </span>
                 }
@@ -675,8 +679,8 @@ function LocalisationFrame({
                     <span
                       style={
                         state !== DataState.Development
-                          ? { marginRight: 8 }
-                          : {}
+                          ? { ...defaultTabStyle, marginRight: 8 }
+                          : defaultTabStyle
                       }
                     >
                       Release{numberOfChanges2 > 0 && '*'}
