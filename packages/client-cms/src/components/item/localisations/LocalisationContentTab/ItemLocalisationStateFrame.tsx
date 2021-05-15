@@ -14,12 +14,13 @@ import { Insert_Item_Translation_Blank_Draft } from '../../../../queries/item_tr
 import { Insert_Item_Translation } from '../../../../queries/item_translations/insertItemTranslation';
 import { Update_Item_Updated_At } from '../../../../queries/items/updateItemUpdatedAt';
 import { Get_Item_Translation_Revision_Changes_Promos_Only } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesPromosOnly';
-import { Update_Item_Translation_Revision_To_Review } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionToReview';
+import { Update_Item_Translation_Revision_State_Promote_To_Review } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionToReview';
 import { Insert_Item_Translation_Revision_Change_Promo_Review } from '../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChangePromoReview';
 import { Update_Item_Translation_Revision_To_Production } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionToProduction';
 import { Insert_Item_Translation_Revision_Change_Promo_Production } from '../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChangePromoProduction';
 import { Update_Item_Translation_Revision_To_Retired } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionToRetired';
 import { Insert_Item_Translation_Revision_Change_Promo_Retired } from '../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChangePromoRetired';
+import { Insert_Item_Translation_Promote_To_Review } from '../../../../queries/item_translations/insertItemTranslationPromoteToReview';
 
 const key = 'state-localisations';
 
@@ -103,13 +104,46 @@ function ItemLocalisationStateFrame({
     notifyOnNetworkStatusChange: true,
   });
 
+  const [
+    insertItemTranslationPromoteToReview,
+    {
+      loading: loadingInsertItemTranslationPromoteToReview,
+      error: errorInsertItemTranslationPromoteToReview,
+    },
+  ] = useMutation(Insert_Item_Translation_Promote_To_Review, {
+    onCompleted() {
+      // TODO: Get the refetch from the content frame that loads all
+      //  revisions and then call it
+      // refetchTranslations();
+      // const variables = {
+      //   revisionId: currentRevision.id,
+      //   userId: 1
+      // };
+      // insertItemTranslationRevisionChangeActUpdate({ variables }).then(r => {});
+      history.push(
+        history.location.pathname +
+          `?rev=${currentRevision.revision}&release=true`
+      );
+      message
+        .success({
+          content: Common.State_Related.Promoted_To_Review,
+          key,
+        })
+        .then();
+    },
+    refetchQueries: [
+      // TODO: Refetch the state, and latest activity
+    ],
+    // notifyOnNetworkStatusChange: true,
+  });
+
   //==================================================
   // PROMOTE TO REVIEW
   //==================================================
   const [
     updateItemTranslationRevisionToReview,
     { loading: loadingUpdateRevisionReview, error: errorUpdateRevisionReview },
-  ] = useMutation(Update_Item_Translation_Revision_To_Review, {
+  ] = useMutation(Update_Item_Translation_Revision_State_Promote_To_Review, {
     onCompleted() {
       // Redirect to the page
       // history.push(`${pathNoRelease}true`);
@@ -117,6 +151,16 @@ function ItemLocalisationStateFrame({
       //   content: COMMON.STATE_RELATED.PROMOTED_TO_REVIEW,
       //   key
       // });
+      history.push(
+        history.location.pathname +
+          `?rev=${currentRevision.revision}&release=true`
+      );
+      message
+        .success({
+          content: Common.State_Related.Promoted_To_Review,
+          key,
+        })
+        .then();
     },
   });
 
@@ -289,40 +333,47 @@ function ItemLocalisationStateFrame({
   const promoteToReview = async () => {
     message.loading({ content: Common.State_Related.Promoting_To_Review, key });
     // 1. Create a release translation version
-    const { full_name, short_name, description } = translationDraft;
-    await insertItemTranslationIsRelease({
+    await insertItemTranslationPromoteToReview({
       variables: {
         revision_id: currentRevision.id,
-        is_release: true,
-        full_name,
-        short_name,
-        description,
       },
     });
 
-    // 2. Update the item translation revision state to REVIEW
-    await updateItemTranslationRevisionToReview({
-      variables: {
-        revisionId: currentRevision.id,
-      },
-    });
+    //
+    // const { full_name, short_name, description } = translationDraft;
+    // await insertItemTranslationIsRelease({
+    //   variables: {
+    //     revision_id: currentRevision.id,
+    //     is_release: true,
+    //     full_name,
+    //     short_name,
+    //     description,
+    //   },
+    // });
+    //
+    // // 2. Update the item translation revision state to REVIEW
+    // await updateItemTranslationRevisionToReview({
+    //   variables: {
+    //     id: currentRevision.id,
+    //   },
+    // });
 
     // 3. Create an activity entry
-    await insertItemTranslationRevisionChangePromoReview({
-      variables: {
-        revisionId: currentRevision.id,
-        userId: 1,
-      },
-    });
-
-    await updateItemUpdatedAt({
-      variables: {
-        id: itemId,
-      },
-    });
+    // await insertItemTranslationRevisionChangePromoReview({
+    //   variables: {
+    //     revisionId: currentRevision.id,
+    //     userId: 1,
+    //   },
+    // });
+    //
+    // await updateItemUpdatedAt({
+    //   variables: {
+    //     id: itemId,
+    //   },
+    // });
 
     // Refresh the page
-    history.go(0);
+    // history.go(0);
     // console.log("!!!translationDraft:", translationDraft);
     // console.log("!!!translationRelease:", translationRelease);
     // console.log("translations:", translations);

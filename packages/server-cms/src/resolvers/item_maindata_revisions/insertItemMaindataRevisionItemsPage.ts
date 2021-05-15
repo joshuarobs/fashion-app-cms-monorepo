@@ -14,7 +14,9 @@ async function insertItemMaindataRevisionItemsPage(id: number) {
 
   try {
     /*
+     * ============================================================
      * 1. Get the current most maindata revision and its maindata
+     * ============================================================
      */
     const data1 = await client.query({
       query: gql`
@@ -65,7 +67,9 @@ async function insertItemMaindataRevisionItemsPage(id: number) {
     console.log('item_maindata:', item_maindata);
 
     /*
+     * ============================================================
      * 2. Insert a maindata revision
+     * ============================================================
      */
     const data2 = await client.mutate({
       mutation: gql`
@@ -94,7 +98,9 @@ async function insertItemMaindataRevisionItemsPage(id: number) {
     // console.log('data2:', data2.data.insert_item_maindata_revisions_one);
 
     /*
+     * ============================================================
      * 3. Insert a maindata for the revision
+     * ============================================================
      */
     const data3 = await client.mutate({
       mutation: gql`
@@ -150,7 +156,9 @@ async function insertItemMaindataRevisionItemsPage(id: number) {
     });
 
     /*
+     * ============================================================
      * 4. Insert a revision change
+     * ============================================================
      */
     const data4 = await client.mutate({
       mutation: gql`
@@ -189,7 +197,9 @@ async function insertItemMaindataRevisionItemsPage(id: number) {
     });
 
     /*
+     * ============================================================
      * 5. Update the item updated_at
+     * ============================================================
      */
     const data5 = await client.mutate({
       mutation: gql`

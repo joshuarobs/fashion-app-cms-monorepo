@@ -148,6 +148,9 @@ const Mutations = gql`
     updateItemTranslationRevisionToProduction: item_translation_revisions
     updateItemTranslationRevisionToRetired: item_translation_revisions
     updateItemTranslationRevisionToReview: item_translation_revisions
+    updateItemTranslationRevisionStatePromoteToReview(
+      id: String!
+    ): item_translation_revisions
     #--------------------------------------------------
     # item_translations
     #--------------------------------------------------
@@ -155,6 +158,13 @@ const Mutations = gql`
     deleteItemTranslationsForItem: item_translations
     insertItemTranslation: item_translations
     insertItemTranslationBlankDraft: item_translations
+    insertItemTranslationPromoteToReview(
+      revision_id: String!
+    ): #      is_release: Boolean!
+    #      full_name: String!
+    #      short_name: String
+    #      description: String
+    item_translations
     updateItemTranslation(
       id: String!
       changes: item_translations_set_input!

@@ -96,7 +96,7 @@ import { deleteItemTranslationRevision } from './resolvers/item_translation_revi
 import { updateItemTranslationRevisionToProduction } from './resolvers/item_translation_revisions/updateItemTranslationRevisionToProduction';
 import { deleteItemTranslationRevisionsForItem } from './resolvers/item_translation_revisions/deleteItemTranslationRevisionsForItem';
 import { insertItemTranslationRevision } from './resolvers/item_translation_revisions/insertItemTranslationRevision';
-import { updateItemTranslationRevisionToReview } from './resolvers/item_translation_revisions/updateItemTranslationRevisionToReview';
+import { updateItemTranslationRevisionStatePromoteToReview } from './resolvers/item_translation_revisions/updateItemTranslationRevisionStatePromoteToReview';
 import { insertItemTranslation } from './resolvers/item_translations/insertItemTranslation';
 import { insertItemTranslationBlankDraft } from './resolvers/item_translations/insertItemTranslationBlankDraft';
 import { getItemTranslationsGivenUniqueKeys } from './resolvers/item_translations/getItemTranslationsGivenUniqueKeys';
@@ -126,6 +126,7 @@ import { updateItemMaindataRevisionStateDemoteToDevelopment } from './resolvers/
 import { getItemMaindataRevisionByRevAndItemIdBarebones } from './resolvers/item_maindata_revisions/getItemMaindataRevisionByRevAndItemIdBB';
 import { updateItemMaindataRevisionStatePromoteToProduction } from './resolvers/item_maindata_revisions/updateItemMaindataRevisionStatePromoteToProduction';
 import { insertItemMaindataRevisionItemsPage } from './resolvers/item_maindata_revisions/insertItemMaindataRevisionItemsPage';
+import { insertItemTranslationPromoteToReview } from './resolvers/item_translations/insertItemTranslationPromoteToReview';
 
 const resolvers = {
   //**********************************************************************
@@ -270,7 +271,8 @@ const resolvers = {
     insertItemTranslationRevision,
     updateItemTranslationRevisionToProduction,
     updateItemTranslationRevisionToRetired,
-    updateItemTranslationRevisionToReview,
+    updateItemTranslationRevisionStatePromoteToReview: (_, { id, userId }) =>
+      updateItemTranslationRevisionStatePromoteToReview(),
     //--------------------------------------------------
     // item_translations
     //--------------------------------------------------
@@ -278,6 +280,8 @@ const resolvers = {
     deleteItemTranslationsForItem,
     insertItemTranslation,
     insertItemTranslationBlankDraft,
+    insertItemTranslationPromoteToReview: (_, { revision_id }) =>
+      insertItemTranslationPromoteToReview(revision_id),
     updateItemTranslation: (_, { id, changes }) =>
       updateItemTranslation(id, changes),
     //--------------------------------------------------

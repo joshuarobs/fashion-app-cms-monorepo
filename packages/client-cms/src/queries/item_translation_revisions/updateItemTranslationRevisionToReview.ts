@@ -1,7 +1,16 @@
 import { gql } from '@apollo/client';
 
-const Update_Item_Translation_Revision_To_Review = gql`
-  mutation updateItemTranslationRevisionToReview($revisionId: uuid!) {
+/**
+ * Updates the Item Translations Revision's state by promoting it:
+ * Development --> Review
+ *
+ * Used in the Item > Localisations page's StateFrame, when the current state
+ * is Development
+ */
+const Update_Item_Translation_Revision_State_Promote_To_Review = gql`
+  mutation updateItemTranslationRevisionStatePromoteToReview(
+    $revisionId: uuid!
+  ) {
     update_item_translation_revisions_by_pk(
       pk_columns: { id: $revisionId }
       _set: { state: Review }
@@ -15,4 +24,4 @@ const Update_Item_Translation_Revision_To_Review = gql`
   }
 `;
 
-export { Update_Item_Translation_Revision_To_Review };
+export { Update_Item_Translation_Revision_State_Promote_To_Review };
