@@ -213,6 +213,11 @@ async function insertItemTranslationPromoteToReview(
       },
     });
 
+    /*
+     * ============================================================
+     * Return the result
+     * ============================================================
+     */
     logger.info(
       `graphql > insertItemTranslationPromoteToReview() :: Successfully returned data`
     );

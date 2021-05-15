@@ -15,12 +15,12 @@ import { Insert_Item_Translation } from '../../../../queries/item_translations/i
 import { Update_Item_Updated_At } from '../../../../queries/items/updateItemUpdatedAt';
 import { Get_Item_Translation_Revision_Changes_Promos_Only } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesPromosOnly';
 import { Update_Item_Translation_Revision_State_Promote_To_Review } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionToReview';
-import { Insert_Item_Translation_Revision_Change_Promo_Review } from '../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChangePromoReview';
 import { Update_Item_Translation_Revision_To_Production } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionToProduction';
 import { Insert_Item_Translation_Revision_Change_Promo_Production } from '../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChangePromoProduction';
 import { Update_Item_Translation_Revision_To_Retired } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionToRetired';
 import { Insert_Item_Translation_Revision_Change_Promo_Retired } from '../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChangePromoRetired';
 import { Insert_Item_Translation_Promote_To_Review } from '../../../../queries/item_translations/insertItemTranslationPromoteToReview';
+import { Update_Item_Translation_Revision_State_Promote_To_Production } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionStatePromoteToProduction';
 
 const key = 'state-localisations';
 
@@ -164,29 +164,51 @@ function ItemLocalisationStateFrame({
     },
   });
 
-  const [
-    insertItemTranslationRevisionChangePromoReview,
-    { loading: loadingChangePromoReview, error: errorChangePromoReview },
-  ] = useMutation(Insert_Item_Translation_Revision_Change_Promo_Review, {
-    onCompleted() {
-      // Redirect to the page
-      // history.push(`${pathNoRelease}true`);
-      history.push(
-        history.location.pathname +
-          `?rev=${currentRevision.revision}&release=true`
-      );
-      message
-        .success({
-          content: Common.State_Related.Promoted_To_Review,
-          key,
-        })
-        .then();
-    },
-  });
+  // const [
+  //   insertItemTranslationRevisionChangePromoReview,
+  //   { loading: loadingChangePromoReview, error: errorChangePromoReview },
+  // ] = useMutation(Insert_Item_Translation_Revision_Change_Promo_Review, {
+  //   onCompleted() {
+  //     // Redirect to the page
+  //     // history.push(`${pathNoRelease}true`);
+  //     history.push(
+  //       history.location.pathname +
+  //         `?rev=${currentRevision.revision}&release=true`
+  //     );
+  //     message
+  //       .success({
+  //         content: Common.State_Related.Promoted_To_Review,
+  //         key,
+  //       })
+  //       .then();
+  //   },
+  // });
 
   //==================================================
   // PROMOTE TO PRODUCTION
   //==================================================
+  const [
+    updateItemTranslationRevisionStatePromoteToProduction,
+    {
+      loading: loadingUpdateItemTranslationRevisionStatePromoteToProduction,
+      error: errorUpdateItemTranslationRevisionStatePromoteToProduction,
+    },
+  ] = useMutation(
+    Update_Item_Translation_Revision_State_Promote_To_Production,
+    {
+      onCompleted() {
+        // Refresh the page
+        // history.go(0);
+        // message
+        //   .success({
+        //     content: Common.State_Related.Promoted_To_Production,
+        //     key,
+        //   })
+        //   .then();
+      },
+    }
+  );
+
   const [
     updateItemTranslationRevisionToProduction,
     {
@@ -384,49 +406,54 @@ function ItemLocalisationStateFrame({
       content: Common.State_Related.Promoting_To_Production,
       key,
     });
-    // 1. Update the item translation revision state to PRODUCTION
-    await updateItemTranslationRevisionToProduction({
+    await updateItemTranslationRevisionStatePromoteToProduction({
       variables: {
-        revisionId: currentRevision.id,
+        id: currentRevision.id,
       },
     });
-
-    // 2. If there is a previous revision, retire it
-    const matchingPreviousRevision = uniqueRevisions.find(
-      // @ts-ignore
-      ({ revision }) => revision === Number.parseInt(paramsRevision) - 1
-    );
-    console.log('matchingPreviousRevision:', matchingPreviousRevision);
-    if (matchingPreviousRevision) {
-      await updateItemTranslationRevisionToRetired({
-        variables: {
-          revisionId: matchingPreviousRevision.id,
-        },
-      });
-      await insertItemTranslationRevisionChangePromoRetired({
-        variables: {
-          revisionId: matchingPreviousRevision.id,
-          userId: 1,
-        },
-      });
-    }
-
-    // 3. Create an activity entry
-    insertItemTranslationRevisionChangePromoProduction({
-      variables: {
-        revisionId: currentRevision.id,
-        userId: 1,
-      },
-    }).then();
-
-    await updateItemUpdatedAt({
-      variables: {
-        id: itemId,
-      },
-    });
-
-    // Refresh the page
-    history.go(0);
+    // // 1. Update the item translation revision state to PRODUCTION
+    // await updateItemTranslationRevisionToProduction({
+    //   variables: {
+    //     revisionId: currentRevision.id,
+    //   },
+    // });
+    //
+    // // 2. If there is a previous revision, retire it
+    // const matchingPreviousRevision = uniqueRevisions.find(
+    //   // @ts-ignore
+    //   ({ revision }) => revision === Number.parseInt(paramsRevision) - 1
+    // );
+    // console.log('matchingPreviousRevision:', matchingPreviousRevision);
+    // if (matchingPreviousRevision) {
+    //   await updateItemTranslationRevisionToRetired({
+    //     variables: {
+    //       revisionId: matchingPreviousRevision.id,
+    //     },
+    //   });
+    // await insertItemTranslationRevisionChangePromoRetired({
+    //   variables: {
+    //     revisionId: matchingPreviousRevision.id,
+    //     userId: 1,
+    //   },
+    // });
+    // }
+    //
+    // // 3. Create an activity entry
+    // insertItemTranslationRevisionChangePromoProduction({
+    //   variables: {
+    //     revisionId: currentRevision.id,
+    //     userId: 1,
+    //   },
+    // }).then();
+    //
+    // await updateItemUpdatedAt({
+    //   variables: {
+    //     id: itemId,
+    //   },
+    // });
+    //
+    // // Refresh the page
+    // history.go(0);
   };
 
   const newRevision = async () => {

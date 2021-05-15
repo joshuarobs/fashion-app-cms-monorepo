@@ -75,6 +75,7 @@ async function getItemTranslationRevisionChangesForLocale(
         limit,
         offset,
       },
+      fetchPolicy: 'network-only',
     });
 
     logger.info(

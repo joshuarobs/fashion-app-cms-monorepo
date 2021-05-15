@@ -54,8 +54,7 @@ function OverviewActivityFrame({
   //   return <div>Error! ${JSON.stringify(overrideError, null, 2)}</div>;
   // }
   if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
-
-  // console.log('OverviewActivityFrame#data:', data);
+  console.log('OverviewActivityFrame#data:', data);
 
   // const { item_maindata_revision_changes } = data;
   // console.log('Activity - loaded data:', item_maindata_revision_changes);
