@@ -128,6 +128,7 @@ import { updateItemMaindataRevisionStatePromoteToProduction } from './resolvers/
 import { insertItemMaindataRevisionItemsPage } from './resolvers/item_maindata_revisions/insertItemMaindataRevisionItemsPage';
 import { insertItemTranslationPromoteToReview } from './resolvers/item_translations/insertItemTranslationPromoteToReview';
 import { updateItemTranslationRevisionStatePromoteToProduction } from './resolvers/item_translation_revisions/updateItemTranslationRevisionStatePromoteToProduction';
+import { insertItemTranslationRevisionPromoteNewRevision } from './resolvers/item_translation_revisions/insertItemTranslationRevisionPromoteNewRevision';
 
 const resolvers = {
   //**********************************************************************
@@ -271,6 +272,8 @@ const resolvers = {
     deleteItemTranslationRevisionsForItem,
     insertItemTranslationRevision,
     // updateItemTranslationRevisionToProduction,
+    insertItemTranslationRevisionPromoteNewRevision: (_, { id, locale_code }) =>
+      insertItemTranslationRevisionPromoteNewRevision(id, locale_code),
     updateItemTranslationRevisionStatePromoteToProduction: (_, { id }) =>
       updateItemTranslationRevisionStatePromoteToProduction(id),
     updateItemTranslationRevisionToRetired,
