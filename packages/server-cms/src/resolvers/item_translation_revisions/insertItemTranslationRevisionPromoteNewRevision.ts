@@ -74,6 +74,13 @@ async function insertItemTranslationRevisionPromoteNewRevision(
               id
               state
               revision
+              item_translations(order_by: { is_release: desc }, limit: 1) {
+                id
+                full_name
+                short_name
+                description
+                is_release
+              }
             }
           }
         }
@@ -89,7 +96,10 @@ async function insertItemTranslationRevisionPromoteNewRevision(
 
     const { item_translation_revisions } = data2.data.items_by_pk;
     const hasPreviousTranslationRevision =
-      item_translation_revisions.length > 0;
+      // Ensure we have at least 1 translation revision
+      item_translation_revisions.length > 0 &&
+      // Ensure that the first translation revision has at least one translation
+      item_translation_revisions[0].item_translations.length > 0;
 
     // Do checks if we have an existing revision...
     if (hasPreviousTranslationRevision) {
@@ -102,7 +112,7 @@ async function insertItemTranslationRevisionPromoteNewRevision(
       }
     }
 
-    return null;
+    // return null;
 
     /*
      * ============================================================
@@ -113,13 +123,13 @@ async function insertItemTranslationRevisionPromoteNewRevision(
       mutation: gql`
         mutation insertItemTranslationRevision(
           $item_id: Int!
-          $localeCode: String!
+          $locale_code: String!
           $revision: Int!
         ) {
           insert_item_translation_revisions_one(
             object: {
               item_id: $item_id
-              locale_code: $localeCode
+              locale_code: $locale_code
               revision: $revision
             }
           ) {
@@ -138,15 +148,28 @@ async function insertItemTranslationRevisionPromoteNewRevision(
       },
     });
 
+    console.log('data3:', data3.data.insert_item_translation_revisions_one);
+
     /*
      * ============================================================
      * 4. Create a draft translation version
      * ============================================================
      */
     // TODO: Check to see if we have a previous revision to copy from or not
-    const variables = {};
-    if (hasPreviousTranslationRevision) {
+    const variables = {
+      revision_id: data3.data.insert_item_translation_revisions_one.id,
+      is_release: false,
+      full_name: '',
+      short_name: null,
+      description: null,
+    };
 
+    if (hasPreviousTranslationRevision) {
+      const releaseTranslation =
+        item_translation_revisions[0].item_translations[0];
+      variables.full_name = releaseTranslation.full_name;
+      variables.short_name = releaseTranslation.short_name;
+      variables.description = releaseTranslation.description;
     }
 
     const data4 = await client.mutate({
@@ -176,13 +199,14 @@ async function insertItemTranslationRevisionPromoteNewRevision(
           }
         }
       `,
-      variables: {
-        revision_id: id,
-        is_release: false,
-        // full_name,
-        // short_name,
-        // description,
-      },
+      variables,
+      // variables: {
+      //   revision_id: id,
+      //   is_release: false,
+      //   // full_name,
+      //   // short_name,
+      //   // description,
+      // },
     });
 
     /*
@@ -219,10 +243,10 @@ async function insertItemTranslationRevisionPromoteNewRevision(
         }
       `,
       variables: {
-        revisionId: id,
+        revisionId: data3.data.insert_item_translation_revisions_one.id,
         userId,
         changeType: DataChangeType.Promotion,
-        toState: DataState.Production,
+        toState: DataState.Development,
       },
     });
 

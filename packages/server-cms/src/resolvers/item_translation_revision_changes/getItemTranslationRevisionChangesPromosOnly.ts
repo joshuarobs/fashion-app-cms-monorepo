@@ -63,6 +63,7 @@ async function getItemTranslationRevisionChangesPromosOnly(
         localeCode,
         revision,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.item_translation_revision_changes;
   } catch (e) {
