@@ -30,7 +30,7 @@ interface ItemLocalisationStateFrameProps {
   itemId: number;
   currentTab: string;
   paramsRevision: any;
-  refetchTranslations?: Function;
+  refetchTranslations: Function;
   refetchItemTransRevs: Function;
   refetchUniqueRevisions: Function;
   uniqueRevisions: any;
@@ -47,6 +47,7 @@ function ItemLocalisationStateFrame({
 }: ItemLocalisationStateFrameProps) {
   const history = useHistory();
   console.log('STATE - history:', history);
+  console.log('ItemLocalisationStateFrame > currentTab:', currentTab);
 
   const [currentRevision, setCurrentRevision] = useState(uniqueRevisions[0]);
   const [state, setState] = useState(null);
@@ -75,7 +76,7 @@ function ItemLocalisationStateFrame({
 
   useEffect(() => {
     setReactUseStateVars();
-  }, [currentTab, paramsRevision]);
+  }, [currentTab, paramsRevision, uniqueRevisions]);
 
   //======================================================================
   // Hooks for GraphQL queries
@@ -126,6 +127,7 @@ function ItemLocalisationStateFrame({
       //  revisions and then call it
       // refetchTranslations();
       await refetchPromoTranslationRevs();
+      await refetchTranslations();
       refetchUniqueRevisions();
       // const variables = {
       //   revisionId: currentRevision.id,
@@ -218,6 +220,7 @@ function ItemLocalisationStateFrame({
     {
       async onCompleted() {
         await refetchPromoTranslationRevs();
+        // await refetchTranslations();
         // setReactUseStateVars();
         refetchUniqueRevisions();
         // Refresh the page

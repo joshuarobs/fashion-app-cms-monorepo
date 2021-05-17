@@ -56,6 +56,7 @@ function LocalisationContentTab({
       itemId: Number.parseInt(String(itemId)),
       localeCode: currentTab,
     },
+    fetchPolicy: 'network-only',
   });
 
   let mainFrameToDisplay = null;
@@ -91,6 +92,7 @@ function LocalisationContentTab({
   } else {
     console.log('else');
     console.log('dataRevisions:', dataRevisions);
+    console.log('dataTranslations:', dataTranslations);
     const translations = dataTranslations.getItemTranslationsGivenUniqueKeys;
     const uniqueRevisions =
       dataRevisions.getItemTranslationRevisionsGivenLocaleCode;

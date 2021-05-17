@@ -3,6 +3,7 @@ import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
 async function getItemTranslationRevisions(id: number) {
+  logger.info(`graphql > getItemTranslationRevisions() :: args: id: ${id}`);
   try {
     const data = await client.query({
       query: gql`
@@ -43,6 +44,9 @@ async function getItemTranslationRevisions(id: number) {
       },
       fetchPolicy: 'network-only',
     });
+    logger.info(
+      `graphql > getItemTranslationRevisions() :: Successfully returned data`
+    );
     return data.data.item_translation_revisions;
   } catch (e) {
     logger.error(e);

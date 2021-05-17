@@ -6,6 +6,9 @@ async function getItemTranslationRevisionsGivenLocaleCode(
   itemId: number,
   localeCode: string
 ) {
+  logger.info(
+    `graphql > getItemTranslationRevisionsGivenLocaleCode() :: args: itemId: ${itemId} | localeCode: ${localeCode}`
+  );
   try {
     const data = await client.query({
       query: gql`
@@ -52,6 +55,13 @@ async function getItemTranslationRevisionsGivenLocaleCode(
       },
       fetchPolicy: 'network-only',
     });
+    console.log(
+      'data.data.item_translation_revisions:',
+      data.data.item_translation_revisions
+    );
+    logger.info(
+      `graphql > getItemTranslationRevisionsGivenLocaleCode() :: Successfully returned data`
+    );
     return data.data.item_translation_revisions;
   } catch (e) {
     logger.error(e);
