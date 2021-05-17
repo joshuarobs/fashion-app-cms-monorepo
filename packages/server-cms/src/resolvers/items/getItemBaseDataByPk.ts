@@ -39,6 +39,7 @@ async function getItemBaseDataByPk(id: number) {
       variables: {
         id,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.items_by_pk;
   } catch (e) {

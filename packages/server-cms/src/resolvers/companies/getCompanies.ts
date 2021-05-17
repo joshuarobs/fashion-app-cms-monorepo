@@ -44,6 +44,7 @@ async function getCompanies(
         limit,
         offset,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.companies;
   } catch (e) {

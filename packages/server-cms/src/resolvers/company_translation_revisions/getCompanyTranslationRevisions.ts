@@ -41,6 +41,7 @@ async function getCompanyTranslationRevisions(id: number) {
       variables: {
         id,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.company_translation_revisions;
   } catch (e) {

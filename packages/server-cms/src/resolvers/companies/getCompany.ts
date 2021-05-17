@@ -48,6 +48,7 @@ async function getCompany(id: number) {
       variables: {
         id,
       },
+      fetchPolicy: 'network-only',
     });
     // console.log('data:', data.data);
     return data.data.companies_by_pk;

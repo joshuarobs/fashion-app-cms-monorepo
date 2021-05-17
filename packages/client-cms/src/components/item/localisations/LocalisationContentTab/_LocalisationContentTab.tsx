@@ -90,6 +90,7 @@ function LocalisationContentTab({
     );
   } else {
     console.log('else');
+    console.log('dataRevisions:', dataRevisions);
     const translations = dataTranslations.getItemTranslationsGivenUniqueKeys;
     const uniqueRevisions =
       dataRevisions.getItemTranslationRevisionsGivenLocaleCode;
@@ -132,6 +133,7 @@ function LocalisationContentTab({
         refetchTranslations={refetchTranslations}
         refetchItemTransRevs={refetchItemTransRevs}
         uniqueRevisions={uniqueRevisions}
+        refetchUniqueRevisions={refetchRevisions}
       />
     );
   }

@@ -26,6 +26,7 @@ async function getNumberOfUniqueItemsForClothingShell() {
           }
         }
       `,
+      fetchPolicy: 'network-only',
     });
     return data.data.item_maindata_revisions_aggregate;
   } catch (e) {

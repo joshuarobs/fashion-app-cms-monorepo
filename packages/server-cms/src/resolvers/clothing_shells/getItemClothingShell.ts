@@ -28,6 +28,7 @@ async function getItemClothingShell() {
           }
         }
       `,
+      fetchPolicy: 'network-only',
     });
     return data.data.clothing_shells_by_pk;
   } catch (e) {

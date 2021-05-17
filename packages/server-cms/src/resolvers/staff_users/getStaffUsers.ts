@@ -17,6 +17,7 @@ async function getStaffUsers() {
           }
         }
       `,
+      fetchPolicy: 'network-only',
     });
     return data.data.staff_users;
   } catch (e) {

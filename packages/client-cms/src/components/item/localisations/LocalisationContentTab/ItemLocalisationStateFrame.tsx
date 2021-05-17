@@ -22,6 +22,7 @@ import { Insert_Item_Translation_Revision_Change_Promo_Retired } from '../../../
 import { Insert_Item_Translation_Promote_To_Review } from '../../../../queries/item_translations/insertItemTranslationPromoteToReview';
 import { Update_Item_Translation_Revision_State_Promote_To_Production } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionStatePromoteToProduction';
 import { Insert_Item_Translation_Revision_Promote_New_Revision } from '../../../../queries/item_translation_revisions/insertItemTranslationRevisionPromoteNewRevision';
+import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesForLocale';
 
 const key = 'state-localisations';
 
@@ -31,6 +32,7 @@ interface ItemLocalisationStateFrameProps {
   paramsRevision: any;
   refetchTranslations?: Function;
   refetchItemTransRevs: Function;
+  refetchUniqueRevisions: Function;
   uniqueRevisions: any;
 }
 
@@ -40,6 +42,7 @@ function ItemLocalisationStateFrame({
   paramsRevision,
   refetchTranslations,
   refetchItemTransRevs,
+  refetchUniqueRevisions,
   uniqueRevisions,
 }: ItemLocalisationStateFrameProps) {
   const history = useHistory();
@@ -49,7 +52,7 @@ function ItemLocalisationStateFrame({
   const [state, setState] = useState(null);
   const [revision_id, setRevisionId] = useState(null);
 
-  useEffect(() => {
+  function setReactUseStateVars() {
     const matchingRevision = uniqueRevisions.find(
       // @ts-ignore
       ({ revision }) => revision === Number.parseInt(paramsRevision)
@@ -68,6 +71,10 @@ function ItemLocalisationStateFrame({
       '\nUnique revs:',
       uniqueRevisions
     );
+  }
+
+  useEffect(() => {
+    setReactUseStateVars();
   }, [currentTab, paramsRevision]);
 
   //======================================================================
@@ -77,16 +84,18 @@ function ItemLocalisationStateFrame({
   //   onCompleted() {},
   // });
 
-  const { loading, error, data } = useQuery(
-    Get_Item_Translation_Revision_Changes_Promos_Only,
-    {
-      variables: {
-        itemId: Number.parseInt(String(itemId)),
-        localeCode: currentTab,
-        revision: Number.parseInt(paramsRevision),
-      },
-    }
-  );
+  const {
+    loading: loadingPromoTranslationRevs,
+    error: errorPromoTranslationRevs,
+    data: dataPromoTranslationRevs,
+    refetch: refetchPromoTranslationRevs,
+  } = useQuery(Get_Item_Translation_Revision_Changes_Promos_Only, {
+    variables: {
+      itemId: Number.parseInt(String(itemId)),
+      localeCode: currentTab,
+      revision: Number.parseInt(paramsRevision),
+    },
+  });
 
   // const [
   //   insertItemTranslationIsRelease,
@@ -112,10 +121,12 @@ function ItemLocalisationStateFrame({
       error: errorInsertItemTranslationPromoteToReview,
     },
   ] = useMutation(Insert_Item_Translation_Promote_To_Review, {
-    onCompleted() {
+    async onCompleted() {
       // TODO: Get the refetch from the content frame that loads all
       //  revisions and then call it
       // refetchTranslations();
+      await refetchPromoTranslationRevs();
+      refetchUniqueRevisions();
       // const variables = {
       //   revisionId: currentRevision.id,
       //   userId: 1
@@ -135,11 +146,11 @@ function ItemLocalisationStateFrame({
     refetchQueries: [
       // TODO: Refetch the state, and latest activity
       {
-        query: Get_Item_Translation_Revision_Changes_Promos_Only,
+        query: Get_Item_Translation_Revision_Changes_For_Locale,
         variables: {
           itemId: Number.parseInt(String(itemId)),
           localeCode: currentTab,
-          revision: Number.parseInt(paramsRevision),
+          // revision: Number.parseInt(paramsRevision),
         },
       },
     ],
@@ -205,7 +216,10 @@ function ItemLocalisationStateFrame({
   ] = useMutation(
     Update_Item_Translation_Revision_State_Promote_To_Production,
     {
-      onCompleted() {
+      async onCompleted() {
+        await refetchPromoTranslationRevs();
+        // setReactUseStateVars();
+        refetchUniqueRevisions();
         // Refresh the page
         // history.go(0);
         // message
@@ -215,6 +229,16 @@ function ItemLocalisationStateFrame({
         //   })
         //   .then();
       },
+      refetchQueries: [
+        {
+          query: Get_Item_Translation_Revision_Changes_For_Locale,
+          variables: {
+            itemId: Number.parseInt(String(itemId)),
+            localeCode: currentTab,
+            // revision: Number.parseInt(paramsRevision),
+          },
+        },
+      ],
     }
   );
 
@@ -295,7 +319,16 @@ function ItemLocalisationStateFrame({
       data: dataInsertItemTranslationRevisionPromoteNewRevision,
     },
   ] = useMutation(Insert_Item_Translation_Revision_Promote_New_Revision, {
-    refetchQueries: [],
+    refetchQueries: [
+      {
+        query: Get_Item_Translation_Revision_Changes_For_Locale,
+        variables: {
+          itemId: Number.parseInt(String(itemId)),
+          localeCode: currentTab,
+          // revision: Number.parseInt(paramsRevision),
+        },
+      },
+    ],
   });
 
   // const [
@@ -482,10 +515,15 @@ function ItemLocalisationStateFrame({
     );
   };
 
-  if (loading) return <StateFrame />;
-  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
+  if (loadingPromoTranslationRevs) return <StateFrame />;
+  if (errorPromoTranslationRevs)
+    return (
+      <div>Error! ${JSON.stringify(errorPromoTranslationRevs, null, 2)}</div>
+    );
 
-  const { getItemTranslationRevisionChangesPromosOnly } = data;
+  const {
+    getItemTranslationRevisionChangesPromosOnly,
+  } = dataPromoTranslationRevs;
 
   console.log(
     'getItemTranslationRevisionChangesPromosOnly:',

@@ -29,6 +29,7 @@ async function getItemMaindataRevision() {
           }
         }
       `,
+      fetchPolicy: 'network-only',
     });
     return data.data.item_maindata_revisions_by_pk;
   } catch (e) {

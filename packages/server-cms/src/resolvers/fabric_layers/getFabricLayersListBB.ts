@@ -52,6 +52,7 @@ async function getFabricLayersListBB(
         offset,
         fabricLayerTypes,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.fabric_layers;
   } catch (e) {

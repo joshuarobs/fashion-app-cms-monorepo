@@ -26,6 +26,7 @@ async function getItemRevisionChangesAggregates(itemId: number) {
       variables: {
         itemId,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data;
   } catch (e) {

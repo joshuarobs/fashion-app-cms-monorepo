@@ -23,6 +23,7 @@ async function getUniqueItemMaindataRevsForBrandProdOnly(id: number) {
       variables: {
         id,
       },
+      fetchPolicy: 'network-only',
     });
     // console.log('data:', JSON.stringify(data, null, 2));
     return data.data.item_maindata_revisions_aggregate;

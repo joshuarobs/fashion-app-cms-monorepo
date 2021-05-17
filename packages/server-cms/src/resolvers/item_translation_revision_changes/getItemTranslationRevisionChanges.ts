@@ -64,6 +64,7 @@ async function getItemTranslationRevisionChanges(
         limit,
         offset,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.item_translation_revision_changes;
   } catch (e) {

@@ -50,6 +50,7 @@ async function getItemTranslationRevisionsGivenLocaleCode(
         itemId,
         localeCode,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.item_translation_revisions;
   } catch (e) {

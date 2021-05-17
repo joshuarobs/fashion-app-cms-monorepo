@@ -34,6 +34,7 @@ async function getItemsForItemsTableDevelopmentOnly() {
           }
         }
       `,
+      fetchPolicy: 'network-only',
     });
     return data.data.items;
   } catch (e) {

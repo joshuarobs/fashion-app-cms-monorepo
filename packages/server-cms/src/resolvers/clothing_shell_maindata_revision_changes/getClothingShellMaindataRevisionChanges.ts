@@ -55,6 +55,7 @@ async function getClothingShellMaindataRevisionChanges(
         limit,
         offset,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.clothing_shell_maindata_revision_changes;
   } catch (e) {

@@ -64,6 +64,7 @@ async function getItemWithLocaleData() {
           }
         }
       `,
+      fetchPolicy: 'network-only',
     });
     return data.data.items_by_pk;
   } catch (e) {

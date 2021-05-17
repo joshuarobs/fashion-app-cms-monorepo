@@ -56,6 +56,7 @@ async function getTopXUniqueProdItemsForClothingShellBB(
         limit,
         offset,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.item_maindata_revisions;
   } catch (e) {

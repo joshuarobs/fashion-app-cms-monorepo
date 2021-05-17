@@ -35,6 +35,7 @@ async function getClothingShellsListBB(
         limit,
         offset,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.clothing_shells;
   } catch (e) {

@@ -50,6 +50,7 @@ async function getCompanyTranslationRevisionsByLocaleCode(
         companyId,
         localeCode,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.company_translation_revisions;
   } catch (e) {

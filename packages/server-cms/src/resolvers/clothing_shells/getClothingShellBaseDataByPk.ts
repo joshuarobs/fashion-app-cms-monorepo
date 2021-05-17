@@ -42,6 +42,7 @@ async function getClothingShellBaseDataByPk(id: number) {
       variables: {
         id,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.clothing_shells_by_pk;
   } catch (e) {

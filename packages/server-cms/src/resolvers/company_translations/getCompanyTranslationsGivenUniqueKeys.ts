@@ -44,6 +44,7 @@ async function getCompanyTranslationsGivenUniqueKeys(
         companyId,
         localeCode,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.company_translations;
   } catch (e) {

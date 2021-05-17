@@ -63,6 +63,7 @@ async function getCompanyTranslationRevisionChangesPromosOnly(
         localeCode,
         revision,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.company_translation_revision_changes;
   } catch (e) {

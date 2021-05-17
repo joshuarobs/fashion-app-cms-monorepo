@@ -123,6 +123,7 @@ async function getClothingShellsForClothingShellsTableLatest(
         limit,
         offset,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.clothing_shells;
   } catch (e) {

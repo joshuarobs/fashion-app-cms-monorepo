@@ -43,6 +43,7 @@ async function getCompaniesListBB(limit: number, offset: number) {
         limit,
         offset,
       },
+      fetchPolicy: 'network-only',
     });
     // console.log('data:', data);
     return data.data.companies;

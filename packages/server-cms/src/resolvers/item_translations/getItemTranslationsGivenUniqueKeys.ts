@@ -44,6 +44,7 @@ async function getItemTranslationsGivenUniqueKeys(
         itemId,
         localeCode,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.item_translations;
   } catch (e) {

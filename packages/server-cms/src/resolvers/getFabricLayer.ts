@@ -28,6 +28,7 @@ async function getFabricLayer(id: number) {
       variables: {
         id,
       },
+      fetchPolicy: 'network-only',
     });
     return data.data.fabric_layers_by_pk;
   } catch (e) {
