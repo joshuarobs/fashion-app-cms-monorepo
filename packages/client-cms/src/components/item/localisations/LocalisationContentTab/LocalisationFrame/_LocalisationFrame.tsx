@@ -90,21 +90,24 @@ function LocalisationFrame({
       // @ts-ignore
       ({ revision }) => revision === Number.parseInt(paramsRevision)
     );
-    setCurrentRevision(matchingRevision);
-    // setState(currentRevision ? currentRevision.state : null);
-    setState(matchingRevision ? matchingRevision.state : null);
-    setRevisionId(matchingRevision ? matchingRevision.id : null);
-    console.log(
-      'SET CURRENT REVISION:',
-      currentRevision,
-      '\nParams:',
-      paramsRevision,
-      '\nMatching revision:',
-      matchingRevision,
-      '\nUnique revs:',
-      uniqueRevisions
-    );
-  }, [currentTab, paramsRevision]);
+    console.log('matchingRevision:', matchingRevision);
+    if (matchingRevision) {
+      setCurrentRevision(matchingRevision);
+      // setState(currentRevision ? currentRevision.state : null);
+      setState(matchingRevision ? matchingRevision.state : null);
+      setRevisionId(matchingRevision ? matchingRevision.id : null);
+      console.log(
+        'SET CURRENT REVISION:',
+        currentRevision,
+        '\nParams:',
+        paramsRevision,
+        '\nMatching revision:',
+        matchingRevision,
+        '\nUnique revs:',
+        uniqueRevisions
+      );
+    }
+  }, [currentTab, paramsRevision, uniqueRevisions]);
 
   // useEffect(() => {
   //   setState(currentRevision ? currentRevision.state : null);

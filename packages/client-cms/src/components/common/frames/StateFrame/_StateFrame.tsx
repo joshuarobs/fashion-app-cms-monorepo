@@ -52,6 +52,7 @@ interface StateFrameProps {
   changeToReview?: any;
   changeToProduction?: any;
   changeToRetired?: any;
+  buttonIsPromoting?: boolean;
   promoteToReview?: any;
   promoteToProduction?: any;
   demoteToDevelopment?: any;
@@ -66,6 +67,7 @@ function StateFrame({
   changeToReview,
   changeToProduction,
   changeToRetired,
+  buttonIsPromoting,
   promoteToReview,
   promoteToProduction,
   demoteToDevelopment,
@@ -166,7 +168,12 @@ function StateFrame({
               </Popconfirm>
             )}
             {showButton && (
-              <Button type="primary" size={size} onClick={onClick}>
+              <Button
+                type="primary"
+                size={size}
+                loading={buttonIsPromoting}
+                onClick={onClick}
+              >
                 {text}
               </Button>
             )}

@@ -52,6 +52,7 @@ function ItemLocalisationStateFrame({
   const [currentRevision, setCurrentRevision] = useState(uniqueRevisions[0]);
   const [state, setState] = useState(null);
   const [revision_id, setRevisionId] = useState(null);
+  const [buttonIsPromoting, setButtonIsPromoting] = useState(false);
 
   function setReactUseStateVars() {
     const matchingRevision = uniqueRevisions.find(
@@ -74,9 +75,18 @@ function ItemLocalisationStateFrame({
     );
   }
 
-  useEffect(() => {
-    setReactUseStateVars();
-  }, [currentTab, paramsRevision, uniqueRevisions]);
+  useEffect(
+    () => {
+      setReactUseStateVars();
+    },
+    // Update UI state if:
+    // 1. `currentTab` - The tab changes (e.g. from localisation to
+    //    localisation or back to/from the Locale Dashboard
+    // 2. `paramsRevision` - The url arg of `rev` changes (i.e. within a
+    //    localisation and changing between revisions)
+    // 3. `uniqueRevisions` - The passed in prop arg to this component
+    [currentTab, paramsRevision, uniqueRevisions]
+  );
 
   //======================================================================
   // Hooks for GraphQL queries
@@ -409,6 +419,8 @@ function ItemLocalisationStateFrame({
   // console.log("REDIRECT TO:", pathNoRelease);
 
   const promoteToReview = async () => {
+    setButtonIsPromoting(true);
+    await new Promise((r) => setTimeout(r, 2000));
     message.loading({ content: Common.State_Related.Promoting_To_Review, key });
     // 1. Create a release translation version
     await insertItemTranslationPromoteToReview({
@@ -424,6 +436,8 @@ function ItemLocalisationStateFrame({
       },
       2
     );
+
+    setButtonIsPromoting(false);
 
     //
     // const { full_name, short_name, description } = translationDraft;
@@ -466,6 +480,7 @@ function ItemLocalisationStateFrame({
   };
 
   const promoteToProduction = async () => {
+    setButtonIsPromoting(true);
     message.loading({
       content: Common.State_Related.Promoting_To_Production,
       key,
@@ -484,9 +499,11 @@ function ItemLocalisationStateFrame({
       },
       2
     );
+    setButtonIsPromoting(false);
   };
 
   const newRevision = async () => {
+    setButtonIsPromoting(true);
     message.loading({
       content: Common.State_Related.Creating_New_Revision,
       key,
@@ -516,6 +533,7 @@ function ItemLocalisationStateFrame({
       },
       2
     );
+    setButtonIsPromoting(false);
   };
 
   if (loadingPromoTranslationRevs) return <StateFrame />;
@@ -586,6 +604,7 @@ function ItemLocalisationStateFrame({
       changeToReview={changeToReview}
       changeToProduction={changeToProduction}
       changeToRetired={changeToRetired}
+      buttonIsPromoting={buttonIsPromoting}
       promoteToReview={promoteToReview}
       promoteToProduction={promoteToProduction}
       newRevision={newRevision}
