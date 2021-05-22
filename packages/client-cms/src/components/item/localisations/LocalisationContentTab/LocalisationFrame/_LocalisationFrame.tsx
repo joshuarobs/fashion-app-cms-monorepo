@@ -90,7 +90,12 @@ function LocalisationFrame({
       // @ts-ignore
       ({ revision }) => revision === Number.parseInt(paramsRevision)
     );
-    console.log('matchingRevision:', matchingRevision);
+    console.log(
+      'matchingRevision:',
+      matchingRevision,
+      '\nparamsRevision:',
+      paramsRevision
+    );
     if (matchingRevision) {
       setCurrentRevision(matchingRevision);
       // setState(currentRevision ? currentRevision.state : null);

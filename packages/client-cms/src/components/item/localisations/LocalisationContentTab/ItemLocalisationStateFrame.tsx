@@ -23,6 +23,7 @@ import { Insert_Item_Translation_Promote_To_Review } from '../../../../queries/i
 import { Update_Item_Translation_Revision_State_Promote_To_Production } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionStatePromoteToProduction';
 import { Insert_Item_Translation_Revision_Promote_New_Revision } from '../../../../queries/item_translation_revisions/insertItemTranslationRevisionPromoteNewRevision';
 import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesForLocale';
+import { Get_Item_Translation_Revisions_Given_Locale_Code } from '../../../../queries/item_translation_revisions/getItemTranslationRevisionsGivenLocaleCode';
 
 const key = 'state-localisations';
 
@@ -59,20 +60,23 @@ function ItemLocalisationStateFrame({
       // @ts-ignore
       ({ revision }) => revision === Number.parseInt(paramsRevision)
     );
-    setCurrentRevision(matchingRevision);
-    // setState(currentRevision ? currentRevision.state : null);
-    setState(matchingRevision.state);
-    setRevisionId(matchingRevision.id);
-    console.log(
-      'SET CURRENT REVISION:',
-      currentRevision,
-      '\nParams:',
-      paramsRevision,
-      '\nMatching revision:',
-      matchingRevision,
-      '\nUnique revs:',
-      uniqueRevisions
-    );
+    console.log('matchingRevision:', matchingRevision);
+    if (matchingRevision) {
+      setCurrentRevision(matchingRevision);
+      // setState(currentRevision ? currentRevision.state : null);
+      setState(matchingRevision.state);
+      setRevisionId(matchingRevision.id);
+      console.log(
+        'SET CURRENT REVISION:',
+        currentRevision,
+        '\nParams:',
+        paramsRevision,
+        '\nMatching revision:',
+        matchingRevision,
+        '\nUnique revs:',
+        uniqueRevisions
+      );
+    }
   }
 
   useEffect(
@@ -334,6 +338,14 @@ function ItemLocalisationStateFrame({
   ] = useMutation(Insert_Item_Translation_Revision_Promote_New_Revision, {
     refetchQueries: [
       {
+        query: Get_Item_Translation_Revisions_Given_Locale_Code,
+        variables: {
+          itemId: Number.parseInt(String(itemId)),
+          localeCode: currentTab,
+          // revision: Number.parseInt(paramsRevision),
+        },
+      },
+      {
         query: Get_Item_Translation_Revision_Changes_For_Locale,
         variables: {
           itemId: Number.parseInt(String(itemId)),
@@ -420,7 +432,7 @@ function ItemLocalisationStateFrame({
 
   const promoteToReview = async () => {
     setButtonIsPromoting(true);
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 500));
     message.loading({ content: Common.State_Related.Promoting_To_Review, key });
     // 1. Create a release translation version
     await insertItemTranslationPromoteToReview({
@@ -481,6 +493,7 @@ function ItemLocalisationStateFrame({
 
   const promoteToProduction = async () => {
     setButtonIsPromoting(true);
+    await new Promise((r) => setTimeout(r, 200));
     message.loading({
       content: Common.State_Related.Promoting_To_Production,
       key,
@@ -504,6 +517,7 @@ function ItemLocalisationStateFrame({
 
   const newRevision = async () => {
     setButtonIsPromoting(true);
+    await new Promise((r) => setTimeout(r, 200));
     message.loading({
       content: Common.State_Related.Creating_New_Revision,
       key,
