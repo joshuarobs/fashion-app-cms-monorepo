@@ -32,6 +32,7 @@ const cssStyles = {
     // borderRadius: 3,
     userSelect: 'none',
     margin: 0,
+    maxWidth: 223.5,
   },
 };
 
@@ -290,7 +291,10 @@ function LocalisationSidebar({
                               useTableCellStyling
                               isError={numberOfTranslations === 0}
                             />
-                            {name}
+                            <span style={{ marginRight: 8 }}>
+                              {name.substring(0, 4)}
+                            </span>
+                            <span>{name.substring(5, name.length)}</span>
                           </Link>
                         </div>
                       </Menu.Item>
