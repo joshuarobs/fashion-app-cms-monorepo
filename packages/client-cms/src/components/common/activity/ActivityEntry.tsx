@@ -25,6 +25,28 @@ interface ActivityEntryProps {
   showType: any;
 }
 
+/**
+ * Generates a locale style header for an activity entry. This header is
+ * unique from other entries since it contains necessary custom styling to
+ * make the unicode flag appear normal next to the text in some web browsers.
+ * @param translationRevision
+ */
+function getLocaleStyle(translationRevision: any) {
+  return (
+    <>
+      <span style={{ paddingRight: 8 }}>
+        {translationRevision.locale.name.substring(0, 4)}
+      </span>
+      <span>
+        {translationRevision.locale.name.substring(
+          5,
+          translationRevision.locale.name.length
+        )}
+      </span>
+    </>
+  );
+}
+
 function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
   const { action, change_type, date, id, to_state, user } = change;
   // All the different types of table names that can have activities
@@ -38,14 +60,14 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
   let revision = null;
 
   let typeKindTitle = '';
-  let typeName = '';
+  let typeName: string | JSX.Element = '';
   if (item_translation_revision) {
     typeKindTitle = 'Locale:';
-    typeName = item_translation_revision.locale.name;
+    typeName = getLocaleStyle(item_translation_revision);
     revision = item_translation_revision.revision;
   } else if (company_translation_revision) {
     typeKindTitle = 'Locale:';
-    typeName = company_translation_revision.locale.name;
+    typeName = getLocaleStyle(company_translation_revision);
     revision = company_translation_revision.revision;
   } else if (item_maindata_revision) {
     // typeKindTitle = "Item Maindata:";
@@ -119,8 +141,9 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
           }}
         >
           <span>
-            <strong>{typeKindTitle}</strong>
-            {` ${typeName}`}
+            <strong style={{ paddingRight: 4 }}>{typeKindTitle}</strong>
+            {/*{` ${typeName}`}*/}
+            {typeName}
           </span>
         </Row>
       )}
