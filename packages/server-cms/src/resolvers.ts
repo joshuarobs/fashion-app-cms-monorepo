@@ -105,7 +105,7 @@ import { deleteItemTranslationsForItem } from './resolvers/item_translations/del
 import { updateItemTranslation } from './resolvers/item_translations/updateItemTranslation';
 import { getItemsForItemsTableProductionOnly } from './resolvers/items/getItemsForItemsTableProductionOnly';
 import { getItemTypes } from './resolvers/item_types/getItemTypes';
-import { newItem } from './resolvers/items/insertItem';
+import { insertItem } from './resolvers/items/insertItem';
 import { deleteItemByPk } from './resolvers/items/deleteItemByPk';
 import { getItemBaseDataByPk } from './resolvers/items/getItemBaseDataByPk';
 import { getItemsForItemsTableDevelopmentOnly } from './resolvers/items/getItemsForItemsTableDevelopmentOnly';
@@ -297,7 +297,7 @@ const resolvers = {
     // items
     //--------------------------------------------------
     deleteItemByPk,
-    newItem,
+    insertItem: (_, { name, item_type }) => insertItem(name, item_type),
     updateItemUpdatedAt,
     //--------------------------------------------------
     // language_families

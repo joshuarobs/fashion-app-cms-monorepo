@@ -22,6 +22,7 @@ import { Insert_Item_Maindata_Revision_Change } from '../../../queries/item_main
 import { Insert_Item_Maindata_Revision } from '../../../queries/item_maindata_revisions/insertItemMaindataRevision';
 import { Insert_Item_Maindata_Barebones } from '../../../queries/item_maindata/insertItemMaindataBarebones';
 import { Insert_Item } from '../../../queries/items/insertItem';
+import { Get_Items_For_Items_Table_Latest } from '../../../queries/items/getItemsForItemsTableLatest';
 
 const { TabPane } = Tabs;
 
@@ -32,90 +33,83 @@ function HeaderFrame({ title = '' }) {
   const [newName, setNewName] = useState(null);
   const [itemType, setItemType] = useState(ItemType.Clothing);
 
-  // const NEW_ITEM = gql`
-  //     mutation newItem {
-  //         insert_items_one(object: {name: "${newName}", type: ${itemType}}) {
-  //             id
-  //             name
-  //             type
-  //             created_at
-  //             updated_at
-  //         }
-  //     }
-  // `;
-
   const history = useHistory();
   // Hooks for GraphQL queries
-  const [
-    insertItemMaindataRevisionChange,
-    { loading: loadingAddMaindataRevChange, error: errorAddMaindataRevChange },
-  ] = useMutation(Insert_Item_Maindata_Revision_Change, {
-    onCompleted() {},
-  });
-
-  const [
-    insertItemMaindata,
-    { loading: loadingInsertMainClothing, error: errorInsertMainClothing },
-  ] = useMutation(Insert_Item_Maindata_Barebones, {
-    onCompleted({ insert_item_maindata_one }) {
-      console.log('insert_item_maindata_one:', insert_item_maindata_one);
-      const { revision_id } = insert_item_maindata_one;
-      const variables = {
-        revisionId: revision_id,
-        userId: 1,
-        changeType: DataChangeType.Promotion,
-        toState: DataState.Development,
-        // action: DATA_ACTIONS.CREATE
-      };
-      insertItemMaindataRevisionChange({ variables }).then(() => {
-        const { revision } = insert_item_maindata_one;
-        const { item_id } = revision;
-        history.push(`${Routes.Items__Clothing__Item}/${item_id}?rev=1`);
-        message.success({ content: Common.Created_New_Item, key }, 2);
-        // Redirect to the page
-        // message.success(
-        //     {
-        //       content: COMMON.ADDED_NEW_LOCALE,
-        //       key
-        //     },
-        //     2
-        // );
-      });
-    },
-  });
-
-  const [
-    insertItemMaindataRevision,
-    { loading: loadingInsertMainRev, error: errorInsertMainRev },
-  ] = useMutation(Insert_Item_Maindata_Revision, {
-    onCompleted({ insert_item_maindata_revisions_one }) {
-      console.log(
-        'insert_item_maindata_revisions_one:',
-        insert_item_maindata_revisions_one
-      );
-      const { id } = insert_item_maindata_revisions_one;
-      const variables = {
-        revisionId: id,
-        isRelease: true,
-        name: newName,
-        type: itemType,
-      };
-      // 3. INSERT A MAINDATA FOR THAT REVISION
-      insertItemMaindata({ variables }).then();
-    },
-  });
+  // const [
+  //   insertItemMaindataRevisionChange,
+  //   { loading: loadingAddMaindataRevChange, error: errorAddMaindataRevChange },
+  // ] = useMutation(Insert_Item_Maindata_Revision_Change, {
+  //   onCompleted() {},
+  // });
+  //
+  // const [
+  //   insertItemMaindata,
+  //   { loading: loadingInsertMainClothing, error: errorInsertMainClothing },
+  // ] = useMutation(Insert_Item_Maindata_Barebones, {
+  //   onCompleted({ insert_item_maindata_one }) {
+  //     console.log('insert_item_maindata_one:', insert_item_maindata_one);
+  //     const { revision_id } = insert_item_maindata_one;
+  //     const variables = {
+  //       revisionId: revision_id,
+  //       userId: 1,
+  //       changeType: DataChangeType.Promotion,
+  //       toState: DataState.Development,
+  //       // action: DATA_ACTIONS.CREATE
+  //     };
+  //     insertItemMaindataRevisionChange({ variables }).then(() => {
+  //       const { revision } = insert_item_maindata_one;
+  //       const { item_id } = revision;
+  //       history.push(`${Routes.Items__Clothing__Item}/${item_id}?rev=1`);
+  //       message.success({ content: Common.Created_New_Item, key }, 2);
+  //       // Redirect to the page
+  //       // message.success(
+  //       //     {
+  //       //       content: COMMON.ADDED_NEW_LOCALE,
+  //       //       key
+  //       //     },
+  //       //     2
+  //       // );
+  //     });
+  //   },
+  // });
+  //
+  // const [
+  //   insertItemMaindataRevision,
+  //   { loading: loadingInsertMainRev, error: errorInsertMainRev },
+  // ] = useMutation(Insert_Item_Maindata_Revision, {
+  //   onCompleted({ insert_item_maindata_revisions_one }) {
+  //     console.log(
+  //       'insert_item_maindata_revisions_one:',
+  //       insert_item_maindata_revisions_one
+  //     );
+  //     const { id } = insert_item_maindata_revisions_one;
+  //     const variables = {
+  //       revisionId: id,
+  //       isRelease: true,
+  //       name: newName,
+  //       type: itemType,
+  //     };
+  //     // 3. INSERT A MAINDATA FOR THAT REVISION
+  //     insertItemMaindata({ variables }).then();
+  //   },
+  // });
 
   const [
     newItem,
     { loading: mutationLoading, error: mutationError },
   ] = useMutation(Insert_Item, {
     onCompleted({ insert_items_one }) {
-      console.log('insert_items_one:', insert_items_one);
-      const { id } = insert_items_one;
-      const variables = { id, revision: 1, state: DataState.Development };
+      // console.log('insert_items_one:', insert_items_one);
+      // const { id } = insert_items_one;
+      // const variables = { id, revision: 1, state: DataState.Development };
       // 2. INSERT A REVISION
-      insertItemMaindataRevision({ variables }).then();
+      // insertItemMaindataRevision({ variables }).then();
     },
+    refetchQueries: [
+      {
+        query: Get_Items_For_Items_Table_Latest,
+      },
+    ],
   });
 
   const inputRef = useRef(null);
@@ -131,7 +125,7 @@ function HeaderFrame({ title = '' }) {
     setShowModal(true);
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // message.loading({ content: COMMON.CREATING_NEW_CLOTHING_SHELL, key });
     if (newName) {
       // newItem({
@@ -139,7 +133,18 @@ function HeaderFrame({ title = '' }) {
       //     itemType
       //   }
       // });
-      newItem().then();
+      const variables = {
+        name: newName,
+        item_type: itemType,
+      };
+      const item = await newItem({ variables });
+      if (item.data.insertItem) {
+        console.error('item:', item);
+        history.push(
+          `${Routes.Items__Clothing__Item}/${item.data.insertItem.id}?rev=1`
+        );
+        message.success({ content: Common.Created_New_Item, key }, 2);
+      }
     }
   };
 

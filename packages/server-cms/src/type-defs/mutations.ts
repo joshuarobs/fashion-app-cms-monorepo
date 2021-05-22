@@ -179,7 +179,7 @@ const Mutations = gql`
     # items
     #--------------------------------------------------
     deleteItemByPk: items
-    newItem: items
+    insertItem(name: String!, item_type: item_types_enum!): items
     updateItemUpdatedAt: items
     #--------------------------------------------------
     # language_families

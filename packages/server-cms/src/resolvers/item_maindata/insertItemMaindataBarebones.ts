@@ -1,24 +1,39 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
+import { ItemType } from '@joshuarobs/clothing-framework/build/enums';
 
-// Gets all the revisions for an item (main data only)
-// Barebones (BB) data only (no other relational or foreign data)
-// This is used for the Overview tab for the Item page (Revisions dropdown)
-async function insertItemMaindataBarebones() {
+/**
+ * Gets all the revisions for an item (main data only)
+ * Barebones (BB) data only (no other relational or foreign data)
+ * This is used for the Overview tab for the Item page (Revisions dropdown)
+ * @param revision_id
+ * @param is_release
+ * @param name
+ * @param type
+ */
+async function insertItemMaindataBarebones(
+  revision_id: string,
+  is_release: boolean,
+  name: string,
+  type: ItemType
+) {
+  logger.info(
+    `graphql > insertItemMaindataBarebones() :: args: revision_id: ${revision_id} | is_release: ${is_release} | name: ${name} | type: ${type}`
+  );
   try {
-    const data = await client.query({
-      query: gql`
+    const data = await client.mutate({
+      mutation: gql`
         mutation insertItemMaindataBarebones(
-          $revisionId: uuid!
-          $isRelease: Boolean!
+          $revision_id: uuid!
+          $is_release: Boolean!
           $name: String!
           $type: item_types_enum!
         ) {
           insert_item_maindata_one(
             object: {
-              revision_id: $revisionId
-              is_release: $isRelease
+              revision_id: $revision_id
+              is_release: $is_release
               name: $name
               type: $type
             }
@@ -40,7 +55,21 @@ async function insertItemMaindataBarebones() {
           }
         }
       `,
+      variables: {
+        revision_id,
+        is_release,
+        name,
+        type,
+      },
     });
+    /*
+     * ============================================================
+     * Return the result
+     * ============================================================
+     */
+    logger.info(
+      `graphql > insertItemMaindataBarebones() :: Successfully returned data`
+    );
     return data.data.insert_item_maindata_one;
   } catch (e) {
     logger.error(e);
