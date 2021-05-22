@@ -24,10 +24,11 @@ import {
 import { FrameTitle } from '../common/typography/FrameTitle';
 import { enumToCamelCase } from '../../utils/enumToCamelCase';
 // import SelectCountryOfManufacture from '../common/data-entry/SelectCountryOfManufacture';
-import { Item_Details_Frame } from '../../strings';
+import { Generic, Item_Details_Frame } from '../../strings';
 import { FabricLayerDisplay } from '../clothing-shell/overview/DetailsFrame/FabricLayerDisplay';
 import { FrameTitleLevel2 } from '../common/typography/FrameTitleLevel2';
 import { FrameInputLabel } from '../common/typography/FrameInputLabel';
+import { ShoppingOutlined, SkinOutlined } from '@ant-design/icons';
 
 const OCCASIONS = ItemFilterValuesOccasion.Values;
 // const GENDERS = Array.from(ItemFilterValuesGender.MAP.values());
@@ -256,8 +257,12 @@ function DetailsFrame({ item }: DetailsFrameProps) {
         <Row gutter={16}>
           <Col span={12}>
             <Select value={item_type} style={{ width: '100%' }} disabled={true}>
-              <Option value={ItemType.Clothing}>Clothing</Option>
-              <Option value={ItemType.Accessory}>Accessories</Option>
+              <Option value={ItemType.Clothing}>
+                <SkinOutlined /> {Generic.Item_Types.Clothing}
+              </Option>
+              <Option value={ItemType.Accessory}>
+                <ShoppingOutlined /> {Generic.Item_Types.Accessory}
+              </Option>
             </Select>
           </Col>
           <Col span={12}>

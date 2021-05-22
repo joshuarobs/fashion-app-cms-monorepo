@@ -4,7 +4,11 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import {
+  InfoCircleOutlined,
+  ShoppingOutlined,
+  SkinOutlined,
+} from '@ant-design/icons';
 import {
   Checkbox,
   Layout,
@@ -40,7 +44,7 @@ import { TagInDevelopment } from '../../../common/localisation/TagInDevelopment'
 import { TagInReview } from '../../../common/localisation/TagInReview';
 import { TagInRetirement } from '../../../common/localisation/TagInRetirement';
 import { SelectCountryOfManufacture } from '../../../common/data-entry/SelectCountryOfManufacture/_SelectCountryOfManufacture';
-import { Item_Details_Frame } from '../../../../strings';
+import { Generic, Item_Details_Frame } from '../../../../strings';
 import { FrameInputLabel } from '../../../common/typography/FrameInputLabel';
 
 const OCCASIONS = ItemFilterValuesOccasion.Values;
@@ -492,8 +496,12 @@ function DetailsFrame({
               style={{ width: '100%' }}
               disabled={disabled}
             >
-              <Option value={ItemType.Clothing}>Clothing</Option>
-              <Option value={ItemType.Accessory}>Accessories</Option>
+              <Option value={ItemType.Clothing}>
+                <SkinOutlined /> {Generic.Item_Types.Clothing}
+              </Option>
+              <Option value={ItemType.Accessory}>
+                <ShoppingOutlined /> {Generic.Item_Types.Accessory}
+              </Option>
             </Select>
           </Col>
           <Col span={12}>

@@ -22,13 +22,14 @@ import {
 import { PopupSelectFabricLayer } from '../../PopupSelectFabricLayer/_PopupSelectFabricLayer';
 import { FabricLayerDisplay } from './FabricLayerDisplay';
 import { UnsavedChangesCard } from '../../../common/UnsavedChangesCard';
-import { Item_Details_Frame } from '../../../../strings';
+import { Generic, Item_Details_Frame } from '../../../../strings';
 import { FrameTitle } from '../../../common/typography/FrameTitle';
 import { FrameInputLabel } from '../../../common/typography/FrameInputLabel';
 import { FrameTitleLevel2 } from '../../../common/typography/FrameTitleLevel2';
 import { RevisionDropdownBox } from '../../../common/page-state-related/RevisionDropdownBox';
 import { BurgerMenuButton } from '../../../common/frames/BurgerMenuButton/_BurgerMenuButton';
 import { useHistory, useLocation } from 'react-router-dom';
+import { ShoppingOutlined, SkinOutlined } from '@ant-design/icons';
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const { Title, Text } = Typography;
@@ -340,8 +341,12 @@ function DetailsFrame({
                 style={{ width: '100%' }}
                 disabled={disabled}
               >
-                <Option value={ItemType.Clothing}>Clothing</Option>
-                <Option value={ItemType.Accessory}>Accessories</Option>
+                <Option value={ItemType.Clothing}>
+                  <SkinOutlined /> {Generic.Item_Types.Clothing}
+                </Option>
+                <Option value={ItemType.Accessory}>
+                  <ShoppingOutlined /> {Generic.Item_Types.Accessory}
+                </Option>
               </Select>
             </Col>
             <Col span={12}>
