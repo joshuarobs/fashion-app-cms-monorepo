@@ -59,7 +59,7 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
 
   let revision = null;
 
-  let typeKindTitle = '';
+  let typeKindTitle;
   let typeName: string | JSX.Element = '';
   if (item_translation_revision) {
     typeKindTitle = 'Locale:';
@@ -134,7 +134,7 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
         width: '100%',
       }}
     >
-      {showType && (
+      {showType && typeName && (
         <Row
           style={{
             width: '100%',
