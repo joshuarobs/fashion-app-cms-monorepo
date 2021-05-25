@@ -107,65 +107,71 @@ function LocalisationSidebar({
       insert_item_translation_revisions_one,
       insert_company_translation_revisions_one,
     }) {
-      // const {
-      //   id,
-      //   locale_code,
-      //   revision
-      // } = insert_item_translation_revisions_one;
-      let id, locale_code, revision;
-      if (insert_item_translation_revisions_one) {
-        id = insert_item_translation_revisions_one.id;
-        locale_code = insert_item_translation_revisions_one.locale_code;
-        revision = insert_item_translation_revisions_one.revision;
-      } else if (insert_company_translation_revisions_one) {
-        id = insert_company_translation_revisions_one.id;
-        locale_code = insert_company_translation_revisions_one.locale_code;
-        revision = insert_company_translation_revisions_one.revision;
-      }
-      await refetchTranslationRevisions();
-      await insertTranslationBlankDraft({
-        variables: {
-          revisionId: id,
-        },
-      });
-      // const variables = ;
-      await insertTranslationRevisionChange({
-        variables: {
-          revisionId: id,
-          userId: 1,
-          changeType: DataChangeType.Promotion,
-          toState: DataState.Development,
-          // action: DATA_ACTIONS.CREATE
-        },
-      });
-
-      await updateItemUpdatedAt({
-        variables: {
-          id: entryId,
-        },
-      });
-
-      // Redirect to the page
-      setShowModal(false);
-      history.push(`${tabPath}/${locale_code}/?rev=${revision}&release=false`);
-      message.success(
-        {
-          content: Common.Added_New_Locale,
-          key,
-        },
-        2
-      );
+      // let id, locale_code, revision;
+      // if (insert_item_translation_revisions_one) {
+      //   id = insert_item_translation_revisions_one.id;
+      //   locale_code = insert_item_translation_revisions_one.locale_code;
+      //   revision = insert_item_translation_revisions_one.revision;
+      // } else if (insert_company_translation_revisions_one) {
+      //   id = insert_company_translation_revisions_one.id;
+      //   locale_code = insert_company_translation_revisions_one.locale_code;
+      //   revision = insert_company_translation_revisions_one.revision;
+      // }
+      // await refetchTranslationRevisions();
+      // await insertTranslationBlankDraft({
+      //   variables: {
+      //     revisionId: id,
+      //   },
+      // });
+      // // const variables = ;
+      // await insertTranslationRevisionChange({
+      //   variables: {
+      //     revisionId: id,
+      //     userId: 1,
+      //     changeType: DataChangeType.Promotion,
+      //     toState: DataState.Development,
+      //     // action: DATA_ACTIONS.CREATE
+      //   },
+      // });
+      //
+      // await updateItemUpdatedAt({
+      //   variables: {
+      //     id: entryId,
+      //   },
+      // });
+      //
+      // // Redirect to the page
+      // setShowModal(false);
+      // history.push(`${tabPath}/${locale_code}/?rev=${revision}&release=false`);
+      // message.success(
+      //   {
+      //     content: Common.Added_New_Locale,
+      //     key,
+      //   },
+      //   2
+      // );
     },
   });
 
   const selectLocale = async (code: string) => {
     message.loading({ content: Common.Adding_New_Locale, key });
     const variables = {
-      localeCode: code,
-      entryId,
-      revision: 1,
+      item_id: Number.parseInt(String(entryId)),
+      locale_code: code,
+      // revision: 1,
     };
-    await insertTranslationRevision({ variables });
+    const data = await insertTranslationRevision({ variables });
+    console.log('!!!data2:', data.data.insertItemTranslationRevisionAddLocale);
+    // // Redirect to the page
+    setShowModal(false);
+    // history.push(`${tabPath}/${locale_code}/?rev=${revision}&release=false`);
+    message.success(
+      {
+        content: Common.Added_New_Locale,
+        key,
+      },
+      2
+    );
   };
 
   const onCancel = () => {

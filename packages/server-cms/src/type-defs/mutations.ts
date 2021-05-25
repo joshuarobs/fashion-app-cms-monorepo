@@ -145,7 +145,11 @@ const Mutations = gql`
     #--------------------------------------------------
     deleteItemTranslationRevision: item_translation_revisions
     deleteItemTranslationRevisionsForItem: item_translation_revisions
-    insertItemTranslationRevision: item_translation_revisions
+    #    insertItemTranslationRevision: item_translation_revisions
+    insertItemTranslationRevisionAddLocale(
+      item_id: Int!
+      locale_code: String!
+    ): item_translation_revisions
     #    updateItemTranslationRevisionToProduction: item_translation_revisions
     insertItemTranslationRevisionPromoteNewRevision(
       id: Int!

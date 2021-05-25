@@ -55,10 +55,10 @@ async function getItemTranslationRevisionsGivenLocaleCode(
       },
       fetchPolicy: 'network-only',
     });
-    console.log(
-      'data.data.item_translation_revisions:',
-      data.data.item_translation_revisions
-    );
+    // console.log(
+    //   'data.data.item_translation_revisions:',
+    //   data.data.item_translation_revisions
+    // );
     logger.info(
       `graphql > getItemTranslationRevisionsGivenLocaleCode() :: Successfully returned data`
     );

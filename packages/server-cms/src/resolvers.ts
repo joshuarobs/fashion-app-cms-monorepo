@@ -95,7 +95,7 @@ import { updateItemTranslationRevisionToRetired } from './resolvers/item_transla
 import { deleteItemTranslationRevision } from './resolvers/item_translation_revisions/deleteItemTranslationRevision';
 import { updateItemTranslationRevisionToProduction } from './resolvers/item_translation_revisions/updateItemTranslationRevisionToProduction';
 import { deleteItemTranslationRevisionsForItem } from './resolvers/item_translation_revisions/deleteItemTranslationRevisionsForItem';
-import { insertItemTranslationRevision } from './resolvers/item_translation_revisions/insertItemTranslationRevision';
+import { insertItemTranslationRevisionAddLocale } from './resolvers/item_translation_revisions/insertItemTranslationRevisionAddLocale';
 import { updateItemTranslationRevisionStatePromoteToReview } from './resolvers/item_translation_revisions/updateItemTranslationRevisionStatePromoteToReview';
 import { insertItemTranslation } from './resolvers/item_translations/insertItemTranslation';
 import { insertItemTranslationBlankDraft } from './resolvers/item_translations/insertItemTranslationBlankDraft';
@@ -272,7 +272,9 @@ const resolvers = {
     //--------------------------------------------------
     deleteItemTranslationRevision,
     deleteItemTranslationRevisionsForItem,
-    insertItemTranslationRevision,
+    // insertItemTranslationRevision,
+    insertItemTranslationRevisionAddLocale: (_, { item_id, locale_code }) =>
+      insertItemTranslationRevisionAddLocale(item_id, locale_code),
     // updateItemTranslationRevisionToProduction,
     insertItemTranslationRevisionPromoteNewRevision: (_, { id, locale_code }) =>
       insertItemTranslationRevisionPromoteNewRevision(id, locale_code),

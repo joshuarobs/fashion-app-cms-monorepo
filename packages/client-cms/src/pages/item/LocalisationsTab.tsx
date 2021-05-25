@@ -8,7 +8,7 @@ import { useQuery } from '@apollo/client';
 import { getRouteTab } from '../../utils/getRouteTab';
 import { LocalisationDashboardTab } from '../../components/item/localisations/LocalisationDashboardTab/_LocalisationDashboardTab';
 import { LocalisationContentTab } from '../../components/item/localisations/LocalisationContentTab/_LocalisationContentTab';
-import { Insert_Item_Translation_Revision } from '../../queries/item_translation_revisions/insertItemTranslationRevision';
+import { Insert_Item_Translation_Revision_Add_Locale } from '../../queries/item_translation_revisions/insertItemTranslationRevisionAddLocale';
 import { Insert_Item_Translation_Revision_Change } from '../../queries/item_translation_revision_changes/insertItemTranslationRevisionChange';
 import { Insert_Item_Translation_Blank_Draft } from '../../queries/item_translations/insertItemTranslationBlankDraft';
 import { Update_Item_Updated_At } from '../../queries/items/updateItemUpdatedAt';
@@ -164,7 +164,9 @@ function LocalisationsTab() {
           hasChangesMade={hasChangesMade}
           refetchTranslationRevisions={refetchItemTransRevs}
           invalidPath={!currentRevision}
-          mutationInsertTranslationRevision={Insert_Item_Translation_Revision}
+          mutationInsertTranslationRevision={
+            Insert_Item_Translation_Revision_Add_Locale
+          }
           mutationInsertTranslationRevisionChange={
             Insert_Item_Translation_Revision_Change
           }
