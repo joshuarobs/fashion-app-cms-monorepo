@@ -294,7 +294,10 @@ const Item_Details_Frame = {
   Weight_g: 'Weight (g)',
   Insulation_Points: 'Insulation Points',
   Highly_Insulating: 'Highly Insulating?',
-  Company_Name: 'Company Name',
+  Database_Company_Name: 'Database Company Name',
+  Database_Company_Name_Tooltip:
+    "The company's internal name displayed only within this CMS. Only staff" +
+    ' can see this.',
   Website_Url: 'Website Url',
   Is_Affiliate: 'Is Affiliate?',
   Is_Reseller: 'Is Reseller?',

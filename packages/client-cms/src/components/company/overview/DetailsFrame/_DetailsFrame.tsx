@@ -22,15 +22,16 @@ import {
   Typography,
   Cascader,
   message,
+  Tooltip,
 } from 'antd';
 import { useMutation, gql } from '@apollo/client';
-import { UnsavedChangesCard } from '../common/UnsavedChangesCard';
-import { Common, Item_Details_Frame } from '../../strings';
-import { FrameTitle } from '../common/typography/FrameTitle';
-import { Update_Company } from '../../queries/companies/updateCompany';
-import { SelectCountryOfBrandOrigin } from '../common/data-entry/SelectCountryOfBrandOrigin/_SelectCountryOfBrandOrigin';
-import { FrameInputLabel } from '../common/typography/FrameInputLabel';
-import { companies } from '../../utils/gql-interfaces/companies';
+import { UnsavedChangesCard } from '../../../common/UnsavedChangesCard';
+import { Common, Item_Details_Frame } from '../../../../strings';
+import { FrameTitle } from '../../../common/typography/FrameTitle';
+import { Update_Company } from '../../../../queries/companies/updateCompany';
+import { SelectCountryOfBrandOrigin } from '../../../common/data-entry/SelectCountryOfBrandOrigin/_SelectCountryOfBrandOrigin';
+import { FrameInputLabel } from '../../../common/typography/FrameInputLabel';
+import { companies } from '../../../../utils/gql-interfaces/companies';
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const { Text } = Typography;
@@ -248,9 +249,27 @@ function DetailsFrame({ data }: DetailsFrameProps) {
           {/* ============================== */}
           <Row style={styles.sectionTitle}>
             <FrameInputLabel
-              text={Item_Details_Frame.Company_Name}
+              text={Item_Details_Frame.Database_Company_Name}
               hasChanged={hasChanged.name}
+              span={20}
             />
+            <Col
+              span={4}
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Tooltip title={Item_Details_Frame.Database_Company_Name_Tooltip}>
+                <InfoCircleOutlined
+                  style={{
+                    cursor: 'pointer',
+                    fontSize: 16,
+                    opacity: 0.65,
+                  }}
+                />
+              </Tooltip>
+            </Col>
           </Row>
           <Row>
             <Input

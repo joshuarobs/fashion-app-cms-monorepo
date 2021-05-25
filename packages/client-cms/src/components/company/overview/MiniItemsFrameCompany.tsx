@@ -1,11 +1,11 @@
 import React from 'react';
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { MiniItemsFrame } from '../common/frames/MiniItemsFrame';
-import { Get_Top_X_Unique_Prod_Items_For_Company_BB } from '../../queries/item_maindata_revisions/getTopXUniqueProdItemsForCompanyBB';
+import { MiniItemsFrame } from '../../common/frames/MiniItemsFrame';
+import { Get_Top_X_Unique_Prod_Items_For_Company_BB } from '../../../queries/item_maindata_revisions/getTopXUniqueProdItemsForCompanyBB';
 import { message } from 'antd';
-import { Common } from '../../strings';
-import { Get_Unique_Item_Maindata_Rev_Amount_For_Brand_Prod_Only } from '../../queries/item_maindata_revisions/getUniqueItemMaindataRevisionsForBrandInProduction';
-import { Update_Company_Count } from '../../queries/company_counts/updateCompanyCount';
+import { Common } from '../../../strings';
+import { Get_Unique_Item_Maindata_Rev_Amount_For_Brand_Prod_Only } from '../../../queries/item_maindata_revisions/getUniqueItemMaindataRevisionsForBrandInProduction';
+import { Update_Company_Count } from '../../../queries/company_counts/updateCompanyCount';
 
 const key = 'overview-item-frame';
 
