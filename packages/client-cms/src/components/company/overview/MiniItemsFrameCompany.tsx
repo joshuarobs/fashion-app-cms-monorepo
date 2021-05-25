@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { MiniItemsFrame } from '../../common/frames/MiniItemsFrame';
 import { Get_Top_X_Unique_Prod_Items_For_Company_BB } from '../../../queries/item_maindata_revisions/getTopXUniqueProdItemsForCompanyBB';
@@ -14,6 +14,10 @@ interface MiniItemsFrameCompanyProps {
 }
 
 function MiniItemsFrameCompany({ company }: MiniItemsFrameCompanyProps) {
+  const [updateCountButtonDisabled, setUpdateCountButtonDisabled] = useState(
+    false
+  );
+
   // Hooks for GraphQL queries
   const [
     updateCompanyCountViaCompanyId,
@@ -44,6 +48,7 @@ function MiniItemsFrameCompany({ company }: MiniItemsFrameCompanyProps) {
   // });
 
   const updateCount = async () => {
+    setUpdateCountButtonDisabled(true);
     message.loading({ content: Common.Updating_Item_Count, key });
     await updateCompanyCountViaCompanyId({
       variables: {
@@ -52,6 +57,8 @@ function MiniItemsFrameCompany({ company }: MiniItemsFrameCompanyProps) {
       },
     });
     message.success({ content: Common.Updated_Item_Count, key }, 2);
+    await new Promise((r) => setTimeout(r, 2000));
+    setUpdateCountButtonDisabled(false);
     // await getProductionItemCountForCompany({
     //   variables: {
     //     id: company.id,
@@ -68,6 +75,7 @@ function MiniItemsFrameCompany({ company }: MiniItemsFrameCompanyProps) {
       count={counts.item_count}
       query={Get_Top_X_Unique_Prod_Items_For_Company_BB}
       updateCount={updateCount}
+      updateCountButtonDisabled={updateCountButtonDisabled}
       queryChildObjectName={'getTopXUniqueProdItemsForCompanyBB'}
     />
   );

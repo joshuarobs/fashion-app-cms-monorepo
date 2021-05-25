@@ -5,9 +5,8 @@ import {
   DataChangeType,
   DataState,
 } from '@joshuarobs/clothing-framework/build/enums';
-import { getUniqueItemMaindataRevsForBrandProdOnly } from './getUniqueItemMaindataRevisionsForBrandInProduction';
 import { updateCompanyCountViaCompanyId } from '../company_counts/updateCompanyCountViaCompanyId';
-import { insertItemMaindataRevisionChangePromoRetired } from '../item_maindata_revision_changes/insertItemMaindataRevisionChangePromoRetired';
+import { Logger_Prefix_Sub_Level_1 } from '../../settings';
 
 /**
  * Updates the Item Maindata Revision's state by promoting it:
@@ -24,8 +23,9 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
   );
   // TODO: Verify that the user is allowed to make this change
   try {
-    /**
+    /* ============================================================
      * 1. Get the Item Maindata Revision's current state
+     * ============================================================
      */
     const data1 = await client.query({
       query: gql`
@@ -66,11 +66,11 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
 
     // return data1.data.update_item_maindata_revisions_by_pk;
 
-    /**
+    /*
      * Get information about the related item maindata revisions
      * (potentially including this one already)
      */
-    const data33 = await client.query({
+    const data1a = await client.query({
       query: gql`
         query getRevisionsForItemBarebonesLatestTwo($id: Int!) {
           item_maindata_revisions(
@@ -89,10 +89,10 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
       },
       fetchPolicy: 'network-only',
     });
-    console.log('data33:', data33.data.item_maindata_revisions);
+    console.log('data1a:', data1a.data.item_maindata_revisions);
 
     // TODO: Only allow if this is the latest revision
-    const latestRevision = data33.data.item_maindata_revisions[0];
+    const latestRevision = data1a.data.item_maindata_revisions[0];
     const isLatestRevision = id === latestRevision.id;
     console.log('isLatestRevision:', isLatestRevision);
 
@@ -107,8 +107,9 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
 
     // Otherwise, if everything is fine, (i.e. state is review), we continue.
 
-    /**
+    /* ============================================================
      * 2. Update the Item Maindata Revision's current state
+     * ============================================================
      */
     const data2 = await client.mutate({
       mutation: gql`
@@ -133,14 +134,15 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
       },
     });
 
-    /*
+    /* ============================================================
      * 3. If there is a previous revision, retire it
+     * ============================================================
      */
-    if (data33.data.item_maindata_revisions.length > 1) {
-      const previousRevision = data33.data.item_maindata_revisions[1];
+    if (data1a.data.item_maindata_revisions.length > 1) {
+      const previousRevision = data1a.data.item_maindata_revisions[1];
 
       /** Update state of previous revision to retired */
-      const data55 = await client.mutate({
+      const data3a = await client.mutate({
         mutation: gql`
           mutation updateItemMaindataRevisionState(
             $id: uuid!
@@ -163,8 +165,8 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
         },
       });
 
-      /** Insert a revision change indicating a promotion to retired */
-      const data66 = await client.mutate({
+      /* Insert a revision change indicating a promotion to retired */
+      const data3b = await client.mutate({
         mutation: gql`
           mutation insertItemMaindataRevisionChange(
             $revisionId: uuid!
@@ -201,10 +203,11 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
       });
     }
 
-    /**
-     * 3. Create an activity entry
+    /* ============================================================
+     * 4. Create an activity entry
+     * ============================================================
      */
-    const data3 = await client.mutate({
+    const data4 = await client.mutate({
       mutation: gql`
         mutation insertItemMaindataRevisionChange(
           $revisionId: uuid!
@@ -240,14 +243,15 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
       },
     });
 
-    console.log('data3:', data3);
+    console.log('data4:', data4);
 
     // return data1.data.update_item_maindata_revisions_by_pk;
 
-    /**
-     * 3. Update the Item entry's `updated_at`
+    /* ============================================================
+     * 5. Update the Item entry's `updated_at`
+     * ============================================================
      */
-    const data4 = await client.mutate({
+    const data5 = await client.mutate({
       mutation: gql`
         mutation updateItemUpdatedAt($id: Int!) {
           update_items_by_pk(
@@ -264,32 +268,37 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
       },
     });
 
-    /**
-     * 4. Update the related Company's item count
+    /* ============================================================
+     * 6. Update the related Company's item count
+     * ============================================================
      */
     const brand_id = item_maindata[0] ? item_maindata[0].brand_id : null;
     console.log('brand_id:', brand_id);
 
     if (brand_id) {
-      const data6 = await getUniqueItemMaindataRevsForBrandProdOnly(brand_id);
+      // const data6 = await getUniqueItemMaindataRevsForBrandProdOnly(brand_id);
+      const data6 = await updateCompanyCountViaCompanyId(
+        brand_id,
+        Logger_Prefix_Sub_Level_1
+      );
       console.log('data6:', data6);
-      const { count } = data6.aggregate;
-      console.log('count:', count);
-
-      let counts_id = null;
-      if (
-        item_maindata[0] &&
-        item_maindata[0].brand &&
-        item_maindata[0].brand.counts
-      ) {
-        counts_id = item_maindata[0].brand.counts.id;
-        console.log('counts_id:', counts_id);
-        const data7 = await updateCompanyCountViaCompanyId(
-          counts_id,
-          count + 1
-        );
-        console.log('data7:', data7);
-      }
+      // const { count } = data6.aggregate;
+      // console.log('count:', count);
+      //
+      // let counts_id = null;
+      // if (
+      //   item_maindata[0] &&
+      //   item_maindata[0].brand &&
+      //   item_maindata[0].brand.counts
+      // ) {
+      //   counts_id = item_maindata[0].brand.counts.id;
+      //   console.log('counts_id:', counts_id);
+      //   const data7 = await updateCompanyCountViaCompanyId(
+      //     counts_id,
+      //     count + 1
+      //   );
+      //   console.log('data7:', data7);
+      // }
     }
 
     return data2.data.update_item_maindata_revisions_by_pk;

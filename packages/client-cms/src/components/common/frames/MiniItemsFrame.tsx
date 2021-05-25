@@ -73,6 +73,7 @@ interface MiniItemsFrameProps {
   query: any;
   viewAll?: boolean;
   updateCount?: any;
+  updateCountButtonDisabled?: boolean;
   queryChildObjectName: string;
 }
 
@@ -82,6 +83,7 @@ function MiniItemsFrame({
   query,
   viewAll,
   updateCount,
+  updateCountButtonDisabled,
   queryChildObjectName = '',
 }: MiniItemsFrameProps) {
   const { loading, error, data } = useQuery(query, {
@@ -128,6 +130,7 @@ function MiniItemsFrame({
                 style={{
                   marginRight: 8,
                 }}
+                disabled={updateCountButtonDisabled}
               >
                 Update Count
               </Button>
