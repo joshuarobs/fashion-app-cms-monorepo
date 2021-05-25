@@ -42,9 +42,26 @@ function SelectCountryOfBrandOrigin({
   const { getCountries } = data;
   // console.log("countries:", countries);
 
+  // Add a styled description to all countries
+  const styledCountries: any[] = [];
+  getCountries.forEach((country: []) => {
+    // @ts-ignore
+    const { description } = country;
+    // @ts-ignore
+    styledCountries.push({
+      ...country,
+      styledDescription: (
+        <div>
+          <span style={{ marginRight: 5 }}>{description.substring(0, 4)}</span>
+          <span>{description.substring(4, description.length)}</span>
+        </div>
+      ),
+    });
+  });
+
   // Sort the countries so they appear in order
   const countriesWithOrder: any[] = [];
-  getCountries.forEach((country: any) => {
+  styledCountries.forEach((country: any) => {
     const { value } = country;
     // console.log("translation 2:", translation);
 
@@ -114,33 +131,57 @@ function SelectCountryOfBrandOrigin({
       {/* @ts-ignore */}
       <Option value={null}></Option>
       <OptGroup label="Main Markets">
-        {mainMarkets.map(({ value, description }) => {
-          return <Option value={value}>{description}</Option>;
+        {mainMarkets.map(({ value, styledDescription }) => {
+          return (
+            <Option value={value} key={value}>
+              {styledDescription}
+            </Option>
+          );
         })}
       </OptGroup>
       <OptGroup label="Europe">
-        {europe.map(({ value, description }) => {
-          return <Option value={value}>{description}</Option>;
+        {europe.map(({ value, styledDescription }) => {
+          return (
+            <Option value={value} key={value}>
+              {styledDescription}
+            </Option>
+          );
         })}
       </OptGroup>
       <OptGroup label="Asia">
-        {asia.map(({ value, description }) => {
-          return <Option value={value}>{description}</Option>;
+        {asia.map(({ value, styledDescription }) => {
+          return (
+            <Option value={value} key={value}>
+              {styledDescription}
+            </Option>
+          );
         })}
       </OptGroup>
       <OptGroup label="Americas">
-        {americas.map(({ value, description }) => {
-          return <Option value={value}>{description}</Option>;
+        {americas.map(({ value, styledDescription }) => {
+          return (
+            <Option value={value} key={value}>
+              {styledDescription}
+            </Option>
+          );
         })}
       </OptGroup>
       <OptGroup label="Middle East">
-        {middleEast.map(({ value, description }) => {
-          return <Option value={value}>{description}</Option>;
+        {middleEast.map(({ value, styledDescription }) => {
+          return (
+            <Option value={value} key={value}>
+              {styledDescription}
+            </Option>
+          );
         })}
       </OptGroup>
       <OptGroup label="Africa">
-        {africa.map(({ value, description }) => {
-          return <Option value={value}>{description}</Option>;
+        {africa.map(({ value, styledDescription }) => {
+          return (
+            <Option value={value} key={value}>
+              {styledDescription}
+            </Option>
+          );
         })}
       </OptGroup>
     </Select>

@@ -146,7 +146,7 @@ function OverviewMainFrame({
     { loading: mutationLoading, error: mutationError },
   ] = useMutation(Update_Item_Maindata, {
     async onCompleted() {
-      await setOriginalClothingShellId(clothing_shell_id);
+      setOriginalClothingShellId(clothing_shell_id);
       // message.success({ content: COMMON.CHANGES_SAVED, key }, 2);
       // const variables = {
       //   revisionId: itemMaindataRevision.id,

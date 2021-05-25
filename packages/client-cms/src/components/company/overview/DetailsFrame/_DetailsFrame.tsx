@@ -104,9 +104,8 @@ function DetailsFrame({ data }: DetailsFrameProps) {
     updateCompany,
     { loading: mutationLoading, error: mutationError },
   ] = useMutation(Update_Company, {
-    onCompleted() {
-      message.success({ content: Common.Changes_Saved, key }).then();
-    },
+    onCompleted() {},
+    refetchQueries: [],
   });
 
   const hasChanged = {
@@ -160,7 +159,7 @@ function DetailsFrame({ data }: DetailsFrameProps) {
 
   const changes: changesProps = {};
 
-  const saveChanges = () => {
+  const saveChanges = async () => {
     if (numberOfChanges > 0) {
       const variables = {
         id: data.id,
@@ -197,7 +196,8 @@ function DetailsFrame({ data }: DetailsFrameProps) {
       }
 
       message.loading({ content: Common.Saving_Changes, key }).then();
-      updateCompany({ variables }).then();
+      await updateCompany({ variables });
+      message.success({ content: Common.Changes_Saved, key }, 2);
     }
   };
 

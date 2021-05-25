@@ -181,7 +181,7 @@ const resolvers = {
     // companies
     //--------------------------------------------------
     insertCompany,
-    updateCompany,
+    updateCompany: (_, { id, changes }) => updateCompany(id, changes),
     //--------------------------------------------------
     // company_counts
     //--------------------------------------------------

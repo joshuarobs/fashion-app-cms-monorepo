@@ -11,7 +11,7 @@ async function insertItemMaindataRevisionChange(
   user_id: number,
   change_type: DataChangeType,
   to_state: DataState,
-  loggerPrefix?: string
+  loggerPrefix = ''
 ) {
   logger.info(
     `${loggerPrefix}graphql > insertItemMaindataRevisionChange() :: args: revision_id: ${revision_id} | user_id: ${user_id} | change_type: ${change_type} | to_state: ${to_state}`

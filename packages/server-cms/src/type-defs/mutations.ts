@@ -46,7 +46,7 @@ const Mutations = gql`
     # companies
     #--------------------------------------------------
     insertCompany: companies
-    updateCompany: companies
+    updateCompany(id: Int!, changes: companies_set_input): companies
     #--------------------------------------------------
     # company_counts
     #--------------------------------------------------
