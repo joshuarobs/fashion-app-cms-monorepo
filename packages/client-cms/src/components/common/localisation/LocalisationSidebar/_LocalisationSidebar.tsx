@@ -70,7 +70,7 @@ function LocalisationSidebar({
     setShowModal(true);
   };
 
-  console.log('MY TAB PATH:', tabPath);
+  // console.log('MY TAB PATH:', tabPath);
 
   // Hooks for GraphQL queries
   const [updateItemUpdatedAt] = useMutation(mutationUpdateDataEntryUpdatedAt, {
@@ -251,7 +251,9 @@ function LocalisationSidebar({
                 // @ts-ignore
                 style={cssStyles.menuTab}
               >
-                <Link to={`${tabPath}`}>Locale Dashboard</Link>
+                <Link to={`${tabPath}`}>
+                  {Common.Localisation_Related.Locale_Dashboard}
+                </Link>
               </Menu.Item>
             </Menu>
           </Row>
@@ -306,7 +308,7 @@ function LocalisationSidebar({
           )}
           <Row style={{ marginTop: 24 }}>
             <Button block onClick={onClick}>
-              Add Locale
+              {Common.Localisation_Related.Add_Locale}
             </Button>
           </Row>
         </div>

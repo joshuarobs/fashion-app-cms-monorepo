@@ -264,6 +264,11 @@ const Common = {
       'New Item entries should all be generated automatically from vendor' +
       ' apis via the Home Screen.',
   },
+  Localisation_Related: {
+    Add_Locale: 'Add Locale',
+    Add_Locale_Select_Clothing_Shell: 'Add Locale - Select Clothing Shell',
+    Locale_Dashboard: 'Locale Dashboard',
+  },
 };
 
 const Edit_Related = {

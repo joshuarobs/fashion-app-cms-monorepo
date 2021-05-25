@@ -2,7 +2,7 @@ import React from 'react';
 import { ColumnOfFrames } from '../../../common/frames/ColumnOfFrames';
 import { CompanyLocalisationStateFrame } from './CompanyLocalisationStateFrame';
 import { LocalisationActivityFrame } from './LocalisationFrame/LocalisationActivityFrame';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Layout } from 'antd';
 import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
 import { LocalisationFrame } from './LocalisationFrame/_LocalisationFrame';
@@ -14,7 +14,7 @@ const { Content } = Layout;
 interface LocalisationContentTabProps {
   companyId: number;
   currentTab: string;
-  currentRevision: number;
+  // currentRevision: number;
   paramsRevision: string;
   paramsIsRelease: string;
   location: any;
@@ -24,7 +24,7 @@ interface LocalisationContentTabProps {
 function LocalisationContentTab({
   companyId,
   currentTab,
-  currentRevision,
+  // currentRevision,
   paramsRevision,
   paramsIsRelease,
   location,

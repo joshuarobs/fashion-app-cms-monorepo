@@ -1,20 +1,9 @@
-import React, { MouseEventHandler } from 'react';
-import {
-  Modal,
-  Button,
-  Tag,
-  Layout,
-  Row,
-  Col,
-  Typography,
-  Checkbox,
-  Input,
-} from 'antd';
+import React from 'react';
+import { Modal, Layout } from 'antd';
 import { LocalisationsTable } from './LocalisationsTable';
+import { Common } from '../../../../strings';
 
-const { Header, Footer, Sider, Content } = Layout;
-const { Search } = Input;
-const { Title } = Typography;
+const { Content } = Layout;
 
 interface PopupSelectLocaleProps {
   visible: boolean;
@@ -32,7 +21,11 @@ function PopupSelectLocale({
   return (
     <Modal
       visible={visible}
-      title={<span>Select Clothing Shell</span>}
+      title={
+        <span>
+          {Common.Localisation_Related.Add_Locale_Select_Clothing_Shell}
+        </span>
+      }
       // @ts-ignore
       onCancel={hidePopup}
       className="popup-filters"

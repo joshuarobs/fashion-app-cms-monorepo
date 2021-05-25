@@ -64,8 +64,8 @@ function LocalisationFrame({
   paramsIsRelease,
   uniqueRevisions,
   refetchRevisions,
-  refetchTranslations,
-}: LocalisationFrameProps) {
+}: // refetchTranslations,
+LocalisationFrameProps) {
   // console.log("Current tab:", currentTab);
   // console.log("location:", location);
   // console.log("translationRevision:", translationRevision);

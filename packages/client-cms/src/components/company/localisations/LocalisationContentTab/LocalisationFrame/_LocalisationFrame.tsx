@@ -61,8 +61,8 @@ function LocalisationFrame({
   paramsIsRelease,
   uniqueRevisions,
   refetchRevisions,
-  refetchTranslations,
-}: LocalisationFrameProps) {
+}: // refetchTranslations,
+LocalisationFrameProps) {
   // console.log("Current tab:", currentTab);
   // console.log("location:", location);
   // console.log("translationRevision:", translationRevision);
@@ -91,32 +91,24 @@ function LocalisationFrame({
       // @ts-ignore
       ({ revision }) => revision === Number.parseInt(paramsRevision)
     );
-    setCurrentRevision(matchingRevision);
-    // setState(currentRevision ? currentRevision.state : null);
-    setState(matchingRevision ? matchingRevision.state : null);
-    setRevisionId(matchingRevision ? matchingRevision.id : null);
-    // console.log(
-    //   "SET CURRENT REVISION:",
-    //   currentRevision,
-    //   "\nParams:",
-    //   paramsRevision,
-    //   "\nMatching revision:",
-    //   matchingRevision,
-    //   "\nUnique revs:",
-    //   uniqueRevisions
-    // );
-  }, [currentTab, paramsRevision]);
+    if (matchingRevision) {
+      setCurrentRevision(matchingRevision);
+      // setState(currentRevision ? currentRevision.state : null);
+      setState(matchingRevision ? matchingRevision.state : null);
+      setRevisionId(matchingRevision ? matchingRevision.id : null);
+      // console.log(
+      //   "SET CURRENT REVISION:",
+      //   currentRevision,
+      //   "\nParams:",
+      //   paramsRevision,
+      //   "\nMatching revision:",
+      //   matchingRevision,
+      //   "\nUnique revs:",
+      //   uniqueRevisions
+      // );
+    }
+  }, [currentTab, paramsRevision, uniqueRevisions]);
 
-  // useEffect(() => {
-  //   setState(currentRevision ? currentRevision.state : null);
-  // }, [paramsRevision]);
-
-  // const state = currentRevision ? currentRevision.state : null;
-  // console.log("currentRevision:", currentRevision);
-
-  // console.log("State:", state);
-
-  // console.log("uniqueRevisions:", uniqueRevisions);
   // The latest revision number
   const latestRevision = uniqueRevisions[0].revision;
 

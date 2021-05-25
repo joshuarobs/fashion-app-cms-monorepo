@@ -136,7 +136,7 @@ function LocalisationsTab() {
         <LocalisationContentTab
           companyId={id}
           currentTab={currentTab}
-          currentRevision={currentRevision}
+          // currentRevision={currentRevision}
           // @ts-ignore
           setHasChangesMade={setHasChangesMade}
           paramsRevision={paramsRevision}

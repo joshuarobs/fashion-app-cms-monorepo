@@ -34,7 +34,7 @@ function LocalisationsTable({
   console.log('locales:', locales);
 
   // Iterate through all data and set keys
-  const newData = addKeysToArrayObjects(data.locales);
+  const newData = addKeysToArrayObjects(data.getLocales);
 
   // Add whether the item has the locale already or not
   // const newData2 = _.cloneDeep(newData);
