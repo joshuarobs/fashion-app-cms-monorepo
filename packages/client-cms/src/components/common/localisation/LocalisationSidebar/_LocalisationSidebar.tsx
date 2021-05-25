@@ -46,9 +46,6 @@ interface LocalisationSidebarProps {
   refetchTranslationRevisions: any;
   invalidPath: any;
   mutationInsertTranslationRevision: any;
-  mutationInsertTranslationRevisionChange: any;
-  mutationInsertTranslationBlankDraft: any;
-  mutationUpdateDataEntryUpdatedAt: any;
 }
 
 function LocalisationSidebar({
@@ -59,9 +56,6 @@ function LocalisationSidebar({
   refetchTranslationRevisions,
   invalidPath,
   mutationInsertTranslationRevision,
-  mutationInsertTranslationRevisionChange,
-  mutationInsertTranslationBlankDraft,
-  mutationUpdateDataEntryUpdatedAt,
 }: LocalisationSidebarProps) {
   const history = useHistory();
   const [showModal, setShowModal] = useState(false);
@@ -73,27 +67,6 @@ function LocalisationSidebar({
   // console.log('MY TAB PATH:', tabPath);
 
   // Hooks for GraphQL queries
-  const [updateItemUpdatedAt] = useMutation(mutationUpdateDataEntryUpdatedAt, {
-    onCompleted() {},
-  });
-
-  const [
-    insertTranslationBlankDraft,
-    { loading: loadingInsertTransBlank, error: errorInsertTransBlank },
-  ] = useMutation(mutationInsertTranslationBlankDraft, {
-    onCompleted() {},
-  });
-
-  const [
-    insertTranslationRevisionChange,
-    {
-      loading: loadingChangePromoDevelopment,
-      error: errorChangePromoDevelopment,
-    },
-  ] = useMutation(mutationInsertTranslationRevisionChange, {
-    onCompleted() {},
-  });
-
   const [
     insertTranslationRevision,
     {
@@ -103,10 +76,7 @@ function LocalisationSidebar({
     },
   ] = useMutation(mutationInsertTranslationRevision, {
     notifyOnNetworkStatusChange: true,
-    async onCompleted({
-      insert_item_translation_revisions_one,
-      insert_company_translation_revisions_one,
-    }) {
+    async onCompleted() {
       // let id, locale_code, revision;
       // if (insert_item_translation_revisions_one) {
       //   id = insert_item_translation_revisions_one.id;

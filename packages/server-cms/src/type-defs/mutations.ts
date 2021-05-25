@@ -144,6 +144,9 @@ const Mutations = gql`
     # item_translation_revisions
     #--------------------------------------------------
     deleteItemTranslationRevision: item_translation_revisions
+    deleteItemTranslationRevisionLocalePage(
+      id: String!
+    ): item_translation_revisions
     deleteItemTranslationRevisionsForItem: item_translation_revisions
     #    insertItemTranslationRevision: item_translation_revisions
     insertItemTranslationRevisionAddLocale(

@@ -71,6 +71,7 @@ function LocalisationsTab() {
     Get_Item_Translation_Revisions,
     {
       variables: { id: Number.parseInt(id) },
+      fetchPolicy: 'network-only',
     }
   );
 
@@ -167,13 +168,13 @@ function LocalisationsTab() {
           mutationInsertTranslationRevision={
             Insert_Item_Translation_Revision_Add_Locale
           }
-          mutationInsertTranslationRevisionChange={
-            Insert_Item_Translation_Revision_Change
-          }
-          mutationInsertTranslationBlankDraft={
-            Insert_Item_Translation_Blank_Draft
-          }
-          mutationUpdateDataEntryUpdatedAt={Update_Item_Updated_At}
+          // mutationInsertTranslationRevisionChange={
+          //   Insert_Item_Translation_Revision_Change
+          // }
+          // mutationInsertTranslationBlankDraft={
+          //   Insert_Item_Translation_Blank_Draft
+          // }
+          // mutationUpdateDataEntryUpdatedAt={Update_Item_Updated_At}
         />
       </ColumnOfFrames>
       {currentTab === '/' || !currentRevision ? (

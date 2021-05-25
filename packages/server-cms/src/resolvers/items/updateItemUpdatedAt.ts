@@ -7,10 +7,19 @@ import { logger } from '../../logger';
  * This should be called after making any changes to an any item's maindata
  * or translation
  */
-async function updateItemUpdatedAt() {
+async function updateItemUpdatedAt(id: number, loggerPrefix = '') {
+  logger.info(
+    `${loggerPrefix}graphql > updateItemUpdatedAt() | args: id: ${id}`
+  );
+
   try {
-    const data = await client.query({
-      query: gql`
+    /*
+     * ============================================================
+     * 1. Update the Item's `updated_at` field
+     * ============================================================
+     */
+    const data1 = await client.mutate({
+      mutation: gql`
         mutation updateItemUpdatedAt($id: Int!) {
           update_items_by_pk(
             pk_columns: { id: $id }
@@ -21,8 +30,20 @@ async function updateItemUpdatedAt() {
           }
         }
       `,
+      variables: {
+        id,
+      },
     });
-    return data.data.update_items_by_pk;
+
+    /*
+     * ============================================================
+     * Return the result
+     * ============================================================
+     */
+    logger.info(
+      `${loggerPrefix}graphql > updateItemUpdatedAt() :: Successfully returned data`
+    );
+    return data1.data.update_items_by_pk;
   } catch (e) {
     logger.error(e);
     return null;

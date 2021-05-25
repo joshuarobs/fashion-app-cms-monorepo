@@ -116,13 +116,13 @@ function LocalisationsTab() {
           mutationInsertTranslationRevision={
             Insert_Company_Translation_Revision
           }
-          mutationInsertTranslationRevisionChange={
-            Insert_Company_Translation_Revision_Change
-          }
-          mutationInsertTranslationBlankDraft={
-            Insert_Company_Translation_Blank_Draft
-          }
-          mutationUpdateDataEntryUpdatedAt={Update_Item_Updated_At}
+          // mutationInsertTranslationRevisionChange={
+          //   Insert_Company_Translation_Revision_Change
+          // }
+          // mutationInsertTranslationBlankDraft={
+          //   Insert_Company_Translation_Blank_Draft
+          // }
+          // mutationUpdateDataEntryUpdatedAt={Update_Item_Updated_At}
         />
       </ColumnOfFrames>
       {currentTab === '/' || !currentRevision ? (

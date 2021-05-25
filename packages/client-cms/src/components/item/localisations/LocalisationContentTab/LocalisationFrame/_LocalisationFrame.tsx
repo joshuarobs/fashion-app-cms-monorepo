@@ -29,6 +29,8 @@ import { Update_Item_Translation } from '../../../../../queries/item_translation
 import { Get_Item_Maindata_Revision_Changes } from '../../../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChanges';
 import { Get_Item_Translation_Revision_Changes } from '../../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChanges';
 import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesForLocale';
+import { Delete_Item_Translation_Revision_Locale_Page } from '../../../../../queries/item_translation_revisions/deleteItemTranslationRevisionLocalePage';
+import { Get_Item_Translation_Revisions } from '../../../../../queries/item_translation_revisions/getItemTranslationRevisions';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -138,43 +140,31 @@ LocalisationFrameProps) {
 
   // STATES FOR THE DRAFT TRANSLATIONS
   const [full_name1, setFullName1] = useState();
-  useEffect(() => {
-    setFullName1(translationDraft ? translationDraft.full_name : null);
-  }, [currentTab, paramsRevision]);
-
   const [short_name1, setShortName1] = useState();
-  useEffect(() => {
-    setShortName1(translationDraft ? translationDraft.short_name : null);
-  }, [currentTab, paramsRevision]);
-
   const [description1, setDescription1] = useState();
-  useEffect(() => {
-    setDescription1(translationDraft ? translationDraft.description : null);
-  }, [currentTab, paramsRevision]);
 
   // STATES FOR THE RELEASE TRANSLATIONS
   const [full_name2, setFullName2] = useState();
+  const [short_name2, setShortName2] = useState();
+  const [description2, setDescription2] = useState();
+
   useEffect(() => {
+    setFullName1(translationDraft ? translationDraft.full_name : null);
+    setShortName1(translationDraft ? translationDraft.short_name : null);
+    setDescription1(translationDraft ? translationDraft.description : null);
+
     if (translationRelease) {
       setFullName2(translationRelease.full_name);
     } else if (translationDraft) {
       setFullName2(translationDraft.full_name);
     }
-  }, [currentTab, paramsRevision]);
 
-  const [short_name2, setShortName2] = useState();
-  useEffect(() => {
-    // setShortName2(translationRelease ? translationRelease.short_name : null);
     if (translationRelease) {
       setShortName2(translationRelease.short_name);
     } else if (translationDraft) {
       setShortName2(translationDraft.short_name);
     }
-  }, [currentTab, paramsRevision]);
 
-  const [description2, setDescription2] = useState();
-  useEffect(() => {
-    // setDescription2(translationRelease ? translationRelease.description : null);
     if (translationRelease) {
       setDescription2(translationRelease.description);
     } else if (translationDraft) {
@@ -238,28 +228,44 @@ LocalisationFrameProps) {
   });
 
   const [
+    deleteItemTranslationsForRevisionLocalePage,
+    {
+      loading: loadingDeleteItemTrans,
+      error: errorDeleteItemTranslationsForRevisionLocalePage,
+    },
+  ] = useMutation(Delete_Item_Translation_Revision_Locale_Page, {
+    onCompleted() {},
+    refetchQueries: [
+      {
+        query: Get_Item_Translation_Revisions,
+        variables: { id: Number.parseInt(String(itemId)) },
+      },
+    ],
+  });
+
+  const [
     deleteItemTranslationsForRevision,
     // { loading: loadingDeleteItemTrans, error: errorDeleteItemTrans }
   ] = useMutation(Delete_Item_Translations_For_Revision, {
     onCompleted() {},
   });
 
-  const [
-    deleteItemTranslationRevisionChangesForRevision,
-    // {
-    //   loading: loadingDeleteItemTransRevChanges,
-    //   error: errorDeleteItemTransRevChanges
-    // }
-  ] = useMutation(Delete_Item_Translation_Revision_Changes_For_Revision, {
-    onCompleted() {},
-  });
+  // const [
+  //   deleteItemTranslationRevisionChangesForRevision,
+  //   // {
+  //   //   loading: loadingDeleteItemTransRevChanges,
+  //   //   error: errorDeleteItemTransRevChanges
+  //   // }
+  // ] = useMutation(Delete_Item_Translation_Revision_Changes_For_Revision, {
+  //   onCompleted() {},
+  // });
 
-  const [
-    deleteItemTranslationRevision,
-    // { loading: loadingDeleteItemTransRev, error: errorDeleteItemTransRev }
-  ] = useMutation(Delete_Item_Translation_Revision, {
-    onCompleted() {},
-  });
+  // const [
+  //   deleteItemTranslationRevision,
+  //   // { loading: loadingDeleteItemTransRev, error: errorDeleteItemTransRev }
+  // ] = useMutation(Delete_Item_Translation_Revision, {
+  //   onCompleted() {},
+  // });
 
   interface changesProps {
     full_name?: boolean | null;
@@ -406,30 +412,34 @@ LocalisationFrameProps) {
     const variables = {
       id: currentRevision.id,
     };
+    console.log('variables:', variables);
     // 1. Delete all changes (i.e. the activity log) for the revision
-    await deleteItemTranslationRevisionChangesForRevision({ variables });
+    // await deleteItemTranslationRevisionChangesForRevision({ variables });
+    await deleteItemTranslationsForRevisionLocalePage({ variables });
     // 2. Delete the item translation revision itself
-    await deleteItemTranslationRevision({ variables });
+    // await deleteItemTranslationRevision({ variables });
     // 3. Redirect the user either to the previous revision (if any) or
     // to the dashboard if there isn't
-    await updateItemUpdatedAt({
-      variables: {
-        id: itemId,
-      },
-    });
+    // await updateItemUpdatedAt({
+    //   variables: {
+    //     id: itemId,
+    //   },
+    // });
+
     message.success({
       content: Common.State_Related.Deleted_Revision,
       key,
     });
+
     if (uniqueRevisions.length > 1) {
       const prevRevision = uniqueRevisions[1];
       history.push(
         `${location.pathname}?rev=${prevRevision.revision}&release=true`
       );
-      history.go(0);
+      // history.go(0);
     } else {
       history.push(localisationsUrl);
-      history.go(0);
+      // history.go(0);
     }
   };
 
@@ -571,6 +581,16 @@ LocalisationFrameProps) {
   const defaultTabStyle: CSSProperties = {
     userSelect: 'none',
   };
+
+  if (errorDeleteItemTranslationsForRevisionLocalePage) {
+    const error = `ERROR: ${JSON.stringify(
+      errorDeleteItemTranslationsForRevisionLocalePage,
+      null,
+      2
+    )}`;
+    console.error(error);
+    return <div>${error}</div>;
+  }
 
   return (
     <>

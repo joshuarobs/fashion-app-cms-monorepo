@@ -129,6 +129,7 @@ import { insertItemMaindataRevisionItemsPage } from './resolvers/item_maindata_r
 import { insertItemTranslationPromoteToReview } from './resolvers/item_translations/insertItemTranslationPromoteToReview';
 import { updateItemTranslationRevisionStatePromoteToProduction } from './resolvers/item_translation_revisions/updateItemTranslationRevisionStatePromoteToProduction';
 import { insertItemTranslationRevisionPromoteNewRevision } from './resolvers/item_translation_revisions/insertItemTranslationRevisionPromoteNewRevision';
+import { deleteItemTranslationRevisionLocalePage } from './resolvers/item_translation_revisions/deleteItemTranslationRevisionLocalePage';
 
 const resolvers = {
   //**********************************************************************
@@ -271,6 +272,8 @@ const resolvers = {
     // item_translation_revisions
     //--------------------------------------------------
     deleteItemTranslationRevision,
+    deleteItemTranslationRevisionLocalePage: (_, { id }) =>
+      deleteItemTranslationRevisionLocalePage(id),
     deleteItemTranslationRevisionsForItem,
     // insertItemTranslationRevision,
     insertItemTranslationRevisionAddLocale: (_, { item_id, locale_code }) =>
