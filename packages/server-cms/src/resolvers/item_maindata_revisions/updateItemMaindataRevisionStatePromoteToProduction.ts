@@ -6,7 +6,7 @@ import {
   DataState,
 } from '@joshuarobs/clothing-framework/build/enums';
 import { getUniqueItemMaindataRevsForBrandProdOnly } from './getUniqueItemMaindataRevisionsForBrandInProduction';
-import { updateCompanyCount } from '../company_counts/updateCompanyCount';
+import { updateCompanyCountViaCompanyId } from '../company_counts/updateCompanyCountViaCompanyId';
 import { insertItemMaindataRevisionChangePromoRetired } from '../item_maindata_revision_changes/insertItemMaindataRevisionChangePromoRetired';
 
 /**
@@ -284,7 +284,10 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
       ) {
         counts_id = item_maindata[0].brand.counts.id;
         console.log('counts_id:', counts_id);
-        const data7 = await updateCompanyCount(counts_id, count + 1);
+        const data7 = await updateCompanyCountViaCompanyId(
+          counts_id,
+          count + 1
+        );
         console.log('data7:', data7);
       }
     }

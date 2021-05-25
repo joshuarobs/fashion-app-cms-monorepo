@@ -33,7 +33,7 @@ import { getCompany } from './resolvers/companies/getCompany';
 import { updateCompany } from './resolvers/companies/updateCompany';
 import { insertCompany } from './resolvers/companies/insertCompany';
 import { insertCompanyCount } from './resolvers/company_counts/insertCompanyCount';
-import { updateCompanyCount } from './resolvers/company_counts/updateCompanyCount';
+import { updateCompanyCountViaCompanyId } from './resolvers/company_counts/updateCompanyCountViaCompanyId';
 import { deleteCompanyTranslationRevisionChangesForRevision } from './resolvers/company_translation_revision_changes/deleteCompanyTranslationRevisionChangesForRevision';
 import { insertCompanyTranslationRevisionChangePromoReview } from './resolvers/company_translation_revision_changes/insertCompanyTranslationRevisionChangePromoReview';
 import { insertCompanyTranslationRevisionChangePromoProduction } from './resolvers/company_translation_revision_changes/insertCompanyTranslationRevisionChangePromoProduction';
@@ -187,8 +187,10 @@ const resolvers = {
     //--------------------------------------------------
     insertCompanyCount,
     // Not accessible for the user, it should all be done via another
-    // secure function
-    // updateCompanyCount,
+    // secure function ????
+    // updateCompanyCount
+    updateCompanyCountViaCompanyId: (_, { id }) =>
+      updateCompanyCountViaCompanyId(id),
     //--------------------------------------------------
     // company_translation_revision_changes
     //--------------------------------------------------

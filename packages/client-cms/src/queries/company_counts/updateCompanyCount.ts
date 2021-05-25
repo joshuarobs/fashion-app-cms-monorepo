@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
-const Update_Company_Count = gql`
-  mutation updateCompanyCount($id: Int!, $changes: company_counts_set_input) {
-    update_company_counts_by_pk(pk_columns: { id: $id }, _set: $changes) {
+const Update_Company_Count_Via_Company_Id = gql`
+  mutation updateCompanyCountViaCompanyId($id: Int!) {
+    updateCompanyCountViaCompanyId(id: $id) {
       id
       company_id
       item_count
@@ -10,4 +10,4 @@ const Update_Company_Count = gql`
   }
 `;
 
-export { Update_Company_Count };
+export { Update_Company_Count_Via_Company_Id };

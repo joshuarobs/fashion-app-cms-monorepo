@@ -14,7 +14,6 @@ import { Routes } from '../../../../routes';
 import { Insert_Item_Maindata_Revision } from '../../../../queries/item_maindata_revisions/insertItemMaindataRevision';
 import { Insert_Item_Maindata } from '../../../../queries/item_maindata/insertItemMaindata';
 import { Update_Item_Updated_At } from '../../../../queries/items/updateItemUpdatedAt';
-import { Update_Company_Count } from '../../../../queries/company_counts/updateCompanyCount';
 import { Get_Unique_Item_Maindata_Rev_Amount_For_Brand_Prod_Only } from '../../../../queries/item_maindata_revisions/getUniqueItemMaindataRevisionsForBrandInProduction';
 import { Get_Item_Maindata_Revision_Changes_Promos_Only } from '../../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChangesPromosOnly';
 import { Update_Item_Maindata_Revision_To_Retired } from '../../../../queries/item_maindata_revisions/updateItemMaindataRevisionToRetired';

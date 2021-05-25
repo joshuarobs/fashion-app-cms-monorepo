@@ -24,10 +24,10 @@ import { Delete_Item_Maindata_Revisions_For_Item } from '../../../queries/item_m
 import { Delete_Item_By_Pk } from '../../../queries/items/deleteItemByPk';
 import { Routes } from '../../../routes';
 import { Get_Unique_Item_Maindata_Rev_Amount_For_Brand_Prod_Only } from '../../../queries/item_maindata_revisions/getUniqueItemMaindataRevisionsForBrandInProduction';
-import { Update_Company_Count } from '../../../queries/company_counts/updateCompanyCount';
 import { Update_Clothing_Shell_Count } from '../../../queries/clothing_shell_counts/updateClothingShellCount';
 import { Get_Num_Of_Unique_Items_For_Clothing_Shell } from '../../../queries/item_maindata_revisions/getNumberOfUniqueItemsForClothingShell';
 import { SettingsEntry } from '../../common/settings/SettingsEntry';
+import { Update_Company_Count_Via_Company_Id } from '../../../queries/company_counts/updateCompanyCount';
 // import ItemTypesTable from "./ItemTypesTable";
 // import { APP_SHELL, TABLE_DESCRIPTIONS } from "../../strings";
 
@@ -180,9 +180,9 @@ function SettingsTabView({
   });
 
   const [
-    updateCompanyCount,
+    updateCompanyCountViaCompanyId,
     // { loading: loadingUpdCompanyItemCount, error: errorUpdCompanyItemCount }
-  ] = useMutation(Update_Company_Count, {
+  ] = useMutation(Update_Company_Count_Via_Company_Id, {
     onCompleted({ update_company_counts_by_pk }) {
       console.log('UPDATE COMPANY COUNT:', update_company_counts_by_pk);
     },
@@ -199,7 +199,7 @@ function SettingsTabView({
       if (brand_id && count_id) {
         // console.log("if brand id");
         // Get the count id, not the brand id
-        updateCompanyCount({
+        updateCompanyCountViaCompanyId({
           variables: {
             id: count_id,
             changes: {
