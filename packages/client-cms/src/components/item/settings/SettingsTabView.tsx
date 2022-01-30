@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Layout,
   Row,
@@ -22,7 +22,7 @@ import { Delete_Item_Maindata_Revision_Changes_For_Item } from '../../../queries
 import { Delete_Item_Maindata_For_Item } from '../../../queries/item_maindata/deleteItemMaindataForItem';
 import { Delete_Item_Maindata_Revisions_For_Item } from '../../../queries/item_maindata_revisions/deleteItemMaindataRevisionsForItem';
 import { Delete_Item_By_Pk } from '../../../queries/items/deleteItemByPk';
-import { Routes } from '../../../routes';
+import { RouteStrings } from '../../../routeStrings';
 import { Get_Unique_Item_Maindata_Rev_Amount_For_Brand_Prod_Only } from '../../../queries/item_maindata_revisions/getUniqueItemMaindataRevisionsForBrandInProduction';
 import { Update_Clothing_Shell_Count } from '../../../queries/clothing_shell_counts/updateClothingShellCount';
 import { Get_Num_Of_Unique_Items_For_Clothing_Shell } from '../../../queries/item_maindata_revisions/getNumberOfUniqueItemsForClothingShell';
@@ -108,7 +108,7 @@ function SettingsTabView({
   //   item_maindata_revisions[0].item_maindata[0]
   // );
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [showModalKind, setShowModalKind] = useState(ModalKind.None);
 
@@ -229,9 +229,9 @@ function SettingsTabView({
         //   "item_maindata_revisions_aggregate:",
         //   item_maindata_revisions_aggregate
         // );
-        const {
-          clothing_shell,
-        } = dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0].item_maindata[0];
+        const { clothing_shell } =
+          dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]
+            .item_maindata[0];
         // console.log(
         //   "currentRevision.item_maindata[0]:",
         //   currentRevision.item_maindata[0]
@@ -248,13 +248,13 @@ function SettingsTabView({
                 },
               },
             }).then(() => {
-              history.push(Routes.Items__Clothing__Item);
-              history.go(0);
+              navigate(RouteStrings.Items__Clothing__Item);
+              navigate(0);
             });
           }
         } else {
-          history.push(Routes.Items__Clothing__Item);
-          history.go(0);
+          navigate(RouteStrings.Items__Clothing__Item);
+          navigate(0);
         }
         // message.success({ content: COMMON.UPDATED_ITEM_COUNT, key }, 2);
       },
@@ -321,9 +321,8 @@ function SettingsTabView({
     if (dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]) {
       await getItemCountForClothingShell({
         variables: {
-          id:
-            dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]
-              .item_maindata[0].clothing_shell_id,
+          id: dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]
+            .item_maindata[0].clothing_shell_id,
         },
       });
     }
@@ -341,8 +340,8 @@ function SettingsTabView({
     });
     // These must go inside `getItemCountForClothingShell` because that has
     // 2 queries in one, whereby the second query relies on data from the first.
-    await history.push(Routes.Items__Clothing__Item);
-    await history.go(0);
+    await navigate(RouteStrings.Items__Clothing__Item);
+    await navigate(0);
   };
 
   const onCancel = () => {

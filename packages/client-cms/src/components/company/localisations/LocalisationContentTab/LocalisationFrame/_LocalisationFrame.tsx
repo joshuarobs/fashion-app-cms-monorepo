@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
 import { DataState } from '@joshuarobs/clothing-framework/build/enums';
 import {
@@ -69,7 +69,7 @@ LocalisationFrameProps) {
   // console.log("TRANSLATION DRAFT:", translationDraft);
   // console.log("TRANSLATION RELEASE:", translationRelease);
   const Url_Number_Of_Parts = 5;
-  const history = useHistory();
+  const navigate = useNavigate();
   const localisationsUrl = getSomePartsOfUrl(
     location.pathname,
     Url_Number_Of_Parts
@@ -200,7 +200,8 @@ LocalisationFrameProps) {
       insertCompanyTranslationRevisionChangeActUpdate({
         variables,
       }).then(() => {
-        history.go(0);
+        navigate(0);
+        // history.go(0);
       });
     },
   });
@@ -211,7 +212,8 @@ LocalisationFrameProps) {
   ] = useMutation(Delete_Company_Translations_For_Revision, {
     onCompleted() {
       refetchRevisions();
-      history.go(0);
+      navigate(0);
+      // history.go(0);
     },
   });
 
@@ -391,11 +393,11 @@ LocalisationFrameProps) {
             .then();
           if (uniqueRevisions.length > 1) {
             const prevRevision = uniqueRevisions[1];
-            history.push(
+            navigate(
               `${location.pathname}?rev=${prevRevision.revision}&release=true`
             );
           } else {
-            history.push(localisationsUrl);
+            navigate(localisationsUrl);
           }
         });
       }
@@ -438,7 +440,7 @@ LocalisationFrameProps) {
 
   const onTabClick = (key: any) => {
     // history.push(`${location.pathname}?id=${paramsRevisionId}&release=${key}`);
-    history.push(`${location.pathname}?rev=${paramsRevision}&release=${key}`);
+    navigate(`${location.pathname}?rev=${paramsRevision}&release=${key}`);
   };
 
   let releaseTag = <div />;
@@ -509,7 +511,7 @@ LocalisationFrameProps) {
       company_translations.length > 0
         ? company_translations[0].is_release
         : false;
-    history.push(`${location.pathname}?rev=${revision}&release=${is_release}`);
+    navigate(`${location.pathname}?rev=${revision}&release=${is_release}`);
   };
 
   // Whether or not the content frame (it's text fields, buttons, inputs,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Routes } from '../../../../routes';
+import { RouteStrings } from '../../../../routeStrings';
 import { Avatar, Button, Col, Row, Typography } from 'antd';
 import { NoGenericAssociationFullCol } from '../../../common/NoGenericAssociationFullCol';
 import { Edit_Related, Item_Details_Frame } from '../../../../strings';
@@ -91,7 +91,7 @@ function ItemFamilySection({
         )}
       </Row>
       {item_family && (
-        <Link to={Routes.Item_Families + '/' + item_family.id}>
+        <Link to={RouteStrings.Item_Families + '/' + item_family.id}>
           <Row
             style={{
               padding: 8,
@@ -199,7 +199,11 @@ function ItemFamilySection({
                           textAlign: 'center',
                         }}
                       >
-                        <Link to={Routes.Items__Clothing__Item + '/' + item.id}>
+                        <Link
+                          to={
+                            RouteStrings.Items__Clothing__Item + '/' + item.id
+                          }
+                        >
                           View
                         </Link>
                       </span>

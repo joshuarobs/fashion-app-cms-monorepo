@@ -4,40 +4,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express, { Response } from 'express';
 // import cors from 'cors';
-import { ApolloServer, gql } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
+import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { resolvers } from './resolvers';
 import { typeDefs } from './type-defs';
+import http from 'http';
 
 console.log('Node environment:', process.env.NODE_ENV);
-
-const app = express();
-const PORT = process.env.PORT || 3001;
-// const server = require('http').Server(app);
-
-// Add an extra level up if we're in production, since we need to go 3
-// levels up to the `packages/` folder if we're in the build folder (production)
-const PATH_PREFIX = process.env.NODE_ENV === 'production' ? '../' : '';
-
-// Calculate the root path to the client cms' built html and js files
-const ROOT_PATH = path.resolve(
-  __dirname,
-  PATH_PREFIX,
-  '../../client-cms/build'
-);
-
-// Create an .env file for the client to get the correct (same) port as this
-// server's to connect to
-// if (process.env.NODE_ENV === 'production') {
-//   const url = path.resolve(__dirname, PATH_PREFIX, '../../client-cms/', '.env');
-//   console.log('.env file path:', url);
-//   console.log('to write with PORT=', PORT);
-//   fs.writeFileSync(url, `REACT_APP_PORT=${PORT}`);
-// } else {
-//   fs.writeFileSync(path.resolve('../client-cms', '.env'), `PORT=6969`);
-// }
-
-// Have Node serve the files for our built React app
-app.use(express.static(ROOT_PATH));
 
 // const corsOptions = {
 //   origin: '*',
@@ -47,34 +20,82 @@ app.use(express.static(ROOT_PATH));
 // app.use(cors(corsOptions));
 
 // Add Apollo Server to our express server
-const server = new ApolloServer({ typeDefs, resolvers });
-server.applyMiddleware({ app });
+// const server = new ApolloServer({ typeDefs, resolvers });
+// server.applyMiddleware({ app });
 // server.applyMiddleware({ app, cors: false });
 
-app.get('/api', (req: any, res: any) => {
-  res.json({ message: 'Hello from server!' });
-});
+async function startApolloServer(typeDefs: any, resolvers: any) {
+  const app = express();
+  const PORT = process.env.PORT || 3001;
+  // const server = require('http').Server(app);
 
-app.get('/api/hello', (req: any, res: Response) => {
-  res.json({ data: 'Hello from server!' });
-});
+  // Add an extra level up if we're in production, since we need to go 3
+  // levels up to the `packages/` folder if we're in the build folder (production)
+  const PATH_PREFIX = process.env.NODE_ENV === 'production' ? '../' : '';
 
-app.use('/health', (req: any, res: any) => {
-  res.status(200).json({
-    appName: 'API',
-    version: process.env.npm_package_version,
-    status: 'OK',
+  // Calculate the root path to the client cms' built html and js files
+  const ROOT_PATH = path.resolve(
+    __dirname,
+    PATH_PREFIX,
+    '../../client-cms/build'
+  );
+
+  // Create an .env file for the client to get the correct (same) port as this
+  // server's to connect to
+  // if (process.env.NODE_ENV === 'production') {
+  //   const url = path.resolve(__dirname, PATH_PREFIX, '../../client-cms/', '.env');
+  //   console.log('.env file path:', url);
+  //   console.log('to write with PORT=', PORT);
+  //   fs.writeFileSync(url, `REACT_APP_PORT=${PORT}`);
+  // } else {
+  //   fs.writeFileSync(path.resolve('../client-cms', '.env'), `PORT=6969`);
+  // }
+
+  // Have Node serve the files for our built React app
+  app.use(express.static(ROOT_PATH));
+
+  const httpServer = http.createServer(app);
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
-});
+  await server.start();
+  server.applyMiddleware({ app });
 
-// All other GET requests not handled before will return our React app
-app.get('*', (req: any, res: any) => {
-  res.sendFile(path.resolve(ROOT_PATH, 'index.html'));
-});
+  // Other
+  app.get('/api', (req: any, res: any) => {
+    res.json({ message: 'Hello from server!' });
+  });
 
-app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`);
-});
+  app.get('/api/hello', (req: any, res: Response) => {
+    res.json({ data: 'Hello from server!' });
+  });
+
+  app.use('/health', (req: any, res: any) => {
+    res.status(200).json({
+      appName: 'API',
+      version: process.env.npm_package_version,
+      status: 'OK',
+    });
+  });
+
+  // All other GET requests not handled before will return our React app
+  app.get('*', (req: any, res: any) => {
+    res.sendFile(path.resolve(ROOT_PATH, 'index.html'));
+  });
+
+  app.listen(PORT, () => {
+    console.log(`Example app listening at http://localhost:${PORT}`);
+  });
+
+  await new Promise<void>((resolve) =>
+    httpServer.listen({ port: 4000 }, resolve)
+  );
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+}
+
+startApolloServer(typeDefs, resolvers);
 
 // The `listen` method launches a web server.
 // server.listen().then(({ url }) => {

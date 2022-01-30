@@ -1,4 +1,4 @@
-enum Routes {
+enum RouteStrings {
   Home = '/home',
   My_Tasks = '/my-tasks',
   Items = '/items',
@@ -40,4 +40,4 @@ enum Routes {
   Exception_404 = '/404',
 }
 
-export { Routes };
+export { RouteStrings };

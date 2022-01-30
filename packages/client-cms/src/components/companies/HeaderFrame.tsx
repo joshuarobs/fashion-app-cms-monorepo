@@ -8,8 +8,8 @@ import { SyncOutlined, PlusOutlined } from '@ant-design/icons';
 import { PageHeader, Tabs, Button, message } from 'antd';
 import { HeaderTabLinkCountBadge } from '../common/HeaderTabLinkCountBadge';
 import { useMutation } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
-import { Routes } from '../../routes';
+import { useNavigate } from 'react-router-dom';
+import { RouteStrings } from '../../routeStrings';
 import { App_Shell, Common } from '../../strings';
 import { NewEntryModal } from './NewEntryModal';
 import { CompaniesPageIcon } from '../common/icons/page-icons/CompaniesPageIcon';
@@ -26,7 +26,7 @@ function HeaderFrame() {
   const [newWebsiteUrl, setNewWebsiteUrl] = useState('');
   const [newIsReseller, setNewIsReseller] = useState(false);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   // Hooks for GraphQL queries
   const [
     insertCompanyCount,
@@ -35,22 +35,22 @@ function HeaderFrame() {
     onCompleted({}) {},
   });
 
-  const [
-    insertCompany,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation(Insert_Company, {
-    async onCompleted({ insert_companies_one }) {
-      console.log('insert_companies_one:', insert_companies_one);
-      // setOriginalClothingShellId(clothing_shell_id);
-      await insertCompanyCount({
-        variables: {
-          companyId: insert_companies_one.id,
-        },
-      });
-      history.push(`${Routes.Companies__Company}/${insert_companies_one.id}`);
-      message.success({ content: Common.Created_New_Company, key });
-    },
-  });
+  const [insertCompany, { loading: mutationLoading, error: mutationError }] =
+    useMutation(Insert_Company, {
+      async onCompleted({ insert_companies_one }) {
+        console.log('insert_companies_one:', insert_companies_one);
+        // setOriginalClothingShellId(clothing_shell_id);
+        await insertCompanyCount({
+          variables: {
+            companyId: insert_companies_one.id,
+          },
+        });
+        navigate(
+          `${RouteStrings.Companies__Company}/${insert_companies_one.id}`
+        );
+        message.success({ content: Common.Created_New_Company, key });
+      },
+    });
 
   // const [
   //   updateCompanyItemCount,

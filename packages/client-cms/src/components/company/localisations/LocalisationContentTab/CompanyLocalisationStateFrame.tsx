@@ -4,7 +4,7 @@ import { DataState } from '@joshuarobs/clothing-framework/build/enums';
 import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
 import { Layout, message } from 'antd';
 import { Common } from '../../../../strings';
-import { useHistory } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Insert_Company_Translation_Revision } from '../../../../queries/company_translation_revisions/insertCompanyTranslationRevision';
 import { Insert_Company_Translation_Revision_Change } from '../../../../queries/company_translation_revision_changes/insertCompanyTranslationRevisionChange';
 import { Insert_Company_Translation_Blank_Draft } from '../../../../queries/company_translations/insertCompanyTranslationBlankDraft';
@@ -40,7 +40,8 @@ function CompanyLocalisationStateFrame({
   uniqueRevisions,
   translations,
 }: CompanyLocalisationStateFrameProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
   console.log('STATE - history:', history);
 
   const [currentRevision, setCurrentRevision] = useState(uniqueRevisions[0]);
@@ -123,9 +124,8 @@ function CompanyLocalisationStateFrame({
     onCompleted() {
       // Redirect to the page
       // history.push(`${pathNoRelease}true`);
-      history.push(
-        history.location.pathname +
-          `?rev=${currentRevision.revision}&release=true`
+      navigate(
+        location.pathname + `?rev=${currentRevision.revision}&release=true`
       );
       message
         .success({
@@ -218,11 +218,8 @@ function CompanyLocalisationStateFrame({
   ] = useMutation(Insert_Company_Translation_Revision, {
     notifyOnNetworkStatusChange: true,
     onCompleted({ insert_company_translation_revisions_one }) {
-      const {
-        id,
-        locale_code,
-        revision,
-      } = insert_company_translation_revisions_one;
+      const { id, locale_code, revision } =
+        insert_company_translation_revisions_one;
 
       // console.log("!!!translationDraft:", translationDraft);
       // console.log("!!!translationRelease:", translationRelease);
@@ -249,8 +246,8 @@ function CompanyLocalisationStateFrame({
           variables,
         }).then(() => {
           // Redirect to the next revision
-          history.push(
-            history.location.pathname +
+          navigate(
+            location.pathname +
               `?rev=${currentRevision.revision + 1}&release=false`
           );
           message
@@ -393,18 +390,20 @@ function CompanyLocalisationStateFrame({
   );
 
   // Find each of the state's revision
-  const changeToDevelopment = getCompanyTranslationRevisionChangesPromosOnly.find(
-    // @ts-ignore
-    ({ to_state }) => to_state === DataState.Development
-  );
+  const changeToDevelopment =
+    getCompanyTranslationRevisionChangesPromosOnly.find(
+      // @ts-ignore
+      ({ to_state }) => to_state === DataState.Development
+    );
   const changeToReview = getCompanyTranslationRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Review
   );
-  const changeToProduction = getCompanyTranslationRevisionChangesPromosOnly.find(
-    // @ts-ignore
-    ({ to_state }) => to_state === DataState.Production
-  );
+  const changeToProduction =
+    getCompanyTranslationRevisionChangesPromosOnly.find(
+      // @ts-ignore
+      ({ to_state }) => to_state === DataState.Production
+    );
   const changeToRetired = getCompanyTranslationRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Retired

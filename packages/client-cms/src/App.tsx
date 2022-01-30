@@ -1,12 +1,13 @@
 import React, { ReactElement, useState } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { Sidebar } from './components/app-shell/Sidebar';
 import { ScrollToTop } from './utils/ScrollToTop';
 import { AppShellHeader } from './components/app-shell/Header';
-import { Routes } from './routes';
+import { RouteStrings as RouteStrings } from './routeStrings';
 import { ItemsPage } from './pages/ItemsPage';
 import { ItemPage } from './pages/item/_ItemPage';
 import { CompaniesPage } from './pages/CompaniesPage';
@@ -49,59 +50,77 @@ const App = (): ReactElement => {
 
   return (
     <ApolloProvider client={client}>
-      <Router>
+      <BrowserRouter>
         <ScrollToTop />
         <Layout>
           <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
           <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
             <AppShellHeader />
-            <Switch>
+            <Routes>
               <Route
-                path={Routes.Clothing_Shells__Clothing_Shell + Routes.Var_Id}
-                component={ClothingShellPage}
+                path={
+                  RouteStrings.Clothing_Shells__Clothing_Shell +
+                  RouteStrings.Var_Id
+                }
+                element={ClothingShellPage}
               />
               <Route
-                path={Routes.Items__Clothing__Item + Routes.Var_Id}
-                component={ItemPage}
+                path={RouteStrings.Items__Clothing__Item + RouteStrings.Var_Id}
+                element={ItemPage}
               />
               <Route
-                path={Routes.Companies__Company + Routes.Var_Id}
-                component={CompanyPage}
+                path={RouteStrings.Companies__Company + RouteStrings.Var_Id}
+                element={CompanyPage}
               />
               <Route
-                path={Routes.Heuristic_Items__Clothing__Item + Routes.Var_Id}
-                component={HeuristicItemPage}
+                path={
+                  RouteStrings.Heuristic_Items__Clothing__Item +
+                  RouteStrings.Var_Id
+                }
+                element={HeuristicItemPage}
               />
               <Route
-                path={Routes.Clothing_Shells}
-                component={ClothingShellsPage}
-              />
-              <Route path={Routes.Fabric_Layers} component={FabricLayersPage} />
-              <Route path={Routes.Items} component={ItemsPage} />
-              <Route path={Routes.Companies} component={CompaniesPage} />
-              <Route path={Routes.Body_Segments} component={BodySegmentsPage} />
-              <Route path={Routes.Base_Colours} component={BaseColoursPage} />
-              <Route path={Routes.Mask_Shapes} component={MaskShapesPage} />
-              <Route path={Routes.Countries} component={CountriesPage} />
-              <Route path={Routes.Languages} component={LanguagesPage} />
-              <Route path={Routes.Fabric_Types} component={FabricTypesPage} />
-              <Route path={Routes.Materials} component={MaterialsPage} />
-              <Route path={Routes.Other_Enums} component={OtherEnumsPage} />
-              <Route
-                path={Routes.Heuristic_Items}
-                component={HeuristicItemsPage}
+                path={RouteStrings.Clothing_Shells}
+                element={ClothingShellsPage}
               />
               <Route
-                path={Routes.Localisations}
-                component={LocalisationsPage}
+                path={RouteStrings.Fabric_Layers}
+                element={FabricLayersPage}
               />
-              <Route path={Routes.Users} component={UsersPage} />
-              <Route path={Routes.Home} component={HomePage} />
-              <Route path="*" component={Exception404Page} />
-            </Switch>
+              <Route path={RouteStrings.Items} element={ItemsPage} />
+              <Route path={RouteStrings.Companies} element={CompaniesPage} />
+              <Route
+                path={RouteStrings.Body_Segments}
+                element={BodySegmentsPage}
+              />
+              <Route
+                path={RouteStrings.Base_Colours}
+                element={BaseColoursPage}
+              />
+              <Route path={RouteStrings.Mask_Shapes} element={MaskShapesPage} />
+              <Route path={RouteStrings.Countries} element={CountriesPage} />
+              <Route path={RouteStrings.Languages} element={LanguagesPage} />
+              <Route
+                path={RouteStrings.Fabric_Types}
+                element={FabricTypesPage}
+              />
+              <Route path={RouteStrings.Materials} element={MaterialsPage} />
+              <Route path={RouteStrings.Other_Enums} element={OtherEnumsPage} />
+              <Route
+                path={RouteStrings.Heuristic_Items}
+                element={HeuristicItemsPage}
+              />
+              <Route
+                path={RouteStrings.Localisations}
+                element={LocalisationsPage}
+              />
+              <Route path={RouteStrings.Users} element={UsersPage} />
+              <Route path={RouteStrings.Home} element={HomePage} />
+              <Route path="*" element={Exception404Page} />
+            </Routes>
           </Layout>
         </Layout>
-      </Router>
+      </BrowserRouter>
     </ApolloProvider>
   );
 };

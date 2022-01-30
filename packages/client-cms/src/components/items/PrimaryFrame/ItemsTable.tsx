@@ -2,7 +2,7 @@ import React from 'react';
 import { DataState } from '@joshuarobs/clothing-framework/build/enums';
 import { Table, Typography, Button, Avatar, Badge, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
-import { Routes } from '../../../routes';
+import { RouteStrings } from '../../../routeStrings';
 import { gql, useQuery } from '@apollo/client';
 import { addKeysToArrayObjects } from '../../../utils/addKeysToArrayObjects';
 import { Get_Items_For_Items_Table_Latest } from '../../../queries/items/getItemsForItemsTableLatest';
@@ -78,12 +78,10 @@ const columns = [
       // const name = mainData ? mainData.name : null;
 
       // Calculate any errors and whether to show an error icon or not
-      const errors: QuickErrorSetItemsPage = generateErrorsForItemsListPage(
-        record
-      );
-      const errorDivs: QuickErrorSetMessagesItemsPage = generateElementsListFromErrorsItemPage(
-        errors
-      );
+      const errors: QuickErrorSetItemsPage =
+        generateErrorsForItemsListPage(record);
+      const errorDivs: QuickErrorSetMessagesItemsPage =
+        generateElementsListFromErrorsItemPage(errors);
       const numErrors = getNumberOfQuickErrorsInSet(errorDivs);
       console.log('errors:', errors);
       // console.log('errorDivs:', errorDivs);
@@ -128,7 +126,7 @@ const columns = [
 
       return (
         <Link
-          to={`${Routes.Items__Clothing__Item}/${record.id}?rev=${revision}`}
+          to={`${RouteStrings.Items__Clothing__Item}/${record.id}?rev=${revision}`}
         >
           <span
             style={{
@@ -159,7 +157,7 @@ const columns = [
 
       if (brand) {
         return (
-          <Link to={`${Routes.Companies__Company}/${brandId}`}>
+          <Link to={`${RouteStrings.Companies__Company}/${brandId}`}>
             {brandName}
           </Link>
         );

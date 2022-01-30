@@ -4,12 +4,12 @@ import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import {
   DataChangeType,
   DataState,
-} from '@joshuarobs/clothing-framework/build/enums';
+} from '@joshuarobs/clothing-framework/src/enums';
 import { StateFrame } from '../../common/frames/StateFrame/_StateFrame';
 import { message } from 'antd';
 import { Common } from '../../../strings';
-import { useHistory } from 'react-router-dom';
-import { Routes } from '../../../routes';
+import { useNavigate } from 'react-router-dom';
+import { RouteStrings } from '../../../routeStrings';
 import { clothing_shell_maindata_revisions } from '../../../utils/gql-interfaces/clothing_shell_maindata_revisions';
 import { Get_Clothing_Shell_Maindata_Revision_Changes_Promos_Only } from '../../../queries/clothing_shell_maindata_revision_changes/getClothingShellMaindataRevisionChangesPromosOnly';
 import { Update_Clothing_Shell_Updated_At } from '../../../queries/clothing_shells/updateClothingShellUpdatedAt';
@@ -44,15 +44,13 @@ function ClothingShellStateFrame({
   refetchRevisions = () => {},
   refetchBaseData = () => {},
 }: ClothingShellStateFrameProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   // console.log("STATE - history:", history);
 
   // console.log("itemMaindataRevision:", itemMaindataRevision);
 
-  const [
-    currentRevision,
-    setCurrentRevision,
-  ] = useState<clothing_shell_maindata_revisions | null>(null);
+  const [currentRevision, setCurrentRevision] =
+    useState<clothing_shell_maindata_revisions | null>(null);
   useEffect(() => {
     setCurrentRevision(clothingShellMaindataRevision);
     // }, [paramsRevision]);
@@ -165,8 +163,8 @@ function ClothingShellStateFrame({
         insertMaindataRevisionChange({ variables }).then(() => {
           const { revision } = insert_clothing_shell_maindata_one;
           const { clothing_shell_id } = revision;
-          history.push(
-            `${Routes.Clothing_Shells__Clothing_Shell}/${clothing_shell_id}?rev=${revision.revision}`
+          navigate(
+            `${RouteStrings.Clothing_Shells__Clothing_Shell}/${clothing_shell_id}?rev=${revision.revision}`
           );
           history.go(0);
           message
@@ -537,22 +535,25 @@ function ClothingShellStateFrame({
   );
 
   // Find each of the state's revision
-  const changeToDevelopment = getClothingShellMaindataRevisionChangesPromosOnly.find(
-    // @ts-ignore
-    ({ to_state }) => to_state === DataState.Development
-  );
+  const changeToDevelopment =
+    getClothingShellMaindataRevisionChangesPromosOnly.find(
+      // @ts-ignore
+      ({ to_state }) => to_state === DataState.Development
+    );
   const changeToReview = getClothingShellMaindataRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Review
   );
-  const changeToProduction = getClothingShellMaindataRevisionChangesPromosOnly.find(
-    // @ts-ignore
-    ({ to_state }) => to_state === DataState.Production
-  );
-  const changeToRetired = getClothingShellMaindataRevisionChangesPromosOnly.find(
-    // @ts-ignore
-    ({ to_state }) => to_state === DataState.Retired
-  );
+  const changeToProduction =
+    getClothingShellMaindataRevisionChangesPromosOnly.find(
+      // @ts-ignore
+      ({ to_state }) => to_state === DataState.Production
+    );
+  const changeToRetired =
+    getClothingShellMaindataRevisionChangesPromosOnly.find(
+      // @ts-ignore
+      ({ to_state }) => to_state === DataState.Retired
+    );
 
   // console.log("changeToDevelopment:", changeToDevelopment);
   // console.log("changeToReview:", changeToReview);

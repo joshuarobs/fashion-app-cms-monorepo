@@ -13,8 +13,8 @@ import {
   Table_Descriptions,
 } from '../../../strings';
 import { gql, useMutation } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
-import { Routes } from '../../../routes';
+import { useNavigate } from 'react-router-dom';
+import { RouteStrings } from '../../../routeStrings';
 import { NewEntryModal } from './NewEntryModal';
 import { ClothingShellsPageIcon } from '../../common/icons/page-icons/ClothingShellsPageIcon';
 import { Insert_Clothing_Shell_Count } from '../../../queries/clothing_shell_counts/insertClothingShellCount';
@@ -34,7 +34,7 @@ function HeaderFrame() {
   const [newName, setNewName] = useState(null);
   const [itemType, setItemType] = useState(ItemType.Clothing);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   // Hooks for GraphQL queries
   const [
     insertClothingShellCount,
@@ -76,23 +76,21 @@ function HeaderFrame() {
     onCompleted({ insert_clothing_segment_data_one }) {},
   });
 
-  const [
-    newClothingShell,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation(Insert_Empty_Clothing_Shell, {
-    async onCompleted({ insert_clothing_shells_one }) {
-      console.log('insert_clothing_shells_one:', insert_clothing_shells_one);
-      await insertClothingShellCount({
-        variables: {
-          clothingShellId: insert_clothing_shells_one.id,
-        },
-      });
-      history.push(
-        `${Routes.Clothing_Shells__Clothing_Shell}/${insert_clothing_shells_one.id}`
-      );
-      message.success({ content: Common.Created_New_Clothing_Shell, key });
-    },
-  });
+  const [newClothingShell, { loading: mutationLoading, error: mutationError }] =
+    useMutation(Insert_Empty_Clothing_Shell, {
+      async onCompleted({ insert_clothing_shells_one }) {
+        console.log('insert_clothing_shells_one:', insert_clothing_shells_one);
+        await insertClothingShellCount({
+          variables: {
+            clothingShellId: insert_clothing_shells_one.id,
+          },
+        });
+        navigate(
+          `${RouteStrings.Clothing_Shells__Clothing_Shell}/${insert_clothing_shells_one.id}`
+        );
+        message.success({ content: Common.Created_New_Clothing_Shell, key });
+      },
+    });
 
   if (errorInsertClothingShellCount) {
     console.log(

@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons';
 import { Table, Divider, Tag, Button, Avatar, Tooltip, Typography } from 'antd';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { Routes } from '../../../routes';
+import { RouteStrings } from '../../../routeStrings';
 import dayjs from 'dayjs';
 import { TableType } from './TableType';
 import { DateLastUpdatedAgo } from '../DateLastUpdatedAgo';
@@ -58,7 +58,9 @@ function CompaniesTable({
       render: (text: string, record: any) => {
         // console.log('record:', record);
         return (
-          <Link to={Routes.Companies__Company + '/' + record.id}>{text}</Link>
+          <Link to={RouteStrings.Companies__Company + '/' + record.id}>
+            {text}
+          </Link>
         );
       },
     },

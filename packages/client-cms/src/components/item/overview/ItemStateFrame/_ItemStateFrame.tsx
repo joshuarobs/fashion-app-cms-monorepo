@@ -7,10 +7,10 @@ import {
 import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
 import { message } from 'antd';
 import { Common } from '../../../../strings';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Update_Item_Maindata_Revision_State } from '../../../../queries/item_maindata_revisions/updateItemMaindataRevisionState';
 import { Insert_Item_Maindata_Revision_Change } from '../../../../queries/item_maindata_revision_changes/insertItemMaindataRevisionChange';
-import { Routes } from '../../../../routes';
+import { RouteStrings } from '../../../../routeStrings';
 import { Insert_Item_Maindata_Revision } from '../../../../queries/item_maindata_revisions/insertItemMaindataRevision';
 import { Insert_Item_Maindata } from '../../../../queries/item_maindata/insertItemMaindata';
 import { Update_Item_Updated_At } from '../../../../queries/items/updateItemUpdatedAt';
@@ -54,16 +54,14 @@ function ItemStateFrame({
   refetchLatestActivity = () => {},
 }: // translations
 ItemStateFrameProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   // console.log("STATE - history:", history);
 
   // console.log('itemMaindataRevision:', itemMaindataRevision);
   console.log('ItemStateFrame!!!');
 
-  const [
-    currentRevision,
-    setCurrentRevision,
-  ] = useState<item_maindata_revisions | null>(null);
+  const [currentRevision, setCurrentRevision] =
+    useState<item_maindata_revisions | null>(null);
   useEffect(() => {
     setCurrentRevision(itemMaindataRevision);
     // }, [paramsRevision]);
@@ -214,8 +212,8 @@ ItemStateFrameProps) {
         // `Get_Revisions_For_Item_BB`. Might as well have both since it works
         await refetchRevisions();
         const { item_id, revision } = insertItemMaindataRevisionItemsPage;
-        history.push(
-          `${Routes.Items__Clothing__Item}/${item_id}?rev=${revision}`
+        navigate(
+          `${RouteStrings.Items__Clothing__Item}/${item_id}?rev=${revision}`
         );
         // history.go(0);
         message
@@ -402,9 +400,8 @@ ItemStateFrameProps) {
   };
 
   const { getItemMaindataRevisionChangesPromosOnly } = dataRevisionChanges;
-  const {
-    getItemMaindataRevisionByRevAndItemIdBarebones,
-  } = dataMaindataRevisionBB;
+  const { getItemMaindataRevisionByRevAndItemIdBarebones } =
+    dataMaindataRevisionBB;
 
   console.log(
     'item_maindata_revision_changes:',

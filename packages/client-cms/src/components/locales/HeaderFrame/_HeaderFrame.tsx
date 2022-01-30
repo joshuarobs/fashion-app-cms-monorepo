@@ -20,8 +20,8 @@ import {
 } from 'antd';
 import { App_Shell, Common, Table_Descriptions } from '../../../strings';
 import { gql, useMutation } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
-import { Routes } from '../../../routes';
+import { useNavigate } from 'react-router-dom';
+import { RouteStrings } from '../../../routeStrings';
 import { NewEntryModal } from './NewEntryModal';
 import { LocalesPageIcon } from '../../common/icons/page-icons/LocalesPageIcon';
 
@@ -42,21 +42,19 @@ function HeaderFrame() {
     }
   `;
 
-  const history = useHistory();
+  const navigate = useNavigate();
   // Hooks for GraphQL queries
-  const [
-    newClothingShell,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation(NEW_CLOTHING_SHELL, {
-    onCompleted({ insert_clothing_shells_one }) {
-      console.log('insert_clothing_shells_one:', insert_clothing_shells_one);
-      // setOriginalClothingShellId(clothing_shell_id);
-      history.push(
-        `${Routes.Clothing_Shells__Clothing_Shell}/${insert_clothing_shells_one.id}`
-      );
-      message.success({ content: Common.Created_New_Clothing_Shell, key });
-    },
-  });
+  const [newClothingShell, { loading: mutationLoading, error: mutationError }] =
+    useMutation(NEW_CLOTHING_SHELL, {
+      onCompleted({ insert_clothing_shells_one }) {
+        console.log('insert_clothing_shells_one:', insert_clothing_shells_one);
+        // setOriginalClothingShellId(clothing_shell_id);
+        navigate(
+          `${RouteStrings.Clothing_Shells__Clothing_Shell}/${insert_clothing_shells_one.id}`
+        );
+        message.success({ content: Common.Created_New_Clothing_Shell, key });
+      },
+    });
 
   const inputRef = useRef(null);
 

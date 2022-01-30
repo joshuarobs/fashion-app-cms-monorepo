@@ -2,7 +2,7 @@ import React from 'react';
 import { WarningFilled } from '@ant-design/icons';
 import { Table, Typography, Avatar, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
-import { Routes } from '../../../routes';
+import { RouteStrings } from '../../../routeStrings';
 import { red } from '@ant-design/colors';
 import { addKeysToArrayObjects } from '../../../utils/addKeysToArrayObjects';
 // import { HEURISTIC_ITEMS } from "@joshuarobs/clothing-framework/src/heuristic-items";
@@ -66,7 +66,9 @@ const columns = [
       );
 
       return (
-        <Link to={`${Routes.Heuristic_Items__Clothing__Item}/${record.id}`}>
+        <Link
+          to={`${RouteStrings.Heuristic_Items__Clothing__Item}/${record.id}`}
+        >
           <span
             style={{
               marginRight: 4,

@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { PageHeader, Typography } from 'antd';
-import { Routes } from '../../routes';
+import { RouteStrings } from '../../routeStrings';
 import { Link, useLocation } from 'react-router-dom';
 import { HeaderFrameTabs } from '../common/HeaderFrameTabs';
 import { getBaseRouteWithoutForwardSlash } from '../../utils/getBaseRouteWithoutForwardSlash';
@@ -20,19 +20,19 @@ const { Text } = Typography;
 
 const routes = [
   {
-    path: Routes.Items__Clothing,
+    path: RouteStrings.Items__Clothing,
     breadcrumbName: 'Items',
   },
   {
-    path: Routes.Items__Clothing + '/1',
+    path: RouteStrings.Items__Clothing + '/1',
     breadcrumbName: 'Clothes',
   },
   {
-    path: Routes.Items__Clothing + '/2',
+    path: RouteStrings.Items__Clothing + '/2',
     breadcrumbName: 'Outerwear',
   },
   {
-    path: Routes.Items__Clothing + '/3',
+    path: RouteStrings.Items__Clothing + '/3',
     breadcrumbName: 'Shoes',
   },
   {
@@ -56,11 +56,8 @@ function HeaderFrame({ data }: HeaderFrameProps) {
   const currentTab = getCurrentPageTabName(pathname, 5);
   console.log('currentTab:', currentTab);
 
-  const {
-    id,
-    item_maindata_revisions,
-    item_translation_revisions_aggregate,
-  } = data;
+  const { id, item_maindata_revisions, item_translation_revisions_aggregate } =
+    data;
 
   const name =
     item_maindata_revisions[0] && item_maindata_revisions[0].item_maindata[0]
@@ -91,8 +88,7 @@ function HeaderFrame({ data }: HeaderFrameProps) {
       }}
       title={name ? name : <Text type="danger">{Common.No_Set_Name}</Text>}
       avatar={{
-        src:
-          'https://pm1.narvii.com/6923/24e9471327fea2908547acc8593d945e06b7e1e9r1-620-435v2_128.jpg',
+        src: 'https://pm1.narvii.com/6923/24e9471327fea2908547acc8593d945e06b7e1e9r1-620-435v2_128.jpg',
         shape: 'square',
       }}
       subTitle={'id: ' + id}
@@ -103,7 +99,7 @@ function HeaderFrame({ data }: HeaderFrameProps) {
           currentTab={currentTab}
           tabs={[
             {
-              to: `${Routes.Items__Clothing__Item}/${id}?rev=${latestRevision}`,
+              to: `${RouteStrings.Items__Clothing__Item}/${id}?rev=${latestRevision}`,
               icon: <OverviewTabIcon />,
               name: 'Overview',
               key: 1,
@@ -116,23 +112,23 @@ function HeaderFrame({ data }: HeaderFrameProps) {
             //   key: getBaseRouteWithoutForwardSlash(ROUTES.BODY_SEGMENTS)
             // },
             {
-              to: `${Routes.Items__Clothing__Item}/${id}${Routes.Localisations}`,
+              to: `${RouteStrings.Items__Clothing__Item}/${id}${RouteStrings.Localisations}`,
               icon: <LocalisationsTabIcon />,
               name: 'Localisations',
               count: item_translation_revisions_aggregate.aggregate.count,
-              key: getBaseRouteWithoutForwardSlash(Routes.Localisations),
+              key: getBaseRouteWithoutForwardSlash(RouteStrings.Localisations),
             },
             {
-              to: `${Routes.Items__Clothing__Item}/${id}${Routes.Change_History}`,
+              to: `${RouteStrings.Items__Clothing__Item}/${id}${RouteStrings.Change_History}`,
               icon: <ChangeHistoryTabIcon />,
               name: 'Change History',
-              key: getBaseRouteWithoutForwardSlash(Routes.Change_History),
+              key: getBaseRouteWithoutForwardSlash(RouteStrings.Change_History),
             },
             {
-              to: `${Routes.Items__Clothing__Item}/${id}${Routes.Settings}`,
+              to: `${RouteStrings.Items__Clothing__Item}/${id}${RouteStrings.Settings}`,
               icon: <SettingsTabIcon />,
               name: 'Settings',
-              key: getBaseRouteWithoutForwardSlash(Routes.Settings),
+              key: getBaseRouteWithoutForwardSlash(RouteStrings.Settings),
             },
           ]}
         />

@@ -1,5 +1,5 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
 import {
   DataChangeType,
@@ -73,7 +73,7 @@ LocalisationFrameProps) {
   // console.log("translationRevision:", translationRevision);
   // console.log("TRANSLATION DRAFT:", translationDraft);
   // console.log("TRANSLATION RELEASE:", translationRelease);
-  const history = useHistory();
+  const navigate = useNavigate();
   const localisationsUrl = getSomePartsOfUrl(location.pathname, 6);
 
   console.log('paramsRevision:', paramsRevision);
@@ -433,12 +433,12 @@ LocalisationFrameProps) {
 
     if (uniqueRevisions.length > 1) {
       const prevRevision = uniqueRevisions[1];
-      history.push(
+      navigate(
         `${location.pathname}?rev=${prevRevision.revision}&release=true`
       );
       // history.go(0);
     } else {
-      history.push(localisationsUrl);
+      navigate(localisationsUrl);
       // history.go(0);
     }
   };
@@ -475,7 +475,7 @@ LocalisationFrameProps) {
 
   const onTabClick = (key: any) => {
     // history.push(`${location.pathname}?id=${paramsRevisionId}&release=${key}`);
-    history.push(`${location.pathname}?rev=${paramsRevision}&release=${key}`);
+    navigate(`${location.pathname}?rev=${paramsRevision}&release=${key}`);
   };
 
   let releaseTag = <div />;
@@ -544,7 +544,7 @@ LocalisationFrameProps) {
     // most latest version (i.e. the release version)
     const is_release =
       item_translations.length > 0 ? item_translations[0].is_release : false;
-    history.push(`${location.pathname}?rev=${revision}&release=${is_release}`);
+    navigate(`${location.pathname}?rev=${revision}&release=${is_release}`);
   };
 
   // Whether or not the content frame (it's text fields, buttons, inputs,

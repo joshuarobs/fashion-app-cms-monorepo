@@ -5,14 +5,14 @@ import {
   ItemType,
 } from '@joshuarobs/clothing-framework/build/enums';
 import { useMutation, useQuery } from '@apollo/client';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import qs from 'qs';
 import { OverviewMainFrame } from '../../components/item/overview/OverviewMainFrame';
 import { ErrorPleaseFixThis } from '../../components/common/localisation/ErrorPleaseFixThis';
 import { Insert_Item_Maindata_Revision } from '../../queries/item_maindata_revisions/insertItemMaindataRevision';
 import { NewEntryModalForItemRelatedEntry } from '../../components/items/HeaderFrame/NewEntryModalForItemRelatedEntry';
 import { Insert_Item_Maindata_Barebones } from '../../queries/item_maindata/insertItemMaindataBarebones';
-import { Routes } from '../../routes';
+import { RouteStrings } from '../../routeStrings';
 import { message } from 'antd';
 import { Common } from '../../strings';
 import { Insert_Item_Maindata_Revision_Change } from '../../queries/item_maindata_revision_changes/insertItemMaindataRevisionChange';
@@ -36,8 +36,8 @@ function OverviewTab({
 }: OverviewTabProps) {
   const URL_NUMBER_OF_PARTS = 5;
 
+  const navigate = useNavigate();
   const location = useLocation();
-  const history = useHistory();
   // console.error("location:", location.pathname);
 
   const optionalParams = qs.parse(location.search, { ignoreQueryPrefix: true });
@@ -109,14 +109,17 @@ function OverviewTab({
       insertItemMaindataRevisionChange({ variables }).then(() => {
         const { revision } = insert_item_maindata_one;
         const { item_id } = revision;
-        history.replace(`${Routes.Items__Clothing__Item}/${item_id}?rev=1`);
+        navigate(`${RouteStrings.Items__Clothing__Item}/${item_id}?rev=1`, {
+          replace: true,
+        });
         message
           .success(
             { content: Common.Item_Related.Added_New_Maindata_Revision, key },
             2
           )
           .then();
-        history.go(0);
+        // history.go(0);
+        navigate(0);
       });
     },
   });
@@ -153,7 +156,8 @@ function OverviewTab({
           2
         )
         .then();
-      history.go(0);
+      // history.go(0);
+      navigate(0);
     },
   });
 
@@ -164,9 +168,8 @@ function OverviewTab({
   if (errorItemMaindata)
     return <div>Error! ${JSON.stringify(errorItemMaindata, null, 2)}</div>;
 
-  const {
-    getItemMaindataRevisionWithItemMaindataByRevAndItemId,
-  } = dataItemMaindata;
+  const { getItemMaindataRevisionWithItemMaindataByRevAndItemId } =
+    dataItemMaindata;
   console.log('dataItemMaindata:', dataItemMaindata);
   const itemMaindataRevision =
     getItemMaindataRevisionWithItemMaindataByRevAndItemId[0];

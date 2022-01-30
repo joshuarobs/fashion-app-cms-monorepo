@@ -13,7 +13,7 @@ import {
   DataChangeType,
   DataState,
 } from '@joshuarobs/clothing-framework/build/enums';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ItemStateFrame } from './ItemStateFrame/_ItemStateFrame';
 import { Update_Item_Maindata_Revision_State } from '../../../queries/item_maindata_revisions/updateItemMaindataRevisionState';
 import { Update_Item_Maindata } from '../../../queries/item_maindata/updateItemMaindata';
@@ -51,7 +51,7 @@ function OverviewMainFrame({
   refetchRevisions,
   refetchItemBaseData,
 }: OverviewMainFrameProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   // console.log("item:", item);
   console.log('!!!itemMaindataRevision:', itemMaindataRevision);
   // console.log('revisionDraft:', revisionDraft);
@@ -193,7 +193,7 @@ function OverviewMainFrame({
             2
           )
           .then();
-        history.go(0);
+        navigate(0);
       });
     },
   });
@@ -395,7 +395,7 @@ function OverviewMainFrame({
       // We don't need this when we don't edit the selected clothing shell,
       // and the UI automatically updates without needing a refresh
       if (variables.countsId) {
-        history.go(0);
+        navigate(0);
       }
       // history.go(0);
       // if (countsId) {

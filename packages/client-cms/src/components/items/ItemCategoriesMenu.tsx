@@ -1,23 +1,23 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Layout, Menu, Tabs } from 'antd';
 import { Framework_Items } from '../../strings';
 import { ClothesTabMenu } from './ClothesTabMenu';
 import { AccessoriesTabMenu } from './AccessoriesTabMenu';
-import { Routes } from '../../routes';
+import { RouteStrings } from '../../routeStrings';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
 
 function ItemCategoriesMenu() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const onChange = (key: string) => {
     // console.log(key);
     if (key === Framework_Items.Types.Clothes) {
-      history.replace(Routes.Items__Clothing);
+      navigate(RouteStrings.Items__Clothing, { replace: true });
     } else if (key === Framework_Items.Types.Accessories) {
-      history.replace(Routes.Items__Accessories);
+      navigate(RouteStrings.Items__Accessories, { replace: true });
     }
   };
 

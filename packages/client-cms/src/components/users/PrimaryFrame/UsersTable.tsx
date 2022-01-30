@@ -3,7 +3,7 @@ import { Table, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useQuery, gql } from '@apollo/client';
 import { addKeysToArrayObjects } from '../../../utils/addKeysToArrayObjects';
-import { Routes } from '../../../routes';
+import { RouteStrings } from '../../../routeStrings';
 import { Link } from 'react-router-dom';
 import { Get_Staff_Users } from '../../../queries/staff_users/getStaffUsers';
 
@@ -118,7 +118,7 @@ function UsersTable({ showActualValues }: UsersTableProps) {
       render: () => {
         return (
           <Link
-            to={Routes.Items__Clothing__Item}
+            to={RouteStrings.Items__Clothing__Item}
             role={size}
             style={{
               marginLeft: 8,

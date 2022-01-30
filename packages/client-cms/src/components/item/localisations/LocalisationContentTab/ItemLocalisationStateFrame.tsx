@@ -7,7 +7,7 @@ import {
 import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
 import { message } from 'antd';
 import { Common } from '../../../../strings';
-import { useHistory } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Get_Item_Translation_Revision_Changes_Promos_Only } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesPromosOnly';
 import { Insert_Item_Translation_Promote_To_Review } from '../../../../queries/item_translations/insertItemTranslationPromoteToReview';
 import { Update_Item_Translation_Revision_State_Promote_To_Production } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionStatePromoteToProduction';
@@ -36,7 +36,8 @@ function ItemLocalisationStateFrame({
   refetchUniqueRevisions,
   uniqueRevisions,
 }: ItemLocalisationStateFrameProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
   console.log('STATE - history:', history);
   console.log('ItemLocalisationStateFrame > currentTab:', currentTab);
 
@@ -138,9 +139,8 @@ function ItemLocalisationStateFrame({
       //   userId: 1
       // };
       // insertItemTranslationRevisionChangeActUpdate({ variables }).then(r => {});
-      history.push(
-        history.location.pathname +
-          `?rev=${currentRevision.revision}&release=true`
+      navigate(
+        location.pathname + `?rev=${currentRevision.revision}&release=true`
       );
       message
         .success({
@@ -526,9 +526,8 @@ function ItemLocalisationStateFrame({
     await insertItemTranslationRevisionPromoteNewRevision({ variables });
 
     // Redirect to the next revision
-    history.push(
-      history.location.pathname +
-        `?rev=${currentRevision.revision + 1}&release=false`
+    navigate(
+      location.pathname + `?rev=${currentRevision.revision + 1}&release=false`
     );
     message.success(
       {
@@ -546,9 +545,8 @@ function ItemLocalisationStateFrame({
       <div>Error! ${JSON.stringify(errorPromoTranslationRevs, null, 2)}</div>
     );
 
-  const {
-    getItemTranslationRevisionChangesPromosOnly,
-  } = dataPromoTranslationRevs;
+  const { getItemTranslationRevisionChangesPromosOnly } =
+    dataPromoTranslationRevs;
 
   console.log(
     'getItemTranslationRevisionChangesPromosOnly:',

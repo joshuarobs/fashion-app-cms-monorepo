@@ -1,15 +1,9 @@
 import React from 'react';
 import { HeaderFrame } from '../../components/item/HeaderFrame';
 import { Footer } from '../../components/app-shell/Footer';
-import {
-  Route,
-  Switch,
-  useParams,
-  useRouteMatch,
-  Link,
-} from 'react-router-dom';
+import { Route, Routes, useParams, Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { Routes } from '../../routes';
+import { RouteStrings } from '../../routeStrings';
 import { pageStyles } from '../pageStyles';
 import { OverviewTab } from './OverviewTab';
 import { LocalisationsTab } from './LocalisationsTab';
@@ -23,7 +17,6 @@ function ItemPage() {
   // The `path` lets us build <Route> paths that are
   // relative to the parent route, while the `url` lets
   // us build relative links.
-  const { path } = useRouteMatch();
 
   // @ts-ignore
   const { id } = useParams();
@@ -35,7 +28,7 @@ function ItemPage() {
     data: dataBaseData,
     refetch: refetchBaseData,
   } = useQuery(Get_Item_Base_Data_By_Pk, {
-    variables: { id: Number.parseInt(id) },
+    variables: { id: Number.parseInt(String(id)) },
   });
 
   const {
@@ -44,7 +37,7 @@ function ItemPage() {
     data: dataRevisions,
     refetch: refetchRevisions,
   } = useQuery(Get_Revisions_For_Item_BB, {
-    variables: { id: Number.parseInt(id) },
+    variables: { id: Number.parseInt(String(id)) },
   });
 
   if (loadingRevisions || loadingBaseData) return <div />;
@@ -72,7 +65,7 @@ function ItemPage() {
         title="404"
         subTitle={`Sorry, an item with id "${id}" does not exist.`}
         extra={
-          <Link to={Routes.Items__Clothing__Item}>
+          <Link to={RouteStrings.Items__Clothing__Item}>
             <Button type="primary">Back to Items</Button>
           </Link>
         }
@@ -88,8 +81,8 @@ function ItemPage() {
       <HeaderFrame data={headerData} />
       {/* @ts-ignore */}
       <div style={pageStyles.content}>
-        <Switch>
-          <Route exact path={path}>
+        <Routes>
+          <Route path={''}>
             <OverviewTab
               item={headerData}
               uniqueRevisions={uniqueRevisions}
@@ -100,16 +93,16 @@ function ItemPage() {
           {/*<Route path={path + Routes.BODY_SEGMENTS}>*/}
           {/*  <ColumnOfFrames>Body Segments</ColumnOfFrames>*/}
           {/*</Route>*/}
-          <Route path={path + Routes.Localisations}>
+          <Route path={RouteStrings.Localisations}>
             <LocalisationsTab />
           </Route>
-          <Route path={path + Routes.Change_History}>
+          <Route path={RouteStrings.Change_History}>
             <ChangeHistoryTab />
           </Route>
-          <Route path={path + Routes.Settings}>
+          <Route path={RouteStrings.Settings}>
             <ItemSettingsTab headerData={headerData} />
           </Route>
-        </Switch>
+        </Routes>
       </div>
       <Footer />
     </>

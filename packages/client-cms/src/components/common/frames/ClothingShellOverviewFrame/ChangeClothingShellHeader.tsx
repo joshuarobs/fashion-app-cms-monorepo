@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, Button, Col, Divider, Row, Tooltip, Typography } from 'antd';
 import { ClusterOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import { Routes } from '../../../../routes';
+import { RouteStrings } from '../../../../routeStrings';
 import { clothing_shells } from '../../../../utils/gql-interfaces/clothing_shells';
 import { Common } from '../../../../strings';
 import { RedWarningFilledIcon } from '../../icons/RedWarningFilledIcon';
@@ -120,7 +120,7 @@ function ChangeClothingShellHeader({
           </Tooltip>
           <Link
             to={
-              Routes.Clothing_Shells__Clothing_Shell +
+              RouteStrings.Clothing_Shells__Clothing_Shell +
               '/' +
               clothingShell.id +
               '?rev=' +

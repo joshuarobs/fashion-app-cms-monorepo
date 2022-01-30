@@ -9,7 +9,7 @@ import {
   useRouteMatch,
 } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { Routes } from '../../routes';
+import { RouteStrings } from '../../routeStrings';
 import { ColumnOfFrames } from '../../components/common/frames/ColumnOfFrames';
 import { pageStyles } from '../pageStyles';
 import { OverviewTab } from './OverviewTab';
@@ -27,7 +27,7 @@ function CompanyPage() {
   console.log('id:', id);
 
   const { loading, error, data } = useQuery(Get_Company, {
-    variables: { id: Number.parseInt(id) },
+    variables: { id: Number.parseInt(String(id)) },
   });
 
   if (loading) return <div />;
@@ -48,7 +48,7 @@ function CompanyPage() {
         title="404"
         subTitle={`Sorry, a company with id "${id}" does not exist.`}
         extra={
-          <Link to={Routes.Companies__Company}>
+          <Link to={RouteStrings.Companies__Company}>
             <Button type="primary">Back to Companies</Button>
           </Link>
         }
@@ -68,19 +68,19 @@ function CompanyPage() {
           <Route exact path={path}>
             <OverviewTab company={company} />
           </Route>
-          <Route exact path={path + Routes.Items}>
+          <Route exact path={path + RouteStrings.Items}>
             <ItemsTab />
           </Route>
-          <Route path={path + Routes.Collections}>
+          <Route path={path + RouteStrings.Collections}>
             <ColumnOfFrames>Collections</ColumnOfFrames>
           </Route>
-          <Route path={path + Routes.Localisations}>
+          <Route path={path + RouteStrings.Localisations}>
             <LocalisationsTab />
           </Route>
-          <Route exact path={path + Routes.Change_History}>
+          <Route exact path={path + RouteStrings.Change_History}>
             <ColumnOfFrames>Change history</ColumnOfFrames>
           </Route>
-          <Route exact path={path + Routes.Settings}>
+          <Route exact path={path + RouteStrings.Settings}>
             <ColumnOfFrames>Settings</ColumnOfFrames>
           </Route>
         </Switch>

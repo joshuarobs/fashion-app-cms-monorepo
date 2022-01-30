@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { message } from 'antd';
 import { Common, Popup_New_Entry } from '../../strings';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import qs from 'qs';
 import { Get_Clothing_Shell_Maindata_Revision_By_Rev_And_Clothing_Shell_Id } from '../../queries/clothing_shell_maindata_revisions/getClothingShellMaindataRevisionByRevAndClothingShellId';
 import {
@@ -14,7 +14,7 @@ import { NewEntryModalForItemRelatedEntry } from '../../components/items/HeaderF
 import { ErrorPleaseFixThis } from '../../components/common/localisation/ErrorPleaseFixThis';
 import { OverviewMainFrame } from '../../components/clothing-shell/overview/OverviewMainFrame';
 import { clothing_shell_maindata } from '../../utils/gql-interfaces/clothing_shell_maindata';
-import { Routes } from '../../routes';
+import { RouteStrings } from '../../routeStrings';
 import { Insert_Clothing_Shell_Maindata_Revision_Change } from '../../queries/clothing_shell_maindata_revision_changes/insertClothingShellMaindataRevisionChange';
 import { Insert_Clothing_Shell_Maindata_Barebones } from '../../queries/clothing_shell_maindata/insertClothingShellMaindataBarebones';
 import { Insert_Clothing_Shell_Maindata_Revision } from '../../queries/clothing_shell_maindata_revisions/insertClothingShellMaindataRevision';
@@ -35,7 +35,7 @@ function OverviewTab({
   refetchClothingShellBaseData,
 }: OverviewTabProps) {
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   // console.error("location:", location.pathname);
 
   const optionalParams = qs.parse(location.search, { ignoreQueryPrefix: true });
@@ -107,14 +107,17 @@ function OverviewTab({
       insertClothingShellMaindataRevisionChange({ variables }).then(() => {
         const { revision } = insert_clothing_shell_maindata_one;
         const { item_id } = revision;
-        history.replace(`${Routes.Items__Clothing__Item}/${item_id}?rev=1`);
+        navigate(`${RouteStrings.Items__Clothing__Item}/${item_id}?rev=1`, {
+          replace: true,
+        });
         message
           .success(
             { content: Common.Item_Related.Added_New_Maindata_Revision, key },
             2
           )
           .then();
-        history.go(0);
+        // history.go(0);
+        navigate(0);
       });
     },
   });
@@ -152,7 +155,8 @@ function OverviewTab({
           2
         )
         .then();
-      history.go(0);
+      // history.go(0);
+      navigate(0);
     },
   });
 
@@ -165,9 +169,8 @@ function OverviewTab({
       <div>Error! ${JSON.stringify(errorClothingShellMaindata, null, 2)}</div>
     );
 
-  const {
-    getClothingShellMaindataRevisionByRevAndClothingShellId,
-  } = dataClothingShellMaindata;
+  const { getClothingShellMaindataRevisionByRevAndClothingShellId } =
+    dataClothingShellMaindata;
   const clothingShellMaindataRevision =
     getClothingShellMaindataRevisionByRevAndClothingShellId[0];
   console.log('clothingShellMaindataRevision:', clothingShellMaindataRevision);

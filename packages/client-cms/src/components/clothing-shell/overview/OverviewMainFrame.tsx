@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { Insert_Clothing_Shell_Maindata_Revision_Change } from '../../../queries/clothing_shell_maindata_revision_changes/insertClothingShellMaindataRevisionChange';
 import { clothing_shell_maindata_revisions } from '../../../utils/gql-interfaces/clothing_shell_maindata_revisions';
@@ -13,7 +13,10 @@ import { message } from 'antd';
 import { Common } from '../../../strings';
 import { Update_Clothing_Shell_Maindata } from '../../../queries/clothing_shell_maindata/updateClothingShellMaindata';
 import { Update_Clothing_Shell_Updated_At } from '../../../queries/clothing_shells/updateClothingShellUpdatedAt';
-import { ClothingSegmentsData, Enums } from '@joshuarobs/clothing-framework';
+import {
+  ClothingSegmentsData,
+  Enums,
+} from '@joshuarobs/clothing-framework/src';
 import { Update_Clothing_Segment_Data } from '../../../queries/clothing_segment_data/updateClothingSegmentData';
 import { ClothingSegmentDataHasChangedProps } from './ClothingSegmentDataHasChangedProps';
 import { ClothingShellStateFrame } from './ClothingShellStateFrame';
@@ -45,7 +48,7 @@ function OverviewMainFrame({
   refetchRevisions,
   refetchBaseData,
 }: OverviewMainFrameProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   // console.log("clothingShell:", clothingShell);
   console.log('revisionRelease:', revisionRelease);
 
@@ -409,7 +412,8 @@ function OverviewMainFrame({
       }
 
       if (hasChanged.default_interlining_layer_id) {
-        variables.changes.default_interlining_layer_id = default_interlining_layer_id;
+        variables.changes.default_interlining_layer_id =
+          default_interlining_layer_id;
       }
       //----------------------------------------
       // Extra - Clothing Segment Data

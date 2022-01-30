@@ -3,7 +3,7 @@ import { Layout, Row, Col, Button, Typography, Table, Avatar } from 'antd';
 
 import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
-import { Routes } from '../../../routes';
+import { RouteStrings } from '../../../routeStrings';
 import { FrameTitle } from '../typography/FrameTitle';
 import { addKeysToArrayObjects } from '../../../utils/addKeysToArrayObjects';
 import { SyncOutlined } from '@ant-design/icons';
@@ -22,7 +22,7 @@ const itemsOverviewColumns = [
       // console.log("record 1:", record);
       return (
         <Link
-          to={Routes.Items__Clothing__Item + '/' + record.item_id}
+          to={RouteStrings.Items__Clothing__Item + '/' + record.item_id}
           role={size}
         >
           <Avatar
@@ -42,7 +42,7 @@ const itemsOverviewColumns = [
       // console.log("record 2:", record);
       return (
         <Link
-          to={`${Routes.Items__Clothing__Item}/${record.item_id}?rev=${record.revision}`}
+          to={`${RouteStrings.Items__Clothing__Item}/${record.item_id}?rev=${record.revision}`}
           role={size}
         >
           {record.item_maindata[0].name}
@@ -57,7 +57,7 @@ const itemsOverviewColumns = [
       // console.log("record 2:", record);
       return (
         <Link
-          to={`${Routes.Items__Clothing__Item}/${record.item_id}?rev=${record.revision}`}
+          to={`${RouteStrings.Items__Clothing__Item}/${record.item_id}?rev=${record.revision}`}
           role={size}
         >
           {record.item_maindata[0].short_id}

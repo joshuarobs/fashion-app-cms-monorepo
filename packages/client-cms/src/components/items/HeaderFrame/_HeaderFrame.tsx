@@ -4,13 +4,13 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
 import { PageHeader, Tabs, Button, message } from 'antd';
 import { HeaderTabLinkCountBadge } from '../../common/HeaderTabLinkCountBadge';
 import { useMutation } from '@apollo/client';
 import { Common } from '../../../strings';
-import { Routes } from '../../../routes';
+import { RouteStrings } from '../../../routeStrings';
 import { NewEntryModalForItemRelatedEntry } from './NewEntryModalForItemRelatedEntry';
 import {
   ItemType,
@@ -33,7 +33,7 @@ function HeaderFrame({ title = '' }) {
   const [newName, setNewName] = useState(null);
   const [itemType, setItemType] = useState(ItemType.Clothing);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   // Hooks for GraphQL queries
   // const [
   //   insertItemMaindataRevisionChange,
@@ -94,23 +94,21 @@ function HeaderFrame({ title = '' }) {
   //   },
   // });
 
-  const [
-    newItem,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation(Insert_Item, {
-    onCompleted({ insert_items_one }) {
-      // console.log('insert_items_one:', insert_items_one);
-      // const { id } = insert_items_one;
-      // const variables = { id, revision: 1, state: DataState.Development };
-      // 2. INSERT A REVISION
-      // insertItemMaindataRevision({ variables }).then();
-    },
-    refetchQueries: [
-      {
-        query: Get_Items_For_Items_Table_Latest,
+  const [newItem, { loading: mutationLoading, error: mutationError }] =
+    useMutation(Insert_Item, {
+      onCompleted({ insert_items_one }) {
+        // console.log('insert_items_one:', insert_items_one);
+        // const { id } = insert_items_one;
+        // const variables = { id, revision: 1, state: DataState.Development };
+        // 2. INSERT A REVISION
+        // insertItemMaindataRevision({ variables }).then();
       },
-    ],
-  });
+      refetchQueries: [
+        {
+          query: Get_Items_For_Items_Table_Latest,
+        },
+      ],
+    });
 
   const inputRef = useRef(null);
 
@@ -140,8 +138,8 @@ function HeaderFrame({ title = '' }) {
       const item = await newItem({ variables });
       if (item.data.insertItem) {
         console.error('item:', item);
-        history.push(
-          `${Routes.Items__Clothing__Item}/${item.data.insertItem.id}?rev=1`
+        navigate(
+          `${RouteStrings.Items__Clothing__Item}/${item.data.insertItem.id}?rev=1`
         );
         message.success({ content: Common.Created_New_Item, key }, 2);
       }

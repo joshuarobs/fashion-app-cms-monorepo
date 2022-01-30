@@ -38,7 +38,7 @@ import { FrameTitle } from '../../../common/typography/FrameTitle';
 import { TagInProduction } from '../../../common/localisation/TagInProduction';
 import { BurgerMenuButton } from '../../../common/frames/BurgerMenuButton/_BurgerMenuButton';
 import { RevisionDropdownBox } from '../../../common/page-state-related/RevisionDropdownBox';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { enumToCamelCase } from '../../../../utils/enumToCamelCase';
 import { TagInDevelopment } from '../../../common/localisation/TagInDevelopment';
 import { TagInReview } from '../../../common/localisation/TagInReview';
@@ -286,7 +286,7 @@ function DetailsFrame({
   // console.log("DetailsFrame > data:", data);
   console.log('DetailsFrame > itemMaindataRevision:', itemMaindataRevision);
   // console.log("DetailsFrame > brand_id:", brand_id);
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [selectValue, setSelectValue] = useState(null);
@@ -337,7 +337,7 @@ function DetailsFrame({
     // history.push(`${location.pathname}?rev=${revision}&release=${is_release}`);
     // Don't need to put release variable since it will automatically load the
     // release version
-    history.push(`${location.pathname}?rev=${revision}`);
+    navigate(`${location.pathname}?rev=${revision}`);
   };
 
   const [showPopupSelectCompany, setShowPopupSelectCompany] = useState(false);

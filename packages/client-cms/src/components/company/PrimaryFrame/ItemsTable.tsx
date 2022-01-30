@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { Table, Button, Avatar } from 'antd';
 import { Link } from 'react-router-dom';
-import { Routes } from '../../../routes';
+import { RouteStrings } from '../../../routeStrings';
 import { useQuery } from '@apollo/client';
 import { addKeysToArrayObjects } from '../../../utils/addKeysToArrayObjects';
 import { Get_Companies } from '../../../queries/companies/getCompanies';
@@ -39,7 +39,9 @@ const columns = [
     render: (text: any, record: any) => {
       // console.log('record:', record);
       return (
-        <Link to={Routes.Items__Clothing__Item + '/' + record.id}>{text}</Link>
+        <Link to={RouteStrings.Items__Clothing__Item + '/' + record.id}>
+          {text}
+        </Link>
       );
     },
   },
@@ -94,7 +96,7 @@ const columns = [
     // Can't be put with expandedRowRender unfortunately
     // fixed: 'right',
     render: (text: any, record: any) => (
-      <Link to={Routes.Items}>
+      <Link to={RouteStrings.Items}>
         <Button shape="circle" icon={<SearchOutlined />} />
       </Link>
     ),

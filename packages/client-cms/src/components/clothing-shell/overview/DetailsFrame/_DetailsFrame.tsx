@@ -18,7 +18,7 @@ import { ItemFilterValuesStyle } from '../../../../framework/itemFilterValuesSty
 import {
   FabricLayerType,
   ItemType,
-} from '@joshuarobs/clothing-framework/build/enums';
+} from '@joshuarobs/clothing-framework/src/enums';
 import { PopupSelectFabricLayer } from '../../PopupSelectFabricLayer/_PopupSelectFabricLayer';
 import { FabricLayerDisplay } from './FabricLayerDisplay';
 import { UnsavedChangesCard } from '../../../common/UnsavedChangesCard';
@@ -28,7 +28,7 @@ import { FrameInputLabel } from '../../../common/typography/FrameInputLabel';
 import { FrameTitleLevel2 } from '../../../common/typography/FrameTitleLevel2';
 import { RevisionDropdownBox } from '../../../common/page-state-related/RevisionDropdownBox';
 import { BurgerMenuButton } from '../../../common/frames/BurgerMenuButton/_BurgerMenuButton';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingOutlined, SkinOutlined } from '@ant-design/icons';
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
@@ -144,7 +144,7 @@ function DetailsFrame({
   default_interlining_layer_id,
   setDefaultInterliningLayerId,
 }: DetailsFrameProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [selectValue, setSelectValue] = useState(null);
@@ -195,22 +195,19 @@ function DetailsFrame({
     // history.push(`${location.pathname}?rev=${revision}&release=${is_release}`);
     // Don't need to put release variable since it will automatically load the
     // release version
-    history.push(`${location.pathname}?rev=${revision}`);
+    navigate(`${location.pathname}?rev=${revision}`);
   };
 
   // ============================================================
   // Popup related states
   // ============================================================
   // Whether to show the popup or not (for selecting a fabric layer)
-  const [showPopupSelectFabricLayer, setShowPopupSelectFabricLayer] = useState(
-    false
-  );
+  const [showPopupSelectFabricLayer, setShowPopupSelectFabricLayer] =
+    useState(false);
 
   // What fabric layer types will be be filtering for (e.g. shell, fill, lining)
-  const [
-    popupSelectFabricLayerDefault,
-    setPopupSelectFabricLayerDefault,
-  ] = useState('');
+  const [popupSelectFabricLayerDefault, setPopupSelectFabricLayerDefault] =
+    useState('');
 
   // The current fabric layer id
   const [currentFabricLayerId, setCurrentFabricLayerId] = useState(null);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Tag, Avatar, Tooltip, Typography, Badge, Button } from 'antd';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { Routes } from '../../../routes';
+import { RouteStrings } from '../../../routeStrings';
 import { TableType } from './TableType';
 import { DateLastUpdatedAgo } from '../DateLastUpdatedAgo';
 import { TagError } from '../localisation/TagError';
@@ -77,12 +77,10 @@ const columns = [
       // const name = mainData ? mainData.name : null;
 
       // Calculate any errors and whether to show an error icon or not
-      const errors: QuickErrorSetItemsPage = generateErrorsForClothingShellsListPage(
-        record
-      );
-      const errorDivs: QuickErrorSetMessagesItemsPage = generateElementsListFromErrorsItemPage(
-        errors
-      );
+      const errors: QuickErrorSetItemsPage =
+        generateErrorsForClothingShellsListPage(record);
+      const errorDivs: QuickErrorSetMessagesItemsPage =
+        generateElementsListFromErrorsItemPage(errors);
       const numErrors = getNumberOfQuickErrorsInSet(errorDivs);
       console.log('errors:', errors);
       // console.log('errorDivs:', errorDivs);
@@ -129,7 +127,7 @@ const columns = [
 
       return (
         <Link
-          to={`${Routes.Clothing_Shells__Clothing_Shell}/${record.id}?rev=${revision}`}
+          to={`${RouteStrings.Clothing_Shells__Clothing_Shell}/${record.id}?rev=${revision}`}
         >
           {name}
         </Link>

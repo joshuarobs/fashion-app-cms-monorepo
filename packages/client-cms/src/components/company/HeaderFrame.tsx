@@ -6,7 +6,7 @@
 import React from 'react';
 import { PageHeader } from 'antd';
 import { useLocation } from 'react-router-dom';
-import { Routes } from '../../routes';
+import { RouteStrings } from '../../routeStrings';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { getCurrentPageTabName } from '../../utils/getCurrentPageTabName';
@@ -59,43 +59,43 @@ function HeaderFrame({ data }: HeaderFrameProps) {
           currentTab={currentTab}
           tabs={[
             {
-              to: `${Routes.Companies__Company}/${id}`,
+              to: `${RouteStrings.Companies__Company}/${id}`,
               icon: <OverviewTabIcon />,
               name: 'Overview',
               key: 1,
             },
             {
-              to: `${Routes.Companies__Company}/${id}${Routes.Items}`,
+              to: `${RouteStrings.Companies__Company}/${id}${RouteStrings.Items}`,
               icon: <ItemsTabIcon />,
               name: 'Items',
               count: counts.item_count,
-              key: getBaseRouteWithoutForwardSlash(Routes.Items),
+              key: getBaseRouteWithoutForwardSlash(RouteStrings.Items),
             },
             {
-              to: `${Routes.Companies__Company}/${id}${Routes.Collections}`,
+              to: `${RouteStrings.Companies__Company}/${id}${RouteStrings.Collections}`,
               icon: <CollectionsTabIcon />,
               name: 'Collections',
               count: collections_aggregate.aggregate.count,
-              key: getBaseRouteWithoutForwardSlash(Routes.Collections),
+              key: getBaseRouteWithoutForwardSlash(RouteStrings.Collections),
             },
             {
-              to: `${Routes.Companies__Company}/${id}${Routes.Localisations}`,
+              to: `${RouteStrings.Companies__Company}/${id}${RouteStrings.Localisations}`,
               icon: <LocalisationsTabIcon />,
               name: 'Localisations',
               count: company_translations_aggregate.aggregate.count,
-              key: getBaseRouteWithoutForwardSlash(Routes.Localisations),
+              key: getBaseRouteWithoutForwardSlash(RouteStrings.Localisations),
             },
             {
-              to: `${Routes.Companies__Company}/${id}${Routes.Change_History}`,
+              to: `${RouteStrings.Companies__Company}/${id}${RouteStrings.Change_History}`,
               icon: <ChangeHistoryTabIcon />,
               name: 'Change History',
-              key: getBaseRouteWithoutForwardSlash(Routes.Change_History),
+              key: getBaseRouteWithoutForwardSlash(RouteStrings.Change_History),
             },
             {
-              to: `${Routes.Companies__Company}/${id}${Routes.Settings}`,
+              to: `${RouteStrings.Companies__Company}/${id}${RouteStrings.Settings}`,
               icon: <SettingsTabIcon />,
               name: 'Settings',
-              key: getBaseRouteWithoutForwardSlash(Routes.Settings),
+              key: getBaseRouteWithoutForwardSlash(RouteStrings.Settings),
             },
           ]}
         />

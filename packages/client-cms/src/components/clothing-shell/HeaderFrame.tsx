@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { PageHeader, Typography } from 'antd';
-import { Routes } from '../../routes';
+import { RouteStrings } from '../../routeStrings';
 import { NavLink, useLocation } from 'react-router-dom';
 import { getCurrentPageTabName } from '../../utils/getCurrentPageTabName';
 import { getBaseRouteWithoutForwardSlash } from '../../utils/getBaseRouteWithoutForwardSlash';
@@ -67,7 +67,7 @@ function HeaderFrame({ data }: HeaderFrameProps) {
           currentTab={currentTab}
           tabs={[
             {
-              to: `${Routes.Clothing_Shells__Clothing_Shell}/${id}?rev=${latestRevision}`,
+              to: `${RouteStrings.Clothing_Shells__Clothing_Shell}/${id}?rev=${latestRevision}`,
               icon: <OverviewTabIcon />,
               name: 'Overview',
               key: 1,
@@ -80,23 +80,25 @@ function HeaderFrame({ data }: HeaderFrameProps) {
             //   key: getBaseRouteWithoutForwardSlash(Routes.Body_Segments),
             // },
             {
-              to: `${Routes.Clothing_Shells__Clothing_Shell}/${id}${Routes.Items_Implemented_In}`,
+              to: `${RouteStrings.Clothing_Shells__Clothing_Shell}/${id}${RouteStrings.Items_Implemented_In}`,
               icon: <ItemsTabIcon />,
               name: 'Items Implemented In',
               count: counts ? counts.clothing_shell_count : 0,
-              key: getBaseRouteWithoutForwardSlash(Routes.Items_Implemented_In),
+              key: getBaseRouteWithoutForwardSlash(
+                RouteStrings.Items_Implemented_In
+              ),
             },
             {
-              to: `${Routes.Clothing_Shells__Clothing_Shell}/${id}${Routes.Change_History}`,
+              to: `${RouteStrings.Clothing_Shells__Clothing_Shell}/${id}${RouteStrings.Change_History}`,
               icon: <ChangeHistoryTabIcon />,
               name: 'Change History',
-              key: getBaseRouteWithoutForwardSlash(Routes.Change_History),
+              key: getBaseRouteWithoutForwardSlash(RouteStrings.Change_History),
             },
             {
-              to: `${Routes.Clothing_Shells__Clothing_Shell}/${id}${Routes.Settings}`,
+              to: `${RouteStrings.Clothing_Shells__Clothing_Shell}/${id}${RouteStrings.Settings}`,
               icon: <SettingsTabIcon />,
               name: 'Settings',
-              key: getBaseRouteWithoutForwardSlash(Routes.Settings),
+              key: getBaseRouteWithoutForwardSlash(RouteStrings.Settings),
             },
           ]}
         />

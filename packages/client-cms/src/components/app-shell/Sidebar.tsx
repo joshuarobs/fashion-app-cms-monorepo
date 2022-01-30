@@ -29,7 +29,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { App_Shell } from '../../strings';
-import { Routes } from '../../routes';
+import { RouteStrings } from '../../routeStrings';
 import { ExpandCollapseSidebarButton } from './ExpandCollapseSidebarButton';
 import { useHotkeys } from 'react-hotkeys-hook';
 // import {useLocation} from "react-router";
@@ -72,7 +72,7 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
 
   console.log(
     'getBaseRouteWithoutForwardSlash:',
-    getBaseRouteWithoutForwardSlash(Routes.Home)
+    getBaseRouteWithoutForwardSlash(RouteStrings.Home)
   );
 
   const renderThumb = ({ style, ...props }: any) => {
@@ -126,10 +126,10 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
           >
             {/* -- HOME */}
             <Menu.Item
-              key={getBaseRouteWithoutForwardSlash(Routes.Home)}
+              key={getBaseRouteWithoutForwardSlash(RouteStrings.Home)}
               style={styles.menuItem}
             >
-              <Link to={Routes.Home}>
+              <Link to={RouteStrings.Home}>
                 <HomeOutlined />
                 <span>{App_Shell.Sidebar.Pages.Home}</span>
               </Link>
@@ -137,10 +137,10 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
             {/* -- MY TASKS */}
             <Menu.Item
               disabled
-              key={getBaseRouteWithoutForwardSlash(Routes.My_Tasks)}
+              key={getBaseRouteWithoutForwardSlash(RouteStrings.My_Tasks)}
               style={styles.menuItem}
             >
-              <Link to={Routes.My_Tasks}>
+              <Link to={RouteStrings.My_Tasks}>
                 <SolutionOutlined />
                 <span>{App_Shell.Sidebar.Pages.My_Tasks}</span>
               </Link>
@@ -155,10 +155,12 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
           >
             {/* -- ITEMS (CLOTHING) */}
             <Menu.Item
-              key={getBaseRouteWithoutForwardSlash(Routes.Items__Clothing)}
+              key={getBaseRouteWithoutForwardSlash(
+                RouteStrings.Items__Clothing
+              )}
               style={styles.menuItem}
             >
-              <Link to={Routes.Items__Clothing}>
+              <Link to={RouteStrings.Items__Clothing}>
                 <SkinOutlined />
                 <span>{App_Shell.Sidebar.Pages.Items}</span>
               </Link>
@@ -166,20 +168,20 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
             {/* -- ITEM FAMILIES */}
             <Menu.Item
               disabled
-              key={getBaseRouteWithoutForwardSlash(Routes.Item_Families)}
+              key={getBaseRouteWithoutForwardSlash(RouteStrings.Item_Families)}
               style={styles.menuItem}
             >
-              <Link to={Routes.Item_Families}>
+              <Link to={RouteStrings.Item_Families}>
                 <SkinOutlined />
                 <span>{App_Shell.Sidebar.Pages.Item_Families}</span>
               </Link>
             </Menu.Item>
             {/* -- COMPANIES */}
             <Menu.Item
-              key={getBaseRouteWithoutForwardSlash(Routes.Companies)}
+              key={getBaseRouteWithoutForwardSlash(RouteStrings.Companies)}
               style={styles.menuItem}
             >
-              <Link to={Routes.Companies}>
+              <Link to={RouteStrings.Companies}>
                 <ShopOutlined />
                 <span>{App_Shell.Sidebar.Pages.Companies}</span>
               </Link>
@@ -187,10 +189,10 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
             {/* -- COLLECTIONS */}
             <Menu.Item
               disabled
-              key={getBaseRouteWithoutForwardSlash(Routes.Collections)}
+              key={getBaseRouteWithoutForwardSlash(RouteStrings.Collections)}
               style={styles.menuItem}
             >
-              <Link to={Routes.Collections}>
+              <Link to={RouteStrings.Collections}>
                 <FolderOpenOutlined />
                 <span>{App_Shell.Sidebar.Pages.Collections}</span>
               </Link>
@@ -205,30 +207,34 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
           >
             {/* -- HEURISTIC ITEMS TODO: MOVE DOWN LATER TO ENUMS */}
             <Menu.Item
-              key={getBaseRouteWithoutForwardSlash(Routes.Heuristic_Items)}
+              key={getBaseRouteWithoutForwardSlash(
+                RouteStrings.Heuristic_Items
+              )}
               style={styles.menuItem}
             >
-              <Link to={Routes.Heuristic_Items}>
+              <Link to={RouteStrings.Heuristic_Items}>
                 <SkinOutlined />
                 <span>{App_Shell.Sidebar.Pages.Heuristic_Items}</span>
               </Link>
             </Menu.Item>
             {/* -- CLOTHING SHELLS */}
             <Menu.Item
-              key={getBaseRouteWithoutForwardSlash(Routes.Clothing_Shells)}
+              key={getBaseRouteWithoutForwardSlash(
+                RouteStrings.Clothing_Shells
+              )}
               style={styles.menuItem}
             >
-              <Link to={Routes.Clothing_Shells}>
+              <Link to={RouteStrings.Clothing_Shells}>
                 <GoldOutlined />
                 <span>{App_Shell.Sidebar.Pages.Clothing_Shells}</span>
               </Link>
             </Menu.Item>
             {/* -- FABRIC LAYERS */}
             <Menu.Item
-              key={getBaseRouteWithoutForwardSlash(Routes.Fabric_Layers)}
+              key={getBaseRouteWithoutForwardSlash(RouteStrings.Fabric_Layers)}
               style={styles.menuItem}
             >
-              <Link to={Routes.Fabric_Layers}>
+              <Link to={RouteStrings.Fabric_Layers}>
                 <BlockOutlined />
                 <span>{App_Shell.Sidebar.Pages.Fabric_Layers}</span>
               </Link>
@@ -236,10 +242,10 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
             {/* -- COLOURS */}
             <Menu.Item
               disabled
-              key={getBaseRouteWithoutForwardSlash(Routes.Colours)}
+              key={getBaseRouteWithoutForwardSlash(RouteStrings.Colours)}
               style={styles.menuItem}
             >
-              <Link to={Routes.Colours}>
+              <Link to={RouteStrings.Colours}>
                 <BgColorsOutlined />
                 <span>{App_Shell.Sidebar.Pages.Colours}</span>
               </Link>
@@ -258,20 +264,20 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
             {/* -- TEMPLATES */}
             <Menu.Item
               disabled
-              key={getBaseRouteWithoutForwardSlash(Routes.Templates)}
+              key={getBaseRouteWithoutForwardSlash(RouteStrings.Templates)}
               style={styles.menuItem}
             >
-              <Link to={Routes.Templates}>
+              <Link to={RouteStrings.Templates}>
                 <LayoutOutlined />
                 <span>{App_Shell.Sidebar.Pages.Templates}</span>
               </Link>
             </Menu.Item>
             {/* -- LOCALISATIONS */}
             <Menu.Item
-              key={getBaseRouteWithoutForwardSlash(Routes.Localisations)}
+              key={getBaseRouteWithoutForwardSlash(RouteStrings.Localisations)}
               style={styles.menuItem}
             >
-              <Link to={Routes.Localisations}>
+              <Link to={RouteStrings.Localisations}>
                 <GlobalOutlined />
                 <span>{App_Shell.Sidebar.Pages.Localisations}</span>
               </Link>
@@ -280,70 +286,72 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
             <SubMenu key="enums" icon={<ProfileOutlined />} title="Enums">
               {/* ---- BODY SEGMENTS */}
               <Menu.Item
-                key={getBaseRouteWithoutForwardSlash(Routes.Body_Segments)}
+                key={getBaseRouteWithoutForwardSlash(
+                  RouteStrings.Body_Segments
+                )}
                 style={styles.menuItem}
               >
-                <Link to={Routes.Body_Segments}>
+                <Link to={RouteStrings.Body_Segments}>
                   <ClusterOutlined />
                   <span>{App_Shell.Sidebar.Pages.Body_Segments}</span>
                 </Link>
               </Menu.Item>
               {/* ---- BASE COLOURS */}
               <Menu.Item
-                key={getBaseRouteWithoutForwardSlash(Routes.Base_Colours)}
+                key={getBaseRouteWithoutForwardSlash(RouteStrings.Base_Colours)}
                 style={styles.menuItem}
               >
-                <Link to={Routes.Base_Colours}>
+                <Link to={RouteStrings.Base_Colours}>
                   <BgColorsOutlined />
                   <span>{App_Shell.Sidebar.Pages.Base_Colours}</span>
                 </Link>
               </Menu.Item>
               {/* ---- MASK SHAPES */}
               <Menu.Item
-                key={getBaseRouteWithoutForwardSlash(Routes.Mask_Shapes)}
+                key={getBaseRouteWithoutForwardSlash(RouteStrings.Mask_Shapes)}
                 style={styles.menuItem}
               >
-                <Link to={Routes.Mask_Shapes}>
+                <Link to={RouteStrings.Mask_Shapes}>
                   <GatewayOutlined />
                   <span>{App_Shell.Sidebar.Pages.Mask_Shapes}</span>
                 </Link>
               </Menu.Item>
               {/* ---- FABRIC TYPES */}
               <Menu.Item
-                key={getBaseRouteWithoutForwardSlash(Routes.Fabric_Types)}
+                key={getBaseRouteWithoutForwardSlash(RouteStrings.Fabric_Types)}
                 style={styles.menuItem}
               >
-                <Link to={Routes.Fabric_Types}>
+                <Link to={RouteStrings.Fabric_Types}>
                   <LayoutOutlined />
                   <span>{App_Shell.Sidebar.Pages.Fabric_Types}</span>
                 </Link>
               </Menu.Item>
               {/* ---- MATERIALS */}
               <Menu.Item
-                key={getBaseRouteWithoutForwardSlash(Routes.Materials)}
+                key={getBaseRouteWithoutForwardSlash(RouteStrings.Materials)}
                 style={styles.menuItem}
               >
-                <Link to={Routes.Materials}>
+                <Link to={RouteStrings.Materials}>
                   <GoldOutlined />
                   <span>{App_Shell.Sidebar.Pages.Materials}</span>
                 </Link>
               </Menu.Item>
               {/* ---- COUNTRIES */}
               <Menu.Item
-                key={getBaseRouteWithoutForwardSlash(Routes.Countries)}
+                key={getBaseRouteWithoutForwardSlash(RouteStrings.Countries)}
                 style={styles.menuItem}
               >
-                <Link to={Routes.Countries}>
+                <Link to={RouteStrings.Countries}>
                   <GlobalOutlined />
                   <span>{App_Shell.Sidebar.Pages.Countries}</span>
                 </Link>
               </Menu.Item>
               {/* ---- LANGUAGES */}
               <Menu.Item
-                key={getBaseRouteWithoutForwardSlash(Routes.Languages)}
+                key={getBaseRouteWithoutForwardSlash(RouteStrings.Languages)}
                 style={styles.menuItem}
               >
-                <Link to={Routes.Languages}>
+                <Link to={RouteStrings.Languages}>
                   <TranslationOutlined />
                   <span>{App_Shell.Sidebar.Pages.Languages}</span>
                 </Link>
@@ -351,20 +359,22 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
               {/* ---- ITEM FEATURES */}
               <Menu.Item
                 disabled
-                key={getBaseRouteWithoutForwardSlash(Routes.Item_Features)}
+                key={getBaseRouteWithoutForwardSlash(
+                  RouteStrings.Item_Features
+                )}
                 style={styles.menuItem}
               >
-                <Link to={Routes.Item_Features}>
+                <Link to={RouteStrings.Item_Features}>
                   <AimOutlined />
                   <span>{App_Shell.Sidebar.Pages.Item_Features}</span>
                 </Link>
               </Menu.Item>
               {/* ---- OTHER */}
               <Menu.Item
-                key={getBaseRouteWithoutForwardSlash(Routes.Other_Enums)}
+                key={getBaseRouteWithoutForwardSlash(RouteStrings.Other_Enums)}
                 style={styles.menuItem}
               >
-                <Link to={Routes.Other_Enums}>
+                <Link to={RouteStrings.Other_Enums}>
                   <ContainerOutlined />
                   <span>{App_Shell.Sidebar.Pages.Other_Enums}</span>
                 </Link>
@@ -380,19 +390,19 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
           >
             <Menu.Item
               disabled
-              key={getBaseRouteWithoutForwardSlash(Routes.Settings)}
+              key={getBaseRouteWithoutForwardSlash(RouteStrings.Settings)}
               style={styles.menuItem}
             >
-              <Link to={Routes.Settings}>
+              <Link to={RouteStrings.Settings}>
                 <SettingOutlined />
                 <span>{App_Shell.Sidebar.Pages.Settings}</span>
               </Link>
             </Menu.Item>
             <Menu.Item
-              key={getBaseRouteWithoutForwardSlash(Routes.Users)}
+              key={getBaseRouteWithoutForwardSlash(RouteStrings.Users)}
               style={styles.menuItem}
             >
-              <Link to={Routes.Users}>
+              <Link to={RouteStrings.Users}>
                 <UserOutlined />
                 <span>{App_Shell.Sidebar.Pages.Users}</span>
               </Link>

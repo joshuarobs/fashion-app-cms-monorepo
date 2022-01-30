@@ -4,14 +4,14 @@ import { gql, useQuery } from '@apollo/client';
 import { AllActivityFrame } from '../../components/common/activity/AllActivityFrame';
 import { Layout, Tabs } from 'antd';
 import { ColumnOfFrames } from '../../components/common/frames/ColumnOfFrames';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import {
   FileSyncOutlined,
   GlobalOutlined,
   ProjectOutlined,
 } from '@ant-design/icons';
 import { HeaderTabLinkCountBadge } from '../../components/common/HeaderTabLinkCountBadge';
-import { Routes } from '../../routes';
+import { RouteStrings } from '../../routeStrings';
 import { getRouteTab } from '../../utils/getRouteTab';
 import { Get_Item_Revision_Changes_Aggregates } from '../../queries/getItemRevisionChangesAggregates';
 import { Get_Item_Maindata_Revision_Changes } from '../../queries/item_maindata_revision_changes/getItemMaindataRevisionChanges';
@@ -28,20 +28,20 @@ enum Tab {
 function ChangeHistoryTab() {
   const Url_Number_Of_Parts = 6;
   const limit = 50;
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   // @ts-ignore
   const { id } = useParams();
-  const itemId = id;
+  const itemId = id ?? '';
   // console.log("id:", id);
 
   const currentTab = getRouteTab(location.pathname, Url_Number_Of_Parts);
 
   let keyFromCurrentTab = Tab.All;
-  if (currentTab === Routes.Main_Data.replace('/', '')) {
+  if (currentTab === RouteStrings.Main_Data.replace('/', '')) {
     keyFromCurrentTab = Tab.Maindata;
-  } else if (currentTab === Routes.Localisations.replace('/', '')) {
+  } else if (currentTab === RouteStrings.Localisations.replace('/', '')) {
     keyFromCurrentTab = Tab.Localisations;
   }
 
@@ -129,18 +129,18 @@ function ChangeHistoryTab() {
     // console.log("key:", key);
     switch (key) {
       case Tab.All:
-        history.push(
-          `${Routes.Items__Clothing__Item}/${itemId}${Routes.Change_History}`
+        navigate(
+          `${RouteStrings.Items__Clothing__Item}/${itemId}${RouteStrings.Change_History}`
         );
         break;
       case Tab.Maindata:
-        history.push(
-          `${Routes.Items__Clothing__Item}/${itemId}${Routes.Change_History}${Routes.Main_Data}`
+        navigate(
+          `${RouteStrings.Items__Clothing__Item}/${itemId}${RouteStrings.Change_History}${RouteStrings.Main_Data}`
         );
         break;
       case Tab.Localisations:
-        history.push(
-          `${Routes.Items__Clothing__Item}/${itemId}${Routes.Change_History}${Routes.Localisations}`
+        navigate(
+          `${RouteStrings.Items__Clothing__Item}/${itemId}${RouteStrings.Change_History}${RouteStrings.Localisations}`
         );
         break;
     }

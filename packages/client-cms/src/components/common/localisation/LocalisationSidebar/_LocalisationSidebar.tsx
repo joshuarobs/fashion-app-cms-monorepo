@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   Button,
   Row,
@@ -57,7 +57,7 @@ function LocalisationSidebar({
   invalidPath,
   mutationInsertTranslationRevision,
 }: LocalisationSidebarProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
   const onClick = () => {
@@ -251,13 +251,8 @@ function LocalisationSidebar({
                   style={{ width: 240, marginTop: 8, border: 0 }}
                 >
                   {sortedLocales.map((locale) => {
-                    const {
-                      name,
-                      code,
-                      path,
-                      state,
-                      numberOfTranslations,
-                    } = locale;
+                    const { name, code, path, state, numberOfTranslations } =
+                      locale;
                     console.log('locale:', locale);
                     return (
                       // @ts-ignore

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Result } from 'antd';
-import { Routes } from '../routes';
+import { RouteStrings } from '../routeStrings';
 
 function Exception404Page() {
   return (
@@ -10,7 +10,7 @@ function Exception404Page() {
       title="404"
       subTitle="Sorry, the page you visited does not exist."
       extra={
-        <Link to={Routes.Home}>
+        <Link to={RouteStrings.Home}>
           <Button type="primary">Back Home</Button>
         </Link>
       }

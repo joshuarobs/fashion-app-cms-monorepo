@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { Table, Divider, Tag, Button, Avatar, Row } from 'antd';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { Routes } from '../../../routes';
+import { RouteStrings } from '../../../routeStrings';
 import { generateOverviewTreeFabricLayerData } from '../../../utils/generateOverviewTreeFabricLayerData';
 import { Base_Colours } from '../../../utils/baseColours';
 import { enumToCamelCase } from '../../../utils/enumToCamelCase';
@@ -179,7 +179,7 @@ const columns = [
     // Can't be put with expandedRowRender unfortunately
     // fixed: 'right',
     render: (text: any, record: any) => (
-      <Link to={Routes.Items}>
+      <Link to={RouteStrings.Items}>
         <Button shape="circle" icon={<SearchOutlined />} />
       </Link>
     ),

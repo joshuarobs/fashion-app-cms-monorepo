@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Routes } from '../../../../routes';
+import { RouteStrings } from '../../../../routeStrings';
 import { Avatar, Button, Col, Row } from 'antd';
 import { NoGenericAssociationFullCol } from '../../../common/NoGenericAssociationFullCol';
 import { useQuery, gql } from '@apollo/client';
@@ -122,7 +122,7 @@ function BrandSection({
       {!loading && dataBrand && dataBrand.getCompany && (
         <Link
           className="no-blue"
-          to={Routes.Companies__Company + '/' + dataBrand.getCompany.id}
+          to={RouteStrings.Companies__Company + '/' + dataBrand.getCompany.id}
         >
           <Row
             style={{
