@@ -4,7 +4,7 @@ import { LocalisationDashboardFrame } from './LocalisationDashboardFrame/_Locali
 import { LocaleDashboardActivityFrame } from './LocalisationDashboardFrame/LocaleDashboardActivityFrame';
 
 interface LocalisationDashboardTabProps {
-  companyId: number;
+  companyId?: string;
   latestTranslations: any;
   tabPath: string;
   urlNumberOfParts: number;

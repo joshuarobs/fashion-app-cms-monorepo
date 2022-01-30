@@ -12,7 +12,7 @@ import { Get_Item_Translation_Revisions_Given_Locale_Code } from '../../../../qu
 const { Content } = Layout;
 
 interface LocalisationContentTabProps {
-  itemId: number;
+  itemId?: string;
   currentTab: string;
   // currentRevision: any;
   // setHasChangesMade: Function;

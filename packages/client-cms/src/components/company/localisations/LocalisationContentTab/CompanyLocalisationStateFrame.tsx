@@ -22,7 +22,7 @@ const { Content } = Layout;
 const key = 'state-localisations';
 
 interface CompanyLocalisationStateFrameProps {
-  companyId: number;
+  companyId?: string;
   currentTab: string;
   paramsRevision: string;
   refetchTranslations?: Function;

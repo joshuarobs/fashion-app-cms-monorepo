@@ -44,7 +44,7 @@ interface LocalisationFrameProps {
   currentTab: any;
   translationDraft: any;
   translationRelease: any;
-  itemId: number;
+  itemId?: string;
   location: any;
   translationRevision: any;
   paramsRevision: any;

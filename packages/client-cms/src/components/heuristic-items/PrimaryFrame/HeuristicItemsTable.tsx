@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { RouteStrings } from '../../../routeStrings';
 import { red } from '@ant-design/colors';
 import { addKeysToArrayObjects } from '../../../utils/addKeysToArrayObjects';
-// import { HEURISTIC_ITEMS } from "@joshuarobs/clothing-framework/src/heuristic-items";
 import { HeuristicItemList } from '../../../draft-test-items';
 
 const { Text } = Typography;

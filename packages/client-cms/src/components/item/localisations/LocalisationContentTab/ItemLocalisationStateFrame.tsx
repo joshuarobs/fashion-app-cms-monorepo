@@ -18,7 +18,7 @@ import { Get_Item_Translation_Revisions_Given_Locale_Code } from '../../../../qu
 const key = 'state-localisations';
 
 interface ItemLocalisationStateFrameProps {
-  itemId: number;
+  itemId?: string;
   currentTab: string;
   paramsRevision: any;
   refetchTranslations: Function;

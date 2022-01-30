@@ -16,7 +16,7 @@ import { Update_Clothing_Shell_Updated_At } from '../../../queries/clothing_shel
 import {
   ClothingSegmentsData,
   Enums,
-} from '@joshuarobs/clothing-framework/src';
+} from '@joshuarobs/clothing-framework/build';
 import { Update_Clothing_Segment_Data } from '../../../queries/clothing_segment_data/updateClothingSegmentData';
 import { ClothingSegmentDataHasChangedProps } from './ClothingSegmentDataHasChangedProps';
 import { ClothingShellStateFrame } from './ClothingShellStateFrame';

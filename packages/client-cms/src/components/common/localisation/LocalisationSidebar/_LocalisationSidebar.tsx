@@ -39,7 +39,7 @@ const cssStyles = {
 const key = 'item-localisations-sidebar';
 
 interface LocalisationSidebarProps {
-  entryId: number;
+  entryId?: string;
   tabPath: string;
   urlNumberOfParts: number;
   locales: any;

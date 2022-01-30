@@ -19,7 +19,7 @@ function ItemSettingsTab({ headerData }: SettingsProps) {
     data: dataProdItemMaindataRev,
     // refetch: refetchProdItemMaindataRev
   } = useQuery(Get_Latest_Production_Item_Maindata_Revision_By_Item_Id, {
-    variables: { itemId: Number.parseInt(itemId) },
+    variables: { itemId: Number.parseInt(String(itemId)) },
   });
 
   if (errorProdItemMaindataRev)

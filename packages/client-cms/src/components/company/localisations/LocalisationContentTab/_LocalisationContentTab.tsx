@@ -12,7 +12,7 @@ import { Get_Company_Translation_Revisions_By_Locale_Code } from '../../../../qu
 const { Content } = Layout;
 
 interface LocalisationContentTabProps {
-  companyId: number;
+  companyId?: string;
   currentTab: string;
   // currentRevision: number;
   paramsRevision: string;

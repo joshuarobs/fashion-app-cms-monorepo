@@ -4,7 +4,7 @@ import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import {
   DataChangeType,
   DataState,
-} from '@joshuarobs/clothing-framework/src/enums';
+} from '@joshuarobs/clothing-framework/build/enums';
 import { StateFrame } from '../../common/frames/StateFrame/_StateFrame';
 import { message } from 'antd';
 import { Common } from '../../../strings';

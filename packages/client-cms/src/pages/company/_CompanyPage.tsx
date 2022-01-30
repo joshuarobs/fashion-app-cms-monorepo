@@ -1,13 +1,7 @@
 import React from 'react';
 import { HeaderFrame } from '../../components/company/HeaderFrame';
 import { Footer } from '../../components/app-shell/Footer';
-import {
-  Link,
-  Route,
-  Switch,
-  useParams,
-  useRouteMatch,
-} from 'react-router-dom';
+import { Link, Route, Routes, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { RouteStrings } from '../../routeStrings';
 import { ColumnOfFrames } from '../../components/common/frames/ColumnOfFrames';
@@ -19,8 +13,6 @@ import { Get_Company } from '../../queries/companies/getCompany';
 import { Button, Result } from 'antd';
 
 function CompanyPage() {
-  const { path, url } = useRouteMatch();
-
   // const [item, setItem] = useState();
   // @ts-ignore
   const { id } = useParams();
@@ -64,26 +56,26 @@ function CompanyPage() {
       <HeaderFrame data={company} />
       {/* @ts-ignore */}
       <div style={pageStyles.content}>
-        <Switch>
-          <Route exact path={path}>
+        <Routes>
+          <Route path={''}>
             <OverviewTab company={company} />
           </Route>
-          <Route exact path={path + RouteStrings.Items}>
+          <Route path={RouteStrings.Items}>
             <ItemsTab />
           </Route>
-          <Route path={path + RouteStrings.Collections}>
+          <Route path={RouteStrings.Collections}>
             <ColumnOfFrames>Collections</ColumnOfFrames>
           </Route>
-          <Route path={path + RouteStrings.Localisations}>
+          <Route path={RouteStrings.Localisations}>
             <LocalisationsTab />
           </Route>
-          <Route exact path={path + RouteStrings.Change_History}>
+          <Route path={RouteStrings.Change_History}>
             <ColumnOfFrames>Change history</ColumnOfFrames>
           </Route>
-          <Route exact path={path + RouteStrings.Settings}>
+          <Route path={RouteStrings.Settings}>
             <ColumnOfFrames>Settings</ColumnOfFrames>
           </Route>
-        </Switch>
+        </Routes>
       </div>
       <Footer />
     </>

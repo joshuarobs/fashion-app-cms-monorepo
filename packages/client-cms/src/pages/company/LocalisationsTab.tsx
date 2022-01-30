@@ -40,12 +40,14 @@ function LocalisationsTab() {
   // @ts-ignore
   const { id } = useParams();
 
-  const { loading, error, data, refetch: refetchCompanyTransRevs } = useQuery(
-    Get_Company_Translation_Revisions,
-    {
-      variables: { id: Number.parseInt(id) },
-    }
-  );
+  const {
+    loading,
+    error,
+    data,
+    refetch: refetchCompanyTransRevs,
+  } = useQuery(Get_Company_Translation_Revisions, {
+    variables: { id: Number.parseInt(String(id)) },
+  });
 
   if (loading) return <div />;
   if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
@@ -55,12 +57,8 @@ function LocalisationsTab() {
   const latestTranslationRevisions = data.getCompanyTranslationRevisions.map(
     (translationRevision: any) => {
       console.log('translationRevision:', translationRevision);
-      const {
-        id,
-        locale_code,
-        revision,
-        company_translations,
-      } = translationRevision;
+      const { id, locale_code, revision, company_translations } =
+        translationRevision;
       // Create a url that we can load the latest revision with
       // const pathNoRelease = `${tabPath}/${locale_code}/?id=${id}&rev=${revision}&release=`;
       const pathNoRelease = `${tabPath}/${locale_code}/?rev=${revision}&release=`;

@@ -7,7 +7,7 @@ import { Get_Item_Maindata_Revision_Changes } from '../../../../queries/item_mai
 import { Get_Item_Translation_Revision_Changes } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChanges';
 
 interface LocalisationDashboardTabProps {
-  itemId: number;
+  itemId?: string;
   latestTranslations: any;
   tabPath: any;
   urlNumberOfParts: number;

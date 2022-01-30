@@ -7,7 +7,7 @@ import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../..
 const { Content } = Layout;
 
 interface LocalisationActivityFrameProps {
-  itemId: number;
+  itemId?: string;
   currentTab: string;
 }
 

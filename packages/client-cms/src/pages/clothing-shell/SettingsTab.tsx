@@ -22,7 +22,7 @@ function ClothingShellSettingsTab({ headerData }: SettingsProps) {
     // TODO: getAllClothingShellMaindataRevisionsForClothingShell renamed func
     Get_All_Clothing_Shell_Maindata_Revisions_For_Clothing_Shell_Id,
     {
-      variables: { clothingShellId: Number.parseInt(clothingShellId) },
+      variables: { clothingShellId: Number.parseInt(String(clothingShellId)) },
     }
   );
 

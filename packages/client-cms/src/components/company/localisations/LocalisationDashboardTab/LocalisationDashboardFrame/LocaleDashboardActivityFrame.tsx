@@ -7,7 +7,7 @@ import { Get_Company_Translation_Revision_Changes } from '../../../../../queries
 const { Content } = Layout;
 
 interface LocaleDashboardActivityFrameProps {
-  companyId: number;
+  companyId?: string;
 }
 
 function LocaleDashboardActivityFrame({

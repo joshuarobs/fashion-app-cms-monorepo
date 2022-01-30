@@ -6,16 +6,15 @@ import { ClothingShellDetailsMoreFrame } from '../components/common/frames/Cloth
 import { HeaderFrame } from '../components/heuristic-item/HeaderFrame';
 import { pageStyles } from './pageStyles';
 import { HeuristicItemList } from '../draft-test-items';
-import { useParams, useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Footer } from '../components/app-shell/Footer';
 
 function HeuristicItemPage() {
   console.log('this page');
-  const { path, url } = useRouteMatch();
   // @ts-ignore
   const { id } = useParams();
 
-  const item = HeuristicItemList.get(Number.parseInt(id, 10));
+  const item = HeuristicItemList.get(Number.parseInt(String(id), 10));
   console.log('item:', item);
 
   return (

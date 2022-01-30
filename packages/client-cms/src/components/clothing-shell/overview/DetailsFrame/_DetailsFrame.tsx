@@ -18,7 +18,7 @@ import { ItemFilterValuesStyle } from '../../../../framework/itemFilterValuesSty
 import {
   FabricLayerType,
   ItemType,
-} from '@joshuarobs/clothing-framework/src/enums';
+} from '@joshuarobs/clothing-framework/build/enums';
 import { PopupSelectFabricLayer } from '../../PopupSelectFabricLayer/_PopupSelectFabricLayer';
 import { FabricLayerDisplay } from './FabricLayerDisplay';
 import { UnsavedChangesCard } from '../../../common/UnsavedChangesCard';

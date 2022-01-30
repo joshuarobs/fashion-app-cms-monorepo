@@ -67,13 +67,15 @@ function LocalisationsTab() {
   const { id } = useParams();
   // console.log("id:", id);
 
-  const { loading, error, data, refetch: refetchItemTransRevs } = useQuery(
-    Get_Item_Translation_Revisions,
-    {
-      variables: { id: Number.parseInt(id) },
-      fetchPolicy: 'network-only',
-    }
-  );
+  const {
+    loading,
+    error,
+    data,
+    refetch: refetchItemTransRevs,
+  } = useQuery(Get_Item_Translation_Revisions, {
+    variables: { id: Number.parseInt(String(id)) },
+    fetchPolicy: 'network-only',
+  });
 
   if (loading) return <div />;
   if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
