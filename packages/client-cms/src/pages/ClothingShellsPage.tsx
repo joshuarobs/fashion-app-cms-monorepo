@@ -7,6 +7,7 @@ import { pageStyles } from './pageStyles';
 import { ColumnOfFrames } from '../components/common/frames/ColumnOfFrames';
 
 function ClothingShellsPage() {
+  console.log('Clothing shells page');
   // const state = {
   //   collapsed: false,
   // };

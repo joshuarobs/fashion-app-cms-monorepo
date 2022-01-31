@@ -57,24 +57,27 @@ function CompanyPage() {
       {/* @ts-ignore */}
       <div style={pageStyles.content}>
         <Routes>
-          <Route path={''}>
-            <OverviewTab company={company} />
-          </Route>
-          <Route path={RouteStrings.Items}>
-            <ItemsTab />
-          </Route>
-          <Route path={RouteStrings.Collections}>
-            <ColumnOfFrames>Collections</ColumnOfFrames>
-          </Route>
-          <Route path={RouteStrings.Localisations}>
-            <LocalisationsTab />
-          </Route>
-          <Route path={RouteStrings.Change_History}>
-            <ColumnOfFrames>Change history</ColumnOfFrames>
-          </Route>
-          <Route path={RouteStrings.Settings}>
-            <ColumnOfFrames>Settings</ColumnOfFrames>
-          </Route>
+          <Route path={''} element={<OverviewTab company={company} />} />
+          <Route
+            path={RouteStrings.Items + RouteStrings.Wildcard}
+            element={<ItemsTab />}
+          />
+          <Route
+            path={RouteStrings.Collections + RouteStrings.Wildcard}
+            element={<ColumnOfFrames>Collections</ColumnOfFrames>}
+          />
+          <Route
+            path={RouteStrings.Localisations + RouteStrings.Wildcard}
+            element={<LocalisationsTab />}
+          />
+          <Route
+            path={RouteStrings.Change_History + RouteStrings.Wildcard}
+            element={<ColumnOfFrames>Change history</ColumnOfFrames>}
+          />
+          <Route
+            path={RouteStrings.Settings}
+            element={<ColumnOfFrames>Settings</ColumnOfFrames>}
+          />
         </Routes>
       </div>
       <Footer />

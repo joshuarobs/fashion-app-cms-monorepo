@@ -60,63 +60,93 @@ const App = (): ReactElement => {
               <Route
                 path={
                   RouteStrings.Clothing_Shells__Clothing_Shell +
-                  RouteStrings.Var_Id
+                  RouteStrings.Var_Id +
+                  RouteStrings.Wildcard
                 }
-                element={ClothingShellPage}
+                element={<ClothingShellPage />}
               />
               <Route
-                path={RouteStrings.Items__Clothing__Item + RouteStrings.Var_Id}
-                element={ItemPage}
+                path={
+                  RouteStrings.Items__Clothing__Item +
+                  RouteStrings.Var_Id +
+                  RouteStrings.Wildcard
+                }
+                element={<ItemPage />}
               />
               <Route
-                path={RouteStrings.Companies__Company + RouteStrings.Var_Id}
-                element={CompanyPage}
+                path={
+                  RouteStrings.Companies__Company +
+                  RouteStrings.Var_Id +
+                  RouteStrings.Wildcard
+                }
+                element={<CompanyPage />}
               />
               <Route
                 path={
                   RouteStrings.Heuristic_Items__Clothing__Item +
                   RouteStrings.Var_Id
                 }
-                element={HeuristicItemPage}
+                element={<HeuristicItemPage />}
               />
               <Route
                 path={RouteStrings.Clothing_Shells}
-                element={ClothingShellsPage}
+                element={<ClothingShellsPage />}
               />
               <Route
                 path={RouteStrings.Fabric_Layers}
-                element={FabricLayersPage}
+                element={<FabricLayersPage />}
               />
-              <Route path={RouteStrings.Items} element={ItemsPage} />
-              <Route path={RouteStrings.Companies} element={CompaniesPage} />
+              <Route
+                path={RouteStrings.Items__Clothing}
+                element={<ItemsPage />}
+              />
+              <Route
+                path={RouteStrings.Companies}
+                element={<CompaniesPage />}
+              />
               <Route
                 path={RouteStrings.Body_Segments}
-                element={BodySegmentsPage}
+                element={<BodySegmentsPage />}
               />
               <Route
                 path={RouteStrings.Base_Colours}
-                element={BaseColoursPage}
+                element={<BaseColoursPage />}
               />
-              <Route path={RouteStrings.Mask_Shapes} element={MaskShapesPage} />
-              <Route path={RouteStrings.Countries} element={CountriesPage} />
-              <Route path={RouteStrings.Languages} element={LanguagesPage} />
+              <Route
+                path={RouteStrings.Mask_Shapes}
+                element={<MaskShapesPage />}
+              />
+              <Route
+                path={RouteStrings.Countries}
+                element={<CountriesPage />}
+              />
+              <Route
+                path={RouteStrings.Languages}
+                element={<LanguagesPage />}
+              />
               <Route
                 path={RouteStrings.Fabric_Types}
-                element={FabricTypesPage}
+                element={<FabricTypesPage />}
               />
-              <Route path={RouteStrings.Materials} element={MaterialsPage} />
-              <Route path={RouteStrings.Other_Enums} element={OtherEnumsPage} />
+              <Route
+                path={RouteStrings.Materials}
+                element={<MaterialsPage />}
+              />
+              <Route
+                path={RouteStrings.Other_Enums}
+                element={<OtherEnumsPage />}
+              />
               <Route
                 path={RouteStrings.Heuristic_Items}
-                element={HeuristicItemsPage}
+                element={<HeuristicItemsPage />}
               />
               <Route
                 path={RouteStrings.Localisations}
-                element={LocalisationsPage}
+                element={<LocalisationsPage />}
               />
-              <Route path={RouteStrings.Users} element={UsersPage} />
-              <Route path={RouteStrings.Home} element={HomePage} />
-              <Route path="*" element={Exception404Page} />
+              <Route path={RouteStrings.Users} element={<UsersPage />} />
+              <Route path={RouteStrings.Home} element={<HomePage />} />
+              <Route path="*" element={<Exception404Page />} />
             </Routes>
           </Layout>
         </Layout>

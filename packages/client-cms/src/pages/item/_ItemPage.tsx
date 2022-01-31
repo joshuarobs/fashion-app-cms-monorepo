@@ -82,26 +82,29 @@ function ItemPage() {
       {/* @ts-ignore */}
       <div style={pageStyles.content}>
         <Routes>
-          <Route path={''}>
-            <OverviewTab
-              item={headerData}
-              uniqueRevisions={uniqueRevisions}
-              refetchRevisions={refetchRevisions}
-              refetchItemBaseData={refetchBaseData}
-            />
-          </Route>
-          {/*<Route path={path + Routes.BODY_SEGMENTS}>*/}
-          {/*  <ColumnOfFrames>Body Segments</ColumnOfFrames>*/}
-          {/*</Route>*/}
-          <Route path={RouteStrings.Localisations}>
-            <LocalisationsTab />
-          </Route>
-          <Route path={RouteStrings.Change_History}>
-            <ChangeHistoryTab />
-          </Route>
-          <Route path={RouteStrings.Settings}>
-            <ItemSettingsTab headerData={headerData} />
-          </Route>
+          <Route
+            path={''}
+            element={
+              <OverviewTab
+                item={headerData}
+                uniqueRevisions={uniqueRevisions}
+                refetchRevisions={refetchRevisions}
+                refetchItemBaseData={refetchBaseData}
+              />
+            }
+          />
+          <Route
+            path={RouteStrings.Localisations + RouteStrings.Wildcard}
+            element={<LocalisationsTab />}
+          />
+          <Route
+            path={RouteStrings.Change_History + RouteStrings.Wildcard}
+            element={<ChangeHistoryTab />}
+          />
+          <Route
+            path={RouteStrings.Settings}
+            element={<ItemSettingsTab headerData={headerData} />}
+          />
         </Routes>
       </div>
       <Footer />

@@ -1,19 +1,15 @@
 import React from 'react';
 import { HeaderFrame } from '../../components/clothing-shell/HeaderFrame';
 import { Footer } from '../../components/app-shell/Footer';
-import { Routes, Route, useParams, Link } from 'react-router-dom';
+import { Link, Route, Routes, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { ColumnOfFrames } from '../../components/common/frames/ColumnOfFrames';
 import { pageStyles } from '../pageStyles';
 import { OverviewTab } from './OverviewTab';
-import { BodySegmentsTab } from './BodySegmentsTab';
 import { Button, Result } from 'antd';
 import { RouteStrings } from '../../routeStrings';
-import { Get_Clothing_Shell } from '../../queries/clothing_shells/getClothingShell';
 import { Get_Revisions_For_Clothing_Shell_BB } from '../../queries/clothing_shell_maindata_revisions/getRevisionsForClothingShellBB';
-import { Get_Item_Base_Data_By_Pk } from '../../queries/items/getItemBaseDataByPk';
 import { Get_Clothing_Shell_Base_Data_By_Pk } from '../../queries/clothing_shells/getClothingShellBaseDataByPk';
-import { ItemSettingsTab } from '../item/SettingsTab';
 import { ClothingShellSettingsTab } from './SettingsTab';
 
 function ClothingShellPage() {
@@ -77,26 +73,32 @@ function ClothingShellPage() {
       {/* @ts-ignore */}
       <div style={pageStyles.content}>
         <Routes>
-          <Route path={''}>
-            <OverviewTab
-              clothingShell={clothingShell}
-              uniqueRevisions={uniqueRevisions}
-              refetchRevisions={refetchRevisions}
-              refetchClothingShellBaseData={refetchBaseData}
-            />
-          </Route>
+          <Route
+            path={''}
+            element={
+              <OverviewTab
+                clothingShell={clothingShell}
+                uniqueRevisions={uniqueRevisions}
+                refetchRevisions={refetchRevisions}
+                refetchClothingShellBaseData={refetchBaseData}
+              />
+            }
+          />
           {/*<Route exact path={path + Routes.Items_Implemented_In}>*/}
           {/*  <ColumnOfFrames>Items implemented in</ColumnOfFrames>*/}
           {/*</Route>*/}
-          <Route path={RouteStrings.Items_Implemented_In}>
-            <ColumnOfFrames>Items implemented in</ColumnOfFrames>
-          </Route>
-          <Route path={RouteStrings.Change_History}>
-            <ColumnOfFrames>Change history</ColumnOfFrames>
-          </Route>
-          <Route path={RouteStrings.Settings}>
-            <ClothingShellSettingsTab headerData={clothingShell} />
-          </Route>
+          <Route
+            path={RouteStrings.Items_Implemented_In}
+            element={<ColumnOfFrames>Items implemented in</ColumnOfFrames>}
+          />
+          <Route
+            path={RouteStrings.Change_History + RouteStrings.Wildcard}
+            element={<ColumnOfFrames>Change history</ColumnOfFrames>}
+          />
+          <Route
+            path={RouteStrings.Settings}
+            element={<ClothingShellSettingsTab headerData={clothingShell} />}
+          />
         </Routes>
       </div>
       <Footer />
