@@ -5,7 +5,7 @@ import { RouteStrings } from '../../../routeStrings';
 import { TableType } from './TableType';
 import { DateLastUpdatedAgo } from '../DateLastUpdatedAgo';
 import { TagError } from '../localisation/TagError';
-import { DataState } from '@joshuarobs/clothing-framework/build/enums';
+import { DataState } from '@joshuarobs/clothing-framework';
 import { TagInDevelopment } from '../localisation/TagInDevelopment';
 import { TagInReview } from '../localisation/TagInReview';
 import { TagInProduction } from '../localisation/TagInProduction';

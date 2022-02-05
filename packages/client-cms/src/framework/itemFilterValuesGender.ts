@@ -1,7 +1,5 @@
 import { Items } from '../strings';
-import { Enums } from '@joshuarobs/clothing-framework';
-
-const { Gender } = Enums;
+import { Gender } from '@joshuarobs/clothing-framework';
 
 const All = {
   id: Gender.All,

@@ -3,7 +3,7 @@ import { Layout, Typography, Tree } from 'antd';
 import { ColumnWidthOutlined, GatewayOutlined } from '@ant-design/icons';
 import { enumWithoutUnderscores } from '../../utils/enumWithoutUnderscores';
 import { generateOverviewTreeFabricLayerData } from '../../utils/generateOverviewTreeFabricLayerData';
-import { FabricLayerType } from '@joshuarobs/clothing-framework/build/enums';
+import { FabricLayerType } from '@joshuarobs/clothing-framework';
 import { FrameTitle } from '../common/typography/FrameTitle';
 
 const { Text } = Typography;
@@ -52,11 +52,8 @@ function BodySegmentsOverviewFrame({
   //========================================
   // GENERATE FOR DEFAULT LAYERS
   //========================================
-  const {
-    default_shell_layer,
-    default_fill_layer,
-    default_lining_layer,
-  } = clothingShell;
+  const { default_shell_layer, default_fill_layer, default_lining_layer } =
+    clothingShell;
 
   const treeDataItemDefaults = {
     title: <Text strong>DEFAULT FABRIC LAYERS</Text>,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataState } from '@joshuarobs/clothing-framework/build/enums';
+import { DataState } from '@joshuarobs/clothing-framework';
 import { Table, Typography, Button, Avatar, Badge, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import { RouteStrings } from '../../../routeStrings';

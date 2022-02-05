@@ -3,7 +3,7 @@ import {
   DataChangeType,
   DataState,
   ItemType,
-} from '@joshuarobs/clothing-framework/build/enums';
+} from '@joshuarobs/clothing-framework';
 import { useMutation, useQuery } from '@apollo/client';
 import { useNavigate, useLocation } from 'react-router-dom';
 import qs from 'qs';

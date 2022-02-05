@@ -33,7 +33,7 @@ import {
   ItemType,
   DataState,
   Gender as GENDERS_MAP,
-} from '@joshuarobs/clothing-framework/build/enums';
+} from '@joshuarobs/clothing-framework';
 import { FrameTitle } from '../../../common/typography/FrameTitle';
 import { TagInProduction } from '../../../common/localisation/TagInProduction';
 import { BurgerMenuButton } from '../../../common/frames/BurgerMenuButton/_BurgerMenuButton';

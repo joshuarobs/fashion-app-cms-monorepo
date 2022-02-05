@@ -9,7 +9,7 @@ import {
   DataChangeType,
   DataState,
   ItemType,
-} from '@joshuarobs/clothing-framework/build/enums';
+} from '@joshuarobs/clothing-framework';
 import { NewEntryModalForItemRelatedEntry } from '../../components/items/HeaderFrame/NewEntryModalForItemRelatedEntry';
 import { ErrorPleaseFixThis } from '../../components/common/localisation/ErrorPleaseFixThis';
 import { OverviewMainFrame } from '../../components/clothing-shell/overview/OverviewMainFrame';

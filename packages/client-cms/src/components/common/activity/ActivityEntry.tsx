@@ -12,7 +12,7 @@ import {
   DataAction,
   DataChangeType,
   DataState,
-} from '@joshuarobs/clothing-framework/build/enums';
+} from '@joshuarobs/clothing-framework';
 import dayjs from 'dayjs';
 
 const { Text } = Typography;

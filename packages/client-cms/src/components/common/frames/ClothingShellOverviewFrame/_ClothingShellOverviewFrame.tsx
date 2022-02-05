@@ -7,11 +7,13 @@ import { FrameTitle } from '../../typography/FrameTitle';
 import { ClothingShellMoreDetails } from './ClothingShellMoreDetails';
 import { _EditClothingSegmentsPopup } from '../../popups/clothing-shell-related/EditClothingSegmentsPopup/_EditClothingSegmentsPopup';
 import { ClothingSegmentsPopupMode } from '../../popups/clothing-shell-related/ClothingSegmentsPopupMode';
-import { ClothingSegmentsData } from '@joshuarobs/clothing-framework';
+import {
+  ClothingSegmentsData,
+  getBodyCoveragePercent,
+} from '@joshuarobs/clothing-framework';
 import { ModelAndStatistics } from './ModelAndStatistics/_ModelAndStatistics';
 import { ChangeClothingShellHeader } from './ChangeClothingShellHeader';
 import { Get_Clothing_Shell_Base_Data_By_Pk } from '../../../../queries/clothing_shells/getClothingShellBaseDataByPk';
-import { getBodyCoveragePercent } from '@joshuarobs/clothing-framework/build/framework/classes/ClothingSegmentsData/getBodyCoveragePercent';
 import { VersionablePageErrors } from '../../../../utils/quick-error-gen/VersionablePageErrors';
 
 const { Content } = Layout;
@@ -99,14 +101,11 @@ function ClothingShellOverviewFrame({
   // console.log('itemMaindataRevision:', itemMaindataRevision);
 
   // Whether to show the popup or not (for selecting a clothing shell)
-  const [
-    showPopupSelectClothingShell,
-    setShowPopupSelectClothingShell,
-  ] = useState(false);
+  const [showPopupSelectClothingShell, setShowPopupSelectClothingShell] =
+    useState(false);
 
-  const [showEditClothingShellPopup, setShowEditClothingShellPopup] = useState(
-    false
-  );
+  const [showEditClothingShellPopup, setShowEditClothingShellPopup] =
+    useState(false);
 
   // Popup (Item page) - Select Clothing Shell
   const showPopup = () => {

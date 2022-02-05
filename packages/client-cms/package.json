@@ -1,6 +1,6 @@
 {
   "name": "@namespace/client-cms",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "proxy": "http://localhost:3001",
   "dependencies": {
@@ -9,7 +9,7 @@
     "@apollo/client": "^3.5.8",
     "@babel/preset-env": "^7.16.11",
     "@iconfu/svg-inject": "^1.2.3",
-    "@joshuarobs/clothing-framework": "^0.5.0",
+    "@joshuarobs/clothing-framework": "0.1.5",
     "@namespace/components": "^0.1.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",

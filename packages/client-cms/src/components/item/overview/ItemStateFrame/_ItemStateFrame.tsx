@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
-import {
-  DataChangeType,
-  DataState,
-} from '@joshuarobs/clothing-framework/build/enums';
+import { DataChangeType, DataState } from '@joshuarobs/clothing-framework';
 import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
 import { message } from 'antd';
 import { Common } from '../../../../strings';

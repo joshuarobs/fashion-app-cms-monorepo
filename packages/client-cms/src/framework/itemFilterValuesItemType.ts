@@ -1,7 +1,5 @@
 import { Generic } from '../strings';
-import { Enums } from '@joshuarobs/clothing-framework';
-
-const { ItemType } = Enums;
+import { ItemType } from '@joshuarobs/clothing-framework';
 
 const Accessory = {
   id: ItemType.Accessory,

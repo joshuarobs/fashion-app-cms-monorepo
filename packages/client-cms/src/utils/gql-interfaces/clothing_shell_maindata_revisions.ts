@@ -1,7 +1,7 @@
 /**
  * http://localhost:9696/console/data/schema/public/tables/clothing_shell_maindata_revisions/modify
  */
-import { DataState } from '@joshuarobs/clothing-framework/build/enums';
+import { DataState } from '@joshuarobs/clothing-framework';
 import { clothing_shells } from './clothing_shells';
 import { clothing_shell_maindata } from './clothing_shell_maindata';
 

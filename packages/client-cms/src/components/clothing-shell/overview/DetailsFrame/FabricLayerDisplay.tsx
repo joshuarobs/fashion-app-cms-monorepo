@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import { generateOverviewTreeFabricLayerData } from '../../../../utils/generateOverviewTreeFabricLayerData';
 import { WarningFilled } from '@ant-design/icons';
 import { Get_Fabric_Layer } from '../../../../queries/getFabricLayer';
-import { FabricLayerType } from '@joshuarobs/clothing-framework/build/enums';
+import { FabricLayerType } from '@joshuarobs/clothing-framework';
 
 const { Title, Text } = Typography;
 const size = 'small';

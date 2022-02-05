@@ -12,7 +12,7 @@ import {
   DataAction,
   DataChangeType,
   DataState,
-} from '@joshuarobs/clothing-framework/build/enums';
+} from '@joshuarobs/clothing-framework';
 import { useNavigate } from 'react-router-dom';
 import { ItemStateFrame } from './ItemStateFrame/_ItemStateFrame';
 import { Update_Item_Maindata_Revision_State } from '../../../queries/item_maindata_revisions/updateItemMaindataRevisionState';

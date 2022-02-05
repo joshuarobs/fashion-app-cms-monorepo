@@ -15,8 +15,10 @@ import { Update_Clothing_Shell_Maindata } from '../../../queries/clothing_shell_
 import { Update_Clothing_Shell_Updated_At } from '../../../queries/clothing_shells/updateClothingShellUpdatedAt';
 import {
   ClothingSegmentsData,
-  Enums,
-} from '@joshuarobs/clothing-framework/build';
+  DataChangeType,
+  DataAction,
+  DataState,
+} from '@joshuarobs/clothing-framework';
 import { Update_Clothing_Segment_Data } from '../../../queries/clothing_segment_data/updateClothingSegmentData';
 import { ClothingSegmentDataHasChangedProps } from './ClothingSegmentDataHasChangedProps';
 import { ClothingShellStateFrame } from './ClothingShellStateFrame';
@@ -197,8 +199,8 @@ function OverviewMainFrame({
       const variables = {
         revisionId: clothingShellMaindataRevision.id,
         userId: 1,
-        changeType: Enums.DataChangeType.Action,
-        action: Enums.DataAction.Update,
+        changeType: DataChangeType.Action,
+        action: DataAction.Update,
       };
       await insertClothingShellMaindataRevisionChange({
         variables,
@@ -217,8 +219,7 @@ function OverviewMainFrame({
   // 3 - State related vars
   //==================================================
   const disabled =
-    clothingShellMaindataRevision.state !== Enums.DataState.Development ||
-    isSaving;
+    clothingShellMaindataRevision.state !== DataState.Development || isSaving;
   //----------------------------------------
   // Maindata
   //----------------------------------------

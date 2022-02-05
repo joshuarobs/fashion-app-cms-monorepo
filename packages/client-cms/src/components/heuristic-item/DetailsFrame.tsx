@@ -17,10 +17,7 @@ import {
 import { ClothingCategory } from '../../framework/clothingCategory';
 import { ItemFilterValuesOccasion } from '../../framework/itemFilterValuesOccasion';
 import { ItemFilterValuesStyle } from '../../framework/itemFilterValuesStyle';
-import {
-  ItemType,
-  Gender as GendersMap,
-} from '@joshuarobs/clothing-framework/build/enums';
+import { ItemType, Gender as GendersMap } from '@joshuarobs/clothing-framework';
 import { FrameTitle } from '../common/typography/FrameTitle';
 import { enumToCamelCase } from '../../utils/enumToCamelCase';
 // import SelectCountryOfManufacture from '../common/data-entry/SelectCountryOfManufacture';

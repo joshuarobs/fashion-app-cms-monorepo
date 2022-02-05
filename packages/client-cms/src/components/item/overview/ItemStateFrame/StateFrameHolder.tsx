@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
-import { DataState } from '@joshuarobs/clothing-framework/build/enums';
+import { DataState } from '@joshuarobs/clothing-framework';
 import { item_maindata_revision_changes } from '../../../../utils/gql-interfaces/item_maindata_revision_changes';
 
 interface StateFrameHolderProps {
