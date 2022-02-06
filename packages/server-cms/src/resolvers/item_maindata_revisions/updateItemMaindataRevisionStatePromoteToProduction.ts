@@ -1,10 +1,7 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
-import {
-  DataChangeType,
-  DataState,
-} from '@joshuarobs/clothing-framework/build/enums';
+import { DataChangeType, DataState } from '@joshuarobs/clothing-framework';
 import { updateCompanyCountViaCompanyId } from '../company_counts/updateCompanyCountViaCompanyId';
 import { Logger_Prefix_Sub_Level_1 } from '../../settings';
 

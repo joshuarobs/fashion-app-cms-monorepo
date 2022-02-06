@@ -1,10 +1,7 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
-import {
-  DataChangeType,
-  DataState,
-} from '@joshuarobs/clothing-framework/build/enums';
+import { DataChangeType, DataState } from '@joshuarobs/clothing-framework';
 
 async function updateItemTranslationRevisionStatePromoteToProduction(
   id: string
@@ -47,12 +44,8 @@ async function updateItemTranslationRevisionStatePromoteToProduction(
 
     console.log('data1:', data1.data.item_translation_revisions_by_pk);
 
-    const {
-      state,
-      item_translations,
-      item_id,
-      locale_code,
-    } = data1.data.item_translation_revisions_by_pk;
+    const { state, item_translations, item_id, locale_code } =
+      data1.data.item_translation_revisions_by_pk;
 
     // Return early if state is not Review
     if (state !== DataState.Review) {
@@ -142,9 +135,8 @@ async function updateItemTranslationRevisionStatePromoteToProduction(
     //   JSON.stringify(data3a.data.item_translation_revisions_by_pk, null, 2)
     // );
 
-    const {
-      item_translation_revisions,
-    } = data3a.data.item_translation_revisions_by_pk.item;
+    const { item_translation_revisions } =
+      data3a.data.item_translation_revisions_by_pk.item;
     console.log('item_translation_revisions:', item_translation_revisions);
 
     // Check for a previous revision

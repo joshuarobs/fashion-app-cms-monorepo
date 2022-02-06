@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
-import { Button, Input, Modal, Radio, Row, Typography, Alert } from 'antd';
+import {
+  Button,
+  Input,
+  Modal,
+  Radio,
+  Row,
+  Typography,
+  Alert,
+  Tooltip,
+  Col,
+} from 'antd';
 import { ItemFilterValuesItemType } from '../../../framework/itemFilterValuesItemType';
-import { Common } from '../../../strings';
+import { Common, Item_Details_Frame } from '../../../strings';
 import { NewEntryModalProps } from './NewEntryModalProps';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 const { Text } = Typography;
 
@@ -22,6 +33,8 @@ const styles = {
 const VALUES = Array.from(ItemFilterValuesItemType.Map.values());
 
 function NewEntryModalForItemRelatedEntry({
+  itemName,
+  nameFieldPlaceholder,
   title,
   showModal,
   onCancel,
@@ -37,7 +50,7 @@ function NewEntryModalForItemRelatedEntry({
   return (
     <Modal
       visible={showModal}
-      title={title}
+      title={`${title} ${itemName}`}
       onCancel={onCancel}
       onOk={onSubmit}
       footer={[
@@ -71,7 +84,26 @@ function NewEntryModalForItemRelatedEntry({
           />
         )}
         <Row style={styles.sectionTitle}>
-          <Text strong>Name</Text>
+          <Col span={20}>
+            <Text strong>{itemName} Database Name</Text>
+          </Col>
+          <Col
+            span={4}
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <Tooltip title={Item_Details_Frame.Database_Item_Name_Tooltip}>
+              <InfoCircleOutlined
+                style={{
+                  cursor: 'pointer',
+                  fontSize: 16,
+                  opacity: 0.65,
+                }}
+              />
+            </Tooltip>
+          </Col>
         </Row>
         <Row
           style={{
@@ -87,6 +119,7 @@ function NewEntryModalForItemRelatedEntry({
             // @ts-ignore
             onPressEnter={onSubmit}
             autoComplete="new-password"
+            placeholder={nameFieldPlaceholder}
           />
         </Row>
         <Row style={styles.sectionTitle}>

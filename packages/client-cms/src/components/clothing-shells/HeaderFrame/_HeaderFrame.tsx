@@ -130,6 +130,7 @@ function HeaderFrame() {
   return (
     <>
       <NewEntryModalForItemRelatedEntry
+        itemName={'Clothing Shell'}
         showModal={showModal}
         onCancel={onCancel}
         onSubmit={onSubmit}

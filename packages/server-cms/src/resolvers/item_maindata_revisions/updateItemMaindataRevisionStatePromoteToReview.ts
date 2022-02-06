@@ -1,11 +1,7 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
-import {
-  DataChangeType,
-  DataState,
-} from '@joshuarobs/clothing-framework/build/enums';
-// import { Enums } from '@joshuarobs/clothing-framework';
+import { DataChangeType, DataState } from '@joshuarobs/clothing-framework';
 
 /**
  * Updates the Item Maindata Revision's state by promoting it:

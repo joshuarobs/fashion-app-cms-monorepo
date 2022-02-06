@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
-import { ItemType } from '@joshuarobs/clothing-framework/build/enums';
+import { ItemType } from '@joshuarobs/clothing-framework';
 
 /**
  * Gets all the revisions for an item (main data only)

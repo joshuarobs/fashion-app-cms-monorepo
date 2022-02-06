@@ -208,7 +208,8 @@ function OverviewTab({
     return (
       <>
         <NewEntryModalForItemRelatedEntry
-          title={'Add Maindata Revision'}
+          itemName={'Item'}
+          title={'Add Maindata Revision for'}
           showModal={fixShowModal}
           onCancel={onCancel}
           onSubmit={onSubmit}
@@ -263,7 +264,9 @@ function OverviewTab({
     return (
       <>
         <NewEntryModalForItemRelatedEntry
-          title={'Add Maindata'}
+          itemName={'Item'}
+          title={'Add Maindata for'}
+          nameFieldPlaceholder={'e.g. adidas White T-shirt SS2020'}
           showModal={fixShowModal}
           onCancel={onCancel}
           onSubmit={onSubmit}

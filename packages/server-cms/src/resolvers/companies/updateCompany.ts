@@ -1,10 +1,6 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
-import {
-  DataAction,
-  DataChangeType,
-} from '@joshuarobs/clothing-framework/build/enums';
 
 /**
  * Updates a Company. This is typically used when editing an Company on it's

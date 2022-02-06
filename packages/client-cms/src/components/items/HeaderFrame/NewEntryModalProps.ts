@@ -1,6 +1,8 @@
 import React from 'react';
 
 interface NewEntryModalProps {
+  itemName: string;
+  nameFieldPlaceholder?: string;
   title: string;
   showModal: boolean;
   onCancel: (e: React.MouseEvent) => void;

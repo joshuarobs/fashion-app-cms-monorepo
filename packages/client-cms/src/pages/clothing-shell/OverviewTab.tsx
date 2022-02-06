@@ -208,7 +208,9 @@ function OverviewTab({
     return (
       <>
         <NewEntryModalForItemRelatedEntry
-          title={Popup_New_Entry.Add_Maindata_Revision}
+          itemName={'Clothing Shell'}
+          nameFieldPlaceholder={'e.g. White Cotton T-shirt'}
+          title={Popup_New_Entry.Add_Maindata_Revision_For}
           showModal={fixShowModal}
           onCancel={onCancel}
           onSubmit={onSubmit}

@@ -5,7 +5,7 @@ import {
   DataAction,
   DataChangeType,
   DataState,
-} from '@joshuarobs/clothing-framework/build/enums';
+} from '@joshuarobs/clothing-framework';
 
 /**
  * Updates an Item Translation, alongside updating the Item's `updated_at`

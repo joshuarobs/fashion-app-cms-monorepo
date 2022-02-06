@@ -5,7 +5,7 @@ import {
   DataChangeType,
   DataState,
   ItemType,
-} from '@joshuarobs/clothing-framework/build/enums';
+} from '@joshuarobs/clothing-framework';
 import { insertItemMaindataBarebones } from '../item_maindata/insertItemMaindataBarebones';
 import { insertItemMaindataRevisionChange } from '../item_maindata_revision_changes/insertItemMaindataRevisionChange';
 

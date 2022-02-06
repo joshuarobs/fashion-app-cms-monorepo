@@ -316,7 +316,7 @@ const Item_Details_Frame = {
 
 const Popup_New_Entry = {
   Add_New_Clothing_Shell: 'Add New Clothing Shell',
-  Add_Maindata_Revision: 'Add Maindata Revision',
+  Add_Maindata_Revision_For: 'Add Maindata Revision for',
 };
 
 const Table_Descriptions = {

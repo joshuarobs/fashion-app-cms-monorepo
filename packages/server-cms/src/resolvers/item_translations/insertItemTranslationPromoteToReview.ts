@@ -1,10 +1,7 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
-import {
-  DataChangeType,
-  DataState,
-} from '@joshuarobs/clothing-framework/build/enums';
+import { DataChangeType, DataState } from '@joshuarobs/clothing-framework';
 
 async function insertItemTranslationPromoteToReview(
   revision_id: string
@@ -51,11 +48,8 @@ async function insertItemTranslationPromoteToReview(
 
     console.log('data1:', data1.data.item_translation_revisions_by_pk);
 
-    const {
-      state,
-      item_translations,
-      item_id,
-    } = data1.data.item_translation_revisions_by_pk;
+    const { state, item_translations, item_id } =
+      data1.data.item_translation_revisions_by_pk;
 
     // Return early if state is not Development
     if (state !== DataState.Development) {

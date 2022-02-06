@@ -153,6 +153,7 @@ function HeaderFrame({ title = '' }) {
   return (
     <>
       <NewEntryModalForItemRelatedEntry
+        itemName={'Item'}
         title={'Add New Item'}
         showModal={showModal}
         onCancel={onCancel}
