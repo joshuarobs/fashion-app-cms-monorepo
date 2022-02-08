@@ -1,11 +1,32 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
-import { DataChangeType, DataState } from '@joshuarobs/clothing-framework';
+import {
+  DataChangeType,
+  DataState,
+  ItemType,
+} from '@joshuarobs/clothing-framework';
+import { Gender } from '@joshuarobs/clothing-framework';
 
-async function insertItemMaindataRevisionItemsPage(id: number) {
+/**
+ * A function intended for when adding a new Item's Maindata Revision and
+ * its dependents. This is intended for when the user gets an error prompt
+ * (on the Item's page) and needs to repair the table structure of an Item.
+ *
+ * This function should function similar to `insertItem` but without
+ * inserting the Item row itself, as it's assumed that it's already added
+ * (but has missing dependents that this very function is going to solve).
+ * @param id
+ * @param name
+ * @param item_type
+ */
+async function addItemMaindataRevisionFixPrompt(
+  id: number,
+  name: string,
+  item_type: ItemType
+) {
   logger.info(
-    `graphql > insertItemMaindataRevisionItemsPage() | args: id: ${id}`
+    `graphql > addItemMaindataRevisionFixPrompt() :: args: id: ${id} | name: ${name} | item_type: ${item_type}`
   );
   const userId = 1;
 
@@ -47,21 +68,16 @@ async function insertItemMaindataRevisionItemsPage(id: number) {
 
     console.log('data1:', data1.data.item_maindata_revisions);
 
-    const currentState = data1.data.item_maindata_revisions[0].state;
-    const currentRevision = data1.data.item_maindata_revisions[0].revision;
-    // console.log('currentState:', currentState);
-    console.log('currentRevision:', currentRevision);
-
-    // We will only create a new maindata revision if the current revision
-    // is in Production
-    if (currentState !== DataState.Production) {
-      // return null;
-      return data1.data.item_maindata_revisions[0];
+    // Since we are adding a maindata revision for a bugged entry, we assume
+    // that there are no existing maindata revisions (this function
+    // shouldn't work at all if there are maindata revisions, i.e. nothing
+    // to fix)
+    if (data1.data.item_maindata_revisions.length > 0) {
+      logger.info(
+        `graphql > addItemMaindataRevisionFixPrompt() :: Returned early because maindata array length > 0`
+      );
+      return null;
     }
-
-    // Get the current revision's maindata
-    const { item_maindata } = data1.data.item_maindata_revisions[0];
-    console.log('item_maindata:', item_maindata);
 
     /*
      * ============================================================
@@ -88,7 +104,7 @@ async function insertItemMaindataRevisionItemsPage(id: number) {
       `,
       variables: {
         id,
-        revision: currentRevision + 1,
+        revision: 1,
         state: DataState.Development,
       },
     });
@@ -144,12 +160,12 @@ async function insertItemMaindataRevisionItemsPage(id: number) {
       variables: {
         revisionId: data2.data.insert_item_maindata_revisions_one.id,
         isRelease: true,
-        name: item_maindata[0].name,
-        type: item_maindata[0].type,
-        brand_id: item_maindata[0].brand_id,
-        clothing_shell_id: item_maindata[0].clothing_shell_id,
-        for_gender: item_maindata[0].for_gender,
-        item_family_id: item_maindata[0].item_family_id,
+        name,
+        type: item_type,
+        brand_id: null,
+        clothing_shell_id: null,
+        for_gender: Gender.All,
+        item_family_id: null,
       },
     });
 
@@ -158,6 +174,9 @@ async function insertItemMaindataRevisionItemsPage(id: number) {
      * 4. Insert a revision change
      * ============================================================
      */
+    // TODO: Add an additional change describing that this was done due to
+    //  fixing the error by an error fixing prompt (to differentiate it from
+    //  being generated naturally)
     const data4 = await client.mutate({
       mutation: gql`
         mutation insertItemMaindataRevisionChange(
@@ -223,4 +242,4 @@ async function insertItemMaindataRevisionItemsPage(id: number) {
   }
 }
 
-export { insertItemMaindataRevisionItemsPage };
+export { addItemMaindataRevisionFixPrompt };

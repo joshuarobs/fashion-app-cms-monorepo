@@ -10,7 +10,8 @@ import { insertItemMaindataBarebones } from '../item_maindata/insertItemMaindata
 import { insertItemMaindataRevisionChange } from '../item_maindata_revision_changes/insertItemMaindataRevisionChange';
 
 /**
- * Insert a new Item entry with related
+ * Insert a new Item entry with all of it's required dependent rows
+ * (maindata revisions, maindata, revision changes, etc.)
  * @param name
  * @param item_type
  */

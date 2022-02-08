@@ -130,6 +130,7 @@ import { insertItemTranslationPromoteToReview } from './resolvers/item_translati
 import { updateItemTranslationRevisionStatePromoteToProduction } from './resolvers/item_translation_revisions/updateItemTranslationRevisionStatePromoteToProduction';
 import { insertItemTranslationRevisionPromoteNewRevision } from './resolvers/item_translation_revisions/insertItemTranslationRevisionPromoteNewRevision';
 import { deleteItemTranslationRevisionLocalePage } from './resolvers/item_translation_revisions/deleteItemTranslationRevisionLocalePage';
+import { addItemMaindataRevisionFixPrompt } from './resolvers/item_maindata_revisions/addItemMaindataRevisionFixPrompt';
 
 const resolvers = {
   //**********************************************************************
@@ -245,6 +246,8 @@ const resolvers = {
     //--------------------------------------------------
     // item_maindata_revisions
     //--------------------------------------------------
+    addItemMaindataRevisionFixPrompt: (_, { id, name, item_type }) =>
+      addItemMaindataRevisionFixPrompt(id, name, item_type),
     deleteItemMaindataRevisionsForItem,
     insertItemMaindataRevision,
     insertItemMaindataRevisionItemsPage: (_, { id }) =>

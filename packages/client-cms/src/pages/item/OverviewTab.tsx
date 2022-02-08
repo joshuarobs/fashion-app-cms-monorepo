@@ -18,6 +18,9 @@ import { Common } from '../../strings';
 import { Insert_Item_Maindata_Revision_Change } from '../../queries/item_maindata_revision_changes/insertItemMaindataRevisionChange';
 import { Get_Item_Maindata_Revision_With_Item_Maindata_By_Rev_And_Item_Id } from '../../queries/item_maindata_revisions/getItemMaindataRevisionWithItemMaindataByRevAndItemId';
 import { item_maindata } from '../../utils/gql-interfaces/item_maindata';
+import { Add_Item_Maindata_Revision_Fix_Prompt } from '../../queries/item_maindata_revisions/addItemMaindataRevisionFixPrompt';
+import { Insert_Item } from '../../queries/items/insertItem';
+import { Get_Items_For_Items_Table_Latest } from '../../queries/items/getItemsForItemsTableLatest';
 
 const key = 'items-overview';
 
@@ -161,6 +164,21 @@ function OverviewTab({
     },
   });
 
+  const [
+    addItemMaindataRevisionFixPrompt,
+    {
+      loading: loadingMaindataRevisionFixPrompt,
+      error: errorMaindataRevisionFixPrompt,
+    },
+  ] = useMutation(Add_Item_Maindata_Revision_Fix_Prompt, {
+    onCompleted({ item_maindata_revisions }) {},
+    // refetchQueries: [
+    //   {
+    //     query: Get_Items_For_Items_Table_Latest,
+    //   },
+    // ],
+  });
+
   //--------------------------------------------------
   // LOADING + FATAL ERROR
   //--------------------------------------------------
@@ -178,6 +196,7 @@ function OverviewTab({
   //--------------------------------------------------
   // ERROR - No maindata revision
   //--------------------------------------------------
+
   if (!itemMaindataRevision) {
     const onClick = () => {
       setFixShowModal(true);
@@ -191,13 +210,20 @@ function OverviewTab({
             key,
           })
           .then();
-        insertItemMaindataRevision({
+        addItemMaindataRevisionFixPrompt({
           variables: {
             id: item.id,
-            revision: 1,
-            state: DataState.Development,
+            name: fixNewName,
+            item_type: fixItemType,
           },
         }).then();
+        // insertItemMaindataRevision({
+        //   variables: {
+        //     id: item.id,
+        //     revision: 1,
+        //     state: DataState.Development,
+        //   },
+        // }).then();
       }
     };
 
@@ -218,7 +244,7 @@ function OverviewTab({
           setName={setFixNewName}
           itemType={fixItemType}
           setItemType={setFixItemType}
-          // loading={mutationLoading}
+          loading={loadingMaindataRevisionFixPrompt}
         />
         <ErrorPleaseFixThis
           message={'This Item does not have a Maindata Revision.'}

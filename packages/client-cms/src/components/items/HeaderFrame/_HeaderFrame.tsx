@@ -126,11 +126,6 @@ function HeaderFrame({ title = '' }) {
   const onSubmit = async () => {
     // message.loading({ content: COMMON.CREATING_NEW_CLOTHING_SHELL, key });
     if (newName) {
-      // newItem({
-      //   variables: {
-      //     itemType
-      //   }
-      // });
       const variables = {
         name: newName,
         item_type: itemType,

@@ -262,7 +262,7 @@ const Common = {
       'You should only be adding a new Item if you absolutely have to, such' +
       ' as for testing purposes. \n' +
       'New Item entries should all be generated automatically from vendor' +
-      ' apis via the Home Screen.',
+      ' APIs via the Home Screen.',
   },
   Localisation_Related: {
     Add_Locale: 'Add Locale',
