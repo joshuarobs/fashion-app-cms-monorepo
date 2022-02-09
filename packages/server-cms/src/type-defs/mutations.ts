@@ -115,6 +115,7 @@ const Mutations = gql`
       name: String!
       item_type: item_types_enum!
     ): item_maindata_revisions
+    deleteItemMaindataRevisionAdminEdit(id: String!): item_maindata_revisions
     deleteItemMaindataRevisionsForItem: item_maindata_revisions
     insertItemMaindataRevision: item_maindata_revisions
     insertItemMaindataRevisionItemsPage(id: Int!): item_maindata_revisions

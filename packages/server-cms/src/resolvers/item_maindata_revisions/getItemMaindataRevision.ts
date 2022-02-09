@@ -2,9 +2,16 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
-// Gets an item maindata revision by pk
-// This is used for the Overview tab for the Item page (State Frame)
-async function getItemMaindataRevision() {
+/**
+ * Gets an item maindata revision by pk.
+ *
+ * This is used for the Overview tab for the Item page (State Frame) and as
+ * a reusable component query in other complex functions.
+ * @param id
+ */
+async function getItemMaindataRevision(id: string) {
+  logger.info(`graphql > getItemMaindataRevision() :: args: id: ${id}`);
+
   try {
     const data = await client.query({
       query: gql`
@@ -29,6 +36,9 @@ async function getItemMaindataRevision() {
           }
         }
       `,
+      variables: {
+        id,
+      },
       fetchPolicy: 'network-only',
     });
     return data.data.item_maindata_revisions_by_pk;

@@ -5,8 +5,8 @@ import {
   DataChangeType,
   DataState,
   ItemType,
+  Gender,
 } from '@joshuarobs/clothing-framework';
-import { Gender } from '@joshuarobs/clothing-framework';
 
 /**
  * A function intended for when adding a new Item's Maindata Revision and
@@ -31,6 +31,9 @@ async function addItemMaindataRevisionFixPrompt(
   const userId = 1;
 
   try {
+    // TODO: Ensure that the current user token (not a passed in id since it
+    //  can be frauded) has enough permissions to do this action
+
     /*
      * ============================================================
      * 1. Get the current most maindata revision and its maindata

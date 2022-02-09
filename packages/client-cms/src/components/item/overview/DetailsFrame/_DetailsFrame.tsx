@@ -46,6 +46,9 @@ import { TagInRetirement } from '../../../common/localisation/TagInRetirement';
 import { SelectCountryOfManufacture } from '../../../common/data-entry/SelectCountryOfManufacture/_SelectCountryOfManufacture';
 import { Generic, Item_Details_Frame } from '../../../../strings';
 import { FrameInputLabel } from '../../../common/typography/FrameInputLabel';
+import { useMutation } from '@apollo/client';
+import { Add_Item_Maindata_Revision_Fix_Prompt } from '../../../../queries/item_maindata_revisions/addItemMaindataRevisionFixPrompt';
+import { Delete_Item_Maindata_Revision_Admin_Edit } from '../../../../queries/item_maindata_revisions/deleteItemMaindataRevisionAdminEdit';
 
 const OCCASIONS = ItemFilterValuesOccasion.Values;
 // const GENDERS = Array.from(ItemFilterValuesGender.MAP.values());
@@ -359,6 +362,22 @@ function DetailsFrame({
     }
   };
 
+  // GraphQL
+  const [
+    deleteItemMaindataRevisionAdminEdit,
+    {
+      loading: loadingDeleteMaindataRevAdminEdit,
+      error: errorDeleteMaindataRevAdminEdit,
+    },
+  ] = useMutation(Delete_Item_Maindata_Revision_Admin_Edit, {
+    onCompleted({ item_maindata_revisions }) {},
+    // refetchQueries: [
+    //   {
+    //     query: Get_Items_For_Items_Table_Latest,
+    //   },
+    // ],
+  });
+
   // const disabled = itemMaindataRevision.state !== DATA_STATES.DEVELOPMENT;
   let currentStateTag = null;
   switch (itemMaindataRevision.state) {
@@ -414,7 +433,7 @@ function DetailsFrame({
             <BurgerMenuButton
               revision={itemMaindataRevision}
               setToRetiredData={setToRetiredData}
-              deleteRevision={deleteItemMaindataRevisionAndMaindata}
+              deleteRevision={deleteItemMaindataRevisionAdminEdit}
               // deleteItemTranslations={deleteItemTranslationsForThisRevision}
             />
           </Col>

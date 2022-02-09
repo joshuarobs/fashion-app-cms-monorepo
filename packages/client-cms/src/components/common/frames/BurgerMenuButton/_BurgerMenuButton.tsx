@@ -36,7 +36,12 @@ function BurgerMenuButton({
   };
 
   const onSubmitDelete = () => {
-    deleteRevision();
+    console.log('revision:', revision);
+    deleteRevision({
+      variables: {
+        id: revision.id,
+      },
+    }).then();
     setShowModalKind(ModalKind.None);
   };
 
