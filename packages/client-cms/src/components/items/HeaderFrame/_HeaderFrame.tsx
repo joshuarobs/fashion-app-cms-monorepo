@@ -34,66 +34,8 @@ function HeaderFrame({ title = '' }) {
   const [itemType, setItemType] = useState(ItemType.Clothing);
 
   const navigate = useNavigate();
-  // Hooks for GraphQL queries
-  // const [
-  //   insertItemMaindataRevisionChange,
-  //   { loading: loadingAddMaindataRevChange, error: errorAddMaindataRevChange },
-  // ] = useMutation(Insert_Item_Maindata_Revision_Change, {
-  //   onCompleted() {},
-  // });
-  //
-  // const [
-  //   insertItemMaindata,
-  //   { loading: loadingInsertMainClothing, error: errorInsertMainClothing },
-  // ] = useMutation(Insert_Item_Maindata_Barebones, {
-  //   onCompleted({ insert_item_maindata_one }) {
-  //     console.log('insert_item_maindata_one:', insert_item_maindata_one);
-  //     const { revision_id } = insert_item_maindata_one;
-  //     const variables = {
-  //       revisionId: revision_id,
-  //       userId: 1,
-  //       changeType: DataChangeType.Promotion,
-  //       toState: DataState.Development,
-  //       // action: DATA_ACTIONS.CREATE
-  //     };
-  //     insertItemMaindataRevisionChange({ variables }).then(() => {
-  //       const { revision } = insert_item_maindata_one;
-  //       const { item_id } = revision;
-  //       history.push(`${Routes.Items__Clothing__Item}/${item_id}?rev=1`);
-  //       message.success({ content: Common.Created_New_Item, key }, 2);
-  //       // Redirect to the page
-  //       // message.success(
-  //       //     {
-  //       //       content: COMMON.ADDED_NEW_LOCALE,
-  //       //       key
-  //       //     },
-  //       //     2
-  //       // );
-  //     });
-  //   },
-  // });
-  //
-  // const [
-  //   insertItemMaindataRevision,
-  //   { loading: loadingInsertMainRev, error: errorInsertMainRev },
-  // ] = useMutation(Insert_Item_Maindata_Revision, {
-  //   onCompleted({ insert_item_maindata_revisions_one }) {
-  //     console.log(
-  //       'insert_item_maindata_revisions_one:',
-  //       insert_item_maindata_revisions_one
-  //     );
-  //     const { id } = insert_item_maindata_revisions_one;
-  //     const variables = {
-  //       revisionId: id,
-  //       isRelease: true,
-  //       name: newName,
-  //       type: itemType,
-  //     };
-  //     // 3. INSERT A MAINDATA FOR THAT REVISION
-  //     insertItemMaindata({ variables }).then();
-  //   },
-  // });
 
+  // Hooks for GraphQL queries
   const [newItem, { loading: mutationLoading, error: mutationError }] =
     useMutation(Insert_Item, {
       onCompleted({ insert_items_one }) {
