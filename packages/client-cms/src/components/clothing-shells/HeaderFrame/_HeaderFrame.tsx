@@ -24,6 +24,10 @@ import { Insert_New_Blank_Clothing_Segment_Data } from '../../../queries/clothin
 import { Insert_Empty_Clothing_Shell } from '../../../queries/clothing_shells/insertEmptyClothingShell';
 import { Insert_Clothing_Shell_Maindata_Revision } from '../../../queries/clothing_shell_maindata_revisions/insertClothingShellMaindataRevision';
 import { Insert_Clothing_Shell_Maindata } from '../../../queries/clothing_shell_maindata/insertClothingShellMaindata';
+import { Insert_Clothing_Shell } from '../../../queries/clothing_shells/insertClothingShell';
+import { Insert_Item } from '../../../queries/items/insertItem';
+import { Get_Items_For_Items_Table_Latest } from '../../../queries/items/getItemsForItemsTableLatest';
+import { Get_Clothing_Shells_For_Clothing_Shells_Table_Latest } from '../../../queries/clothing_shells/getClothingShellsForClothingShellsTableLatest';
 
 const { TabPane } = Tabs;
 
@@ -36,68 +40,84 @@ function HeaderFrame() {
 
   const navigate = useNavigate();
   // Hooks for GraphQL queries
-  const [
-    insertClothingShellCount,
-    {
-      loading: loadingInsertClothingShellCount,
-      error: errorInsertClothingShellCount,
-    },
-  ] = useMutation(Insert_Clothing_Shell_Count, {
-    onCompleted({}) {},
-  });
-
-  const [
-    insertClothingShellMaindataRevision,
-    {
-      loading: loadingInsertClothingShellMaindataRevision,
-      error: errorInsertClothingShellMaindataRevision,
-    },
-  ] = useMutation(Insert_Clothing_Shell_Maindata_Revision, {
-    onCompleted({}) {},
-  });
-
-  const [
-    insertClothingShellMaindata,
-    {
-      loading: loadingInsertClothingShellMaindata,
-      error: errorInsertClothingShellMaindata,
-    },
-  ] = useMutation(Insert_Clothing_Shell_Maindata, {
-    onCompleted({}) {},
-  });
-
-  const [
-    insertClothingSegmentData,
-    {
-      loading: loadingInsertClothingSegmentData,
-      error: errorInsertClothingSegmentData,
-    },
-  ] = useMutation(Insert_New_Blank_Clothing_Segment_Data, {
-    onCompleted({ insert_clothing_segment_data_one }) {},
-  });
-
   const [newClothingShell, { loading: mutationLoading, error: mutationError }] =
-    useMutation(Insert_Empty_Clothing_Shell, {
-      async onCompleted({ insert_clothing_shells_one }) {
-        console.log('insert_clothing_shells_one:', insert_clothing_shells_one);
-        await insertClothingShellCount({
-          variables: {
-            clothingShellId: insert_clothing_shells_one.id,
-          },
-        });
-        navigate(
-          `${RouteStrings.Clothing_Shells__Clothing_Shell}/${insert_clothing_shells_one.id}`
-        );
-        message.success({ content: Common.Created_New_Clothing_Shell, key });
+    useMutation(Insert_Clothing_Shell, {
+      onCompleted({ insert_clothing_shells_one }) {
+        // console.log('insert_items_one:', insert_items_one);
+        // const { id } = insert_items_one;
+        // const variables = { id, revision: 1, state: DataState.Development };
+        // 2. INSERT A REVISION
+        // insertItemMaindataRevision({ variables }).then();
       },
+      refetchQueries: [
+        {
+          query: Get_Clothing_Shells_For_Clothing_Shells_Table_Latest,
+        },
+      ],
     });
+  //
+  // const [
+  //   insertClothingShellCount,
+  //   {
+  //     loading: loadingInsertClothingShellCount,
+  //     error: errorInsertClothingShellCount,
+  //   },
+  // ] = useMutation(Insert_Clothing_Shell_Count, {
+  //   onCompleted({}) {},
+  // });
+  //
+  // const [
+  //   insertClothingShellMaindataRevision,
+  //   {
+  //     loading: loadingInsertClothingShellMaindataRevision,
+  //     error: errorInsertClothingShellMaindataRevision,
+  //   },
+  // ] = useMutation(Insert_Clothing_Shell_Maindata_Revision, {
+  //   onCompleted({}) {},
+  // });
+  //
+  // const [
+  //   insertClothingShellMaindata,
+  //   {
+  //     loading: loadingInsertClothingShellMaindata,
+  //     error: errorInsertClothingShellMaindata,
+  //   },
+  // ] = useMutation(Insert_Clothing_Shell_Maindata, {
+  //   onCompleted({}) {},
+  // });
+  //
+  // const [
+  //   insertClothingSegmentData,
+  //   {
+  //     loading: loadingInsertClothingSegmentData,
+  //     error: errorInsertClothingSegmentData,
+  //   },
+  // ] = useMutation(Insert_New_Blank_Clothing_Segment_Data, {
+  //   onCompleted({ insert_clothing_segment_data_one }) {},
+  // });
+  //
+  // const [newClothingShell, { loading: mutationLoading, error: mutationError }] =
+  //   useMutation(Insert_Empty_Clothing_Shell, {
+  //     async onCompleted({ insert_clothing_shells_one }) {
+  //       console.log('insert_clothing_shells_one:', insert_clothing_shells_one);
+  //       await insertClothingShellCount({
+  //         variables: {
+  //           clothingShellId: insert_clothing_shells_one.id,
+  //         },
+  //       });
+  //       navigate(
+  //         `${RouteStrings.Clothing_Shells__Clothing_Shell}/${insert_clothing_shells_one.id}`
+  //       );
+  //       message.success({ content: Common.Created_New_Clothing_Shell, key });
+  //     },
+  //   });
 
-  if (errorInsertClothingShellCount) {
-    console.log(
-      'errorInsertClothingShellCount:',
-      errorInsertClothingShellCount
-    );
-  }
+  // if (errorInsertClothingShellCount) {
+  //   console.log(
+  //     'errorInsertClothingShellCount:',
+  //     errorInsertClothingShellCount
+  //   );
+  // }
 
   if (mutationError) {
     console.log('mutationError:', mutationError);
@@ -116,10 +136,22 @@ function HeaderFrame() {
     setShowModal(true);
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // message.loading({ content: COMMON.CREATING_NEW_CLOTHING_SHELL, key });
     if (newName) {
-      newClothingShell().then();
+      const clothingShell = await newClothingShell({
+        variables: {
+          name: newName,
+          item_type: itemType,
+        },
+      });
+      if (clothingShell.data.insertClothingShell) {
+        console.error('clothingShell:', clothingShell);
+        navigate(
+          `${RouteStrings.Clothing_Shells__Clothing_Shell}/${clothingShell.data.insertClothingShell.id}?rev=1`
+        );
+        message.success({ content: Common.Created_New_Item, key }, 2);
+      }
     }
   };
 

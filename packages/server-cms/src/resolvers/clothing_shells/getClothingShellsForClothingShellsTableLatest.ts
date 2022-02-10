@@ -1,7 +1,10 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
-import { Data_Entry_Query_Amount_Max_Limit } from '../../settings';
+import {
+  Data_Entry_Query_Amount_Max_Limit,
+  Data_Entry_Query_Amount_Min_Standard,
+} from '../../settings';
 
 /**
  * Gets relevant basic information about clothing shells
@@ -14,6 +17,7 @@ async function getClothingShellsForClothingShellsTableLatest(
   limit: number,
   offset: number
 ) {
+  if (!limit) limit = Data_Entry_Query_Amount_Min_Standard;
   if (limit > Data_Entry_Query_Amount_Max_Limit)
     limit = Data_Entry_Query_Amount_Max_Limit;
 

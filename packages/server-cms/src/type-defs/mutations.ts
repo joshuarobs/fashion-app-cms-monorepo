@@ -41,6 +41,10 @@ const Mutations = gql`
     # clothing_shells
     #--------------------------------------------------
     insertEmptyClothingShell: clothing_shells
+    insertClothingShell(
+      name: String!
+      item_type: item_types_enum!
+    ): clothing_shells
     updateClothingShellUpdatedAt: clothing_shells
     #--------------------------------------------------
     # companies

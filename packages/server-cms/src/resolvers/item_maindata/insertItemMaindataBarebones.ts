@@ -49,6 +49,7 @@ async function insertItemMaindataBarebones(
             revision_id
             short_id
             revision {
+              id
               item_id
               revision
             }

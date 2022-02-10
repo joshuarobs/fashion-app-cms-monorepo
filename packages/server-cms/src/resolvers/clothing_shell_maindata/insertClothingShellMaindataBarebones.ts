@@ -1,27 +1,42 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
+import { ItemType } from '@joshuarobs/clothing-framework';
 
-// Gets all the revisions for a clothing shell (main data only)
-// Barebones (BB) data only (no other relational or foreign data)
-// This is used for the Overview tab for the Clothing Shell page (Revisions
-// dropdown)
-async function insertClothingShellMaindataBarebones() {
+/**
+ * Gets all the revisions for a clothing shell (main data only)
+ * Barebones (BB) data only (no other relational or foreign data)
+ * This is used for the Overview tab for the Clothing Shell page (Revisions
+ * dropdown)
+ * @param revision_id
+ * @param is_release
+ * @param name
+ * @param item_type
+ */
+async function insertClothingShellMaindataBarebones(
+  revision_id: string,
+  is_release: boolean,
+  name: string,
+  item_type: ItemType
+) {
+  logger.info(
+    `graphql > insertClothingShellMaindataBarebones() :: args: revision_id: ${revision_id} | is_release: ${is_release} | name: ${name} | item_type: ${item_type}`
+  );
   try {
-    const data = await client.query({
-      query: gql`
+    const data = await client.mutate({
+      mutation: gql`
         mutation insertClothingShellMaindataBarebones(
-          $revisionId: uuid!
-          $isRelease: Boolean!
+          $revision_id: uuid!
+          $is_release: Boolean!
           $name: String!
-          $type: item_types_enum!
+          $item_type: item_types_enum!
         ) {
           insert_clothing_shell_maindata_one(
             object: {
-              revision_id: $revisionId
-              is_release: $isRelease
+              revision_id: $revision_id
+              is_release: $is_release
               name: $name
-              type: $type
+              item_type: $item_type
             }
           ) {
             id
@@ -36,12 +51,19 @@ async function insertClothingShellMaindataBarebones() {
             default_interlining_layer_id
             clothing_segment_data_id
             revision {
-              item_id
+              id
+              clothing_shell_id
               revision
             }
           }
         }
       `,
+      variables: {
+        revision_id,
+        is_release,
+        name,
+        item_type,
+      },
     });
     return data.data.insert_clothing_shell_maindata_one;
   } catch (e) {

@@ -132,6 +132,7 @@ import { insertItemTranslationRevisionPromoteNewRevision } from './resolvers/ite
 import { deleteItemTranslationRevisionLocalePage } from './resolvers/item_translation_revisions/deleteItemTranslationRevisionLocalePage';
 import { addItemMaindataRevisionFixPrompt } from './resolvers/item_maindata_revisions/addItemMaindataRevisionFixPrompt';
 import { deleteItemMaindataRevisionAdminEdit } from './resolvers/item_maindata_revisions/deleteItemMaindataRevisionAdminEdit';
+import { insertClothingShell } from './resolvers/clothing_shells/insertClothingShell';
 
 const resolvers = {
   //**********************************************************************
@@ -179,6 +180,8 @@ const resolvers = {
     // clothing_shells
     //--------------------------------------------------
     insertEmptyClothingShell,
+    insertClothingShell: (_, { name, item_type }) =>
+      insertClothingShell(name, item_type),
     updateClothingShellUpdatedAt,
     //--------------------------------------------------
     // companies
