@@ -197,6 +197,7 @@ const Mutations = gql`
     # items
     #--------------------------------------------------
     deleteItemByPk: items
+    deleteItem(id: Int!): items
     insertItem(name: String!, item_type: item_types_enum!): items
     updateItemUpdatedAt: items
     #--------------------------------------------------

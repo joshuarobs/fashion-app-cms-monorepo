@@ -2,13 +2,13 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
-async function deleteItemTranslationRevisionChangesForItem() {
+async function deleteItemTranslationRevisionChangesForItem(id: number) {
   try {
-    const data = await client.query({
-      query: gql`
-        mutation deleteItemTranslationRevisionChangesForItem($id: Int!) {
+    const data = await client.mutate({
+      mutation: gql`
+        mutation deleteItemTranslationRevisionChangesForItem($item_id: Int!) {
           delete_item_translation_revision_changes(
-            where: { item_translation_revision: { item_id: { _eq: $id } } }
+            where: { item_translation_revision: { item_id: { _eq: $item_id } } }
           ) {
             returning {
               id
@@ -16,6 +16,7 @@ async function deleteItemTranslationRevisionChangesForItem() {
           }
         }
       `,
+      variables: { item_id: id },
     });
     return data.data.delete_item_translation_revision_changes;
   } catch (e) {

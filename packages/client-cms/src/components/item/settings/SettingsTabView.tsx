@@ -28,6 +28,7 @@ import { Update_Clothing_Shell_Count } from '../../../queries/clothing_shell_cou
 import { Get_Num_Of_Unique_Items_For_Clothing_Shell } from '../../../queries/item_maindata_revisions/getNumberOfUniqueItemsForClothingShell';
 import { SettingsEntry } from '../../common/settings/SettingsEntry';
 import { Update_Company_Count_Via_Company_Id } from '../../../queries/company_counts/updateCompanyCount';
+import { Delete_Item } from '../../../queries/items/deleteItem';
 // import ItemTypesTable from "./ItemTypesTable";
 // import { APP_SHELL, TABLE_DESCRIPTIONS } from "../../strings";
 
@@ -219,6 +220,8 @@ function SettingsTabView({
     },
   });
 
+  const [deleteItem] = useMutation(Delete_Item);
+
   const [getItemCountForClothingShell] = useLazyQuery(
     Get_Num_Of_Unique_Items_For_Clothing_Shell,
     {
@@ -262,7 +265,7 @@ function SettingsTabView({
     }
   );
 
-  const deleteItem = async () => {
+  const deleteItem2 = async () => {
     // PART 1 - Delete translations
     // 1-A. Delete translations revision changes
     // await console.log("1");
@@ -348,11 +351,17 @@ function SettingsTabView({
     setShowModalKind(ModalKind.None);
   };
 
-  const onSubmitDelete = () => {
-    // deleteItemTranslations();
-    deleteItem().then(() => {
-      setShowModalKind(ModalKind.None);
+  const onSubmitDelete = async () => {
+    console.log('delete item');
+    await deleteItem({
+      variables: {
+        id: parseInt(itemId ?? ''),
+      },
     });
+    // deleteItemTranslations();
+    // deleteItem().then(() => {
+    //   setShowModalKind(ModalKind.None);
+    // });
   };
 
   const inputRef = useRef(null);

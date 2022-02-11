@@ -133,6 +133,7 @@ import { deleteItemTranslationRevisionLocalePage } from './resolvers/item_transl
 import { addItemMaindataRevisionFixPrompt } from './resolvers/item_maindata_revisions/addItemMaindataRevisionFixPrompt';
 import { deleteItemMaindataRevisionAdminEdit } from './resolvers/item_maindata_revisions/deleteItemMaindataRevisionAdminEdit';
 import { insertClothingShell } from './resolvers/clothing_shells/insertClothingShell';
+import { deleteItem } from './resolvers/items/deleteItem';
 
 const resolvers = {
   //**********************************************************************
@@ -313,6 +314,7 @@ const resolvers = {
     // items
     //--------------------------------------------------
     deleteItemByPk,
+    deleteItem: (_, { id }) => deleteItem(id),
     insertItem: (_, { name, item_type }) => insertItem(name, item_type),
     updateItemUpdatedAt,
     //--------------------------------------------------
