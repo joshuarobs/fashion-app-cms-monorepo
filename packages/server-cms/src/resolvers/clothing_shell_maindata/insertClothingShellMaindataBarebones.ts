@@ -17,7 +17,8 @@ async function insertClothingShellMaindataBarebones(
   revision_id: string,
   is_release: boolean,
   name: string,
-  item_type: ItemType
+  item_type: ItemType,
+  clothing_segment_data_id: string
 ) {
   logger.info(
     `graphql > insertClothingShellMaindataBarebones() :: args: revision_id: ${revision_id} | is_release: ${is_release} | name: ${name} | item_type: ${item_type}`
@@ -30,6 +31,7 @@ async function insertClothingShellMaindataBarebones(
           $is_release: Boolean!
           $name: String!
           $item_type: item_types_enum!
+          $clothing_segment_data_id: uuid!
         ) {
           insert_clothing_shell_maindata_one(
             object: {
@@ -37,6 +39,7 @@ async function insertClothingShellMaindataBarebones(
               is_release: $is_release
               name: $name
               item_type: $item_type
+              clothing_segment_data_id: $clothing_segment_data_id
             }
           ) {
             id
@@ -63,6 +66,7 @@ async function insertClothingShellMaindataBarebones(
         is_release,
         name,
         item_type,
+        clothing_segment_data_id,
       },
     });
     return data.data.insert_clothing_shell_maindata_one;

@@ -2,9 +2,11 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
-// Insert a new clothing segment data
-// Used in the Clothing Shell page, within the state frame or in the repair
-// prompt
+/**
+ * Insert a new clothing segment data.
+ * Used in the Clothing Shell page, within the state frame or in the repair
+ * prompt
+ */
 async function insertClothingSegmentData() {
   try {
     const data = await client.query({
@@ -81,6 +83,7 @@ async function insertClothingSegmentData() {
           }
         }
       `,
+      variables: {},
     });
     return data.data.insert_clothing_segment_data_one;
   } catch (e) {

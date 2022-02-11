@@ -9,6 +9,8 @@ import {
 import { insertItemMaindataRevisionChange } from '../item_maindata_revision_changes/insertItemMaindataRevisionChange';
 import { insertClothingShellMaindataBarebones } from '../clothing_shell_maindata/insertClothingShellMaindataBarebones';
 import { insertClothingShellMaindataRevisionChange } from '../clothing_shell_maindata_revision_changes/insertClothingShellMaindataRevisionChange';
+import { insertClothingSegmentData } from '../clothing_segment_data/insertClothingSegmentData';
+import { insertNewBlankClothingSegmentData } from '../clothing_segment_data/insertNewBlankClothingSegmentData';
 
 /**
  * Insert a new Clothing Shell entry with all of it's required dependent rows
@@ -77,28 +79,35 @@ async function insertClothingShell(name: string, item_type: ItemType) {
       data2.data.insert_clothing_shell_maindata_revisions_one.id;
 
     /*
-     * 3. Insert a (Clothing Shell) maindata
+     * 3. Insert a Clothing Segment Data
      */
-    const data3 = await insertClothingShellMaindataBarebones(
+    const data3 = await insertNewBlankClothingSegmentData();
+    console.log('data3:', data3);
+    const clothingSegmentDataId = data3.id;
+
+    /*
+     * 4. Insert a (Clothing Shell) maindata
+     */
+    const data4 = await insertClothingShellMaindataBarebones(
       revisionId,
       true,
       name,
-      item_type
+      item_type,
+      clothingSegmentDataId
     );
-    console.log('data3:', data3);
+    console.log('data4:', data4);
 
     /*
-     * 4. Insert a (Item) maindata revision change
+     * 5. Insert a (Item) maindata revision change
      */
-    // insertClothingShellMaindataRevisionChange
-    const data4 = await insertItemMaindataRevisionChange(
+    const data5 = await insertClothingShellMaindataRevisionChange(
       revisionId,
       1,
       DataChangeType.Promotion,
       DataState.Development,
       '--'
     );
-    console.log('data4:', data4);
+    console.log('data5:', data5);
 
     /*
      * ============================================================
