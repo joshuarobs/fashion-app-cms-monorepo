@@ -65,7 +65,7 @@ function ItemPage() {
         title="404"
         subTitle={`Sorry, an item with id "${id}" does not exist.`}
         extra={
-          <Link to={RouteStrings.Items__Clothing__Item}>
+          <Link to={RouteStrings.Items__Clothing}>
             <Button type="primary">Back to Items</Button>
           </Link>
         }

@@ -245,7 +245,8 @@ const resolvers = {
     //--------------------------------------------------
     // item_maindata_revision_changes
     //--------------------------------------------------
-    deleteItemMaindataRevisionChangesForItem,
+    deleteItemMaindataRevisionChangesForItem: (_, { id }) =>
+      deleteItemMaindataRevisionChangesForItem(id),
     insertItemMaindataRevisionChange,
     insertItemMaindataRevisionChangePromoRetired,
     //--------------------------------------------------

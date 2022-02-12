@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
@@ -9,6 +10,12 @@ import {
 import { insertItemMaindataBarebones } from '../item_maindata/insertItemMaindataBarebones';
 import { insertItemMaindataRevisionChange } from '../item_maindata_revision_changes/insertItemMaindataRevisionChange';
 import { deleteItemTranslationRevisionChangesForItem } from '../item_translation_revision_changes/deleteItemTranslationRevisionChangesForItem';
+import { deleteItemTranslationsForItem } from '../item_translations/deleteItemTranslationsForItem';
+import { deleteItemTranslationRevisionsForItem } from '../item_translation_revisions/deleteItemTranslationRevisionsForItem';
+import { deleteItemMaindataRevisionChangesForItem } from '../item_maindata_revision_changes/deleteItemMaindataRevisionChangesForItem';
+import { deleteItemMaindataForItem } from '../item_maindata/deleteItemMaindataForItem';
+import { deleteItemMaindataRevisionsForItem } from '../item_maindata_revisions/deleteItemMaindataRevisionsForItem';
+import { deleteItemByPk } from './deleteItemByPk';
 
 /**
  * Deletes an Item entry with all of it's required dependent rows
@@ -30,41 +37,34 @@ async function deleteItem(id: number) {
      * 2. Delete translations revision changes
      */
     const data2 = await deleteItemTranslationRevisionChangesForItem(id);
-    // const data2 = await client.mutate({
-    //   mutation: gql`
-    //     mutation deleteItemTranslationRevisionChangesForItem($item_id: Int!) {
-    //       delete_item_translation_revision_changes(
-    //         where: { item_translation_revision: { item_id: { _eq: $item_id } } }
-    //       ) {
-    //         returning {
-    //           id
-    //         }
-    //       }
-    //     }
-    //   `,
-    //   variables: { item_id: id },
-    // });
-    console.log('data2:', data2);
+    // console.log('data2:', data2);
 
     /*
      * 3. Delete translations
      */
+    const data3 = await deleteItemTranslationsForItem(id);
+    // console.log('data3:', data3);
 
     /*
      * 4. Delete translations revisions
      */
+    const data4 = await deleteItemTranslationRevisionsForItem(id);
+    // console.log('data4:', data4);
 
     /*
      * 5. Delete maindata revision changes
      */
+    const data5 = await deleteItemMaindataRevisionChangesForItem(id);
 
     /*
      * 6. Delete maindata
      */
+    const data6 = await deleteItemMaindataForItem(id);
 
     /*
      * 7. Delete maindata revisions
      */
+    const data7 = await deleteItemMaindataRevisionsForItem(id);
 
     /*
      * 8. Update the company's unique item count
@@ -85,6 +85,8 @@ async function deleteItem(id: number) {
     /*
      * 11. Delete Item
      */
+    const data11 = await deleteItemByPk(id);
+    console.log('data11:', data11);
     // TODO: We can put the code inside `getItemCountForClothingShell` but
     //  then we get callback hell with lots of duplicates of function calls,
     //  since if statements dont play nicely. For now, deleting an item will

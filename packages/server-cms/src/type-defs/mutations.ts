@@ -108,7 +108,9 @@ const Mutations = gql`
     #--------------------------------------------------
     # item_maindata_revision_changes
     #--------------------------------------------------
-    deleteItemMaindataRevisionChangesForItem: item_maindata_revision_changes
+    deleteItemMaindataRevisionChangesForItem(
+      id: Int!
+    ): item_maindata_revision_changes
     insertItemMaindataRevisionChange: item_maindata_revision_changes
     insertItemMaindataRevisionChangePromoRetired: item_maindata_revision_changes
     #--------------------------------------------------

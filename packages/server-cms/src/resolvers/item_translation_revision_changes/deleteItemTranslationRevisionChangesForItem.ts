@@ -3,6 +3,9 @@ import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
 async function deleteItemTranslationRevisionChangesForItem(id: number) {
+  logger.info(
+    `graphql > deleteItemTranslationRevisionChangesForItem() :: args: id: ${id}`
+  );
   try {
     const data = await client.mutate({
       mutation: gql`

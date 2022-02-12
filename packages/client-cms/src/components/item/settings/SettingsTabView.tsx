@@ -357,6 +357,9 @@ function SettingsTabView({
       variables: {
         id: parseInt(itemId ?? ''),
       },
+      onCompleted: () => {
+        navigate(RouteStrings.Items__Clothing);
+      },
     });
     // deleteItemTranslations();
     // deleteItem().then(() => {
