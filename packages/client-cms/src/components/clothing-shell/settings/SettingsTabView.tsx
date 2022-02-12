@@ -4,29 +4,14 @@ import { Layout, message, Row, Typography } from 'antd';
 import { Common } from '../../../strings';
 import { DangerZonePageIcon } from '../../common/icons/page-icons/DangerZonePageIcon';
 import { ConfirmDeleteModal } from '../../common/popups/ConfirmDeleteModal';
-import { useLazyQuery, useMutation } from '@apollo/client';
-import { Delete_Item_Translation_Revision_Changes_For_Item } from '../../../queries/item_translation_revision_changes/deleteItemTranslationRevisionChangesForItem';
-import { Delete_Item_Translations_For_Items } from '../../../queries/item_translations/deleteItemTranslationsForItem';
-import { Delete_Item_Translation_Revisions_For_Item } from '../../../queries/item_translation_revisions/deleteItemTranslationRevisionsForItem';
-import { Delete_Item_Maindata_Revision_Changes_For_Item } from '../../../queries/item_maindata_revision_changes/deleteItemMaindataRevisionChangesForItem';
-import { Delete_Item_Maindata_For_Item } from '../../../queries/item_maindata/deleteItemMaindataForItem';
-import { Delete_Item_Maindata_Revisions_For_Item } from '../../../queries/item_maindata_revisions/deleteItemMaindataRevisionsForItem';
-import { Delete_Item_By_Pk } from '../../../queries/items/deleteItemByPk';
+import { useMutation } from '@apollo/client';
 import { RouteStrings } from '../../../routeStrings';
-import { Get_Unique_Item_Maindata_Rev_Amount_For_Brand_Prod_Only } from '../../../queries/item_maindata_revisions/getUniqueItemMaindataRevisionsForBrandInProduction';
-import { Update_Clothing_Shell_Count } from '../../../queries/clothing_shell_counts/updateClothingShellCount';
-import { Get_Num_Of_Unique_Items_For_Clothing_Shell } from '../../../queries/item_maindata_revisions/getNumberOfUniqueItemsForClothingShell';
 import { SettingsEntry } from '../../common/settings/SettingsEntry';
-import { Update_Company_Count_Via_Company_Id } from '../../../queries/company_counts/updateCompanyCount';
-import { Delete_Item } from '../../../queries/items/deleteItem';
-import { Get_Items_For_Items_Table_Latest } from '../../../queries/items/getItemsForItemsTableLatest';
 import { Get_Clothing_Shells_For_Clothing_Shells_Table_Latest } from '../../../queries/clothing_shells/getClothingShellsForClothingShellsTableLatest';
 import { Delete_Clothing_Shell } from '../../../queries/clothing_shells/deleteClothingShell';
-// import ItemTypesTable from "./ItemTypesTable";
-// import { APP_SHELL, TABLE_DESCRIPTIONS } from "../../strings";
 
 const { Content } = Layout;
-const { Title, Text, Paragraph } = Typography;
+const { Title, Paragraph } = Typography;
 
 interface SettingsTabProps {
   headerData: any;
@@ -98,10 +83,6 @@ function SettingsTabView({
         id: parseInt(clothingShellId ?? ''),
       },
     });
-    // deleteItemTranslations();
-    // deleteItem().then(() => {
-    //   setShowModalKind(ModalKind.None);
-    // });
   };
 
   const inputRef = useRef(null);
