@@ -4,8 +4,8 @@ import { logger } from '../../logger';
 
 async function updateClothingSegmentData() {
   try {
-    const data = await client.query({
-      query: gql`
+    const data = await client.mutate({
+      mutation: gql`
         mutation updateClothingSegmentData(
           $id: uuid!
           $changes: clothing_segment_data_set_input

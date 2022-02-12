@@ -11,6 +11,7 @@ import { deleteClothingShellMaindataRevisionChangesForClothingShell } from '../c
 import { deleteClothingShellMaindataForClothingShell } from '../clothing_shell_maindata/deleteClothingShellMaindataForClothingShell';
 import { deleteClothingShellMaindataRevisionsForClothingShell } from '../clothing_shell_maindata_revisions/deleteClothingShellMaindataRevisionsForClothingShell';
 import { deleteClothingShellCountsForClothingShell } from '../clothing_shell_counts/deleteClothingShellCountsForClothingShell';
+import { deleteClothingSegmentDataByPk } from '../clothing_segment_data/deleteClothingSegmentDataByPk';
 
 /**
  * Deletes an Item entry with all of it's required dependent rows
@@ -38,11 +39,32 @@ async function deleteClothingShell(id: number) {
      * 3. Delete maindata
      */
     const data3 = await deleteClothingShellMaindataForClothingShell(id);
+    console.log('data3:', data3);
 
     /*
-     * 4. Delete maindata revisions
+     * 4. Delete all clothing segment data connected to the maindata
      */
-    const data4 = await deleteClothingShellMaindataRevisionsForClothingShell(
+    // Get all related clothing segment data ids from the maindata that was
+    // deleted
+    const clothingSegmentDataIds: string[] = [];
+    // @ts-ignore
+    data3.returning.forEach(({ clothing_segment_data_id }) => {
+      clothingSegmentDataIds.push(clothing_segment_data_id);
+    });
+    console.log(
+      'clothingSegmentDataIds:',
+      JSON.stringify(clothingSegmentDataIds, null, 2)
+    );
+    // Now that we have our array of clothing segment data ids to delete...
+    // Delete them all (one by one, or all at once; whatever works)
+    for (const id1 of clothingSegmentDataIds) {
+      await deleteClothingSegmentDataByPk(id1);
+    }
+
+    /*
+     * 5. Delete maindata revisions
+     */
+    const data5 = await deleteClothingShellMaindataRevisionsForClothingShell(
       id
     );
 
@@ -73,15 +95,15 @@ async function deleteClothingShell(id: number) {
     // }
 
     /*
-     * 5. Delete Clothing Shell Counts
+     * 6. Delete Clothing Shell Counts
      */
-    const data5 = await deleteClothingShellCountsForClothingShell(id);
+    const data6 = await deleteClothingShellCountsForClothingShell(id);
 
     /*
-     * 6. Delete Clothing Shell
+     * 7. Delete Clothing Shell
      */
-    const data6 = await deleteClothingShellByPk(id);
-    console.log('data6:', data6);
+    const data7 = await deleteClothingShellByPk(id);
+    console.log('data7:', data7);
     // TODO: We can put the code inside `getItemCountForClothingShell` but
     //  then we get callback hell with lots of duplicates of function calls,
     //  since if statements dont play nicely. For now, deleting an item will
@@ -109,7 +131,7 @@ async function deleteClothingShell(id: number) {
     logger.info(
       `graphql > deleteClothingShell() :: Successfully returned data`
     );
-    return data6;
+    return data7;
   } catch (e) {
     logger.error(e);
     return null;

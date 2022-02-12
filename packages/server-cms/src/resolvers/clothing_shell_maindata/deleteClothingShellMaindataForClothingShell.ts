@@ -27,6 +27,7 @@ async function deleteClothingShellMaindataForClothingShell(
           ) {
             returning {
               id
+              clothing_segment_data_id
             }
           }
         }
