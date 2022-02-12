@@ -198,6 +198,8 @@ const Common = {
   Created_New_Company: 'Created new Company!',
   Creating_New_Item: 'Creating new Item...',
   Created_New_Item: 'Created new Item!',
+  Deleting_New_Item: 'Deleting new Item...',
+  Deleted_New_Item: 'Deleted new Item!',
   Adding_New_Locale: 'Adding new Locale...',
   Added_New_Locale: 'Added new Locale!',
   View_All: 'View All',

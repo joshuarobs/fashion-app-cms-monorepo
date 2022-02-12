@@ -9,6 +9,7 @@ import {
   Switch,
   Typography,
   Divider,
+  message,
 } from 'antd';
 import { Common } from '../../../strings';
 import { DangerZonePageIcon } from '../../common/icons/page-icons/DangerZonePageIcon';
@@ -45,6 +46,8 @@ enum ModalKind {
   Delete_Item = 'Delete_Item',
   None = 'None',
 }
+
+const key = 'items-tab-settings';
 
 function SettingsTabView({
   headerData,
@@ -114,256 +117,27 @@ function SettingsTabView({
 
   const [showModalKind, setShowModalKind] = useState(ModalKind.None);
 
-  const [
-    deleteItemTranslationRevisionChangesForItem,
-    {
-      loading: loadingDeleteItemTransRevChangesForItem,
-      // error: errorDeleteItemTransRevChangesForItem
-    },
-  ] = useMutation(Delete_Item_Translation_Revision_Changes_For_Item, {
-    onCompleted() {},
-  });
-
-  const [
-    deleteItemTranslationsForItem,
-    {
-      // loading: loadingDeleteItemTransForItem,
-      // error: errorDeleteItemTransForItem
-    },
-  ] = useMutation(Delete_Item_Translations_For_Items, {
-    onCompleted() {},
-  });
-
-  const [
-    deleteItemTranslationRevisionsForItem,
-    {
-      // loading: loadingDeleteItemTransRevsForItem,
-      // error: errorDeleteItemTransRevsForItem
-    },
-  ] = useMutation(Delete_Item_Translation_Revisions_For_Item, {
-    onCompleted() {},
-  });
-
-  const [
-    deleteItemMaindataRevisionChangesForItem,
-    {
-      // loading: loadingDeleteItemMaindataRevChangesForItem,
-      // error: errorDeleteItemTransMaindataRevChangesForItem
-    },
-  ] = useMutation(Delete_Item_Maindata_Revision_Changes_For_Item, {
-    onCompleted() {},
-  });
-
-  const [
-    deleteItemMaindataForItem,
-    {
-      // loading: loadingDeleteItemMaindataForItem,
-      // error: errorDeleteItemTransMaindataForItem
-    },
-  ] = useMutation(Delete_Item_Maindata_For_Item, {
-    onCompleted() {},
-  });
-
-  const [
-    deleteItemMaindataRevisionsForItem,
-    {
-      // loading: loadingDeleteItemMaindataRevisionsForItem,
-      // error: errorDeleteItemTransMaindataRevisionsForItem
-    },
-  ] = useMutation(Delete_Item_Maindata_Revisions_For_Item, {
-    onCompleted() {},
-  });
-
-  const [
-    deleteItemByPk,
-    // { loading: loadingDeleteItem, error: errorDeleteItem }
-  ] = useMutation(Delete_Item_By_Pk, {
-    onCompleted() {},
-  });
-
-  const [
-    updateCompanyCountViaCompanyId,
-    // { loading: loadingUpdCompanyItemCount, error: errorUpdCompanyItemCount }
-  ] = useMutation(Update_Company_Count_Via_Company_Id, {
-    onCompleted({ update_company_counts_by_pk }) {
-      console.log('UPDATE COMPANY COUNT:', update_company_counts_by_pk);
-    },
-  });
-
-  const [
-    getProductionItemCountForCompany,
-    // { loading: loadingGetItemCount, error: errorGetItemCount }
-  ] = useLazyQuery(Get_Unique_Item_Maindata_Rev_Amount_For_Brand_Prod_Only, {
-    // NOTE: We can't use async for `onCompleted` in a `useLazyQuery` as it
-    // causes weird infinite page re-rendering bugs
-    onCompleted({ item_maindata_revisions_aggregate }) {
-      // console.log("getProductionItemCountForCompany > onCompleted()");
-      if (brand_id && count_id) {
-        // console.log("if brand id");
-        // Get the count id, not the brand id
-        updateCompanyCountViaCompanyId({
-          variables: {
-            id: count_id,
-            changes: {
-              item_count: item_maindata_revisions_aggregate.aggregate.count,
-            },
-          },
-        }).then();
-      }
-      // message.success({ content: COMMON.UPDATED_ITEM_COUNT, key }, 2);
-    },
-    fetchPolicy: 'network-only',
-  });
-
-  const [updateClothingShellCount] = useMutation(Update_Clothing_Shell_Count, {
-    onCompleted() {
-      console.log('DONE updateClothingShellCount');
-    },
-  });
-
-  const [deleteItem] = useMutation(Delete_Item, {
-    awaitRefetchQueries: true,
-    refetchQueries: [
-      {
-        query: Get_Items_For_Items_Table_Latest,
-      },
-    ],
-    onCompleted: () => {
-      navigate(RouteStrings.Items__Clothing);
-    },
-  });
-
-  const [getItemCountForClothingShell] = useLazyQuery(
-    Get_Num_Of_Unique_Items_For_Clothing_Shell,
-    {
-      // NOTE: We can't use async for `onCompleted` in a `useLazyQuery` as it
-      // causes weird infinite page re-rendering bugs
-      onCompleted({ item_maindata_revisions_aggregate }) {
-        // console.log(
-        //   "item_maindata_revisions_aggregate:",
-        //   item_maindata_revisions_aggregate
-        // );
-        const { clothing_shell } =
-          dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]
-            .item_maindata[0];
-        // console.log(
-        //   "currentRevision.item_maindata[0]:",
-        //   currentRevision.item_maindata[0]
-        // );
-        if (clothing_shell) {
-          const { counts } = clothing_shell;
-          // console.log("counts:", counts);
-          if (counts) {
-            updateClothingShellCount({
-              variables: {
-                id: counts.id,
-                changes: {
-                  item_count: item_maindata_revisions_aggregate.aggregate.count,
-                },
-              },
-            }).then(() => {
-              navigate(RouteStrings.Items__Clothing__Item);
-              navigate(0);
-            });
-          }
-        } else {
-          navigate(RouteStrings.Items__Clothing__Item);
-          navigate(0);
-        }
-        // message.success({ content: COMMON.UPDATED_ITEM_COUNT, key }, 2);
-      },
-      fetchPolicy: 'network-only',
-    }
-  );
-
-  const deleteItem2 = async () => {
-    // PART 1 - Delete translations
-    // 1-A. Delete translations revision changes
-    // await console.log("1");
-    // await console.log("2");
-    // await console.log("3");
-    // await console.log("4");
-    await deleteItemTranslationRevisionChangesForItem({
-      variables: {
-        id: itemId,
-      },
-    }).then();
-    // 1-B. Delete translations
-    await deleteItemTranslationsForItem({
-      variables: {
-        id: itemId,
-      },
-    }).then();
-    // 1-C. Delete translations revisions
-    await deleteItemTranslationRevisionsForItem({
-      variables: {
-        id: itemId,
-      },
-    });
-    // PART 2 - Delete maindata
-    // 2-A. Delete maindata revision changes
-    await deleteItemMaindataRevisionChangesForItem({
-      variables: {
-        id: itemId,
-      },
-    });
-    // 2-B. Delete maindata
-    await deleteItemMaindataForItem({
-      variables: {
-        id: itemId,
-      },
-    });
-    // 2-C. Delete maindata revisions
-    await deleteItemMaindataRevisionsForItem({
-      variables: {
-        id: itemId,
-      },
-    });
-    // 2-D. Update the company's unique item count
-    // (Won't be possible) Go through all the revision's possible brands and
-    // update their counts
-    // Instead, look through and find the latest most production revision
-    // and use that brand
-    if (brand_id) {
-      await getProductionItemCountForCompany({
-        variables: {
-          id: brand_id,
+  const [deleteItem, { loading: loadingDeleteItem, error: errorDeleteItem }] =
+    useMutation(Delete_Item, {
+      awaitRefetchQueries: true,
+      refetchQueries: [
+        {
+          query: Get_Items_For_Items_Table_Latest,
         },
-      });
-    }
-    // 2-E. Update the clothing shell's unique item count
-    if (dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]) {
-      await getItemCountForClothingShell({
-        variables: {
-          id: dataProdItemMaindataRev.getLatestProdItemMaindataRevByItemId[0]
-            .item_maindata[0].clothing_shell_id,
-        },
-      });
-    }
-    // PART 3 - Delete settings
-    // PART 4 - Delete item
-    // TODO: We can put the code inside `getItemCountForClothingShell` but
-    //  then we get callback hell with lots of duplicates of function calls,
-    //  since if statements dont play nicely. For now, deleting an item will
-    //  not update the clothing shell count, as we need to refactor this
-    //  code for a server
-    await deleteItemByPk({
-      variables: {
-        id: itemId,
+      ],
+      onCompleted: () => {
+        navigate(RouteStrings.Items__Clothing);
+        message.success({ content: Common.Deleted_New_Item, key }, 2).then();
       },
     });
-    // These must go inside `getItemCountForClothingShell` because that has
-    // 2 queries in one, whereby the second query relies on data from the first.
-    await navigate(RouteStrings.Items__Clothing__Item);
-    await navigate(0);
-  };
 
   const onCancel = () => {
     setShowModalKind(ModalKind.None);
   };
 
   const onSubmitDelete = async () => {
-    console.log('delete item');
+    // console.log('delete item');
+    message.loading({ content: Common.Deleting_New_Item, key }, 2).then();
     await deleteItem({
       variables: {
         id: parseInt(itemId ?? ''),
@@ -441,7 +215,7 @@ function SettingsTabView({
             </Typography>
           }
           onClick={() => setShowModalKind(ModalKind.Delete_Item)}
-          loading={loadingDeleteItemTransRevChangesForItem}
+          loading={loadingDeleteItem}
         />
       </Content>
     </>
