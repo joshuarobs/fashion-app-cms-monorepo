@@ -40,6 +40,7 @@ const Mutations = gql`
     #--------------------------------------------------
     # clothing_shells
     #--------------------------------------------------
+    deleteClothingShell(id: Int!): clothing_shells
     insertEmptyClothingShell: clothing_shells
     insertClothingShell(
       name: String!

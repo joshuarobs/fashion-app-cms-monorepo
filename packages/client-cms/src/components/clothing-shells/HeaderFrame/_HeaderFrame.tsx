@@ -49,6 +49,7 @@ function HeaderFrame() {
         // 2. INSERT A REVISION
         // insertItemMaindataRevision({ variables }).then();
       },
+      awaitRefetchQueries: true,
       refetchQueries: [
         {
           query: Get_Clothing_Shells_For_Clothing_Shells_Table_Latest,

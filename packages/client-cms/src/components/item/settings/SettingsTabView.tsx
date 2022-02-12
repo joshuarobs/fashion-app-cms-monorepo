@@ -67,14 +67,14 @@ function SettingsTabView({
   const hasMaindataRevision = item_maindata_revisions.length > 0;
   const hasMaindata =
     hasMaindataRevision && item_maindata_revisions[0].item_maindata.length > 0;
-  console.log(
-    'hasMaindataRevision:',
-    hasMaindataRevision,
-    '\nhasMaindata:',
-    hasMaindata,
-    '\nitem_maindata_revisions:',
-    item_maindata_revisions
-  );
+  // console.log(
+  //   'hasMaindataRevision:',
+  //   hasMaindataRevision,
+  //   '\nhasMaindata:',
+  //   hasMaindata,
+  //   '\nitem_maindata_revisions:',
+  //   item_maindata_revisions
+  // );
   const itemName =
     hasMaindataRevision && hasMaindata
       ? item_maindata_revisions[0].item_maindata[0].name
@@ -127,7 +127,7 @@ function SettingsTabView({
       ],
       onCompleted: () => {
         navigate(RouteStrings.Items__Clothing);
-        message.success({ content: Common.Deleted_New_Item, key }, 2).then();
+        message.success({ content: Common.Deleted_Item, key }, 2).then();
       },
     });
 
@@ -137,7 +137,7 @@ function SettingsTabView({
 
   const onSubmitDelete = async () => {
     // console.log('delete item');
-    message.loading({ content: Common.Deleting_New_Item, key }, 2).then();
+    message.loading({ content: Common.Deleting_Item, key }, 2).then();
     await deleteItem({
       variables: {
         id: parseInt(itemId ?? ''),

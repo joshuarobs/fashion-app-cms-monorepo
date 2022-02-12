@@ -45,6 +45,7 @@ function HeaderFrame({ title = '' }) {
         // 2. INSERT A REVISION
         // insertItemMaindataRevision({ variables }).then();
       },
+      awaitRefetchQueries: true,
       refetchQueries: [
         {
           query: Get_Items_For_Items_Table_Latest,
