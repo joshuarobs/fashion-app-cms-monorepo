@@ -29,6 +29,7 @@ import { Get_Num_Of_Unique_Items_For_Clothing_Shell } from '../../../queries/ite
 import { SettingsEntry } from '../../common/settings/SettingsEntry';
 import { Update_Company_Count_Via_Company_Id } from '../../../queries/company_counts/updateCompanyCount';
 import { Delete_Item } from '../../../queries/items/deleteItem';
+import { Get_Items_For_Items_Table_Latest } from '../../../queries/items/getItemsForItemsTableLatest';
 // import ItemTypesTable from "./ItemTypesTable";
 // import { APP_SHELL, TABLE_DESCRIPTIONS } from "../../strings";
 
@@ -220,7 +221,17 @@ function SettingsTabView({
     },
   });
 
-  const [deleteItem] = useMutation(Delete_Item);
+  const [deleteItem] = useMutation(Delete_Item, {
+    awaitRefetchQueries: true,
+    refetchQueries: [
+      {
+        query: Get_Items_For_Items_Table_Latest,
+      },
+    ],
+    onCompleted: () => {
+      navigate(RouteStrings.Items__Clothing);
+    },
+  });
 
   const [getItemCountForClothingShell] = useLazyQuery(
     Get_Num_Of_Unique_Items_For_Clothing_Shell,
@@ -356,9 +367,6 @@ function SettingsTabView({
     await deleteItem({
       variables: {
         id: parseInt(itemId ?? ''),
-      },
-      onCompleted: () => {
-        navigate(RouteStrings.Items__Clothing);
       },
     });
     // deleteItemTranslations();
