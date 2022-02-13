@@ -17,6 +17,7 @@ import { Insert_Clothing_Shell_Maindata_Revision_Change_Promo_Retired } from '..
 import { Insert_Clothing_Shell_Maindata } from '../../../queries/clothing_shell_maindata/insertClothingShellMaindata';
 import { Insert_Clothing_Shell_Maindata_Revision } from '../../../queries/clothing_shell_maindata_revisions/insertClothingShellMaindataRevision';
 import { Insert_Clothing_Segment_Data } from '../../../queries/clothing_segment_data/insertClothingSegmentData';
+import { Promote_Clothing_Shell_Maindata_Revision_To_Review } from '../../../queries/clothing_shell_maindata_revisions/promoteClothingShellMaindataRevisionToReview';
 
 const key = 'state-localisations';
 
@@ -81,6 +82,14 @@ function ClothingShellStateFrame({
   //==================================================
   // PROMOTIONS
   //==================================================
+  const [promoteClothingShellMaindataRevisionToReview] = useMutation(
+    Promote_Clothing_Shell_Maindata_Revision_To_Review,
+    {
+      awaitRefetchQueries: true,
+      refetchQueries: [],
+    }
+  );
+
   const [
     updateMaindataRevision,
     // { loading: loadingUpdateRevisionReview, error: errorUpdateRevisionReview }
@@ -349,30 +358,35 @@ function ClothingShellStateFrame({
 
   const promoteToReview = async () => {
     message.loading({ content: Common.State_Related.Promoting_To_Review, key });
+    await promoteClothingShellMaindataRevisionToReview({
+      variables: {
+        id: currentRevision.id,
+      },
+    });
     // 1. (OBSOLETE) Create a release translation version
     // 2. Update the translation revision state to REVIEW
-    await updateMaindataRevision({
-      variables: {
-        // @ts-ignore
-        revisionId: currentRevision.id,
-        state: DataState.Review,
-      },
-    });
-    // 3. Create an activity entry
-    await insertMaindataRevisionChange({
-      variables: {
-        // @ts-ignore
-        revisionId: currentRevision.id,
-        userId: 1,
-        changeType: DataChangeType.Promotion,
-        toState: DataState.Review,
-      },
-    });
-    await updateUpdatedAt({
-      variables: {
-        id: clothingShellId,
-      },
-    });
+    // await updateMaindataRevision({
+    //   variables: {
+    //     // @ts-ignore
+    //     revisionId: currentRevision.id,
+    //     state: DataState.Review,
+    //   },
+    // });
+    // // 3. Create an activity entry
+    // await insertMaindataRevisionChange({
+    //   variables: {
+    //     // @ts-ignore
+    //     revisionId: currentRevision.id,
+    //     userId: 1,
+    //     changeType: DataChangeType.Promotion,
+    //     toState: DataState.Review,
+    //   },
+    // });
+    // await updateUpdatedAt({
+    //   variables: {
+    //     id: clothingShellId,
+    //   },
+    // });
     // Refresh the page
     history.go(0);
     message.success(

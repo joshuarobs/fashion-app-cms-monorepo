@@ -135,6 +135,7 @@ import { deleteItemMaindataRevisionAdminEdit } from './resolvers/item_maindata_r
 import { insertClothingShell } from './resolvers/clothing_shells/insertClothingShell';
 import { deleteItem } from './resolvers/items/deleteItem';
 import { deleteClothingShell } from './resolvers/clothing_shells/deleteClothingShell';
+import { promoteClothingShellMaindataRevisionToReview } from './resolvers/clothing_shell_maindata_revisions/promoteClothingShellMaindataRevisionToReview';
 
 const resolvers = {
   //**********************************************************************
@@ -180,6 +181,8 @@ const resolvers = {
     insertClothingShellMaindataRevision,
     updateClothingShellMaindataRevisionState,
     updateClothingShellMaindataRevisionToRetired,
+    promoteClothingShellMaindataRevisionToReview: (_, { id }) =>
+      promoteClothingShellMaindataRevisionToReview(id),
     //--------------------------------------------------
     // clothing_shells
     //--------------------------------------------------
