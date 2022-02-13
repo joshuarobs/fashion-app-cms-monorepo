@@ -15,7 +15,11 @@ import {
   message,
 } from 'antd';
 import { ItemFilterValuesStyle } from '../../../../framework/itemFilterValuesStyle';
-import { FabricLayerType, ItemType } from '@joshuarobs/clothing-framework';
+import {
+  FabricLayerType,
+  ItemType,
+  DataState,
+} from '@joshuarobs/clothing-framework';
 import { PopupSelectFabricLayer } from '../../PopupSelectFabricLayer/_PopupSelectFabricLayer';
 import { FabricLayerDisplay } from './FabricLayerDisplay';
 import { UnsavedChangesCard } from '../../../common/UnsavedChangesCard';
@@ -27,6 +31,10 @@ import { RevisionDropdownBox } from '../../../common/page-state-related/Revision
 import { BurgerMenuButton } from '../../../common/frames/BurgerMenuButton/_BurgerMenuButton';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingOutlined, SkinOutlined } from '@ant-design/icons';
+import { TagInDevelopment } from '../../../common/localisation/TagInDevelopment';
+import { TagInReview } from '../../../common/localisation/TagInReview';
+import { TagInProduction } from '../../../common/localisation/TagInProduction';
+import { TagInRetirement } from '../../../common/localisation/TagInRetirement';
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const { Title, Text } = Typography;
@@ -98,6 +106,7 @@ interface DetailsFrameProps {
   hasChanged: any;
   // disabled: boolean;
   // setdisabled: Function;
+  state: DataState | null;
   disabled: boolean;
   name?: string;
   setName: Function;
@@ -126,6 +135,7 @@ function DetailsFrame({
   hasChanged,
   // disabled,
   disabled,
+  state,
   name,
   setName,
   item_type,
@@ -245,6 +255,29 @@ function DetailsFrame({
     }
   };
 
+  console.error(
+    'clothingShell:',
+    clothingShell,
+    'uniqueRevisions:',
+    uniqueRevisions
+  );
+
+  let currentStateTag = null;
+  switch (state) {
+    case DataState.Development:
+      currentStateTag = <TagInDevelopment notClickable />;
+      break;
+    case DataState.Review:
+      currentStateTag = <TagInReview notClickable />;
+      break;
+    case DataState.Production:
+      currentStateTag = <TagInProduction notClickable />;
+      break;
+    case DataState.Retired:
+      currentStateTag = <TagInRetirement notClickable />;
+      break;
+  }
+
   return (
     <>
       <UnsavedChangesCard
@@ -294,6 +327,13 @@ function DetailsFrame({
                 deleteRevision={() => {}}
               />
             </Col>
+          </Row>
+          <Row
+            style={{
+              marginBottom: 8,
+            }}
+          >
+            <Col span={12}>{currentStateTag}</Col>
           </Row>
           {/* ============================== */}
           {/* CLOTHING SHELL NAME */}

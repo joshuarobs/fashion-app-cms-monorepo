@@ -54,12 +54,21 @@ function OverviewMainFrame({
   const navigate = useNavigate();
   // console.log("clothingShell:", clothingShell);
   console.log('revisionRelease:', revisionRelease);
+  console.log('clothingShellMaindataRevision:', clothingShellMaindataRevision);
 
   //==================================================
   // 1 - React hook states
   //==================================================
   // State for whether there saving is going on right now or not
   const [isSaving, setIsSaving] = useState(false);
+
+  // The clothing shell's state
+  const [state, setState] = useState<DataState | null>(null);
+  useEffect(() => {
+    setState(
+      clothingShellMaindataRevision ? clothingShellMaindataRevision.state : null
+    );
+  }, [paramsRevision]);
 
   // The clothing shell's name
   const [name, setName] = useState<string>();
@@ -500,6 +509,7 @@ function OverviewMainFrame({
           hasChanged={hasChanged}
           // isSaving={isSaving}
           // setIsSaving={setIsSaving}
+          state={state}
           disabled={disabled}
           name={name}
           setName={setName}

@@ -93,7 +93,7 @@ async function promoteClothingShellMaindataRevisionToProduction(id: string) {
       id,
       userId,
       DataChangeType.Promotion,
-      DataState.Review,
+      DataState.Production,
       null
     );
 
