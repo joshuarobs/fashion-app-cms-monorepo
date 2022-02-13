@@ -4,12 +4,11 @@ import { logger } from '../../logger';
 import {
   DataChangeType,
   DataState,
+  DataAction,
   ItemType,
 } from '@joshuarobs/clothing-framework';
-import { insertItemMaindataRevisionChange } from '../item_maindata_revision_changes/insertItemMaindataRevisionChange';
 import { insertClothingShellMaindataBarebones } from '../clothing_shell_maindata/insertClothingShellMaindataBarebones';
 import { insertClothingShellMaindataRevisionChange } from '../clothing_shell_maindata_revision_changes/insertClothingShellMaindataRevisionChange';
-import { insertClothingSegmentData } from '../clothing_segment_data/insertClothingSegmentData';
 import { insertNewBlankClothingSegmentData } from '../clothing_segment_data/insertNewBlankClothingSegmentData';
 
 /**
@@ -104,7 +103,8 @@ async function insertClothingShell(name: string, item_type: ItemType) {
       revisionId,
       1,
       DataChangeType.Promotion,
-      DataState.Development,
+      null,
+      DataAction.Update,
       '--'
     );
     console.log('data5:', data5);

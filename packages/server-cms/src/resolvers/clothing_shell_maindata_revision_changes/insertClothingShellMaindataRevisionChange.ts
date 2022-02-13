@@ -1,13 +1,18 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
-import { DataChangeType, DataState } from '@joshuarobs/clothing-framework';
+import {
+  DataChangeType,
+  DataState,
+  DataAction,
+} from '@joshuarobs/clothing-framework';
 
 async function insertClothingShellMaindataRevisionChange(
   revision_id: string,
   user_id: number,
   change_type: DataChangeType,
-  to_state: DataState,
+  to_state: DataState | null,
+  action: DataAction | null,
   loggerPrefix = ''
 ) {
   logger.info(
@@ -48,7 +53,7 @@ async function insertClothingShellMaindataRevisionChange(
         user_id,
         change_type,
         to_state,
-        // action: DATA_ACTIONS.CREATE
+        action,
       },
     });
 

@@ -24,6 +24,7 @@ import { ClothingSegmentDataHasChangedProps } from './ClothingSegmentDataHasChan
 import { ClothingShellStateFrame } from './ClothingShellStateFrame';
 import { OverviewActivityFrame } from '../../common/activity/OverviewActivityFrame';
 import { Get_Clothing_Shell_Maindata_Revision_Changes } from '../../../queries/clothing_shell_maindata_revision_changes/getClothingShellMaindataRevisionChanges';
+import { Get_Items_For_Items_Table_Latest } from '../../../queries/items/getItemsForItemsTableLatest';
 
 const key = 'unsaved-changes-overview';
 
@@ -193,27 +194,17 @@ function OverviewMainFrame({
     updateClothingShellMaindata,
     // { loading: mutationLoading, error: mutationError }
   ] = useMutation(Update_Clothing_Shell_Maindata, {
-    async onCompleted() {
-      // await setOriginalClothingShellId(clothing_shell_id);
-      // message.success({ content: COMMON.CHANGES_SAVED, key }, 2);
-      const variables = {
-        revisionId: clothingShellMaindataRevision.id,
-        userId: 1,
-        changeType: DataChangeType.Action,
-        action: DataAction.Update,
-      };
-      await insertClothingShellMaindataRevisionChange({
-        variables,
-      });
-    },
+    awaitRefetchQueries: true,
+    refetchQueries: [
+      {
+        query: Get_Clothing_Shell_Maindata_Revision_Changes,
+        variables: {
+          id: clothingShell.id,
+          limit: 10,
+        },
+      },
+    ],
   });
-
-  const [updateClothingShellUpdatedAt] = useMutation(
-    Update_Clothing_Shell_Updated_At,
-    {
-      onCompleted() {},
-    }
-  );
 
   //==================================================
   // 3 - State related vars
@@ -485,21 +476,30 @@ function OverviewMainFrame({
         variables2.changes.body_front_back_is_same =
           clothingSegmentsData.body_front_back_is_same;
 
-      message.loading({ content: Common.Saving_Changes, key }).then();
+      message.loading({ content: Common.Saving_Changes, key });
       // updateClothingShell({ variables }).then();
       setIsSaving(true);
+      // NOTE
+      // Unless we somehow create a hybrid graphql query where we can take
+      // in two queries at once and do them simultaneously (and create a
+      // return type that returns them both), then it's just better off we
+      // just execute these queries one by one, first the maindata, then the
+      // clothing segment data.
       if (numberOfChanges > 0) {
+        console.error('is working 1. Variables:', variables);
         await updateClothingShellMaindata({ variables });
       }
       if (numberOfChanges2 > 0) {
         console.log('updateClothingSegmentData():', variables2);
+        console.error('is working 222');
         await updateClothingSegmentData({ variables: variables2 });
       }
-      await updateClothingShellUpdatedAt({
-        variables: {
-          id: clothingShell.id,
-        },
-      });
+      // await updateClothingShellUpdatedAt({
+      //   variables: {
+      //     id: clothingShell.id,
+      //   },
+      // });
+      message.success({ content: Common.Changes_Saved, key });
       setIsSaving(false);
     }
   };

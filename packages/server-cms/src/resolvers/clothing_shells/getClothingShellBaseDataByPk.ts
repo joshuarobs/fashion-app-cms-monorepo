@@ -9,6 +9,8 @@ import { logger } from '../../logger';
  * Header, overview and settings tab
  */
 async function getClothingShellBaseDataByPk(id: number) {
+  logger.info(`graphql > getClothingShellBaseDataByPk() | args: id: ${id}`);
+
   try {
     const data = await client.query({
       query: gql`

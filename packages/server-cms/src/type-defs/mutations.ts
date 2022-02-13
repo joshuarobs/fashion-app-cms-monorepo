@@ -25,7 +25,10 @@ const Mutations = gql`
     #--------------------------------------------------
     insertClothingShellMaindata: clothing_shell_maindata
     insertClothingShellMaindataBarebones: clothing_shell_maindata
-    updateClothingShellMaindata: clothing_shell_maindata
+    updateClothingShellMaindata(
+      id: String!
+      changes: clothing_shell_maindata_set_input
+    ): clothing_shell_maindata
     #--------------------------------------------------
     # clothing_shell_maindata_revision_changes
     #--------------------------------------------------

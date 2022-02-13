@@ -47,8 +47,6 @@ function _EditClothingSegmentsPopup({
   bodyCoverage,
   nameTitle,
 }: EditClothingSegmentsPopupProps) {
-  console.error('HEY');
-
   const [currentTab, setCurrentTab] = useState(TabIds.BaseShapeAndFabric);
 
   let laptopSizePreset = LaptopSizePreset.MacBookPro16;
@@ -76,7 +74,7 @@ function _EditClothingSegmentsPopup({
     mainSectionMaxHeight = 540;
   }
 
-  console.log('@@@@clothingShell:', clothingShell);
+  // console.log('@@@@clothingShell:', clothingShell);
   let title;
   switch (popupMode) {
     case ClothingSegmentsPopupMode.Edit:
@@ -94,15 +92,11 @@ function _EditClothingSegmentsPopup({
   //   clothingSegmentsData
   // );
 
-  const [
-    numChangesTabBaseShapeFabric,
-    setNumChangesTabBaseShapeFabric,
-  ] = useState(0);
+  const [numChangesTabBaseShapeFabric, setNumChangesTabBaseShapeFabric] =
+    useState(0);
 
-  const [
-    numChangesTabNegativeMaskCutout,
-    setNumChangesTabNegativeMaskCutout,
-  ] = useState(0);
+  const [numChangesTabNegativeMaskCutout, setNumChangesTabNegativeMaskCutout] =
+    useState(0);
 
   const [numChangesTabMinorDetails, setNumChangesTabMinorDetails] = useState(0);
 

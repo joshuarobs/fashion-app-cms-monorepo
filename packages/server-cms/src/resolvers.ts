@@ -166,7 +166,8 @@ const resolvers = {
     //--------------------------------------------------
     insertClothingShellMaindata,
     insertClothingShellMaindataBarebones,
-    updateClothingShellMaindata,
+    updateClothingShellMaindata: (_, { id, changes }) =>
+      updateClothingShellMaindata(id, changes),
     //--------------------------------------------------
     // clothing_shell_maindata_revision_changes
     //--------------------------------------------------

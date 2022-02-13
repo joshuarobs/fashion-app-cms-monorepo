@@ -2,13 +2,10 @@ import { gql } from '@apollo/client';
 
 const Update_Clothing_Shell_Maindata = gql`
   mutation updateClothingShellMaindata(
-    $id: uuid!
+    $id: String!
     $changes: clothing_shell_maindata_set_input
   ) {
-    update_clothing_shell_maindata_by_pk(
-      pk_columns: { id: $id }
-      _set: $changes
-    ) {
+    updateClothingShellMaindata(id: $id, changes: $changes) {
       id
       name
       uniform_thickness

@@ -6,11 +6,14 @@ import { logger } from '../../logger';
  * Updates the item's updated_at field to "now"
  * This should be called after making any changes to an any item's maindata
  * or translation
+ * @param id
  */
-async function updateClothingShellUpdatedAt() {
+async function updateClothingShellUpdatedAt(id: number) {
+  logger.info(`graphql > updateClothingShellUpdatedAt() | args: id: ${id}`);
+
   try {
-    const data = await client.query({
-      query: gql`
+    const data = await client.mutate({
+      mutation: gql`
         mutation updateClothingShellUpdatedAt($id: Int!) {
           update_clothing_shells_by_pk(
             pk_columns: { id: $id }
@@ -21,6 +24,7 @@ async function updateClothingShellUpdatedAt() {
           }
         }
       `,
+      variables: { id },
     });
     return data.data.update_clothing_shells_by_pk;
   } catch (e) {
