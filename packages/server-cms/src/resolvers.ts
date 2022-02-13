@@ -136,6 +136,8 @@ import { insertClothingShell } from './resolvers/clothing_shells/insertClothingS
 import { deleteItem } from './resolvers/items/deleteItem';
 import { deleteClothingShell } from './resolvers/clothing_shells/deleteClothingShell';
 import { promoteClothingShellMaindataRevisionToReview } from './resolvers/clothing_shell_maindata_revisions/promoteClothingShellMaindataRevisionToReview';
+import { demoteClothingShellMaindataRevisionToDevelopment } from './resolvers/clothing_shell_maindata_revisions/demoteClothingShellMaindataRevisionToDevelopment';
+import { promoteClothingShellMaindataRevisionToProduction } from './resolvers/clothing_shell_maindata_revisions/promoteClothingShellMaindataRevisionToProduction';
 
 const resolvers = {
   //**********************************************************************
@@ -178,11 +180,15 @@ const resolvers = {
     //--------------------------------------------------
     // clothing_shell_maindata_revisions
     //--------------------------------------------------
+    demoteClothingShellMaindataRevisionToDevelopment: (_, { id }) =>
+      demoteClothingShellMaindataRevisionToDevelopment(id),
     insertClothingShellMaindataRevision,
     updateClothingShellMaindataRevisionState,
     updateClothingShellMaindataRevisionToRetired,
     promoteClothingShellMaindataRevisionToReview: (_, { id }) =>
       promoteClothingShellMaindataRevisionToReview(id),
+    promoteClothingShellMaindataRevisionToProduction: (_, { id }) =>
+      promoteClothingShellMaindataRevisionToProduction(id),
     //--------------------------------------------------
     // clothing_shells
     //--------------------------------------------------

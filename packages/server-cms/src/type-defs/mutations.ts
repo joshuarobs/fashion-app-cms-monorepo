@@ -40,10 +40,19 @@ const Mutations = gql`
     #--------------------------------------------------
     # clothing_shell_maindata_revisions
     #--------------------------------------------------
+    demoteClothingShellMaindataRevisionToDevelopment(
+      id: String!
+    ): clothing_shell_maindata_revisions
     insertClothingShellMaindataRevision: clothing_shell_maindata_revisions
     updateClothingShellMaindataRevisionState: clothing_shell_maindata_revisions
     updateClothingShellMaindataRevisionToRetired: clothing_shell_maindata_revisions
     promoteClothingShellMaindataRevisionToReview(
+      id: String!
+    ): clothing_shell_maindata_revisions
+    promoteClothingShellMaindataRevisionToProduction(
+      id: String!
+    ): clothing_shell_maindata_revisions
+    promoteClothingShellMaindataRevisionNewRevision(
       id: String!
     ): clothing_shell_maindata_revisions
     #--------------------------------------------------

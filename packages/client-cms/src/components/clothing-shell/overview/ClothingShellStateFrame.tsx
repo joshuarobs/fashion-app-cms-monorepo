@@ -18,6 +18,8 @@ import { Insert_Clothing_Shell_Maindata } from '../../../queries/clothing_shell_
 import { Insert_Clothing_Shell_Maindata_Revision } from '../../../queries/clothing_shell_maindata_revisions/insertClothingShellMaindataRevision';
 import { Insert_Clothing_Segment_Data } from '../../../queries/clothing_segment_data/insertClothingSegmentData';
 import { Promote_Clothing_Shell_Maindata_Revision_To_Review } from '../../../queries/clothing_shell_maindata_revisions/promoteClothingShellMaindataRevisionToReview';
+import { Demote_Clothing_Shell_Maindata_Revision_To_Development } from '../../../queries/clothing_shell_maindata_revisions/demoteClothingShellMaindataRevisionToDevelopment';
+import { Promote_Clothing_Shell_Maindata_Revision_To_Production } from '../../../queries/clothing_shell_maindata_revisions/promoteClothingShellMaindataRevisionToProduction';
 
 const key = 'state-localisations';
 
@@ -84,6 +86,22 @@ function ClothingShellStateFrame({
   //==================================================
   const [promoteClothingShellMaindataRevisionToReview] = useMutation(
     Promote_Clothing_Shell_Maindata_Revision_To_Review,
+    {
+      awaitRefetchQueries: true,
+      refetchQueries: [],
+    }
+  );
+
+  const [demoteClothingShellMaindataRevisionToDevelopment] = useMutation(
+    Demote_Clothing_Shell_Maindata_Revision_To_Development,
+    {
+      awaitRefetchQueries: true,
+      refetchQueries: [],
+    }
+  );
+
+  const [promoteClothingShellMaindataRevisionToProduction] = useMutation(
+    Promote_Clothing_Shell_Maindata_Revision_To_Production,
     {
       awaitRefetchQueries: true,
       refetchQueries: [],
@@ -363,30 +381,6 @@ function ClothingShellStateFrame({
         id: currentRevision.id,
       },
     });
-    // 1. (OBSOLETE) Create a release translation version
-    // 2. Update the translation revision state to REVIEW
-    // await updateMaindataRevision({
-    //   variables: {
-    //     // @ts-ignore
-    //     revisionId: currentRevision.id,
-    //     state: DataState.Review,
-    //   },
-    // });
-    // // 3. Create an activity entry
-    // await insertMaindataRevisionChange({
-    //   variables: {
-    //     // @ts-ignore
-    //     revisionId: currentRevision.id,
-    //     userId: 1,
-    //     changeType: DataChangeType.Promotion,
-    //     toState: DataState.Review,
-    //   },
-    // });
-    // await updateUpdatedAt({
-    //   variables: {
-    //     id: clothingShellId,
-    //   },
-    // });
     // Refresh the page
     history.go(0);
     message.success(
@@ -403,33 +397,11 @@ function ClothingShellStateFrame({
       content: Common.State_Related.Demoting_To_Development,
       key,
     });
-    // 1. (OBSOLETE) Create a release translation version
-    // 2. Update the translation revision state to DEVELOPMENT
-    await updateMaindataRevision({
+    await demoteClothingShellMaindataRevisionToDevelopment({
       variables: {
-        // @ts-ignore
-        revisionId: currentRevision.id,
-        state: DataState.Development,
+        id: currentRevision.id,
       },
     });
-
-    // 3. Create an activity entry
-    await insertMaindataRevisionChange({
-      variables: {
-        // @ts-ignore
-        revisionId: currentRevision.id,
-        userId: 1,
-        changeType: DataChangeType.Demotion,
-        toState: DataState.Development,
-      },
-    });
-
-    await updateUpdatedAt({
-      variables: {
-        id: clothingShellId,
-      },
-    });
-
     // Refresh the page
     history.go(0);
     message.success(
@@ -446,64 +418,11 @@ function ClothingShellStateFrame({
       content: Common.State_Related.Promoting_To_Production,
       key,
     });
-    // 1. Update the translation revision state to PRODUCTION
-    await updateMaindataRevision({
+    await promoteClothingShellMaindataRevisionToProduction({
       variables: {
-        // @ts-ignore
-        revisionId: currentRevision.id,
-        state: DataState.Production,
-        // state: DATA_STATES.REVIEW
+        id: currentRevision.id,
       },
     });
-    // 2. If there is a previous revision, retire it
-    const matchingPreviousRevision = uniqueRevisions.find(
-      // @ts-ignore
-      ({ revision }) => revision === Number.parseInt(paramsRevision) - 1
-    );
-    // console.log("matchingPreviousRevision:", matchingPreviousRevision);
-    if (matchingPreviousRevision) {
-      await updateMaindataRevisionToRetired({
-        variables: {
-          revisionId: matchingPreviousRevision.id,
-        },
-      });
-      await insertMaindataRevisionChangePromoRetired({
-        variables: {
-          revisionId: matchingPreviousRevision.id,
-          userId: 1,
-        },
-      });
-    }
-
-    // 3. Create an activity entry
-    await insertMaindataRevisionChange({
-      variables: {
-        // @ts-ignore
-        revisionId: currentRevision.id,
-        userId: 1,
-        changeType: DataChangeType.Promotion,
-        toState: DataState.Production,
-      },
-    });
-
-    // 4. Recalculate the number of items for the company
-    // @ts-ignore
-    // const { brand_id } = currentRevision.item_maindata[0];
-    // console.log('brand_id:', brand_id);
-    // if (brand_id) {
-    //   await getProductionItemCountForCompany({
-    //     variables: {
-    //       id: brand_id,
-    //     },
-    //   });
-    // }
-
-    await updateUpdatedAt({
-      variables: {
-        id: clothingShellId,
-      },
-    });
-
     // Refresh the page
     history.go(0);
     message.success(
