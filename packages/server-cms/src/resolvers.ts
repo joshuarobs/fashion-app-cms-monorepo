@@ -154,7 +154,8 @@ const resolvers = {
     //--------------------------------------------------
     insertClothingSegmentData,
     insertNewBlankClothingSegmentData,
-    updateClothingSegmentData,
+    updateClothingSegmentData: (_, { id, changes }) =>
+      updateClothingSegmentData(id, changes),
     //--------------------------------------------------
     // clothing_shell_counts
     //--------------------------------------------------

@@ -13,7 +13,10 @@ const Mutations = gql`
     #--------------------------------------------------
     insertClothingSegmentData: clothing_segment_data
     insertNewBlankClothingSegmentData: clothing_segment_data
-    updateClothingSegmentData: clothing_segment_data
+    updateClothingSegmentData(
+      id: String!
+      changes: clothing_segment_data_set_input
+    ): clothing_segment_data
     #--------------------------------------------------
     # clothing_shell_counts
     #--------------------------------------------------

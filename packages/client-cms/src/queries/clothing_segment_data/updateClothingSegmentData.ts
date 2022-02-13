@@ -2,13 +2,10 @@ import { gql } from '@apollo/client';
 
 const Update_Clothing_Segment_Data = gql`
   mutation updateClothingSegmentData(
-    $id: uuid!
+    $id: String!
     $changes: clothing_segment_data_set_input
   ) {
-    update_clothing_segment_data_by_pk(
-      pk_columns: { id: $id }
-      _set: $changes
-    ) {
+    updateClothingSegmentData(id: $id, changes: $changes) {
       id
       right_sleeve_start_front
       right_sleeve_end_front

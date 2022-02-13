@@ -177,13 +177,6 @@ function OverviewMainFrame({
   // 2 - Hooks for GraphQL queries
   //==================================================
   const [
-    insertClothingShellMaindataRevisionChange,
-    // { loading: loadingAddRevisionChange, error: errorAddRevisionChange }
-  ] = useMutation(Insert_Clothing_Shell_Maindata_Revision_Change, {
-    onCompleted() {},
-  });
-
-  const [
     updateClothingSegmentData,
     // { loading: mutationLoading, error: mutationError }
   ] = useMutation(Update_Clothing_Segment_Data, {
@@ -320,17 +313,6 @@ function OverviewMainFrame({
     setDefaultInterliningLayerId(revisionRelease.default_interlining_layer_id);
     resetClothingSegmentData();
   };
-
-  // // Extra - Clothing Segment Data
-  // const discardChanges2 = () => {
-  //   resetClothingSegmentData();
-  //   // setName(revisionRelease.name);
-  //   // setUniformThickness(revisionRelease.uniform_thickness);
-  //   // setDefaultShellLayerId(revisionRelease.default_shell_layer_id);
-  //   // setDefaultFillLayerId(revisionRelease.default_fill_layer_id);
-  //   // setDefaultLiningLayerId(revisionRelease.default_lining_layer_id);
-  //   // setDefaultInterliningLayerId(revisionRelease.default_interlining_layer_id);
-  // };
 
   interface changesProps {
     name?: string | null;
