@@ -2,12 +2,24 @@ import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
-// Gets all the revisions for an item (main data only)
-// This is used for the Overview tab for the Item page (New revision state)
-async function insertClothingShellMaindata() {
+/**
+ * Creates a new clothing shell maindata with any or all of its specified
+ * values.
+ * @param input
+ */
+async function insertClothingShellMaindata(input: any) {
+  const loggerPrefix = '';
+  logger.info(
+    `${loggerPrefix}graphql > insertClothingShellMaindata() :: args: input: ${JSON.stringify(
+      input,
+      null,
+      2
+    )}`
+  );
+
   try {
-    const data = await client.query({
-      query: gql`
+    const data = await client.mutate({
+      mutation: gql`
         mutation insertClothingShellMaindata(
           $object: clothing_shell_maindata_insert_input!
         ) {
@@ -30,7 +42,13 @@ async function insertClothingShellMaindata() {
           }
         }
       `,
+      variables: {
+        object: input,
+      },
     });
+    logger.info(
+      `${loggerPrefix}graphql > insertClothingShellMaindata() :: Successfully returned data`
+    );
     return data.data.insert_clothing_shell_maindata_one;
   } catch (e) {
     logger.error(e);

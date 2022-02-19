@@ -20,6 +20,7 @@ import { Insert_Clothing_Segment_Data } from '../../../queries/clothing_segment_
 import { Promote_Clothing_Shell_Maindata_Revision_To_Review } from '../../../queries/clothing_shell_maindata_revisions/promoteClothingShellMaindataRevisionToReview';
 import { Demote_Clothing_Shell_Maindata_Revision_To_Development } from '../../../queries/clothing_shell_maindata_revisions/demoteClothingShellMaindataRevisionToDevelopment';
 import { Promote_Clothing_Shell_Maindata_Revision_To_Production } from '../../../queries/clothing_shell_maindata_revisions/promoteClothingShellMaindataRevisionToProduction';
+import { Promote_Clothing_Shell_Maindata_Revision_New_Revision } from '../../../queries/clothing_shell_maindata_revisions/promoteClothingShellMaindataRevisionNewRevision';
 
 const key = 'state-localisations';
 
@@ -108,20 +109,13 @@ function ClothingShellStateFrame({
     }
   );
 
-  const [
-    updateMaindataRevision,
-    // { loading: loadingUpdateRevisionReview, error: errorUpdateRevisionReview }
-  ] = useMutation(Update_Clothing_Shell_Maindata_Revision_State, {
-    onCompleted() {},
-    // refetchQueries: () => [
-    //   {
-    //     query: GET_UNIQUE_PROD_ITEMS_FOR_COMPANY,
-    //     variables: {
-    //       id: currentRevision.item_maindata[0].brand_id
-    //     }
-    //   }
-    // ]
-  });
+  const [promoteClothingShellMaindataRevisionNewRevision] = useMutation(
+    Promote_Clothing_Shell_Maindata_Revision_New_Revision,
+    {
+      awaitRefetchQueries: true,
+      refetchQueries: [],
+    }
+  );
 
   const [
     insertMaindataRevisionChange,
@@ -439,7 +433,24 @@ function ClothingShellStateFrame({
       content: Common.State_Related.Creating_New_Revision,
       key,
     });
-    console.log('newRevision() > currentRevision:', currentRevision);
+    // console.log('newRevision() > currentRevision:', currentRevision);
+    const newRevisionData =
+      await promoteClothingShellMaindataRevisionNewRevision({
+        variables: { id: currentRevision.id },
+      });
+    // console.log('newRevisionData:', newRevisionData);
+    const newRevision =
+      newRevisionData.data.promoteClothingShellMaindataRevisionNewRevision;
+    console.log('newRevision:', newRevision);
+
+    navigate(
+      `${RouteStrings.Clothing_Shells__Clothing_Shell}/${newRevision.clothing_shell_id}?rev=${newRevision.revision}`
+    );
+    history.go(0);
+    message
+      .success({ content: Common.State_Related.Created_New_Revision, key }, 2)
+      .then();
+
     // @ts-ignore
     const { revision } = currentRevision;
     // const variables = {
@@ -453,7 +464,7 @@ function ClothingShellStateFrame({
       state: DataState.Development,
     };
     // 2. INSERT A REVISION
-    await insertMaindataRevision({ variables });
+    // await insertMaindataRevision({ variables });
   };
 
   const { getClothingShellMaindataRevisionChangesPromosOnly } = data;

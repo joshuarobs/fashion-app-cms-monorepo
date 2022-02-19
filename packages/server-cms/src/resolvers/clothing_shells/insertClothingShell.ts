@@ -103,8 +103,8 @@ async function insertClothingShell(name: string, item_type: ItemType) {
       revisionId,
       1,
       DataChangeType.Promotion,
+      DataState.Development,
       null,
-      DataAction.Update,
       '--'
     );
     console.log('data5:', data5);

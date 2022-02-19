@@ -4,14 +4,13 @@ import { logger } from '../../logger';
 import { ItemType } from '@joshuarobs/clothing-framework';
 
 /**
- * Gets all the revisions for a clothing shell (main data only)
+ * Inserts a new clothing shell (main data only)
  * Barebones (BB) data only (no other relational or foreign data)
- * This is used for the Overview tab for the Clothing Shell page (Revisions
- * dropdown)
  * @param revision_id
  * @param is_release
  * @param name
  * @param item_type
+ * @param clothing_segment_data_id
  */
 async function insertClothingShellMaindataBarebones(
   revision_id: string,
