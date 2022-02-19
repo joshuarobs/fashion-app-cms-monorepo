@@ -55,6 +55,7 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
     item_translation_revision,
     company_translation_revision,
     item_maindata_revision,
+    clothing_shell_maindata_revision,
   } = change;
 
   let revision = null;
@@ -73,6 +74,8 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
     // typeKindTitle = "Item Maindata:";
     // typeName = item_maindata_revision.locale.name;
     revision = item_maindata_revision.revision;
+  } else if (clothing_shell_maindata_revision) {
+    revision = clothing_shell_maindata_revision.revision;
   }
 
   const displayDate = dayjs().to(dayjs(date));
