@@ -31,10 +31,10 @@ async function promoteClothingShellMaindataRevisionNewRevision(id: string) {
      */
     const clothingShellMaindataRevision =
       await getClothingShellMaindataRevisionByPk(id);
-    console.log(
-      'clothingShellMaindataRevision:',
-      clothingShellMaindataRevision
-    );
+    // console.log(
+    //   'clothingShellMaindataRevision:',
+    //   clothingShellMaindataRevision
+    // );
 
     // Ensure that the state is Production, otherwise we won't continue on
     if (clothingShellMaindataRevision.state !== DataState.Production) {
@@ -43,7 +43,7 @@ async function promoteClothingShellMaindataRevisionNewRevision(id: string) {
 
     const oldClothingShellMaindata =
       clothingShellMaindataRevision.clothing_shell_maindata[0];
-    console.log('oldClothingShellMaindata:', oldClothingShellMaindata);
+    // console.log('oldClothingShellMaindata:', oldClothingShellMaindata);
     // delete oldClothingShellMaindata.__typename;
 
     // Since we can't delete the `__typename`, we must recreate an object
@@ -57,7 +57,7 @@ async function promoteClothingShellMaindataRevisionNewRevision(id: string) {
     // const { __typename, ...oldClothingShellMaindata } = oldClothingSegmentData;
     const oldClothingSegmentData =
       oldClothingShellMaindata.clothing_segment_data;
-    console.log('oldClothingSegmentData:', oldClothingSegmentData);
+    // console.log('oldClothingSegmentData:', oldClothingSegmentData);
 
     // return null;
 
@@ -84,7 +84,7 @@ async function promoteClothingShellMaindataRevisionNewRevision(id: string) {
       clothingShellMaindataRevision.revision + 1,
       DataState.Development
     );
-    console.log('data3a:', data3a);
+    // console.log('data3a:', data3a);
 
     // return null;
 
@@ -129,7 +129,7 @@ async function promoteClothingShellMaindataRevisionNewRevision(id: string) {
         oldClothingShellMaindata.default_interlining_layer_id,
       clothing_segment_data_id: data3b.id,
     });
-    console.log('data3c:', data3c);
+    // console.log('data3c:', data3c);
 
     // D. clothing_shell_maindata_revision_changes
     // See the next step

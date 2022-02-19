@@ -78,10 +78,6 @@ function ClothingShellStateFrame({
     }
   );
 
-  const [updateUpdatedAt] = useMutation(Update_Clothing_Shell_Updated_At, {
-    onCompleted() {},
-  });
-
   //==================================================
   // PROMOTIONS
   //==================================================
@@ -116,242 +112,6 @@ function ClothingShellStateFrame({
       refetchQueries: [],
     }
   );
-
-  const [
-    insertMaindataRevisionChange,
-    // { loading: loadingChangePromoReview, error: errorChangePromoReview }
-  ] = useMutation(Insert_Clothing_Shell_Maindata_Revision_Change, {
-    onCompleted() {},
-  });
-
-  //==================================================
-  // PROMOTE TO RETIRED
-  //==================================================
-  const [
-    updateMaindataRevisionToRetired,
-    // { loading: loadingUpdateRevisionRetired, error: errorUpdateRevisionRetired }
-  ] = useMutation(Update_Clothing_Shell_Maindata_Revision_To_Retired, {
-    onCompleted() {},
-  });
-
-  const [
-    insertMaindataRevisionChangePromoRetired,
-    // { loading: loadingChangePromoRetired, error: errorChangePromoRetired }
-  ] = useMutation(
-    Insert_Clothing_Shell_Maindata_Revision_Change_Promo_Retired,
-    {
-      onCompleted() {},
-    }
-  );
-
-  //==================================================
-  // NEW REVISION
-  //==================================================
-  // Insertion order:
-  // 1. clothing_shells (already inserted by the time we see the state frame)
-  // 2. clothing_shell_maindata_revisions
-  // 3. clothing_segment_data
-  // 4. clothing_shell_maindata
-  // 5. clothing_shell_maindata_revision_changes
-
-  // TODO: Step 4 - clothing_shell_maindata_revision_changes
-
-  // Step 3 - clothing_shell_maindata
-  const [
-    insertMaindata,
-    // { loading: loadingInsertMainClothing, error: errorInsertMainClothing }
-  ] = useMutation(Insert_Clothing_Shell_Maindata, {
-    onCompleted({ insert_clothing_shell_maindata_one }) {
-      // Refetch the item base data so that the header overview link won't
-      // go back to the previous revision
-      refetchBaseData().then(() => {
-        console.log(
-          'insert_clothing_shell_maindata_one:',
-          insert_clothing_shell_maindata_one
-        );
-        const { revision_id } = insert_clothing_shell_maindata_one;
-        const variables = {
-          revisionId: revision_id,
-          userId: 1,
-          changeType: DataChangeType.Promotion,
-          toState: DataState.Development,
-          // action: DATA_ACTIONS.CREATE
-        };
-        // console.log("currentRevision:", currentRevision);
-        insertMaindataRevisionChange({ variables }).then(() => {
-          const { revision } = insert_clothing_shell_maindata_one;
-          const { clothing_shell_id } = revision;
-          navigate(
-            `${RouteStrings.Clothing_Shells__Clothing_Shell}/${clothing_shell_id}?rev=${revision.revision}`
-          );
-          history.go(0);
-          message
-            .success(
-              { content: Common.State_Related.Created_New_Revision, key },
-              2
-            )
-            .then();
-        });
-      });
-    },
-  });
-
-  // Step 2 - clothing_segment_data
-  const [
-    insertClothingSegmentData,
-    // { loading: loadingChangePromoRetired, error: errorChangePromoRetired }
-  ] = useMutation(Insert_Clothing_Segment_Data, {
-    onCompleted({ insert_clothing_shell_maindata_one }) {},
-  });
-
-  // Step 1 - clothing_shell_maindata_revisions
-  const [
-    insertMaindataRevision,
-    // { loading: loadingInsertMainRev, error: errorInsertMainRev }
-  ] = useMutation(Insert_Clothing_Shell_Maindata_Revision, {
-    async onCompleted({ insert_clothing_shell_maindata_revisions_one }) {
-      await refetchRevisions();
-      console.log(
-        'insert_clothing_shell_maindata_revisions_one:',
-        insert_clothing_shell_maindata_revisions_one
-      );
-      const { id } = insert_clothing_shell_maindata_revisions_one;
-      console.log('currentRevision:', currentRevision);
-      // TODO: clothing_segment_data_id should be from a newly generated one
-      //  from `insertClothingSegmentData()` instead of the previous
-      //  revision's one
-      const {
-        name,
-        item_type,
-        uniform_thickness,
-        default_shell_layer_id,
-        default_fill_layer_id,
-        default_lining_layer_id,
-        default_interlining_layer_id,
-        // clothing_segment_data_id,
-        // @ts-ignore
-      } = currentRevision.clothing_shell_maindata[0];
-
-      // Generate a uuid version 4 locally, so we can do a chain query
-      // workaround
-      const clothing_segment_data_id = uuidv4();
-
-      // Step 2 - INSERT clothing_segment_data
-      const {
-        right_sleeve_start_front,
-        right_sleeve_end_front,
-        right_sleeve_start_back,
-        right_sleeve_end_back,
-        left_sleeve_start_front,
-        left_sleeve_end_front,
-        left_sleeve_start_back,
-        left_sleeve_end_back,
-        right_body_start_front,
-        right_body_end_front,
-        right_body_start_back,
-        right_body_end_back,
-        left_body_start_front,
-        left_body_end_front,
-        left_body_start_back,
-        left_body_end_back,
-        sleeves_is_symmetrical,
-        sleeves_front_back_is_same,
-        body_is_symmetrical,
-        body_front_back_is_same,
-        // @ts-ignore
-      } = currentRevision.clothing_shell_maindata[0].clothing_segment_data;
-      const clothingSegmentDataVariables = {
-        // @ts-ignore
-        id: clothing_segment_data_id,
-        right_sleeve_start_front,
-        right_sleeve_end_front,
-        right_sleeve_start_back,
-        right_sleeve_end_back,
-        left_sleeve_start_front,
-        left_sleeve_end_front,
-        left_sleeve_start_back,
-        left_sleeve_end_back,
-        right_body_start_front,
-        right_body_end_front,
-        right_body_start_back,
-        right_body_end_back,
-        left_body_start_front,
-        left_body_end_front,
-        left_body_start_back,
-        left_body_end_back,
-        sleeves_is_symmetrical,
-        sleeves_front_back_is_same,
-        body_is_symmetrical,
-        body_front_back_is_same,
-      };
-      await insertClothingSegmentData({
-        variables: clothingSegmentDataVariables,
-      });
-
-      // 3. INSERT A MAINDATA FOR THAT REVISION
-      const variables = {
-        revision_id: id,
-        is_release: true,
-        name,
-        item_type,
-        uniform_thickness,
-        default_shell_layer_id,
-        default_fill_layer_id,
-        default_lining_layer_id,
-        default_interlining_layer_id,
-        clothing_segment_data_id,
-      };
-
-      await insertMaindata({ variables: { object: variables } });
-
-      await updateUpdatedAt({
-        variables: {
-          id: clothingShellId,
-        },
-      });
-    },
-  });
-
-  // const [
-  //   updateCompanyCount,
-  //   { loading: loadingUpdCompanyItemCount, error: errorUpdCompanyItemCount },
-  // ] = useMutation(Update_Company_Count, {
-  //   onCompleted() {
-  //     console.log('DONE updateCompanyCount');
-  //   },
-  // });
-
-  // const [
-  //   getProductionItemCountForCompany,
-  //   { loading: loadingGetItemCount, error: errorGetItemCount },
-  // ] = useLazyQuery(Get_Unique_Item_Maindata_Rev_Amount_For_Brand_Prod_Only, {
-  //   // NOTE: We can't use async for `onCompleted` in a `useLazyQuery` as it
-  //   // causes weird infinite page re-rendering bugs
-  //   onCompleted({ item_maindata_revisions_aggregate }) {
-  //     console.log(
-  //       'item_maindata_revisions_aggregate:',
-  //       item_maindata_revisions_aggregate
-  //     );
-  //     // @ts-ignore
-  //     const { brand } = currentRevision.item_maindata[0];
-  //     if (brand) {
-  //       const { counts } = brand;
-  //       // console.log("counts:", counts);
-  //       if (counts) {
-  //         updateCompanyCount({
-  //           variables: {
-  //             id: counts.id,
-  //             changes: {
-  //               item_count: item_maindata_revisions_aggregate.aggregate.count,
-  //             },
-  //           },
-  //         }).then();
-  //       }
-  //     }
-  //     // message.success({ content: COMMON.UPDATED_ITEM_COUNT, key }, 2);
-  //   },
-  //   fetchPolicy: 'network-only',
-  // });
 
   if (loading || !currentRevision) return <StateFrame />;
   if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
@@ -441,30 +201,16 @@ function ClothingShellStateFrame({
     // console.log('newRevisionData:', newRevisionData);
     const newRevision =
       newRevisionData.data.promoteClothingShellMaindataRevisionNewRevision;
-    console.log('newRevision:', newRevision);
+    // console.log('newRevision:', newRevision);
 
     navigate(
       `${RouteStrings.Clothing_Shells__Clothing_Shell}/${newRevision.clothing_shell_id}?rev=${newRevision.revision}`
     );
     history.go(0);
-    message
-      .success({ content: Common.State_Related.Created_New_Revision, key }, 2)
-      .then();
-
-    // @ts-ignore
-    const { revision } = currentRevision;
-    // const variables = {
-    //   entryId: itemId,
-    //   revision: revision + 1
-    // };
-    // insertItemTranslationRevision({ variables }).then();
-    const variables = {
-      id: clothingShellId,
-      revision: revision + 1,
-      state: DataState.Development,
-    };
-    // 2. INSERT A REVISION
-    // await insertMaindataRevision({ variables });
+    message.success(
+      { content: Common.State_Related.Created_New_Revision, key },
+      2
+    );
   };
 
   const { getClothingShellMaindataRevisionChangesPromosOnly } = data;

@@ -37,7 +37,7 @@ async function insertClothingShell(name: string, item_type: ItemType) {
         }
       `,
     });
-    console.log('data1:', data1.data.insert_clothing_shells_one);
+    // console.log('data1:', data1.data.insert_clothing_shells_one);
     const clothingShellId = data1.data.insert_clothing_shells_one.id;
 
     /*
@@ -70,10 +70,10 @@ async function insertClothingShell(name: string, item_type: ItemType) {
         state: DataState.Development,
       },
     });
-    console.log(
-      'data2:',
-      data2.data.insert_clothing_shell_maindata_revisions_one
-    );
+    // console.log(
+    //   'data2:',
+    //   data2.data.insert_clothing_shell_maindata_revisions_one
+    // );
     const revisionId =
       data2.data.insert_clothing_shell_maindata_revisions_one.id;
 
@@ -81,7 +81,7 @@ async function insertClothingShell(name: string, item_type: ItemType) {
      * 3. Insert a Clothing Segment Data
      */
     const data3 = await insertNewBlankClothingSegmentData();
-    console.log('data3:', data3);
+    // console.log('data3:', data3);
     const clothingSegmentDataId = data3.id;
 
     /*
@@ -94,7 +94,7 @@ async function insertClothingShell(name: string, item_type: ItemType) {
       item_type,
       clothingSegmentDataId
     );
-    console.log('data4:', data4);
+    // console.log('data4:', data4);
 
     /*
      * 5. Insert a (Item) maindata revision change
@@ -107,7 +107,7 @@ async function insertClothingShell(name: string, item_type: ItemType) {
       null,
       '--'
     );
-    console.log('data5:', data5);
+    // console.log('data5:', data5);
 
     /*
      * ============================================================
