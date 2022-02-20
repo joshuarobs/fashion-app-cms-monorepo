@@ -203,7 +203,8 @@ const resolvers = {
     //--------------------------------------------------
     // companies
     //--------------------------------------------------
-    insertCompany,
+    insertCompany: (_, { name, website_url, is_reseller }) =>
+      insertCompany(name, website_url, is_reseller),
     updateCompany: (_, { id, changes }) => updateCompany(id, changes),
     //--------------------------------------------------
     // company_counts

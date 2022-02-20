@@ -68,7 +68,11 @@ const Mutations = gql`
     #--------------------------------------------------
     # companies
     #--------------------------------------------------
-    insertCompany: companies
+    insertCompany(
+      name: String!
+      website_url: String!
+      is_reseller: Boolean!
+    ): companies
     updateCompany(id: Int!, changes: companies_set_input): companies
     #--------------------------------------------------
     # company_counts

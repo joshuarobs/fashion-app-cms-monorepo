@@ -38,64 +38,19 @@ function HeaderFrame() {
   const [insertCompany, { loading: mutationLoading, error: mutationError }] =
     useMutation(Insert_Company, {
       async onCompleted({ insert_companies_one }) {
-        console.log('insert_companies_one:', insert_companies_one);
-        // setOriginalClothingShellId(clothing_shell_id);
-        await insertCompanyCount({
-          variables: {
-            companyId: insert_companies_one.id,
-          },
-        });
-        navigate(
-          `${RouteStrings.Companies__Company}/${insert_companies_one.id}`
-        );
-        message.success({ content: Common.Created_New_Company, key });
+        // console.log('insert_companies_one:', insert_companies_one);
+        // // setOriginalClothingShellId(clothing_shell_id);
+        // await insertCompanyCount({
+        //   variables: {
+        //     companyId: insert_companies_one.id,
+        //   },
+        // });
+        // navigate(
+        //   `${RouteStrings.Companies__Company}/${insert_companies_one.id}`
+        // );
+        // message.success({ content: Common.Created_New_Company, key });
       },
     });
-
-  // const [
-  //   updateCompanyItemCount,
-  //   { loading: loadingUpdCompanyItemCount, error: errorUpdCompanyItemCount }
-  // ] = useMutation(UPDATE_COMPANY, {
-  //   onCompleted() {}
-  // });
-  //
-  // const [
-  //   getProductionItemCountForCompany,
-  //   { loading: loadingGetItemCount, error: errorGetItemCount }
-  // ] = useLazyQuery(GET_UNIQUE_ITEM_MAINDATA_REV_AMOUNT_FOR_BRAND_PROD_ONLY, {
-  //   async onCompleted({ item_maindata_revisions_aggregate }) {
-  //     console.log(
-  //       "item_maindata_revisions_aggregate:",
-  //       item_maindata_revisions_aggregate
-  //     );
-  //     // await updateCompanyItemCount({
-  //     //   variables: {
-  //     //     // id: company.id,
-  //     //     changes: {
-  //     //       item_count: item_maindata_revisions_aggregate.aggregate.count
-  //     //     }
-  //     //   }
-  //     // });
-  //     // message.success({ content: COMMON.UPDATED_ITEM_COUNT, key }, 2);
-  //   }
-  // });
-  //
-  // const [
-  //   updateAllCompanyItemCounts,
-  //   { loading: loadingGetLazyCompanies, error: errorGetLazyCompanies }
-  // ] = useLazyQuery(GET_COMPANIES_LIST_BB, {
-  //   async onCompleted({ companies }) {
-  //     // console.log("companies:", companies);
-  //     await companies.forEach(company => {
-  //       console.log("company:", company);
-  //       getProductionItemCountForCompany({
-  //         variables: {
-  //           id: company.id
-  //         }
-  //       });
-  //     });
-  //   }
-  // });
 
   const inputRef = useRef(null);
 
@@ -120,18 +75,21 @@ function HeaderFrame() {
     setShowModal(true);
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // message.loading({ content: COMMON.CREATING_NEW_CLOTHING_SHELL, key });
     // If only 1 is set, and not the other (enter key for quick save only
     // works iff 1 field is set, consistent with other pages)
     if (newName) {
-      insertCompany({
+      message.loading({ content: Common.Creating_New_Company, key });
+      const data = await insertCompany({
         variables: {
           name: newName,
-          websiteUrl: newWebsiteUrl,
-          isReseller: newIsReseller,
+          website_url: newWebsiteUrl,
+          is_reseller: newIsReseller,
         },
       });
+      navigate(`${RouteStrings.Companies__Company}/${data.data.id}`);
+      message.success({ content: Common.Created_New_Company, key });
     }
   };
 

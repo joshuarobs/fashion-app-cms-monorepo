@@ -16,11 +16,11 @@ import { insertItemMaindataRevisionChange } from '../item_maindata_revision_chan
  * @param item_type
  */
 async function insertItem(name: string, item_type: ItemType) {
-  try {
-    logger.info(
-      `graphql > insertItem() :: args: name: ${name} | item_type: ${item_type}`
-    );
+  logger.info(
+    `graphql > insertItem() :: args: name: ${name} | item_type: ${item_type}`
+  );
 
+  try {
     /*
      * 1. Insert a (Item) data entry
      */

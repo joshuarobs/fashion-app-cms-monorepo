@@ -8,6 +8,7 @@ import { ColumnOfFrames } from '../../components/common/frames/ColumnOfFrames';
 import { pageStyles } from '../pageStyles';
 import { OverviewTab } from './OverviewTab';
 import { ItemsTab } from './ItemsTab';
+import { CompanySettingsTab } from './SettingsTab';
 import { LocalisationsTab } from './LocalisationsTab';
 import { Get_Company } from '../../queries/companies/getCompany';
 import { Button, Result } from 'antd';
@@ -27,12 +28,13 @@ function CompanyPage() {
   console.log('data:', data);
 
   const company = data.getCompany;
+  console.log('company:', company);
   // useEffect(() => {
   //   setItem(data.items_by_pk);
   // });
   // setItem(data.items_by_pk);
 
-  // 404 result if item doesn't exist in the database
+  // 404 result if company doesn't exist in the database
   if (!company) {
     return (
       <Result
@@ -76,7 +78,7 @@ function CompanyPage() {
           />
           <Route
             path={RouteStrings.Settings}
-            element={<ColumnOfFrames>Settings</ColumnOfFrames>}
+            element={<CompanySettingsTab company={company} />}
           />
         </Routes>
       </div>

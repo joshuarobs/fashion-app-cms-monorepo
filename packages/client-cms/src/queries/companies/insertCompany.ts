@@ -3,15 +3,13 @@ import { gql } from '@apollo/client';
 const Insert_Company = gql`
   mutation insertCompany(
     $name: String!
-    $isReseller: Boolean!
-    $websiteUrl: String!
+    $is_reseller: Boolean!
+    $website_url: String!
   ) {
-    insert_companies_one(
-      object: {
-        name: $name
-        is_reseller: $isReseller
-        website_url: $websiteUrl
-      }
+    insertCompany(
+      name: $name
+      is_reseller: $is_reseller
+      website_url: $website_url
     ) {
       id
       name

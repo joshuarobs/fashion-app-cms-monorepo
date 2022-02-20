@@ -68,7 +68,7 @@ function HeaderFrame({ data }: HeaderFrameProps) {
               to: `${RouteStrings.Companies__Company}/${id}${RouteStrings.Items}`,
               icon: <ItemsTabIcon />,
               name: 'Items',
-              count: counts.item_count,
+              count: (counts && counts.item_count) ?? 0,
               key: getBaseRouteWithoutForwardSlash(RouteStrings.Items),
             },
             {
