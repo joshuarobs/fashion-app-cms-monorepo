@@ -4,6 +4,8 @@ import { Layout, Row, Col, Switch, Typography } from 'antd';
 import { ItemTypesTable } from './ItemTypesTable';
 import { App_Shell, Table_Descriptions } from '../../../strings';
 import { SwitchElement } from '../../common/SwitchElement';
+import { GendersPageIcon } from '../../common/icons/page-icons/GendersPageIcon';
+import { ItemTypesPageIcon } from '../../common/icons/page-icons/ItemTypesPageIcon';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -20,7 +22,12 @@ function ItemTypesFrame() {
       }}
     >
       <Row>
-        <Title level={4}>{App_Shell.Sidebar.Pages.Item_Types}</Title>
+        <div style={{ display: 'flex' }}>
+          <ItemTypesPageIcon />
+          <Title level={4} style={{ paddingLeft: 8 }}>
+            {App_Shell.Sidebar.Pages.Item_Types}
+          </Title>
+        </div>
       </Row>
       <Row style={{ marginBottom: 12 }}>
         <Col span={18}>{Table_Descriptions.Item_Types}</Col>
