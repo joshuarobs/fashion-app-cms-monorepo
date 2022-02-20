@@ -20,6 +20,9 @@ import { SettingsEntry } from '../../common/settings/SettingsEntry';
 import { Delete_Item } from '../../../queries/items/deleteItem';
 import { Get_Items_For_Items_Table_Latest } from '../../../queries/items/getItemsForItemsTableLatest';
 import { companies } from '../../../utils/gql-interfaces/companies';
+import { Delete_Company } from '../../../queries/companies/deleteCompany';
+import { Get_Companies } from '../../../queries/companies/getCompanies';
+import { Get_Companies_List_BB } from '../../../queries/companies/getCompaniesListBB';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -47,19 +50,19 @@ function SettingsTabView({ company }: SettingsTabViewProps) {
 
   const [showModalKind, setShowModalKind] = useState(ModalKind.None);
 
-  const [deleteItem, { loading: loadingDeleteItem, error: errorDeleteItem }] =
-    useMutation(Delete_Item, {
-      awaitRefetchQueries: true,
-      refetchQueries: [
-        {
-          query: Get_Items_For_Items_Table_Latest,
-        },
-      ],
-      onCompleted: () => {
-        navigate(RouteStrings.Items__Clothing);
-        message.success({ content: Common.Deleted_Item, key }, 2).then();
+  const [
+    deleteItem,
+    { loading: loadingDeleteCompany, error: errorDeleteCompany },
+  ] = useMutation(Delete_Company, {
+    awaitRefetchQueries: true,
+    refetchQueries: [
+      {
+        query: Get_Companies_List_BB,
+        variables: { limit: 20, offset: 0 },
       },
-    });
+    ],
+    onCompleted: () => {},
+  });
 
   const onCancel = () => {
     setShowModalKind(ModalKind.None);
@@ -67,12 +70,14 @@ function SettingsTabView({ company }: SettingsTabViewProps) {
 
   const onSubmitDelete = async () => {
     // console.log('delete item');
-    message.loading({ content: Common.Deleting_Item, key }, 2).then();
+    message.loading({ content: Common.Deleting_Item, key }, 2);
     await deleteItem({
       variables: {
         id: parseInt(itemId ?? ''),
       },
     });
+    navigate(RouteStrings.Companies);
+    message.success({ content: Common.Deleted_Item, key }, 2);
     // deleteItemTranslations();
     // deleteItem().then(() => {
     //   setShowModalKind(ModalKind.None);
@@ -145,7 +150,7 @@ function SettingsTabView({ company }: SettingsTabViewProps) {
             </Typography>
           }
           onClick={() => setShowModalKind(ModalKind.Delete_Item)}
-          loading={loadingDeleteItem}
+          loading={loadingDeleteCompany}
         />
       </Content>
     </>

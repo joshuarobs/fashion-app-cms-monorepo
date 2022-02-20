@@ -3,6 +3,7 @@ import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
 async function getCompany(id: number) {
+  logger.info(`graphql > getCompany() :: args: id: ${id}`);
   try {
     const data = await client.query({
       query: gql`

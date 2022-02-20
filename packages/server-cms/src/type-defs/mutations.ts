@@ -74,6 +74,7 @@ const Mutations = gql`
       is_reseller: Boolean!
     ): companies
     updateCompany(id: Int!, changes: companies_set_input): companies
+    deleteCompany(id: Int!): companies
     #--------------------------------------------------
     # company_counts
     #--------------------------------------------------

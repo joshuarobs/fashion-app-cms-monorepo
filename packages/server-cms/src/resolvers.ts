@@ -139,6 +139,7 @@ import { promoteClothingShellMaindataRevisionToReview } from './resolvers/clothi
 import { demoteClothingShellMaindataRevisionToDevelopment } from './resolvers/clothing_shell_maindata_revisions/demoteClothingShellMaindataRevisionToDevelopment';
 import { promoteClothingShellMaindataRevisionToProduction } from './resolvers/clothing_shell_maindata_revisions/promoteClothingShellMaindataRevisionToProduction';
 import { promoteClothingShellMaindataRevisionNewRevision } from './resolvers/clothing_shell_maindata_revisions/promoteClothingShellMaindataRevisionNewRevision';
+import { deleteCompany } from './resolvers/companies/deleteCompany';
 
 const resolvers = {
   //**********************************************************************
@@ -206,6 +207,7 @@ const resolvers = {
     insertCompany: (_, { name, website_url, is_reseller }) =>
       insertCompany(name, website_url, is_reseller),
     updateCompany: (_, { id, changes }) => updateCompany(id, changes),
+    deleteCompany: (_, { id }) => deleteCompany(id),
     //--------------------------------------------------
     // company_counts
     //--------------------------------------------------
