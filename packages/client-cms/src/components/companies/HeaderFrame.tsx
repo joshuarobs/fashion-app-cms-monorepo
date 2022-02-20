@@ -88,7 +88,9 @@ function HeaderFrame() {
           is_reseller: newIsReseller,
         },
       });
-      navigate(`${RouteStrings.Companies__Company}/${data.data.id}`);
+      navigate(
+        `${RouteStrings.Companies__Company}/${data.data.insertCompany.id}`
+      );
       message.success({ content: Common.Created_New_Company, key });
     }
   };

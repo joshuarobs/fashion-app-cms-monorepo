@@ -52,9 +52,14 @@ async function insertCompany(
         is_reseller,
       },
     });
+    console.log('data2:', data2);
     // 3. Insert a new company count
     const data3 = await insertCompanyCount(data2.data.insert_companies_one.id);
 
+    // console.log(
+    //   'data2.data.insert_companies_one:',
+    //   data2.data.insert_companies_one
+    // );
     return data2.data.insert_companies_one;
   } catch (e) {
     logger.error(e);

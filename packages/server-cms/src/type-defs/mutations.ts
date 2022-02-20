@@ -78,7 +78,7 @@ const Mutations = gql`
     #--------------------------------------------------
     # company_counts
     #--------------------------------------------------
-    insertCompanyCount: company_counts
+    insertCompanyCount(id: Int!): company_counts
     updateCompanyCount(id: Int!): company_counts
     updateCompanyCountViaCompanyId(id: Int!): company_counts
     #--------------------------------------------------
