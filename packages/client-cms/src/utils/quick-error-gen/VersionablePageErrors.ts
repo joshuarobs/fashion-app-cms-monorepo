@@ -3,6 +3,7 @@ enum VersionablePageErrors {
   No_Maindata = 'No_Maindata',
   // Item related
   Item_No_Maindata_Revisions = 'Item_No_Maindata_Revisions',
+  Item_No_Maindata_Revisions_Production_Readable = 'Item_No_Maindata_Revisions_Production_Readable',
   Item_No_Maindata = 'Item_No_Maindata',
   Item_No_Database_Name = 'Item_No_Database_Name',
   Item_No_Clothing_Shell = 'Item_No_Clothing_Shell',

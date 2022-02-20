@@ -1,6 +1,8 @@
 import React from 'react';
 import { QuickErrorSetMessagesItemsPage } from '../../utils/quick-error-gen/QuickErrorSetMessagesItemsPage';
 import { getNumberOfQuickErrorsInSet } from '../../utils/quick-error-gen/getNumberOfQuickErrorsInSet';
+import { VersionablePageErrors } from '../../utils/quick-error-gen/VersionablePageErrors';
+import { VersionablePageErrorMessages } from '../../utils/quick-error-gen/VersionablePageErrorMessages';
 
 function rowOfError(error: string, index: number, isSubError?: boolean) {
   const bullet = !isSubError ? '•' : '◦';
@@ -55,6 +57,36 @@ function ErrorTooltipContent({ itemsPageErrors }: ErrorTooltipContentProps) {
         itemsPageErrors.maindataLatestRevision.length > 0) ||
       // Or, if there's errors within the clothing shell
       hasErrorsForLatestRevisionClothingShells;
+
+    //======================================================================
+    // Special cases for overriding text to make them more readable
+    //======================================================================
+    // Production revision related
+    if (itemsPageErrors.maindataLatestProductionRevision) {
+      itemsPageErrors.maindataLatestProductionRevision.forEach(
+        (string, index) => {
+          switch (string) {
+            case VersionablePageErrorMessages.get(
+              VersionablePageErrors.Item_No_Maindata_Revisions
+            ):
+              // @ts-ignore
+              itemsPageErrors.maindataLatestProductionRevision[index] =
+                VersionablePageErrorMessages.get(
+                  VersionablePageErrors.Item_No_Maindata_Revisions_Production_Readable
+                );
+              break;
+          }
+        }
+      );
+      // itemsPageErrors.maindataLatestProductionRevision[0] =
+      //   VersionablePageErrorMessages.get(
+      //     VersionablePageErrors.Item_No_Maindata_Revisions_Production_Readable
+      //   );
+      // console.log(
+      //   'itemsPageErrors.maindataLatestProductionRevision[0]:',
+      //   itemsPageErrors.maindataLatestProductionRevision[0]
+      // );
+    }
 
     return (
       <div>

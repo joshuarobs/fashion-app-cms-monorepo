@@ -9,6 +9,10 @@ VersionablePageErrorMessages.set(
   'No Maindata Revisions'
 );
 VersionablePageErrorMessages.set(
+  VersionablePageErrors.Item_No_Maindata_Revisions_Production_Readable,
+  'No revision in Production'
+);
+VersionablePageErrorMessages.set(
   VersionablePageErrors.Item_No_Maindata,
   'No Maindata'
 );
