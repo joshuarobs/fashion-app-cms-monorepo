@@ -39,9 +39,9 @@ async function updateItemMaindata(
     /**
      * 1. Get information about the item maindata's related revision
      */
-    const data1 = await client.mutate({
-      mutation: gql`
-        mutation getItemMaindataRelatedRevision($id: uuid!) {
+    const data1 = await client.query({
+      query: gql`
+        query getItemMaindataRelatedRevision($id: uuid!) {
           item_maindata_by_pk(id: $id) {
             id
             revision {

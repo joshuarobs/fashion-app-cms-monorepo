@@ -158,6 +158,7 @@ function OverviewMainFrame({
       //   variables,
       // });
     },
+    awaitRefetchQueries: true,
     refetchQueries: [
       {
         query: Get_Item_Maindata_Revision_Changes,
