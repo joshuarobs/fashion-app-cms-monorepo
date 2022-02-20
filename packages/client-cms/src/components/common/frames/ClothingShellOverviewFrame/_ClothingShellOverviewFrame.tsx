@@ -438,11 +438,14 @@ function ClothingShellOverviewFrame({
               justifyContent: 'flex-end',
             }}
           >
-            <Button onClick={() => setShowEditClothingShellPopup(true)}>
-              {editClothingSegmentsPopupMode === ClothingSegmentsPopupMode.Edit
-                ? 'Edit'
-                : 'View'}
-            </Button>
+            {clothingShell && (
+              <Button onClick={() => setShowEditClothingShellPopup(true)}>
+                {editClothingSegmentsPopupMode ===
+                ClothingSegmentsPopupMode.Edit
+                  ? 'Edit'
+                  : 'View'}
+              </Button>
+            )}
           </Col>
         </Row>
         <ModelAndStatistics
