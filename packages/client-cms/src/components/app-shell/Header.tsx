@@ -5,7 +5,8 @@ import {
   QuestionCircleOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Layout, Input, Row, Col, Avatar, Button, Badge } from 'antd';
+import { Layout, Input, Row, Col, Avatar, Button, Badge, Dropdown } from 'antd';
+import { ProfileDropdownMenu } from './ProfileDropdownMenu';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -86,13 +87,16 @@ function AppShellHeader() {
           >
             <div />
           </Badge>
-          <Avatar
-            style={{
-              ...styles.buttonIcon,
-              fontSize: 14,
-            }}
-            icon={<UserOutlined />}
-          />
+          <Dropdown overlay={ProfileDropdownMenu} placement="bottomRight">
+            <Avatar
+              style={{
+                ...styles.buttonIcon,
+                fontSize: 14,
+                cursor: 'pointer',
+              }}
+              icon={<UserOutlined />}
+            />
+          </Dropdown>
         </Col>
       </Row>
     </Header>
