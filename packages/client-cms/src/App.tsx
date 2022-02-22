@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 import './App.css';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Layout } from 'antd';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { Sidebar } from './components/app-shell/Sidebar';
@@ -29,6 +29,7 @@ import { CompanyPage } from './pages/company/_CompanyPage';
 import { Exception404Page } from './pages/Exception404Page';
 import { HomePage } from './pages/HomePage';
 import { LocalisationsPage } from './pages/LocalisationsPage';
+import { LoginPage } from './pages/LoginPage';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_DB_ENDPOINT || 'http://localhost:3001/graphql',
@@ -47,11 +48,15 @@ const client = new ApolloClient({
 
 const App = (): ReactElement => {
   const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
+  const [isLoginPage] = useState(location.pathname === RouteStrings.Login);
+  // console.log('location:', location);
 
   return (
     <ApolloProvider client={client}>
-      <BrowserRouter>
-        <ScrollToTop />
+      <ScrollToTop />
+      {isLoginPage && <LoginPage />}
+      {!isLoginPage && (
         <Layout>
           <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
           <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
@@ -146,11 +151,12 @@ const App = (): ReactElement => {
               />
               <Route path={RouteStrings.Users} element={<UsersPage />} />
               <Route path={RouteStrings.Home} element={<HomePage />} />
+              <Route path={RouteStrings.Login} element={<LoginPage />} />
               <Route path="*" element={<Exception404Page />} />
             </Routes>
           </Layout>
         </Layout>
-      </BrowserRouter>
+      )}
     </ApolloProvider>
   );
 };

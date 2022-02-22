@@ -38,6 +38,7 @@ enum RouteStrings {
   Heuristic_Items__Accessories = '/heuristic-items/accessories',
   Heuristic_Items__Clothing__Item = '/heuristic-items/clothing/item',
   Exception_404 = '/404',
+  Login = '/login',
   Wildcard = '/*',
 }
 
