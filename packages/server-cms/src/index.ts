@@ -62,7 +62,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   // }
 
   // Have Node serve the files for our built React app
-  app.use(express.static(ROOT_PATH));
+  // app.use(express.static(ROOT_PATH));
 
   const httpServer = http.createServer(app);
   const server = new ApolloServer({
@@ -149,8 +149,24 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     res.render('login');
   });
 
+  // Redirect the user to the login page if they aren't logged in.
+  // We need to catch the root route, otherwise they can go to this route
+  // and access everything without having to log in
+  app.get('/', function (req, res) {
+    //...index page
+    // console.log('hi');
+    // res.redirect('/login');
+    // res.render('login');
+    if (!req.isAuthenticated()) res.redirect('/login');
+  });
+
+  app.use(express.static(ROOT_PATH));
+
   // All other GET requests not handled before will return our React app
-  app.get('*', isLoggedIn, (req: any, res: any) => {
+  app.get('*', isLoggedIn, (req: any, res: any, next: any) => {
+    // if (!req.isAuthenticated()) res.redirect('/');
+    // if (req.url === '/') res.redirect('/login');
+    console.log('req:', req, '| res:', res);
     res.sendFile(path.resolve(ROOT_PATH, 'index.html'));
   });
 
