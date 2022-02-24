@@ -8,7 +8,17 @@ import { ApolloServer } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { resolvers } from './resolvers';
 import { typeDefs } from './type-defs';
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import session from 'express-session';
+import hbs from 'hbs';
 import http from 'http';
+
+declare module 'express-session' {
+  export interface SessionData {
+    user: { [key: string]: any };
+  }
+}
 
 console.log('Node environment:', process.env.NODE_ENV);
 
@@ -63,6 +73,44 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   await server.start();
   server.applyMiddleware({ app });
 
+  // Passport
+  const sess = {
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {},
+  };
+
+  if (app.get('env') === 'production') {
+    app.set('trust proxy', 1); // trust first proxy
+    // @ts-ignore
+    sess.cookie.secure = true; // serve secure cookies
+  }
+
+  app.use(session(sess));
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  passport.use(
+    new LocalStrategy(function (username, password, done) {
+      // User.findOne({ username: username }, function (err, user) {
+      //   if (err) {
+      //     return done(err);
+      //   }
+      //   if (!user) {
+      //     return done(null, false);
+      //   }
+      //   if (!user.verifyPassword(password)) {
+      //     return done(null, false);
+      //   }
+      //   return done(null, user);
+      // });
+    })
+  );
+
+  // app.engine('hbs', hbs({ extname: '.hbs' }));
+  app.set('view engine', 'hbs');
+
   // Other
   app.get('/api', (req: any, res: any) => {
     res.json({ message: 'Hello from server!' });
@@ -80,19 +128,41 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     });
   });
 
+  function isLoggedIn(req: Express.Request, res: any, next: any) {
+    if (req.isAuthenticated()) return next;
+    res.redirect('/login');
+  }
+
+  // app.use(function (req, res, next) {
+  //   // Catches access to all other pages
+  //   // console.log('req:', req);
+  //   console.log('session:', req.session.id);
+  //   if (!req.session) {
+  //     // requiring a valid access token
+  //     res.redirect('/login');
+  //   } else {
+  //     next();
+  //   }
+  // });
+
+  app.get('/login', (req, res) => {
+    res.render('login');
+  });
+
   // All other GET requests not handled before will return our React app
-  app.get('*', (req: any, res: any) => {
+  app.get('*', isLoggedIn, (req: any, res: any) => {
     res.sendFile(path.resolve(ROOT_PATH, 'index.html'));
   });
 
   app.listen(PORT, () => {
-    console.log(`Example app listening at http://localhost:${PORT}`);
+    // console.log(`Example app listening at http://localhost:${PORT}`);
+    console.log(`🚀 Server ready at http://localhost:${PORT}`);
   });
 
-  await new Promise<void>((resolve) =>
-    httpServer.listen({ port: 4000 }, resolve)
-  );
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+  // await new Promise<void>((resolve) =>
+  //   httpServer.listen({ port: 4000 }, resolve)
+  // );
+  // console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 }
 
 startApolloServer(typeDefs, resolvers);
