@@ -1,18 +1,22 @@
 import path from 'path';
+import http from 'http';
 import fs from 'fs';
 import dotenv from 'dotenv';
 dotenv.config();
 import express, { Response } from 'express';
-// import cors from 'cors';
-import { ApolloServer } from 'apollo-server-express';
+import session from 'express-session';
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import hbs from 'hbs';
+import bcrypt from 'bcrypt';
+import { ApolloServer, gql } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { resolvers } from './resolvers';
 import { typeDefs } from './type-defs';
-import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
-import session from 'express-session';
-import hbs from 'hbs';
-import http from 'http';
+import { client } from './graphql-client';
+import { getStaffUserByPk } from './resolvers/staff_users/getStaffUserByPk';
+import { getStaffUserByEmail } from './resolvers/staff_users/getStaffUserByEmail';
+import { insertStaffUser } from './resolvers/staff_users/insertStaffUser';
 
 declare module 'express-session' {
   export interface SessionData {
@@ -75,7 +79,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 
   // Passport
   const sess = {
-    secret: 'keyboard cat',
+    secret: 'secretsecretsecret',
     resave: true,
     saveUninitialized: true,
     cookie: {},
@@ -88,25 +92,96 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   }
 
   app.use(session(sess));
+
+  // @ts-ignore
+  app.use(express.urlencoded({ extended: false }));
+  // @ts-ignore
+  app.use(express.json());
+
   app.use(passport.initialize());
   app.use(passport.session());
 
+  passport.serializeUser((user, done) => {
+    console.log('serializeUser');
+    // @ts-ignore
+    done(null, user.id);
+  });
+
+  passport.deserializeUser(async (id: number, done) => {
+    console.log('deserializeUser');
+    // db.findById(id, function (err, user) {
+    //   done(err, user);
+    // });
+    const data = await getStaffUserByPk(id);
+    console.log('data:', data);
+    done(null, id);
+    // if (data) done(null, data);
+    // done('Error loading user', false);
+  });
+
   passport.use(
-    new LocalStrategy(function (username, password, done) {
-      // User.findOne({ username: username }, function (err, user) {
-      //   if (err) {
-      //     return done(err);
-      //   }
-      //   if (!user) {
-      //     return done(null, false);
-      //   }
-      //   if (!user.verifyPassword(password)) {
-      //     return done(null, false);
-      //   }
-      //   return done(null, user);
-      // });
-    })
+    new LocalStrategy(
+      {
+        usernameField: 'email',
+      },
+      async (email, password, done) => {
+        console.log('try to authenticate');
+        const userData = await getStaffUserByEmail(email);
+        const user = userData[0];
+        console.log('user:', user);
+        if (!user) return done(null, false);
+
+        bcrypt.compare(password, user.password, (err, res) => {
+          if (err) return done(err);
+          if (!res) {
+            return done(null, false, {
+              message: 'Incorrect username or password',
+            });
+          }
+          console.log('done compare');
+          return done(null, user);
+        });
+        // if (!user.verifyPassword(password)) {
+        //   return done(null, false);
+        // }
+        // return done(null, user);
+      }
+    )
   );
+
+  // Test route to set up a new admin user. It should only be done once, and
+  // this code should be removed during production, until a better
+  // approach can be mode.
+  app.get('/setup', async (req, res, next) => {
+    // const exists = await User.exists({ username: "admin" });
+    const user = await getStaffUserByEmail('admin');
+    console.log('user:', user);
+
+    if (user.length >= 1) {
+      console.log('Admin account already exists');
+      res.redirect('/login');
+      return;
+    }
+
+    bcrypt.genSalt(10, (err, salt) => {
+      if (err) return next(err);
+      bcrypt.hash('admin', salt, async (err, hash) => {
+        if (err) return next(err);
+
+        const newAdmin = await insertStaffUser({
+          email: 'admin',
+          password: hash,
+          name: 'Admin',
+          title: 'Admin',
+        });
+
+        console.log('Admin account created');
+        // newAdmin.save();
+
+        res.redirect('/login');
+      });
+    });
+  });
 
   // app.engine('hbs', hbs({ extname: '.hbs' }));
   app.set('view engine', 'hbs');
@@ -133,30 +208,64 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     res.redirect('/login');
   }
 
-  // app.use(function (req, res, next) {
-  //   // Catches access to all other pages
-  //   // console.log('req:', req);
-  //   console.log('session:', req.session.id);
-  //   if (!req.session) {
-  //     // requiring a valid access token
-  //     res.redirect('/login');
-  //   } else {
-  //     next();
-  //   }
+  function isLoggedOut(req: Express.Request, res: any, next: any) {
+    if (!req.isAuthenticated()) return next;
+    res.redirect('/');
+  }
+
+  // app.get('/login', isLoggedOut, (req, res) => {
+  //   res.render('login');
   // });
 
   app.get('/login', (req, res) => {
     res.render('login');
   });
 
+  app.post(
+    '/login',
+    passport.authenticate('local', {
+      session: true,
+      successRedirect: '/home',
+      failureRedirect: '/login?error=true',
+      failureMessage: true,
+    })
+  );
+
+  // app.post('/login', function (req, res, next) {
+  //   passport.authenticate('local', function (err, user, info) {
+  //     if (err) {
+  //       console.log('err:', err);
+  //       return next(err); // will generate a 500 error
+  //     }
+  //     // Generate a JSON response reflecting authentication status
+  //     if (!user) {
+  //       return res.status(401).send({
+  //         success: false,
+  //         message: 'authentication failed',
+  //       });
+  //     }
+  //     req.login(user, function (err) {
+  //       if (err) {
+  //         return next(err);
+  //       }
+  //       return res.send({ success: true, message: 'authentication succeeded' });
+  //     });
+  //   })(req, res, next);
+  // });
+
+  // app.post('/login', (req, res) => {
+  //   console.log('req.body:', req.body);
+  //   console.log('post: /login');
+  //   passport.authenticate('local', {
+  //     successRedirect: '/home',
+  //     failureRedirect: '/login?error=true',
+  //   });
+  // });
+
   // Redirect the user to the login page if they aren't logged in.
   // We need to catch the root route, otherwise they can go to this route
   // and access everything without having to log in
   app.get('/', function (req, res) {
-    //...index page
-    // console.log('hi');
-    // res.redirect('/login');
-    // res.render('login');
     if (!req.isAuthenticated()) res.redirect('/login');
   });
 

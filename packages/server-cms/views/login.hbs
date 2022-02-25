@@ -47,25 +47,51 @@
       }
     }, []);
 
-    const [username, setUsername] = React.useState('');
+    const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
     const onSubmit = () => {
+      console.log('Logging in...');
+      // const formData = new FormData();
+      // formData.append('email', email);
+      // formData.append('password', password);
+      const formData = {
+        email,
+        password
+      };
+
+      fetch('/login',
+        {
+          // body: formData,
+          body: JSON.stringify(formData),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'post'
+        })
+        // .then(response => response.json())
+        // .then(response => console.log('response:', response))
+        .then(data => {
+          console.log('Success:', data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
     };
 
     return (
       <antd.Layout style={styles.layout}>
         <antd.Card style={styles.card} size='default'>
           <antd.Row style={styles.usernameTitle}>
-            <Text>Username</Text>
+            <Text>Email address</Text>
           </antd.Row>
           <antd.Row style={styles.input}>
             <antd.Input
               autoFocus
               // ref={'inputRef'}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoComplete='username'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete='email-cms'
             />
           </antd.Row>
           <antd.Row style={styles.passwordTitle}>
