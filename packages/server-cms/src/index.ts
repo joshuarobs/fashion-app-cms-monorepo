@@ -39,6 +39,12 @@ console.log('Node environment:', process.env.NODE_ENV);
 // server.applyMiddleware({ app });
 // server.applyMiddleware({ app, cors: false });
 
+enum Routes {
+  Login = '/login',
+  Logout = '/logout',
+  Home = '/home',
+}
+
 async function startApolloServer(typeDefs: any, resolvers: any) {
   const app = express();
   const PORT = process.env.PORT || 3001;
@@ -176,13 +182,13 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 
     if (user.length >= 1) {
       console.log('Admin account already exists');
-      res.redirect('/login');
+      res.redirect(Routes.Login);
       return;
     }
 
     bcrypt.genSalt(10, (err, salt) => {
       if (err) return next(err);
-      bcrypt.hash('admin', salt, async (err, hash) => {
+      bcrypt.hash('DJg2j2BuBjHtQ4De', salt, async (err, hash) => {
         if (err) return next(err);
 
         const newAdmin = await insertStaffUser({
@@ -195,7 +201,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
         console.log('Admin account created');
         // newAdmin.save();
 
-        res.redirect('/login');
+        res.redirect(Routes.Login);
       });
     });
   });
@@ -224,7 +230,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     if (req.isAuthenticated()) {
       return next;
     } else {
-      res.redirect('/login');
+      res.redirect(Routes.Login);
     }
   }
 
@@ -245,37 +251,23 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 
   // app.use(express.static(ROOT_PATH));
 
-  app.get('/login', (req, res) => {
+  app.get(Routes.Login, (req, res) => {
     res.render('login');
   });
 
   app.post(
-    '/login',
-    // passport.authenticate('local', {
-    //   session: true,
-    //   successRedirect: '/home',
-    //   failureRedirect: '/login?error=true',
-    //   failureMessage: true,
-    // })
-    passport.authenticate('local', { failureRedirect: '/login' }),
-    async (req, res, next) => {
-      console.log('sending files');
-      // await res.sendFile(path.resolve(ROOT_PATH, 'index.html'));
-      // res.sendFile(path.resolve(ROOT_PATH, 'index.html'), function (err) {
-      //   if (err) {
-      //     console.log(err);
-      //     res.status(err.status).end();
-      //   }
-      // });
-      console.log('redirecting');
-      await res.redirect('/home');
-      return next;
-    }
+    Routes.Login,
+    passport.authenticate('local', {
+      session: true,
+      successRedirect: '/home',
+      // failureRedirect: '/login?error=true',
+      failureMessage: true,
+    })
   );
 
-  app.get('/logout', function (req, res) {
+  app.get(Routes.Logout, function (req, res) {
     req.logout();
-    res.redirect('/login');
+    res.redirect(Routes.Login);
   });
 
   // app.post('/login', function (req, res, next) {
@@ -321,7 +313,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     //   res.redirect('/login');
     // }
     if (!req.isAuthenticated()) {
-      res.redirect('/login');
+      res.redirect(Routes.Login);
     }
   });
 
@@ -339,14 +331,14 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     // if (!req.isAuthenticated()) res.redirect('/');
     if (req.url === '/') {
       console.log('go to login 1');
-      res.redirect('/login');
+      res.redirect(Routes.Login);
     }
     // console.log('req:', req, '| res:', res);
     // res.sendFile(path.resolve(ROOT_PATH, 'index.html'));
     if (!req.isAuthenticated()) {
-      if (req.url !== '/login') {
+      if (req.url !== Routes.Login) {
         console.log('go to login 2');
-        res.redirect('/login');
+        res.redirect(Routes.Login);
       }
     } else {
       console.log('send file');
