@@ -19,6 +19,8 @@ import { getStaffUserByPk } from './resolvers/staff_users/getStaffUserByPk';
 import { getStaffUserByEmail } from './resolvers/staff_users/getStaffUserByEmail';
 import { insertStaffUser } from './resolvers/staff_users/insertStaffUser';
 
+// const __dirname = dirname(__filename);
+
 declare module 'express-session' {
   export interface SessionData {
     user: { [key: string]: any };
@@ -207,6 +209,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   });
 
   // app.engine('hbs', hbs({ extname: '.hbs' }));
+  app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'hbs');
 
   // Other
