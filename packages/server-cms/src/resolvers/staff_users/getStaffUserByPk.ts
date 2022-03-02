@@ -10,6 +10,7 @@ async function getStaffUserByPk(id: number) {
           staff_users_by_pk(id: $id) {
             id
             email
+            password
             name
             title
             last_online

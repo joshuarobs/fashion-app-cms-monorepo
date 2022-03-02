@@ -53,7 +53,9 @@ function ProfileDropdownMenu() {
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item icon={<SettingOutlined />}>Settings</Menu.Item>
-      <Menu.Item icon={<LogoutOutlined />}>Logout</Menu.Item>
+      <Menu.Item icon={<LogoutOutlined />}>
+        <a href="/logout">Logout</a>
+      </Menu.Item>
     </Menu>
   );
 }

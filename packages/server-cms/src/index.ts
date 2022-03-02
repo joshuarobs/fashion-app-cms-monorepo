@@ -7,6 +7,7 @@ import express, { Response } from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import cors from 'cors';
 import hbs from 'hbs';
 import bcrypt from 'bcrypt';
 import { ApolloServer, gql } from 'apollo-server-express';
@@ -93,6 +94,13 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 
   app.use(session(sess));
 
+  app.use(
+    cors({
+      origin: 'http://localhost:3001',
+      credentials: true, // <= Accept credentials (cookies) sent by the client
+    })
+  );
+
   // @ts-ignore
   app.use(express.urlencoded({ extended: false }));
   // @ts-ignore
@@ -103,6 +111,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 
   passport.serializeUser((user, done) => {
     console.log('serializeUser');
+    console.log('user:', user);
     // @ts-ignore
     done(null, user.id);
   });
@@ -113,18 +122,26 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     //   done(err, user);
     // });
     const data = await getStaffUserByPk(id);
-    console.log('data:', data);
-    done(null, id);
-    // if (data) done(null, data);
-    // done('Error loading user', false);
+    // console.log('data:', data);
+    // done(null, data);
+    if (data) {
+      // console.log('should work?', data);
+      // console.log('data.id:', data.id);
+      done(null, data);
+    } else {
+      done('Error loading user', false);
+    }
   });
 
   passport.use(
     new LocalStrategy(
       {
         usernameField: 'email',
+        passwordField: 'password',
+        session: true,
       },
       async (email, password, done) => {
+        // console.log('email:', email, '| password:', password);
         console.log('try to authenticate');
         const userData = await getStaffUserByEmail(email);
         const user = userData[0];
@@ -204,18 +221,29 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   });
 
   function isLoggedIn(req: Express.Request, res: any, next: any) {
-    if (req.isAuthenticated()) return next;
-    res.redirect('/login');
+    if (req.isAuthenticated()) {
+      return next;
+    } else {
+      res.redirect('/login');
+    }
   }
 
   function isLoggedOut(req: Express.Request, res: any, next: any) {
-    if (!req.isAuthenticated()) return next;
-    res.redirect('/');
+    if (!req.isAuthenticated()) {
+      return next;
+    } else {
+      res.redirect('/home');
+    }
+
+    // if (!req.isAuthenticated()) return next;
+    // res.redirect('/');
   }
 
   // app.get('/login', isLoggedOut, (req, res) => {
   //   res.render('login');
   // });
+
+  // app.use(express.static(ROOT_PATH));
 
   app.get('/login', (req, res) => {
     res.render('login');
@@ -223,13 +251,32 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 
   app.post(
     '/login',
-    passport.authenticate('local', {
-      session: true,
-      successRedirect: '/home',
-      failureRedirect: '/login?error=true',
-      failureMessage: true,
-    })
+    // passport.authenticate('local', {
+    //   session: true,
+    //   successRedirect: '/home',
+    //   failureRedirect: '/login?error=true',
+    //   failureMessage: true,
+    // })
+    passport.authenticate('local', { failureRedirect: '/login' }),
+    async (req, res, next) => {
+      console.log('sending files');
+      // await res.sendFile(path.resolve(ROOT_PATH, 'index.html'));
+      // res.sendFile(path.resolve(ROOT_PATH, 'index.html'), function (err) {
+      //   if (err) {
+      //     console.log(err);
+      //     res.status(err.status).end();
+      //   }
+      // });
+      console.log('redirecting');
+      await res.redirect('/home');
+      return next;
+    }
   );
+
+  app.get('/logout', function (req, res) {
+    req.logout();
+    res.redirect('/login');
+  });
 
   // app.post('/login', function (req, res, next) {
   //   passport.authenticate('local', function (err, user, info) {
@@ -262,21 +309,49 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   //   });
   // });
 
+  // app.use(express.static(ROOT_PATH));
+
   // Redirect the user to the login page if they aren't logged in.
   // We need to catch the root route, otherwise they can go to this route
   // and access everything without having to log in
   app.get('/', function (req, res) {
-    if (!req.isAuthenticated()) res.redirect('/login');
+    console.log('catch "/"');
+    // if (!isLoggedIn) {
+    //   res.render('/login');
+    //   res.redirect('/login');
+    // }
+    if (!req.isAuthenticated()) {
+      res.redirect('/login');
+    }
   });
 
   app.use(express.static(ROOT_PATH));
 
   // All other GET requests not handled before will return our React app
-  app.get('*', isLoggedIn, (req: any, res: any, next: any) => {
+  // app.get('*', isLoggedIn, (req: any, res: any, next: any) => {
+  app.get('*', (req: any, res: any, next: any) => {
+    console.log(
+      'all star | isAuthenticated:',
+      req.isAuthenticated(),
+      '| url:',
+      req.url
+    );
     // if (!req.isAuthenticated()) res.redirect('/');
-    // if (req.url === '/') res.redirect('/login');
-    console.log('req:', req, '| res:', res);
-    res.sendFile(path.resolve(ROOT_PATH, 'index.html'));
+    if (req.url === '/') {
+      console.log('go to login 1');
+      res.redirect('/login');
+    }
+    // console.log('req:', req, '| res:', res);
+    // res.sendFile(path.resolve(ROOT_PATH, 'index.html'));
+    if (!req.isAuthenticated()) {
+      if (req.url !== '/login') {
+        console.log('go to login 2');
+        res.redirect('/login');
+      }
+    } else {
+      console.log('send file');
+      res.sendFile(path.resolve(ROOT_PATH, 'index.html'));
+    }
   });
 
   app.listen(PORT, () => {
