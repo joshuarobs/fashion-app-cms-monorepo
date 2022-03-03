@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import './App.css';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
@@ -50,7 +50,23 @@ const App = (): ReactElement => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const [isLoginPage] = useState(location.pathname === RouteStrings.Login);
-  // console.log('location:', location);
+
+  const loggedInUser = localStorage.getItem('user');
+  console.error('loggedInUser:', loggedInUser);
+  console.error('FFFASDASDASDS');
+
+  fetch('/api/user', {
+    method: 'get',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Do something with the user's data
+      console.log('data2:', data);
+    })
+    .catch(function (err) {
+      // Called if the server returns any errors
+      console.log('Error:' + err);
+    });
 
   return (
     <ApolloProvider client={client}>

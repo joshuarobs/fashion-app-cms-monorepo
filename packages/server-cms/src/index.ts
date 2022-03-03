@@ -45,6 +45,7 @@ enum Routes {
   Login = '/login',
   Logout = '/logout',
   Home = '/home',
+  Api_User = '/api/user',
 }
 
 async function startApolloServer(typeDefs: any, resolvers: any) {
@@ -211,6 +212,37 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   // app.engine('hbs', hbs({ extname: '.hbs' }));
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'hbs');
+
+  app.get(Routes.Api_User, (req, res) => {
+    if (req.isAuthenticated()) {
+      const { user } = req;
+      /*
+       * Since we can't seem to delete the password field, or even attempt
+       * to filter it out via variable spreading, we'll have to manually put
+       * in the fields we want in a custom object (everything but the pw)
+       * and then send that object instead.
+       * NOTE: If you ever add more fields to the user table in the
+       * database, be sure to add it here (if not sensitive data).
+       */
+      const newUser = {
+        // @ts-ignore
+        id: user.id,
+        // @ts-ignore
+        email: user.email,
+        // @ts-ignore
+        name: user.name,
+        // @ts-ignore
+        title: user.title,
+        // @ts-ignore
+        last_online: user.last_online,
+        // @ts-ignore
+        avatar_url: user.avatar_url,
+      };
+      res.json(newUser);
+    } else {
+      res.json({ message: 'Not logged in.' });
+    }
+  });
 
   // Other
   app.get('/api', (req: any, res: any) => {
