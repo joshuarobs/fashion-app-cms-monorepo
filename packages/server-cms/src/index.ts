@@ -104,7 +104,8 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 
   app.use(
     cors({
-      origin: 'http://localhost:3001',
+      // origin: 'http://localhost:3001',
+      origin: '*',
       credentials: true, // <= Accept credentials (cookies) sent by the client
     })
   );
@@ -128,13 +129,21 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     context: async ({ req, res }) => {
-      console.log('Apollo server context | req:', req.user);
-      // const user = await getUser(req, res);
-      const { user } = req;
-      if (!user) throw new AuthenticationError('No user logged in');
-      // console.log('User found:', user);
+      /*
+       * Check for a logged-in user to make ANY query
+       * Therefore, the MINIMUM requirement to call ANY query is a logged-in
+       * user
+       * NOTE: This should only be done during production
+       */
+      if (process.env.NODE_ENV === 'production') {
+        console.log('Apollo server context | req:', req.user);
+        // const user = await getUser(req, res);
+        const { user } = req;
+        if (!user) throw new AuthenticationError('No user logged in');
+        // console.log('User found:', user);
 
-      return { user };
+        return { user };
+      }
     },
     // context: ({ req }) => {
     //   // Note: This example uses the `req` argument to access headers,
