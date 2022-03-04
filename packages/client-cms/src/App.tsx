@@ -1,4 +1,10 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, {
+  ReactElement,
+  useState,
+  useEffect,
+  createContext,
+  useMemo,
+} from 'react';
 import './App.css';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
@@ -30,6 +36,7 @@ import { Exception404Page } from './pages/Exception404Page';
 import { HomePage } from './pages/HomePage';
 import { LocalisationsPage } from './pages/LocalisationsPage';
 import { LoginPage } from './pages/LoginPage';
+import { UserContext } from './UserContext';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_DB_ENDPOINT || 'http://localhost:3001/graphql',
@@ -51,22 +58,34 @@ const App = (): ReactElement => {
   const location = useLocation();
   const [isLoginPage] = useState(location.pathname === RouteStrings.Login);
 
-  const loggedInUser = localStorage.getItem('user');
-  console.error('loggedInUser:', loggedInUser);
-  console.error('FFFASDASDASDS');
+  const [userData, setUserData] = useState({});
+  const providerValue = useMemo(
+    () => ({ userData, setUserData }),
+    [userData, setUserData]
+  );
 
-  fetch('/api/user', {
-    method: 'get',
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // Do something with the user's data
-      console.log('data2:', data);
+  // Get the user's data from the server's api.
+  // This is put in a useEffect to prevent it from constantly calling and
+  // refreshing the page
+  useEffect(() => {
+    fetch('/api/user', {
+      method: 'get',
     })
-    .catch(function (err) {
-      // Called if the server returns any errors
-      console.log('Error:' + err);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        // Do something with the user's data
+        console.log('data2:', data);
+        setUserData(data);
+      })
+      .catch(function (err) {
+        // Called if the server returns any errors
+        console.log('Error:' + err);
+      });
+  }, [location.pathname]);
+
+  // const loggedInUser = localStorage.getItem('user');
+  // console.error('loggedInUser:', loggedInUser);
+  // console.error('FFFASDASDASDS');
 
   return (
     <ApolloProvider client={client}>
@@ -76,100 +95,102 @@ const App = (): ReactElement => {
         <Layout>
           <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
           <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
-            <AppShellHeader />
-            <Routes>
-              <Route
-                path={
-                  RouteStrings.Clothing_Shells__Clothing_Shell +
-                  RouteStrings.Var_Id +
-                  RouteStrings.Wildcard
-                }
-                element={<ClothingShellPage />}
-              />
-              <Route
-                path={
-                  RouteStrings.Items__Clothing__Item +
-                  RouteStrings.Var_Id +
-                  RouteStrings.Wildcard
-                }
-                element={<ItemPage />}
-              />
-              <Route
-                path={
-                  RouteStrings.Companies__Company +
-                  RouteStrings.Var_Id +
-                  RouteStrings.Wildcard
-                }
-                element={<CompanyPage />}
-              />
-              <Route
-                path={
-                  RouteStrings.Heuristic_Items__Clothing__Item +
-                  RouteStrings.Var_Id
-                }
-                element={<HeuristicItemPage />}
-              />
-              <Route
-                path={RouteStrings.Clothing_Shells}
-                element={<ClothingShellsPage />}
-              />
-              <Route
-                path={RouteStrings.Fabric_Layers}
-                element={<FabricLayersPage />}
-              />
-              <Route
-                path={RouteStrings.Items__Clothing}
-                element={<ItemsPage />}
-              />
-              <Route
-                path={RouteStrings.Companies}
-                element={<CompaniesPage />}
-              />
-              <Route
-                path={RouteStrings.Body_Segments}
-                element={<BodySegmentsPage />}
-              />
-              <Route
-                path={RouteStrings.Base_Colours}
-                element={<BaseColoursPage />}
-              />
-              <Route
-                path={RouteStrings.Mask_Shapes}
-                element={<MaskShapesPage />}
-              />
-              <Route
-                path={RouteStrings.Countries}
-                element={<CountriesPage />}
-              />
-              <Route
-                path={RouteStrings.Languages}
-                element={<LanguagesPage />}
-              />
-              <Route
-                path={RouteStrings.Fabric_Types}
-                element={<FabricTypesPage />}
-              />
-              <Route
-                path={RouteStrings.Materials}
-                element={<MaterialsPage />}
-              />
-              <Route
-                path={RouteStrings.Other_Enums}
-                element={<OtherEnumsPage />}
-              />
-              <Route
-                path={RouteStrings.Heuristic_Items}
-                element={<HeuristicItemsPage />}
-              />
-              <Route
-                path={RouteStrings.Localisations}
-                element={<LocalisationsPage />}
-              />
-              <Route path={RouteStrings.Users} element={<UsersPage />} />
-              <Route path={RouteStrings.Home} element={<HomePage />} />
-              <Route path={RouteStrings.Login} element={<LoginPage />} />
-              <Route path="*" element={<Exception404Page />} />
-            </Routes>
+            <UserContext.Provider value={providerValue}>
+              <AppShellHeader />
+              <Routes>
+                <Route
+                  path={
+                    RouteStrings.Clothing_Shells__Clothing_Shell +
+                    RouteStrings.Var_Id +
+                    RouteStrings.Wildcard
+                  }
+                  element={<ClothingShellPage />}
+                />
+                <Route
+                  path={
+                    RouteStrings.Items__Clothing__Item +
+                    RouteStrings.Var_Id +
+                    RouteStrings.Wildcard
+                  }
+                  element={<ItemPage />}
+                />
+                <Route
+                  path={
+                    RouteStrings.Companies__Company +
+                    RouteStrings.Var_Id +
+                    RouteStrings.Wildcard
+                  }
+                  element={<CompanyPage />}
+                />
+                <Route
+                  path={
+                    RouteStrings.Heuristic_Items__Clothing__Item +
+                    RouteStrings.Var_Id
+                  }
+                  element={<HeuristicItemPage />}
+                />
+                <Route
+                  path={RouteStrings.Clothing_Shells}
+                  element={<ClothingShellsPage />}
+                />
+                <Route
+                  path={RouteStrings.Fabric_Layers}
+                  element={<FabricLayersPage />}
+                />
+                <Route
+                  path={RouteStrings.Items__Clothing}
+                  element={<ItemsPage />}
+                />
+                <Route
+                  path={RouteStrings.Companies}
+                  element={<CompaniesPage />}
+                />
+                <Route
+                  path={RouteStrings.Body_Segments}
+                  element={<BodySegmentsPage />}
+                />
+                <Route
+                  path={RouteStrings.Base_Colours}
+                  element={<BaseColoursPage />}
+                />
+                <Route
+                  path={RouteStrings.Mask_Shapes}
+                  element={<MaskShapesPage />}
+                />
+                <Route
+                  path={RouteStrings.Countries}
+                  element={<CountriesPage />}
+                />
+                <Route
+                  path={RouteStrings.Languages}
+                  element={<LanguagesPage />}
+                />
+                <Route
+                  path={RouteStrings.Fabric_Types}
+                  element={<FabricTypesPage />}
+                />
+                <Route
+                  path={RouteStrings.Materials}
+                  element={<MaterialsPage />}
+                />
+                <Route
+                  path={RouteStrings.Other_Enums}
+                  element={<OtherEnumsPage />}
+                />
+                <Route
+                  path={RouteStrings.Heuristic_Items}
+                  element={<HeuristicItemsPage />}
+                />
+                <Route
+                  path={RouteStrings.Localisations}
+                  element={<LocalisationsPage />}
+                />
+                <Route path={RouteStrings.Users} element={<UsersPage />} />
+                <Route path={RouteStrings.Home} element={<HomePage />} />
+                <Route path={RouteStrings.Login} element={<LoginPage />} />
+                <Route path="*" element={<Exception404Page />} />
+              </Routes>
+            </UserContext.Provider>
           </Layout>
         </Layout>
       )}

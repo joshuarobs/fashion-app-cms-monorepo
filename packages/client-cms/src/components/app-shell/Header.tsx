@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   AppstoreOutlined,
   BellOutlined,
@@ -7,6 +7,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Input, Row, Col, Avatar, Button, Badge, Dropdown } from 'antd';
 import { ProfileDropdownMenu } from './ProfileDropdownMenu';
+import { UserContext } from '../../UserContext';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -28,6 +29,13 @@ const styles = {
 const headerHeight = 54;
 
 function AppShellHeader() {
+  // @ts-ignore
+  const { userData, setUserData } = useContext(UserContext);
+  console.log('userData:', userData);
+
+  const profileMenuItems = ProfileDropdownMenu(userData);
+  const userProfileLetter = userData && userData.name ? userData.name[0] : null;
+
   return (
     <Header style={{ background: '#fff', padding: 0, height: headerHeight }}>
       <Row
@@ -87,15 +95,17 @@ function AppShellHeader() {
           >
             <div />
           </Badge>
-          <Dropdown overlay={ProfileDropdownMenu} placement="bottomRight">
+          <Dropdown overlay={profileMenuItems} placement="bottomRight">
             <Avatar
               style={{
                 ...styles.buttonIcon,
                 fontSize: 14,
                 cursor: 'pointer',
               }}
-              icon={<UserOutlined />}
-            />
+              icon={!userProfileLetter && <UserOutlined />}
+            >
+              {userProfileLetter}
+            </Avatar>
           </Dropdown>
         </Col>
       </Row>
