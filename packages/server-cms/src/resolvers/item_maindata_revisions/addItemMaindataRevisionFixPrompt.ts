@@ -23,12 +23,16 @@ import {
 async function addItemMaindataRevisionFixPrompt(
   id: number,
   name: string,
-  item_type: ItemType
+  item_type: ItemType,
+  context: any
 ) {
   logger.info(
-    `graphql > addItemMaindataRevisionFixPrompt() :: args: id: ${id} | name: ${name} | item_type: ${item_type}`
+    `graphql > addItemMaindataRevisionFixPrompt() :: args: id: ${id} | name: ${name} | item_type: ${item_type} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
-  const userId = 1;
 
   try {
     // TODO: Ensure that the current user token (not a passed in id since it
@@ -183,19 +187,19 @@ async function addItemMaindataRevisionFixPrompt(
     const data4 = await client.mutate({
       mutation: gql`
         mutation insertItemMaindataRevisionChange(
-          $revisionId: uuid!
-          $changeType: data_change_types_enum!
-          $toState: data_states_enum
+          $revision_id: uuid!
+          $change_type: data_change_types_enum!
+          $to_state: data_states_enum
           $action: data_actions_enum
-          $userId: Int!
+          $user_id: Int!
         ) {
           insert_item_maindata_revision_changes_one(
             object: {
-              item_maindata_revision_id: $revisionId
-              change_type: $changeType
-              to_state: $toState
+              item_maindata_revision_id: $revision_id
+              change_type: $change_type
+              to_state: $to_state
               action: $action
-              user_id: $userId
+              user_id: $user_id
             }
           ) {
             id
@@ -209,10 +213,10 @@ async function addItemMaindataRevisionFixPrompt(
         }
       `,
       variables: {
-        revisionId: data2.data.insert_item_maindata_revisions_one.id,
-        userId,
-        changeType: DataChangeType.Promotion,
-        toState: DataState.Development,
+        revision_id: data2.data.insert_item_maindata_revisions_one.id,
+        user_id: context.user.id,
+        change_type: DataChangeType.Promotion,
+        to_state: DataState.Development,
       },
     });
 

@@ -259,8 +259,8 @@ const resolvers = {
     deleteItemMaindataForItem,
     insertItemMaindata,
     insertItemMaindataBarebones,
-    updateItemMaindata: (_, { id, changes, itemId, countsId }) =>
-      updateItemMaindata(id, changes, itemId, countsId),
+    updateItemMaindata: (_, { id, changes, itemId, countsId }, context) =>
+      updateItemMaindata(id, changes, itemId, countsId, context),
     //--------------------------------------------------
     // item_maindata_revision_changes
     //--------------------------------------------------
@@ -271,10 +271,10 @@ const resolvers = {
     //--------------------------------------------------
     // item_maindata_revisions
     //--------------------------------------------------
-    addItemMaindataRevisionFixPrompt: (_, { id, name, item_type }) =>
-      addItemMaindataRevisionFixPrompt(id, name, item_type),
-    deleteItemMaindataRevisionAdminEdit: (_, { id }) =>
-      deleteItemMaindataRevisionAdminEdit(id),
+    addItemMaindataRevisionFixPrompt: (_, { id, name, item_type }, context) =>
+      addItemMaindataRevisionFixPrompt(id, name, item_type, context),
+    deleteItemMaindataRevisionAdminEdit: (_, { id }, context) =>
+      deleteItemMaindataRevisionAdminEdit(id, context),
     deleteItemMaindataRevisionsForItem,
     insertItemMaindataRevision,
     insertItemMaindataRevisionItemsPage: (_, { id }) =>

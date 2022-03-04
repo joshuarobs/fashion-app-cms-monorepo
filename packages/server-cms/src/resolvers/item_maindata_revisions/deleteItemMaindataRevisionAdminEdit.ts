@@ -1,13 +1,6 @@
 import { gql } from '@apollo/client';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
-import {
-  DataChangeType,
-  DataState,
-  ItemType,
-  Gender,
-} from '@joshuarobs/clothing-framework';
-import { getItemMaindataRevision } from './getItemMaindataRevision';
 
 /**
  * A function intended for deleting a single Item Maindata Revision and any
@@ -23,12 +16,16 @@ import { getItemMaindataRevision } from './getItemMaindataRevision';
  */
 async function deleteItemMaindataRevisionAdminEdit(
   id: string,
+  context: any,
   loggerPrefix = ''
 ) {
   logger.info(
-    `graphql > deleteItemMaindataRevisionAdminEdit() :: args: id: ${id}`
+    `graphql > deleteItemMaindataRevisionAdminEdit() :: args: id: ${id} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
-  const userId = 1;
 
   try {
     /*
@@ -38,6 +35,7 @@ async function deleteItemMaindataRevisionAdminEdit(
      */
     // TODO: Ensure that the current user token (not a passed in id since it
     //  can be frauded) has enough permissions to do this action
+    // context.user
 
     /*
      * ============================================================

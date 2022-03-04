@@ -13,27 +13,33 @@ import {
  * @param id - The id of the maindata
  * @param changes - The changes to make for the maindata (e.g. name change)
  * @param itemId - The id of the item the maindata belongs to
+ * @param countsId - The id of the counts object tracking the item and
+ * user counts of this item
+ * @param context - The Apollo server context
  */
 async function updateItemMaindata(
   id: string,
   changes: any,
   itemId: number,
-  countsId?: number
+  countsId: number | null,
+  context: any
 ) {
   logger.info(
     `graphql > updateItemMaindata() | args: id: ${id} | changes: ${JSON.stringify(
       changes,
       null,
       2
-    )} | itemId: ${itemId} | countsId: ${countsId}`
+    )} | itemId: ${itemId} | countsId: ${countsId} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
 
   // Delete all important fields of the maindata that should not be changed
   delete changes.id;
   delete changes.revision_id;
   delete changes.is_release;
-
-  const userId = 1;
 
   try {
     /**
@@ -130,19 +136,19 @@ async function updateItemMaindata(
     const data4 = await client.mutate({
       mutation: gql`
         mutation insertItemMaindataRevisionChange(
-          $revisionId: uuid!
-          $changeType: data_change_types_enum!
-          $toState: data_states_enum
+          $revision_id: uuid!
+          $change_type: data_change_types_enum!
+          $to_state: data_states_enum
           $action: data_actions_enum
-          $userId: Int!
+          $user_id: Int!
         ) {
           insert_item_maindata_revision_changes_one(
             object: {
-              item_maindata_revision_id: $revisionId
-              change_type: $changeType
-              to_state: $toState
+              item_maindata_revision_id: $revision_id
+              change_type: $change_type
+              to_state: $to_state
               action: $action
-              user_id: $userId
+              user_id: $user_id
             }
           ) {
             id
@@ -156,9 +162,9 @@ async function updateItemMaindata(
         }
       `,
       variables: {
-        revisionId: relatedRevision.id,
-        userId,
-        changeType: DataChangeType.Action,
+        revision_id: relatedRevision.id,
+        user_id: context.user.id,
+        change_type: DataChangeType.Action,
         action: DataAction.Update,
       },
     });
