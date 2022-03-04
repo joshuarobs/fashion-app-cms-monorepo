@@ -15,9 +15,13 @@ import { insertItemMaindataRevisionChange } from '../item_maindata_revision_chan
  * @param name
  * @param item_type
  */
-async function insertItem(name: string, item_type: ItemType) {
+async function insertItem(name: string, item_type: ItemType, context: any) {
   logger.info(
-    `graphql > insertItem() :: args: name: ${name} | item_type: ${item_type}`
+    `graphql > insertItem() :: args: name: ${name} | item_type: ${item_type} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
 
   try {
@@ -35,7 +39,7 @@ async function insertItem(name: string, item_type: ItemType) {
         }
       `,
     });
-    console.log('data1:', data1.data.insert_items_one);
+    // console.log('data1:', data1.data.insert_items_one);
     const itemId = data1.data.insert_items_one.id;
 
     /*
@@ -64,7 +68,7 @@ async function insertItem(name: string, item_type: ItemType) {
         state: DataState.Development,
       },
     });
-    console.log('data2:', data2.data.insert_item_maindata_revisions_one);
+    // console.log('data2:', data2.data.insert_item_maindata_revisions_one);
     const revisionId = data2.data.insert_item_maindata_revisions_one.id;
 
     /*
@@ -76,19 +80,19 @@ async function insertItem(name: string, item_type: ItemType) {
       name,
       item_type
     );
-    console.log('data3:', data3);
+    // console.log('data3:', data3);
 
     /*
      * 4. Insert a (Item) maindata revision change
      */
     const data4 = await insertItemMaindataRevisionChange(
       revisionId,
-      1,
+      context.user.id,
       DataChangeType.Promotion,
       DataState.Development,
       '--'
     );
-    console.log('data4:', data4);
+    // console.log('data4:', data4);
 
     /*
      * ============================================================

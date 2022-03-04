@@ -335,7 +335,8 @@ const resolvers = {
     //--------------------------------------------------
     deleteItemByPk,
     deleteItem: (_, { id }) => deleteItem(id),
-    insertItem: (_, { name, item_type }) => insertItem(name, item_type),
+    insertItem: (_, { name, item_type }, context) =>
+      insertItem(name, item_type, context),
     updateItemUpdatedAt,
     //--------------------------------------------------
     // language_families
@@ -571,8 +572,8 @@ const resolvers = {
     //--------------------------------------------------
     getItemBaseDataByPk: (_, { id }) => getItemBaseDataByPk(id),
     getItemsForItemsTableDevelopmentOnly,
-    getItemsForItemsTableLatest: (_, { limit }) =>
-      getItemsForItemsTableLatest(limit),
+    getItemsForItemsTableLatest: (_, { limit }, context) =>
+      getItemsForItemsTableLatest(limit, context),
     getItemsForItemsTableProductionOnly,
     getItemWithLocaleData,
     //--------------------------------------------------

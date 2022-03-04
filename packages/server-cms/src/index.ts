@@ -17,6 +17,7 @@ import { typeDefs } from './type-defs';
 import { getStaffUserByPk } from './resolvers/staff_users/getStaffUserByPk';
 import { getStaffUserByEmail } from './resolvers/staff_users/getStaffUserByEmail';
 import { insertStaffUser } from './resolvers/staff_users/insertStaffUser';
+import { Apollo_Server_Context_Auth_Check_Enabled_For_Development } from './settings';
 
 // const __dirname = dirname(__filename);
 
@@ -111,10 +112,25 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
        * NOTE: This should only be done during production
        */
       if (process.env.NODE_ENV === 'production') {
-        // console.log('Apollo server context | req:', req.user);
+        console.log('Apollo server context | user:', req.user);
         const { user } = req;
         if (!user) throw new AuthenticationError('No user logged in');
         return { user };
+      } else if (Apollo_Server_Context_Auth_Check_Enabled_For_Development) {
+        /*
+         * For development testing only, we can use a John Doe placeholder
+         * user, since we can't log in and have a session token when making
+         * queries from localhost:3000.
+         */
+        return {
+          user: {
+            id: 4,
+            email: 'admin@gmail.com',
+            name: 'Admin',
+            title: 'Admin',
+            last_online: null,
+          },
+        };
       }
     },
   });

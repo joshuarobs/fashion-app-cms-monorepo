@@ -6,9 +6,13 @@ import {
   Data_Entry_Query_Amount_Min_Standard,
 } from '../../settings';
 
-async function getItemsForItemsTableLatest(limit: number) {
+async function getItemsForItemsTableLatest(limit: number, context: any) {
   logger.info(
-    `graphql > getItemsForItemsTableLatest() :: args: limit: ${limit}`
+    `graphql > getItemsForItemsTableLatest() :: args: limit: ${limit} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
 
   if (!limit) limit = Data_Entry_Query_Amount_Min_Standard;
