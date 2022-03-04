@@ -285,10 +285,7 @@ interface ItemsTableProps {
 }
 
 function ItemsTable({ show }: ItemsTableProps) {
-  const { loading, error, data } = useQuery(
-    // GET_ITEMS_AND_THEIR_CLOTHING_SHELLS
-    Get_Items_For_Items_Table_Latest
-  );
+  const { loading, error, data } = useQuery(Get_Items_For_Items_Table_Latest);
 
   // const [selectedRows, setSelectedRows] = useState([]);
 

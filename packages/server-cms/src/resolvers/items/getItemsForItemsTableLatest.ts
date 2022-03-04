@@ -7,6 +7,10 @@ import {
 } from '../../settings';
 
 async function getItemsForItemsTableLatest(limit: number) {
+  logger.info(
+    `graphql > getItemsForItemsTableLatest() :: args: limit: ${limit}`
+  );
+
   if (!limit) limit = Data_Entry_Query_Amount_Min_Standard;
   if (limit > Data_Entry_Query_Amount_Max_Limit)
     limit = Data_Entry_Query_Amount_Max_Limit;
@@ -149,6 +153,15 @@ async function getItemsForItemsTableLatest(limit: number) {
       },
       fetchPolicy: 'network-only',
     });
+
+    /*
+     * ============================================================
+     * Return the result
+     * ============================================================
+     */
+    logger.info(
+      `graphql > getItemsForItemsTableLatest() :: Successfully returned data`
+    );
     // logger.trace(JSON.stringify(data.data, null, 2));
     // console.log('data.data:', JSON.stringify(data.data, null, 2));
     return data.data.items;

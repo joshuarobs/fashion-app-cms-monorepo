@@ -10,7 +10,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import cors from 'cors';
 import hbs from 'hbs';
 import bcrypt from 'bcrypt';
-import { ApolloServer, gql } from 'apollo-server-express';
+import { ApolloServer, AuthenticationError, gql } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { resolvers } from './resolvers';
 import { typeDefs } from './type-defs';
@@ -78,14 +78,13 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   // Have Node serve the files for our built React app
   // app.use(express.static(ROOT_PATH));
 
-  const httpServer = http.createServer(app);
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-  });
-  await server.start();
-  server.applyMiddleware({ app });
+  // const getUser = (req: Express.Request, res: Express.Response) =>
+  //   new Promise((resolve, reject) => {
+  //     passport.authenticate('local', { session: true }, (err, user) => {
+  //       if (err) reject(err);
+  //       resolve(user);
+  //     })(req, res);
+  //   });
 
   // Passport
   const sess = {
@@ -118,9 +117,55 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  /*
+   * Initialise the ApolloServer stuff AFTER initialising passport or else
+   * we won't be able to access the user data in `req`.
+   * https://stackoverflow.com/questions/57047250/passport-user-not-available-from-req-inside-apollo-resolver
+   */
+  const httpServer = http.createServer(app);
+  const apolloServer = new ApolloServer({
+    typeDefs,
+    resolvers,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    context: async ({ req, res }) => {
+      console.log('Apollo server context | req:', req.user);
+      // const user = await getUser(req, res);
+      const { user } = req;
+      if (!user) throw new AuthenticationError('No user logged in');
+      // console.log('User found:', user);
+
+      return { user };
+    },
+    // context: ({ req }) => {
+    //   // Note: This example uses the `req` argument to access headers,
+    //   // but the arguments received by `context` vary by integration.
+    //   // This means they vary for Express, Koa, Lambda, etc.
+    //   //
+    //   // To find out the correct arguments for a specific integration,
+    //   // see https://www.apollographql.com/docs/apollo-server/api/apollo-server/#middleware-specific-context-fields
+    //
+    //   console.log('req:', req.headers.authorization);
+    //   console.log('req:', req.user);
+    //   console.log('req:', req.headers);
+    //
+    //   // Get the user token from the headers.
+    //   const token = req.headers.authorization || '';
+    //
+    //   // Try to retrieve a user with the token
+    //   const user = getUser(token);
+    //
+    //   if (!user) throw new AuthenticationError('you must be logged in');
+    //
+    //   // Add the user to the context
+    //   return { user };
+    // },
+  });
+  await apolloServer.start();
+  apolloServer.applyMiddleware({ app });
+
   passport.serializeUser((user, done) => {
-    console.log('serializeUser');
-    console.log('user:', user);
+    // console.log('serializeUser');
+    // console.log('user:', user);
     // @ts-ignore
     done(null, user.id);
   });
@@ -148,8 +193,10 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
         usernameField: 'email',
         passwordField: 'password',
         session: true,
+        passReqToCallback: true,
       },
-      async (email, password, done) => {
+      async (req, email, password, done) => {
+        // console.log('REQ!:', req.body.user);
         // console.log('email:', email, '| password:', password);
         console.log('try to authenticate');
         const userData = await getStaffUserByEmail(email);
@@ -292,12 +339,55 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 
   app.post(
     Routes.Login,
-    passport.authenticate('local', {
-      session: true,
-      successRedirect: '/home',
-      // failureRedirect: '/login?error=true',
-      failureMessage: true,
-    })
+    // (req, res, next) => {
+    //   const middleware = passport.authenticate(
+    //     'local',
+    //     {
+    //       session: true,
+    //       successRedirect: '/home',
+    //       // failureRedirect: '/login?error=true',
+    //       failureMessage: true,
+    //     },
+    //     (err, user, info) => {
+    //       // console.log('req:', req, ' | res:', res);
+    //       // res.redirect('/~' + req.user.username);
+    //       console.log('Adding `user` to `req.user`');
+    //       req.user = user;
+    //       return;
+    //     }
+    //   );
+    //   middleware(req, res, next);
+    // }
+    passport.authenticate(
+      'local',
+      {
+        session: true,
+        successRedirect: '/home',
+        // failureRedirect: '/login?error=true',
+        failureMessage: true,
+      }
+      // (err, user, info) => {
+      //   console.log('err:', err, ' | user:', user, ' | info:', info);
+      //   // res.redirect('/~' + req.user.username);
+      // }
+    )
+    // (req, res) => {
+    //   console.log('passport.authenticate');
+    //   // res.render('login');
+    //   passport.authenticate(
+    //     'local',
+    //     {
+    //       session: true,
+    //       successRedirect: '/home',
+    //       // failureRedirect: '/login?error=true',
+    //       failureMessage: true,
+    //     },
+    //     (err, user, info) => {
+    //       console.log('CALLBACK - user:', user);
+    //       if (user) req.user = user;
+    //     }
+    //   );
+    // }
   );
 
   app.get(Routes.Logout, function (req, res) {
@@ -386,6 +476,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     console.log(`🚀 Server ready at http://localhost:${PORT}`);
   });
 
+  // Apollo server
   // await new Promise<void>((resolve) =>
   //   httpServer.listen({ port: 4000 }, resolve)
   // );
