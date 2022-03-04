@@ -10,11 +10,10 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import cors from 'cors';
 import hbs from 'hbs';
 import bcrypt from 'bcrypt';
-import { ApolloServer, AuthenticationError, gql } from 'apollo-server-express';
+import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { resolvers } from './resolvers';
 import { typeDefs } from './type-defs';
-import { client } from './graphql-client';
 import { getStaffUserByPk } from './resolvers/staff_users/getStaffUserByPk';
 import { getStaffUserByEmail } from './resolvers/staff_users/getStaffUserByEmail';
 import { insertStaffUser } from './resolvers/staff_users/insertStaffUser';
@@ -29,18 +28,6 @@ declare module 'express-session' {
 
 console.log('Node environment:', process.env.NODE_ENV);
 
-// const corsOptions = {
-//   origin: '*',
-//   credentials: true,
-// };
-//
-// app.use(cors(corsOptions));
-
-// Add Apollo Server to our express server
-// const server = new ApolloServer({ typeDefs, resolvers });
-// server.applyMiddleware({ app });
-// server.applyMiddleware({ app, cors: false });
-
 enum Routes {
   Login = '/login',
   Logout = '/logout',
@@ -51,7 +38,6 @@ enum Routes {
 async function startApolloServer(typeDefs: any, resolvers: any) {
   const app = express();
   const PORT = process.env.PORT || 3001;
-  // const server = require('http').Server(app);
 
   // Add an extra level up if we're in production, since we need to go 3
   // levels up to the `packages/` folder if we're in the build folder (production)
@@ -74,17 +60,6 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   // } else {
   //   fs.writeFileSync(path.resolve('../client-cms', '.env'), `PORT=6969`);
   // }
-
-  // Have Node serve the files for our built React app
-  // app.use(express.static(ROOT_PATH));
-
-  // const getUser = (req: Express.Request, res: Express.Response) =>
-  //   new Promise((resolve, reject) => {
-  //     passport.authenticate('local', { session: true }, (err, user) => {
-  //       if (err) reject(err);
-  //       resolve(user);
-  //     })(req, res);
-  //   });
 
   // Passport
   const sess = {
@@ -136,38 +111,12 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
        * NOTE: This should only be done during production
        */
       if (process.env.NODE_ENV === 'production') {
-        console.log('Apollo server context | req:', req.user);
-        // const user = await getUser(req, res);
+        // console.log('Apollo server context | req:', req.user);
         const { user } = req;
         if (!user) throw new AuthenticationError('No user logged in');
-        // console.log('User found:', user);
-
         return { user };
       }
     },
-    // context: ({ req }) => {
-    //   // Note: This example uses the `req` argument to access headers,
-    //   // but the arguments received by `context` vary by integration.
-    //   // This means they vary for Express, Koa, Lambda, etc.
-    //   //
-    //   // To find out the correct arguments for a specific integration,
-    //   // see https://www.apollographql.com/docs/apollo-server/api/apollo-server/#middleware-specific-context-fields
-    //
-    //   console.log('req:', req.headers.authorization);
-    //   console.log('req:', req.user);
-    //   console.log('req:', req.headers);
-    //
-    //   // Get the user token from the headers.
-    //   const token = req.headers.authorization || '';
-    //
-    //   // Try to retrieve a user with the token
-    //   const user = getUser(token);
-    //
-    //   if (!user) throw new AuthenticationError('you must be logged in');
-    //
-    //   // Add the user to the context
-    //   return { user };
-    // },
   });
   await apolloServer.start();
   apolloServer.applyMiddleware({ app });
@@ -207,10 +156,10 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
       async (req, email, password, done) => {
         // console.log('REQ!:', req.body.user);
         // console.log('email:', email, '| password:', password);
-        console.log('try to authenticate');
+        // console.log('try to authenticate');
         const userData = await getStaffUserByEmail(email);
         const user = userData[0];
-        console.log('user:', user);
+        // console.log('user:', user);
         if (!user) return done(null, false);
 
         bcrypt.compare(password, user.password, (err, res) => {
@@ -220,13 +169,9 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
               message: 'Incorrect username or password',
             });
           }
-          console.log('done compare');
+          // console.log('done compare');
           return done(null, user);
         });
-        // if (!user.verifyPassword(password)) {
-        //   return done(null, false);
-        // }
-        // return done(null, user);
       }
     )
   );
@@ -331,16 +276,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     } else {
       res.redirect('/home');
     }
-
-    // if (!req.isAuthenticated()) return next;
-    // res.redirect('/');
   }
-
-  // app.get('/login', isLoggedOut, (req, res) => {
-  //   res.render('login');
-  // });
-
-  // app.use(express.static(ROOT_PATH));
 
   app.get(Routes.Login, (req, res) => {
     res.render('login');
@@ -348,55 +284,12 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
 
   app.post(
     Routes.Login,
-    // (req, res, next) => {
-    //   const middleware = passport.authenticate(
-    //     'local',
-    //     {
-    //       session: true,
-    //       successRedirect: '/home',
-    //       // failureRedirect: '/login?error=true',
-    //       failureMessage: true,
-    //     },
-    //     (err, user, info) => {
-    //       // console.log('req:', req, ' | res:', res);
-    //       // res.redirect('/~' + req.user.username);
-    //       console.log('Adding `user` to `req.user`');
-    //       req.user = user;
-    //       return;
-    //     }
-    //   );
-    //   middleware(req, res, next);
-    // }
-    passport.authenticate(
-      'local',
-      {
-        session: true,
-        successRedirect: '/home',
-        // failureRedirect: '/login?error=true',
-        failureMessage: true,
-      }
-      // (err, user, info) => {
-      //   console.log('err:', err, ' | user:', user, ' | info:', info);
-      //   // res.redirect('/~' + req.user.username);
-      // }
-    )
-    // (req, res) => {
-    //   console.log('passport.authenticate');
-    //   // res.render('login');
-    //   passport.authenticate(
-    //     'local',
-    //     {
-    //       session: true,
-    //       successRedirect: '/home',
-    //       // failureRedirect: '/login?error=true',
-    //       failureMessage: true,
-    //     },
-    //     (err, user, info) => {
-    //       console.log('CALLBACK - user:', user);
-    //       if (user) req.user = user;
-    //     }
-    //   );
-    // }
+    passport.authenticate('local', {
+      session: true,
+      successRedirect: '/home',
+      // failureRedirect: '/login?error=true',
+      failureMessage: true,
+    })
   );
 
   app.get(Routes.Logout, function (req, res) {
@@ -404,48 +297,10 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     res.redirect(Routes.Login);
   });
 
-  // app.post('/login', function (req, res, next) {
-  //   passport.authenticate('local', function (err, user, info) {
-  //     if (err) {
-  //       console.log('err:', err);
-  //       return next(err); // will generate a 500 error
-  //     }
-  //     // Generate a JSON response reflecting authentication status
-  //     if (!user) {
-  //       return res.status(401).send({
-  //         success: false,
-  //         message: 'authentication failed',
-  //       });
-  //     }
-  //     req.login(user, function (err) {
-  //       if (err) {
-  //         return next(err);
-  //       }
-  //       return res.send({ success: true, message: 'authentication succeeded' });
-  //     });
-  //   })(req, res, next);
-  // });
-
-  // app.post('/login', (req, res) => {
-  //   console.log('req.body:', req.body);
-  //   console.log('post: /login');
-  //   passport.authenticate('local', {
-  //     successRedirect: '/home',
-  //     failureRedirect: '/login?error=true',
-  //   });
-  // });
-
-  // app.use(express.static(ROOT_PATH));
-
   // Redirect the user to the login page if they aren't logged in.
   // We need to catch the root route, otherwise they can go to this route
   // and access everything without having to log in
   app.get('/', function (req, res) {
-    console.log('catch "/"');
-    // if (!isLoggedIn) {
-    //   res.render('/login');
-    //   res.redirect('/login');
-    // }
     if (!req.isAuthenticated()) {
       res.redirect(Routes.Login);
     }
@@ -492,43 +347,4 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
   // console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 }
 
-startApolloServer(typeDefs, resolvers);
-
-// The `listen` method launches a web server.
-// server.listen().then(({ url }) => {
-//   console.log(`🚀  Server ready at ${url}`);
-// });
-
-//
-// server.listen(port, (error: any) => {
-//   if (error) {
-//     console.log(`
-//       \n\n
-//       ------------------------------
-//       ------------------------------
-//       API
-//
-//       Status: Error
-//       Log: ${error}
-//       ------------------------------
-//       ------------------------------
-//       \n\n
-//       `
-//     );
-//   } else {
-//     console.log(`
-//       \n\n
-//       ------------------------------
-//       ------------------------------
-//       API
-//
-//       Name: Express API
-//       Port: ${port}
-//       Status: OK
-//       ------------------------------
-//       ------------------------------
-//       \n\n
-//       `
-//     );
-//   }
-// });
+startApolloServer(typeDefs, resolvers).then();
