@@ -13,10 +13,14 @@ import { Logger_Prefix_Sub_Level_1 } from '../../settings';
  */
 async function updateItemMaindataRevisionStatePromoteToProduction(
   id: string,
-  userId: number
+  context: any
 ) {
   logger.info(
-    `graphql > updateItemMaindataRevisionStatePromoteToProduction() | args: id: ${id} | userId: ${userId}`
+    `graphql > updateItemMaindataRevisionStatePromoteToProduction() | args: id: ${id} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
   // TODO: Verify that the user is allowed to make this change
   try {
@@ -166,19 +170,19 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
       const data3b = await client.mutate({
         mutation: gql`
           mutation insertItemMaindataRevisionChange(
-            $revisionId: uuid!
-            $changeType: data_change_types_enum!
-            $toState: data_states_enum
+            $revision_id: uuid!
+            $change_type: data_change_types_enum!
+            $to_state: data_states_enum
             $action: data_actions_enum
-            $userId: Int!
+            $user_id: Int!
           ) {
             insert_item_maindata_revision_changes_one(
               object: {
-                item_maindata_revision_id: $revisionId
-                change_type: $changeType
-                to_state: $toState
+                item_maindata_revision_id: $revision_id
+                change_type: $change_type
+                to_state: $to_state
                 action: $action
-                user_id: $userId
+                user_id: $user_id
               }
             ) {
               id
@@ -192,10 +196,10 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
           }
         `,
         variables: {
-          revisionId: previousRevision.id,
-          userId,
-          changeType: DataChangeType.Promotion,
-          toState: DataState.Retired,
+          revision_id: previousRevision.id,
+          user_id: context.user.id,
+          change_type: DataChangeType.Promotion,
+          to_state: DataState.Retired,
         },
       });
     }
@@ -207,19 +211,19 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
     const data4 = await client.mutate({
       mutation: gql`
         mutation insertItemMaindataRevisionChange(
-          $revisionId: uuid!
-          $changeType: data_change_types_enum!
-          $toState: data_states_enum
+          $revision_id: uuid!
+          $change_type: data_change_types_enum!
+          $to_state: data_states_enum
           $action: data_actions_enum
-          $userId: Int!
+          $user_id: Int!
         ) {
           insert_item_maindata_revision_changes_one(
             object: {
-              item_maindata_revision_id: $revisionId
-              change_type: $changeType
-              to_state: $toState
+              item_maindata_revision_id: $revision_id
+              change_type: $change_type
+              to_state: $to_state
               action: $action
-              user_id: $userId
+              user_id: $user_id
             }
           ) {
             id
@@ -233,10 +237,10 @@ async function updateItemMaindataRevisionStatePromoteToProduction(
         }
       `,
       variables: {
-        revisionId: id,
-        userId,
-        changeType: DataChangeType.Promotion,
-        toState: DataState.Production,
+        revision_id: id,
+        user_id: context.user.id,
+        change_type: DataChangeType.Promotion,
+        to_state: DataState.Production,
       },
     });
 

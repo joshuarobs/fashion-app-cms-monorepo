@@ -7,11 +7,8 @@ import { gql } from '@apollo/client';
  * Used in the Item page's StateFrame, when the current state is Development
  */
 const Update_Item_Maindata_Revision_State_Promote_To_Review = gql`
-  mutation updateItemMaindataRevisionStatePromoteToReview(
-    $id: String!
-    $userId: Int
-  ) {
-    updateItemMaindataRevisionStatePromoteToReview(id: $id, userId: $userId) {
+  mutation updateItemMaindataRevisionStatePromoteToReview($id: String!) {
+    updateItemMaindataRevisionStatePromoteToReview(id: $id) {
       id
       item_id
       revision

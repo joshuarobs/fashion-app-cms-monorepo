@@ -295,7 +295,6 @@ ItemStateFrameProps) {
     await updateItemMaindataRevisionStatePromoteToReview({
       variables: {
         id: currentRevision.id,
-        userId: 1,
       },
     });
     await refetchLatestActivity();
@@ -317,7 +316,6 @@ ItemStateFrameProps) {
     await updateItemMaindataRevisionStateDemoteToDevelopment({
       variables: {
         id: currentRevision.id,
-        userId: 1,
       },
     });
     await refetchLatestActivity();
@@ -341,7 +339,6 @@ ItemStateFrameProps) {
     await updateItemMaindataRevisionStatePromoteToProduction({
       variables: {
         id: currentRevision.id,
-        userId: 1,
       },
     });
     await refetchLatestActivity();

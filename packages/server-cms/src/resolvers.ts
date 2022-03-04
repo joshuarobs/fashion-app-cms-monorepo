@@ -281,12 +281,12 @@ const resolvers = {
       insertItemMaindataRevisionItemsPage(id),
     updateItemMaindataRevisionState: (_, { id }) =>
       updateItemMaindataRevisionState(id),
-    updateItemMaindataRevisionStatePromoteToReview: (_, { id, userId }) =>
-      updateItemMaindataRevisionStatePromoteToReview(id, userId),
-    updateItemMaindataRevisionStateDemoteToDevelopment: (_, { id, userId }) =>
-      updateItemMaindataRevisionStateDemoteToDevelopment(id, userId),
-    updateItemMaindataRevisionStatePromoteToProduction: (_, { id, userId }) =>
-      updateItemMaindataRevisionStatePromoteToProduction(id, userId),
+    updateItemMaindataRevisionStatePromoteToReview: (_, { id }, context) =>
+      updateItemMaindataRevisionStatePromoteToReview(id, context),
+    updateItemMaindataRevisionStateDemoteToDevelopment: (_, { id }, context) =>
+      updateItemMaindataRevisionStateDemoteToDevelopment(id, context),
+    updateItemMaindataRevisionStatePromoteToProduction: (_, { id }, context) =>
+      updateItemMaindataRevisionStatePromoteToProduction(id, context),
     // updateItemMaindataRevisionStatePromoteNewRevision
     updateItemMaindataRevisionToRetired,
     //--------------------------------------------------
