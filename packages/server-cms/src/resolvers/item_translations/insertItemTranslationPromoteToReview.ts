@@ -4,16 +4,16 @@ import { logger } from '../../logger';
 import { DataChangeType, DataState } from '@joshuarobs/clothing-framework';
 
 async function insertItemTranslationPromoteToReview(
-  revision_id: string
-  // is_release: boolean,
-  // full_name: string,
-  // short_name: string,
-  // description: string
+  revision_id: string,
+  context: any
 ) {
   logger.info(
-    `graphql > insertItemTranslationPromoteToReview() :: args: id: ${revision_id}`
+    `graphql > insertItemTranslationPromoteToReview() :: args: id: ${revision_id} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
-  const userId = 1;
 
   try {
     /*
@@ -123,11 +123,11 @@ async function insertItemTranslationPromoteToReview(
     const data3 = await client.mutate({
       mutation: gql`
         mutation updateItemTranslationRevision(
-          $revisionId: uuid!
+          $revision_id: uuid!
           $state: data_states_enum!
         ) {
           update_item_translation_revisions_by_pk(
-            pk_columns: { id: $revisionId }
+            pk_columns: { id: $revision_id }
             _set: { state: $state }
           ) {
             id
@@ -139,7 +139,7 @@ async function insertItemTranslationPromoteToReview(
         }
       `,
       variables: {
-        revisionId: revision_id,
+        revision_id: revision_id,
         state: DataState.Review,
       },
     });
@@ -152,19 +152,19 @@ async function insertItemTranslationPromoteToReview(
     const data4 = await client.mutate({
       mutation: gql`
         mutation insertItemTranslationRevisionChange(
-          $revisionId: uuid!
-          $changeType: data_change_types_enum!
-          $toState: data_states_enum
+          $revision_id: uuid!
+          $change_type: data_change_types_enum!
+          $to_state: data_states_enum
           $action: data_actions_enum
-          $userId: Int!
+          $user_id: Int!
         ) {
           insert_item_translation_revision_changes_one(
             object: {
-              item_translation_revision_id: $revisionId
-              change_type: $changeType
-              to_state: $toState
+              item_translation_revision_id: $revision_id
+              change_type: $change_type
+              to_state: $to_state
               action: $action
-              user_id: $userId
+              user_id: $user_id
             }
           ) {
             id
@@ -178,10 +178,10 @@ async function insertItemTranslationPromoteToReview(
         }
       `,
       variables: {
-        revisionId: revision_id,
-        userId,
-        changeType: DataChangeType.Promotion,
-        toState: DataState.Review,
+        revision_id: revision_id,
+        user_id: context.user.id,
+        change_type: DataChangeType.Promotion,
+        to_state: DataState.Review,
       },
     });
 

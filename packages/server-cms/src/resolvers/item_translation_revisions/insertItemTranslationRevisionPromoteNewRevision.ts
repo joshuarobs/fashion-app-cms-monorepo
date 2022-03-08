@@ -9,15 +9,20 @@ import { DataChangeType, DataState } from '@joshuarobs/clothing-framework';
  * The new Revision starts off in the `Development` state.
  * @param id - The item id
  * @param locale_code - The locale we want a new revision for
+ * @param context - Apollo context
  */
 async function insertItemTranslationRevisionPromoteNewRevision(
   id: number,
-  locale_code: string
+  locale_code: string,
+  context: any
 ) {
   logger.info(
-    `graphql > insertItemTranslationRevisionPromoteNewRevision() :: args: id: ${id} | locale_code: ${locale_code}`
+    `graphql > insertItemTranslationRevisionPromoteNewRevision() :: args: id: ${id} | locale_code: ${locale_code} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
-  const userId = 1;
 
   try {
     /*
@@ -197,13 +202,6 @@ async function insertItemTranslationRevisionPromoteNewRevision(
         }
       `,
       variables,
-      // variables: {
-      //   revision_id: id,
-      //   is_release: false,
-      //   // full_name,
-      //   // short_name,
-      //   // description,
-      // },
     });
 
     /*
@@ -214,19 +212,19 @@ async function insertItemTranslationRevisionPromoteNewRevision(
     const data5 = await client.mutate({
       mutation: gql`
         mutation insertItemTranslationRevisionChange(
-          $revisionId: uuid!
-          $changeType: data_change_types_enum!
-          $toState: data_states_enum
+          $revision_id: uuid!
+          $change_type: data_change_types_enum!
+          $to_state: data_states_enum
           $action: data_actions_enum
-          $userId: Int!
+          $user_id: Int!
         ) {
           insert_item_translation_revision_changes_one(
             object: {
-              item_translation_revision_id: $revisionId
-              change_type: $changeType
-              to_state: $toState
+              item_translation_revision_id: $revision_id
+              change_type: $change_type
+              to_state: $to_state
               action: $action
-              user_id: $userId
+              user_id: $user_id
             }
           ) {
             id
@@ -240,10 +238,10 @@ async function insertItemTranslationRevisionPromoteNewRevision(
         }
       `,
       variables: {
-        revisionId: data3.data.insert_item_translation_revisions_one.id,
-        userId,
-        changeType: DataChangeType.Promotion,
-        toState: DataState.Development,
+        revision_id: data3.data.insert_item_translation_revisions_one.id,
+        user_id: context.user.id,
+        change_type: DataChangeType.Promotion,
+        to_state: DataState.Development,
       },
     });
 

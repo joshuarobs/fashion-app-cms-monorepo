@@ -163,49 +163,6 @@ function ItemLocalisationStateFrame({
   //==================================================
   // PROMOTE TO REVIEW
   //==================================================
-  // const [
-  //   updateItemTranslationRevisionToReview,
-  //   { loading: loadingUpdateRevisionReview, error: errorUpdateRevisionReview },
-  // ] = useMutation(Update_Item_Translation_Revision_State_Promote_To_Review, {
-  //   onCompleted() {
-  //     // Redirect to the page
-  //     // history.push(`${pathNoRelease}true`);
-  //     // message.success({
-  //     //   content: COMMON.STATE_RELATED.PROMOTED_TO_REVIEW,
-  //     //   key
-  //     // });
-  //     history.push(
-  //       history.location.pathname +
-  //         `?rev=${currentRevision.revision}&release=true`
-  //     );
-  //     message
-  //       .success({
-  //         content: Common.State_Related.Promoted_To_Review,
-  //         key,
-  //       })
-  //       .then();
-  //   },
-  // });
-
-  // const [
-  //   insertItemTranslationRevisionChangePromoReview,
-  //   { loading: loadingChangePromoReview, error: errorChangePromoReview },
-  // ] = useMutation(Insert_Item_Translation_Revision_Change_Promo_Review, {
-  //   onCompleted() {
-  //     // Redirect to the page
-  //     // history.push(`${pathNoRelease}true`);
-  //     history.push(
-  //       history.location.pathname +
-  //         `?rev=${currentRevision.revision}&release=true`
-  //     );
-  //     message
-  //       .success({
-  //         content: Common.State_Related.Promoted_To_Review,
-  //         key,
-  //       })
-  //       .then();
-  //   },
-  // });
 
   //==================================================
   // PROMOTE TO PRODUCTION

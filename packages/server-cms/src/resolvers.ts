@@ -312,10 +312,17 @@ const resolvers = {
       context
     ) => insertItemTranslationRevisionAddLocale(item_id, locale_code, context),
     // updateItemTranslationRevisionToProduction,
-    insertItemTranslationRevisionPromoteNewRevision: (_, { id, locale_code }) =>
-      insertItemTranslationRevisionPromoteNewRevision(id, locale_code),
-    updateItemTranslationRevisionStatePromoteToProduction: (_, { id }) =>
-      updateItemTranslationRevisionStatePromoteToProduction(id),
+    insertItemTranslationRevisionPromoteNewRevision: (
+      _,
+      { id, locale_code },
+      context
+    ) =>
+      insertItemTranslationRevisionPromoteNewRevision(id, locale_code, context),
+    updateItemTranslationRevisionStatePromoteToProduction: (
+      _,
+      { id },
+      context
+    ) => updateItemTranslationRevisionStatePromoteToProduction(id, context),
     updateItemTranslationRevisionToRetired,
     updateItemTranslationRevisionStatePromoteToReview: (_, { id, userId }) =>
       updateItemTranslationRevisionStatePromoteToReview(),
@@ -326,10 +333,10 @@ const resolvers = {
     deleteItemTranslationsForItem,
     insertItemTranslation,
     insertItemTranslationBlankDraft,
-    insertItemTranslationPromoteToReview: (_, { revision_id }) =>
-      insertItemTranslationPromoteToReview(revision_id),
-    updateItemTranslation: (_, { id, changes }) =>
-      updateItemTranslation(id, changes),
+    insertItemTranslationPromoteToReview: (_, { revision_id }, context) =>
+      insertItemTranslationPromoteToReview(revision_id, context),
+    updateItemTranslation: (_, { id, changes }, context) =>
+      updateItemTranslation(id, changes, context),
     //--------------------------------------------------
     // item_types
     //--------------------------------------------------

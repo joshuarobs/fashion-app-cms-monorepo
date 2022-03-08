@@ -13,22 +13,21 @@ import {
  * This is typically used when editing an Item on it's Localisations page.
  * @param id - The id of the maindata
  * @param changes - The changes to make for the maindata (e.g. name change)
+ * @param context - Apollo context
  */
-async function updateItemTranslation(id: string, changes: any) {
+async function updateItemTranslation(id: string, changes: any, context: any) {
   logger.info(
     `graphql > updateItemTranslation() | args: id: ${id} | changes: ${JSON.stringify(
       changes,
       null,
       2
-    )}`
+    )} | context: ${JSON.stringify(context, null, 2)}`
   );
 
   // Delete all important fields of the maindata that should not be changed
   delete changes.id;
   delete changes.revision_id;
   delete changes.is_release;
-
-  const userId = 1;
 
   try {
     /**
@@ -138,19 +137,19 @@ async function updateItemTranslation(id: string, changes: any) {
     const data4 = await client.mutate({
       mutation: gql`
         mutation insertItemTranslationRevisionChange(
-          $revisionId: uuid!
-          $changeType: data_change_types_enum!
-          $toState: data_states_enum
+          $revision_id: uuid!
+          $change_type: data_change_types_enum!
+          $to_state: data_states_enum
           $action: data_actions_enum
-          $userId: Int!
+          $user_id: Int!
         ) {
           insert_item_translation_revision_changes_one(
             object: {
-              item_translation_revision_id: $revisionId
-              change_type: $changeType
-              to_state: $toState
+              item_translation_revision_id: $revision_id
+              change_type: $change_type
+              to_state: $to_state
               action: $action
-              user_id: $userId
+              user_id: $user_id
             }
           ) {
             id
@@ -164,9 +163,9 @@ async function updateItemTranslation(id: string, changes: any) {
         }
       `,
       variables: {
-        revisionId: relatedRevision.id,
-        userId,
-        changeType: DataChangeType.Action,
+        revision_id: relatedRevision.id,
+        user_id: context.user.id,
+        change_type: DataChangeType.Action,
         action: DataAction.Update,
       },
     });
