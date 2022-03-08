@@ -11,13 +11,20 @@ import { updateClothingShellUpdatedAt } from '../clothing_shells/updateClothingS
  * Updates the Clothing Shell Maindata Revision's state
  * Used in the Clothing Shell page's StateFrame, typically when promoting to
  * a newer state
- * @param id
+ * @param id - The id of the clothing shell maindata revision to promote
+ * @param context - The Apollo context
  */
-async function promoteClothingShellMaindataRevisionToReview(id: string) {
+async function promoteClothingShellMaindataRevisionToReview(
+  id: string,
+  context: any
+) {
   logger.info(
-    `graphql > promoteClothingShellMaindataRevisionToReview() :: args: id: ${id}`
+    `graphql > promoteClothingShellMaindataRevisionToReview() :: args: id: ${id} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
-  const userId = 1;
 
   try {
     /*
@@ -68,7 +75,7 @@ async function promoteClothingShellMaindataRevisionToReview(id: string) {
      */
     const data4 = await insertClothingShellMaindataRevisionChange(
       id,
-      userId,
+      context.user.id,
       DataChangeType.Promotion,
       DataState.Review,
       null

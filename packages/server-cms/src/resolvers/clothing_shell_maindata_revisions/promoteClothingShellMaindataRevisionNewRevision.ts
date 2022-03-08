@@ -17,13 +17,20 @@ import { insertClothingSegmentData } from '../clothing_segment_data/insertClothi
  * Updates the Clothing Shell Maindata Revision's state
  * Used in the Clothing Shell page's StateFrame, typically when promoting to
  * a newer state
- * @param id
+ * @param id - The id of the clothing shell maindata revision to promote
+ * @param context - The Apollo context
  */
-async function promoteClothingShellMaindataRevisionNewRevision(id: string) {
+async function promoteClothingShellMaindataRevisionNewRevision(
+  id: string,
+  context: any
+) {
   logger.info(
-    `graphql > promoteClothingShellMaindataRevisionNewRevision() :: args: id: ${id}`
+    `graphql > promoteClothingShellMaindataRevisionNewRevision() :: args: id: ${id} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
-  const userId = 1;
 
   try {
     /*
@@ -140,7 +147,7 @@ async function promoteClothingShellMaindataRevisionNewRevision(id: string) {
     // Insert an activity change for retiring the previous revision
     const data4a = await insertClothingShellMaindataRevisionChange(
       oldClothingShellMaindata.revision_id,
-      userId,
+      context.user.id,
       DataChangeType.Promotion,
       DataState.Retired,
       null
@@ -149,7 +156,7 @@ async function promoteClothingShellMaindataRevisionNewRevision(id: string) {
     // Insert an activity change for creating a new promotion
     const data4b = await insertClothingShellMaindataRevisionChange(
       data3a.id,
-      userId,
+      context.user.id,
       DataChangeType.Promotion,
       DataState.Development,
       null

@@ -172,8 +172,8 @@ const resolvers = {
     //--------------------------------------------------
     insertClothingShellMaindata,
     insertClothingShellMaindataBarebones,
-    updateClothingShellMaindata: (_, { id, changes }) =>
-      updateClothingShellMaindata(id, changes),
+    updateClothingShellMaindata: (_, { id, changes }, context) =>
+      updateClothingShellMaindata(id, changes, context),
     //--------------------------------------------------
     // clothing_shell_maindata_revision_changes
     //--------------------------------------------------
@@ -182,24 +182,24 @@ const resolvers = {
     //--------------------------------------------------
     // clothing_shell_maindata_revisions
     //--------------------------------------------------
-    demoteClothingShellMaindataRevisionToDevelopment: (_, { id }) =>
-      demoteClothingShellMaindataRevisionToDevelopment(id),
+    demoteClothingShellMaindataRevisionToDevelopment: (_, { id }, context) =>
+      demoteClothingShellMaindataRevisionToDevelopment(id, context),
     insertClothingShellMaindataRevision,
     updateClothingShellMaindataRevisionState,
     updateClothingShellMaindataRevisionToRetired,
-    promoteClothingShellMaindataRevisionToReview: (_, { id }) =>
-      promoteClothingShellMaindataRevisionToReview(id),
-    promoteClothingShellMaindataRevisionToProduction: (_, { id }) =>
-      promoteClothingShellMaindataRevisionToProduction(id),
-    promoteClothingShellMaindataRevisionNewRevision: (_, { id }) =>
-      promoteClothingShellMaindataRevisionNewRevision(id),
+    promoteClothingShellMaindataRevisionToReview: (_, { id }, context) =>
+      promoteClothingShellMaindataRevisionToReview(id, context),
+    promoteClothingShellMaindataRevisionToProduction: (_, { id }, context) =>
+      promoteClothingShellMaindataRevisionToProduction(id, context),
+    promoteClothingShellMaindataRevisionNewRevision: (_, { id }, context) =>
+      promoteClothingShellMaindataRevisionNewRevision(id, context),
     //--------------------------------------------------
     // clothing_shells
     //--------------------------------------------------
     deleteClothingShell: (_, { id }) => deleteClothingShell(id),
     insertEmptyClothingShell,
-    insertClothingShell: (_, { name, item_type }) =>
-      insertClothingShell(name, item_type),
+    insertClothingShell: (_, { name, item_type }, context) =>
+      insertClothingShell(name, item_type, context),
     updateClothingShellUpdatedAt,
     //--------------------------------------------------
     // companies

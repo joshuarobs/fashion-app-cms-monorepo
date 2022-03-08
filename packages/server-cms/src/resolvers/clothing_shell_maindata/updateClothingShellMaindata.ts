@@ -15,14 +15,19 @@ import { DataChangeType, DataAction } from '@joshuarobs/clothing-framework';
  * thickness, and the various fabric layers.
  * @param id
  * @param changes
+ * @param context
  */
-async function updateClothingShellMaindata(id: string, changes: any) {
+async function updateClothingShellMaindata(
+  id: string,
+  changes: any,
+  context: any
+) {
   logger.info(
     `graphql > updateClothingShellMaindata() | args: id: ${id} | changes: ${JSON.stringify(
       changes,
       null,
       2
-    )}`
+    )} | context: ${JSON.stringify(context, null, 2)}`
   );
 
   // Delete all important fields of the maindata that should not be changed
@@ -30,8 +35,6 @@ async function updateClothingShellMaindata(id: string, changes: any) {
   delete changes.revision_id;
   delete changes.is_release;
   delete changes.clothing_segment_data_id;
-
-  const userId = 1;
 
   try {
     /*
@@ -101,7 +104,7 @@ async function updateClothingShellMaindata(id: string, changes: any) {
      */
     await insertClothingShellMaindataRevisionChange(
       data1maindata.revision_id,
-      userId,
+      context.user.id,
       DataChangeType.Action,
       null,
       DataAction.Update,

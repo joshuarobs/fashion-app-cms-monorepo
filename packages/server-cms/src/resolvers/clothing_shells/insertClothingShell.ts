@@ -16,11 +16,20 @@ import { insertNewBlankClothingSegmentData } from '../clothing_segment_data/inse
  * (maindata revisions, maindata, revision changes, etc.)
  * @param name
  * @param item_type
+ * @param context
  */
-async function insertClothingShell(name: string, item_type: ItemType) {
+async function insertClothingShell(
+  name: string,
+  item_type: ItemType,
+  context: any
+) {
   try {
     logger.info(
-      `graphql > insertClothingShell() :: args: name: ${name} | item_type: ${item_type}`
+      `graphql > insertClothingShell() :: args: name: ${name} | item_type: ${item_type} | context: ${JSON.stringify(
+        context,
+        null,
+        2
+      )}`
     );
 
     /*
@@ -101,7 +110,7 @@ async function insertClothingShell(name: string, item_type: ItemType) {
      */
     const data5 = await insertClothingShellMaindataRevisionChange(
       revisionId,
-      1,
+      context.user.id,
       DataChangeType.Promotion,
       DataState.Development,
       null,

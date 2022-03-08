@@ -11,13 +11,20 @@ import { updateClothingShellUpdatedAt } from '../clothing_shells/updateClothingS
  * Updates the Clothing Shell Maindata Revision's state
  * Used in the Clothing Shell page's StateFrame, typically when demoting to
  * Development
- * @param id
+ * @param id - The id of the clothing shell maindata revision to demote
+ * @param context - Apollo context
  */
-async function demoteClothingShellMaindataRevisionToDevelopment(id: string) {
+async function demoteClothingShellMaindataRevisionToDevelopment(
+  id: string,
+  context: any
+) {
   logger.info(
-    `graphql > demoteClothingShellMaindataRevisionToDevelopment() :: args: id: ${id}`
+    `graphql > demoteClothingShellMaindataRevisionToDevelopment() :: args: id: ${id} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
-  const userId = 1;
 
   try {
     /*
@@ -68,7 +75,7 @@ async function demoteClothingShellMaindataRevisionToDevelopment(id: string) {
      */
     const data4 = await insertClothingShellMaindataRevisionChange(
       id,
-      userId,
+      context.user.id,
       DataChangeType.Demotion,
       DataState.Development,
       null
