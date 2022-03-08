@@ -50,8 +50,6 @@ function getLocaleStyle(translationRevision: any) {
 }
 
 function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
-  // @ts-ignore
-  const { userData } = useContext(UserContext);
   const { action, change_type, date, id, to_state, user } = change;
   // All the different types of table names that can have activities
   // associated with them
@@ -168,7 +166,7 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
           }}
         >
           {icon}
-          <UserAvatar userData={userData} overrideStyles={{ marginLeft: 12 }} />
+          <UserAvatar userData={user} overrideStyles={{ marginLeft: 12 }} />
         </div>
         <Col
           style={{
