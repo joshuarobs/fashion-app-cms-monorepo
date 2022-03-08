@@ -93,6 +93,7 @@ function LocalisationSidebar({
       `${tabPath}/${locale_code}/?rev=${revision}&release=false`
     );
     navigate(`${tabPath}/${locale_code}/?rev=${revision}&release=false`);
+    history.go(0);
     message.success(
       {
         content: Common.Added_New_Locale,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import qs from 'qs';
 import { ColumnOfFrames } from '../../components/common/frames/ColumnOfFrames';
 import { LocalisationSidebar } from '../../components/common/localisation/LocalisationSidebar/_LocalisationSidebar';
@@ -57,9 +57,19 @@ function LocalisationsTab() {
   // The tab's url path of this localisations page, initialised only once at
   // the start of this page's creation (needs to be once only otherwise
   // navigation between the dashboard and locale pages fail)
+  // const [tabPath, setTabPath] = useState('');
   const [tabPath] = useState(
     getSomePartsOfUrl(location.pathname, Url_Number_Of_Parts)
   );
+
+  // Dilemma: If we put this, it may fix some issues with bugged
+  // reloading of localisation content, and redirection of page when
+  // creating a new locale. But navigation between the locales will flash
+  // the page and make it look annoying to look at.
+  // Note 2: It flashes anyway with or without this
+  // useEffect(() => {
+  //   setTabPath(getSomePartsOfUrl(location.pathname, Url_Number_Of_Parts));
+  // }, [tabPath]);
 
   const [hasChangesMade, setHasChangesMade] = useState(false);
 
@@ -153,8 +163,6 @@ function LocalisationsTab() {
   //   currentTab
   // );
 
-  // console.error("location!!!:", tabPath);
-
   return (
     <>
       <ColumnOfFrames freeWidth>
@@ -170,13 +178,6 @@ function LocalisationsTab() {
           mutationInsertTranslationRevision={
             Insert_Item_Translation_Revision_Add_Locale
           }
-          // mutationInsertTranslationRevisionChange={
-          //   Insert_Item_Translation_Revision_Change
-          // }
-          // mutationInsertTranslationBlankDraft={
-          //   Insert_Item_Translation_Blank_Draft
-          // }
-          // mutationUpdateDataEntryUpdatedAt={Update_Item_Updated_At}
         />
       </ColumnOfFrames>
       {currentTab === '/' || !currentRevision ? (
