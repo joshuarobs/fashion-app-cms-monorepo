@@ -8,6 +8,7 @@ import {
 import { Layout, Input, Row, Col, Avatar, Button, Badge, Dropdown } from 'antd';
 import { ProfileDropdownMenu } from './ProfileDropdownMenu';
 import { UserContext } from '../../UserContext';
+import { UserAvatar } from '../common/UserAvatar';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -34,6 +35,7 @@ function AppShellHeader() {
   console.log('userData:', userData);
 
   const profileMenuItems = ProfileDropdownMenu(userData);
+
   const userProfileLetter = userData && userData.name ? userData.name[0] : null;
 
   return (
@@ -96,16 +98,10 @@ function AppShellHeader() {
             <div />
           </Badge>
           <Dropdown overlay={profileMenuItems} placement="bottomRight">
-            <Avatar
-              style={{
-                ...styles.buttonIcon,
-                fontSize: 14,
-                cursor: 'pointer',
-              }}
-              icon={!userProfileLetter && <UserOutlined />}
-            >
-              {userProfileLetter}
-            </Avatar>
+            <UserAvatar
+              userData={userData}
+              overrideStyles={{ marginLeft: 8 }}
+            />
           </Dropdown>
         </Col>
       </Row>

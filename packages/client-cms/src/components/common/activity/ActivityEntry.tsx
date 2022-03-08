@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Row, Col, Avatar, Tooltip, Divider, Typography } from 'antd';
 import {
   FileAddOutlined,
@@ -14,6 +14,8 @@ import {
   DataState,
 } from '@joshuarobs/clothing-framework';
 import dayjs from 'dayjs';
+import { UserAvatar } from '../UserAvatar';
+import { UserContext } from '../../../UserContext';
 
 const { Text } = Typography;
 
@@ -48,6 +50,8 @@ function getLocaleStyle(translationRevision: any) {
 }
 
 function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
+  // @ts-ignore
+  const { userData } = useContext(UserContext);
   const { action, change_type, date, id, to_state, user } = change;
   // All the different types of table names that can have activities
   // associated with them
@@ -164,12 +168,7 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
           }}
         >
           {icon}
-          <Avatar
-            icon={<UserOutlined />}
-            style={{
-              marginLeft: 12,
-            }}
-          />
+          <UserAvatar userData={userData} overrideStyles={{ marginLeft: 12 }} />
         </div>
         <Col
           style={{

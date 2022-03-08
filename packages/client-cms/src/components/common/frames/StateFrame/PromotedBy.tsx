@@ -3,6 +3,7 @@ import { Row, Avatar, Tooltip, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Common } from '../../../../strings';
 import { DateLastUpdatedAgo } from '../../DateLastUpdatedAgo';
+import { UserAvatar } from '../../UserAvatar';
 
 const { Text } = Typography;
 
@@ -41,7 +42,8 @@ function PromotedBy({ change, createdBy }: PromotedByProps) {
             }}
           >
             <Tooltip title={`${user.name} (${user.email})`}>
-              <Avatar size="small" icon={<UserOutlined />} />
+              {/*<Avatar size="small" icon={<UserOutlined />} />*/}
+              <UserAvatar userData={user} size="small" />
             </Tooltip>
           </Row>
           <Row>

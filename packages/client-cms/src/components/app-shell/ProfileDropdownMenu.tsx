@@ -6,6 +6,7 @@ import {
 } from '@ant-design/icons';
 import { Avatar, Menu, Row, Typography } from 'antd';
 import { UserContext } from '../../UserContext';
+import { UserAvatar } from '../common/UserAvatar';
 
 const { Text, Link } = Typography;
 
@@ -33,16 +34,10 @@ function ProfileDropdownMenu(userData: any) {
               justifyContent: 'center',
             }}
           >
-            <Avatar
-              style={{
-                ...styles.buttonIcon,
-                fontSize: 14,
-                cursor: 'pointer',
-              }}
-              icon={!userProfileLetter && <UserOutlined />}
-            >
-              {userProfileLetter}
-            </Avatar>
+            <UserAvatar
+              userData={userData}
+              overrideStyles={{ marginLeft: 12 }}
+            />
           </Row>
           <Row
             style={{
