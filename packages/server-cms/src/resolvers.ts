@@ -306,8 +306,11 @@ const resolvers = {
       deleteItemTranslationRevisionLocalePage(id),
     deleteItemTranslationRevisionsForItem,
     // insertItemTranslationRevision,
-    insertItemTranslationRevisionAddLocale: (_, { item_id, locale_code }) =>
-      insertItemTranslationRevisionAddLocale(item_id, locale_code),
+    insertItemTranslationRevisionAddLocale: (
+      _,
+      { item_id, locale_code },
+      context
+    ) => insertItemTranslationRevisionAddLocale(item_id, locale_code, context),
     // updateItemTranslationRevisionToProduction,
     insertItemTranslationRevisionPromoteNewRevision: (_, { id, locale_code }) =>
       insertItemTranslationRevisionPromoteNewRevision(id, locale_code),

@@ -72,51 +72,7 @@ function LocalisationSidebar({
     },
   ] = useMutation(mutationInsertTranslationRevision, {
     notifyOnNetworkStatusChange: true,
-    async onCompleted() {
-      // let id, locale_code, revision;
-      // if (insert_item_translation_revisions_one) {
-      //   id = insert_item_translation_revisions_one.id;
-      //   locale_code = insert_item_translation_revisions_one.locale_code;
-      //   revision = insert_item_translation_revisions_one.revision;
-      // } else if (insert_company_translation_revisions_one) {
-      //   id = insert_company_translation_revisions_one.id;
-      //   locale_code = insert_company_translation_revisions_one.locale_code;
-      //   revision = insert_company_translation_revisions_one.revision;
-      // }
-      // await refetchTranslationRevisions();
-      // await insertTranslationBlankDraft({
-      //   variables: {
-      //     revisionId: id,
-      //   },
-      // });
-      // // const variables = ;
-      // await insertTranslationRevisionChange({
-      //   variables: {
-      //     revisionId: id,
-      //     userId: 1,
-      //     changeType: DataChangeType.Promotion,
-      //     toState: DataState.Development,
-      //     // action: DATA_ACTIONS.CREATE
-      //   },
-      // });
-      //
-      // await updateItemUpdatedAt({
-      //   variables: {
-      //     id: entryId,
-      //   },
-      // });
-      //
-      // // Redirect to the page
-      // setShowModal(false);
-      // history.push(`${tabPath}/${locale_code}/?rev=${revision}&release=false`);
-      // message.success(
-      //   {
-      //     content: Common.Added_New_Locale,
-      //     key,
-      //   },
-      //   2
-      // );
-    },
+    async onCompleted() {},
   });
 
   const selectLocale = async (code: string) => {
@@ -130,7 +86,13 @@ function LocalisationSidebar({
     console.log('!!!data2:', data.data.insertItemTranslationRevisionAddLocale);
     // // Redirect to the page
     setShowModal(false);
-    // history.push(`${tabPath}/${locale_code}/?rev=${revision}&release=false`);
+    const { locale_code, revision } =
+      data.data.insertItemTranslationRevisionAddLocale;
+    console.error(
+      'tab:',
+      `${tabPath}/${locale_code}/?rev=${revision}&release=false`
+    );
+    navigate(`${tabPath}/${locale_code}/?rev=${revision}&release=false`);
     message.success(
       {
         content: Common.Added_New_Locale,

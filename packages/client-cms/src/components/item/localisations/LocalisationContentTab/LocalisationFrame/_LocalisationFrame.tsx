@@ -186,33 +186,10 @@ LocalisationFrameProps) {
   });
 
   const [
-    insertItemTranslationRevisionChange,
-    // { loading: mutationLoadingChanges, error: mutationErrorChanges }
-  ] = useMutation(Insert_Item_Translation_Revision_Change, {
-    onCompleted() {},
-  });
-
-  const [
     updateItemTranslation,
     // { loading: mutationLoading, error: mutationError }
   ] = useMutation(Update_Item_Translation, {
     async onCompleted() {
-      // refetch();
-      // setOriginalClothingShellId(clothing_shell_id);
-      const variables = {
-        revisionId: currentRevision.id,
-        userId: 1,
-        changeType: DataChangeType.Action,
-        action: DataAction.Update,
-      };
-      // await insertItemTranslationRevisionChange({
-      //   variables,
-      // });
-      // await updateItemUpdatedAt({
-      //   variables: {
-      //     id: itemId,
-      //   },
-      // });
       message.success({ content: Common.Changes_Saved, key }, 2);
       // history.go(0);
     },

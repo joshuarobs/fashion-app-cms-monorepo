@@ -48,7 +48,7 @@ function LocalisationsTable({
       key: 'Progress',
       width: 160,
       render: (text: any, record: any) => {
-        console.log('record:', record);
+        // console.log('record:', record);
         const key = `${record.key}:text`;
 
         const itemTranslation =

@@ -166,7 +166,7 @@ function LocalisationsTable({
       //     <a onClick={() => selectClothingShell(record.id)}>Select</a>
       //   )
       render: (text: any, record: any) => {
-        console.log('record:', record);
+        // console.log('record:', record);
         // @ts-ignore
         if (locales.find(({ code }) => code === record.code)) {
           return <div />;

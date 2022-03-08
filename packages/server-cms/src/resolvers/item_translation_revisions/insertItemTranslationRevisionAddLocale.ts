@@ -9,15 +9,20 @@ import { DataChangeType, DataState } from '@joshuarobs/clothing-framework';
  * The new first Revision starts off in the `Development` state.
  * @param item_id - The item id
  * @param locale_code - The locale we want a new revision for
+ * @param context - Apollo context
  */
 async function insertItemTranslationRevisionAddLocale(
   item_id: number,
-  locale_code: string
+  locale_code: string,
+  context: any
 ) {
   logger.info(
-    `graphql > insertItemTranslationRevisionAddLocale() :: args: item_id: ${item_id} | locale_code: ${locale_code}`
+    `graphql > insertItemTranslationRevisionAddLocale() :: args: item_id: ${item_id} | locale_code: ${locale_code} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
-  const userId = 1;
 
   try {
     /*
@@ -211,7 +216,7 @@ async function insertItemTranslationRevisionAddLocale(
       `,
       variables: {
         revision_id: revisionId,
-        user_id: userId,
+        user_id: context.user.id,
         change_type: DataChangeType.Promotion,
         to_state: DataState.Development,
       },
