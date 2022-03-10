@@ -32,7 +32,7 @@ const Get_Company = gql`
           count
         }
       }
-      company_translations_aggregate(distinct_on: locale_code) {
+      company_translation_revisions_aggregate {
         aggregate {
           count
         }

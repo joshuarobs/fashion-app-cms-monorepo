@@ -33,7 +33,7 @@ function HeaderFrame({ data }: HeaderFrameProps) {
     created_at,
     updated_at,
     counts,
-    company_translations_aggregate,
+    company_translation_revisions_aggregate,
     items_aggregate,
     collections_aggregate,
   } = data;
@@ -82,7 +82,7 @@ function HeaderFrame({ data }: HeaderFrameProps) {
               to: `${RouteStrings.Companies__Company}/${id}${RouteStrings.Localisations}`,
               icon: <LocalisationsTabIcon />,
               name: 'Localisations',
-              count: company_translations_aggregate.aggregate.count,
+              count: company_translation_revisions_aggregate.aggregate.count,
               key: getBaseRouteWithoutForwardSlash(RouteStrings.Localisations),
             },
             {

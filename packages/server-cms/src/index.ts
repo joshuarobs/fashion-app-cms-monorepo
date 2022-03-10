@@ -124,7 +124,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
          */
         return {
           user: {
-            id: 4,
+            id: 2,
             email: 'admin@gmail.com',
             name: 'Admin',
             title: 'Admin',

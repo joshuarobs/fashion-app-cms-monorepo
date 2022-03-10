@@ -246,7 +246,7 @@ const typeDefs = gql`
     # Hasura Relationships
     item_maindata_aggregate: hasura_aggregate_holder
     collections_aggregate: hasura_aggregate_holder
-    company_translations_aggregate(
+    company_translation_revisions_aggregate(
       distinct_on: company_translation_revisions_select_column
     ): hasura_aggregate_holder
   }

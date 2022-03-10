@@ -38,7 +38,7 @@ async function getCompany(id: number) {
                 count
               }
             }
-            company_translations_aggregate(distinct_on: locale_code) {
+            company_translation_revisions_aggregate(distinct_on: locale_code) {
               aggregate {
                 count
               }

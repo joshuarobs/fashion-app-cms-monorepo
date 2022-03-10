@@ -27,6 +27,7 @@ async function insertCompanyCount(company_id: number) {
         company_id,
       },
     });
+    console.log('data:', data);
     return data.data.insert_company_counts_one;
   } catch (e) {
     logger.error(e);
