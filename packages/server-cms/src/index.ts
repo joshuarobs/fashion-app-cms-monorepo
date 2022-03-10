@@ -178,6 +178,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
         // console.log('user:', user);
         if (!user) return done(null, false);
 
+        // console.log('bcrypt.compare()');
         bcrypt.compare(password, user.password, (err, res) => {
           if (err) return done(err);
           if (!res) {
@@ -212,7 +213,7 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
         if (err) return next(err);
 
         const newAdmin = await insertStaffUser({
-          email: 'admin',
+          email: 'admin@gmail.com',
           password: hash,
           name: 'Admin',
           title: 'Admin',
