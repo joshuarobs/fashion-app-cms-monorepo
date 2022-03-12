@@ -221,6 +221,8 @@ const typeDefs = gql`
     name: String!
     base_colour: String
     colour_code: String
+    created_at: String
+    updated_at: String
   }
 
   type companies {
@@ -342,7 +344,7 @@ const typeDefs = gql`
 
   type fabric_layers {
     id: Int!
-    thickness: Int
+    thickness: Float
     type: String
     fabric_layer_type: String
     insulation: Int

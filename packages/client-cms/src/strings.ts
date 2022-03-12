@@ -336,6 +336,12 @@ const Table_Descriptions = {
   Clothing_Shells:
     'A description of the physical properties (e.g. shape,' +
     ' colour and materials) of a clothing item.',
+  Colours:
+    'All the possible main kinds of colour groups that can occur in' +
+    ' clothing. It can be generic colour groups (e.g. red, blue, green,' +
+    ' black, white. etc) or specific colours, such as "Charcoal Black" which' +
+    ' can be a unique colour used by a certain brand (and would still be' +
+    ' part of the generic black colour group.)',
   Countries:
     'The list of all the countries of the world, according to the ISO 3166' +
     ' and ISO 3166-1 standards.',

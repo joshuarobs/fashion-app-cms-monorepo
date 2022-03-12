@@ -241,7 +241,6 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
             </Menu.Item>
             {/* -- COLOURS */}
             <Menu.Item
-              disabled
               key={getBaseRouteWithoutForwardSlash(RouteStrings.Colours)}
               style={styles.menuItem}
             >

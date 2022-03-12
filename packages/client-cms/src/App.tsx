@@ -37,6 +37,7 @@ import { HomePage } from './pages/HomePage';
 import { LocalisationsPage } from './pages/LocalisationsPage';
 import { LoginPage } from './pages/LoginPage';
 import { UserContext } from './UserContext';
+import { ColoursPage } from './pages/ColoursPage';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_DB_ENDPOINT || 'http://localhost:3001/graphql',
@@ -137,6 +138,7 @@ const App = (): ReactElement => {
                   path={RouteStrings.Fabric_Layers}
                   element={<FabricLayersPage />}
                 />
+                <Route path={RouteStrings.Colours} element={<ColoursPage />} />
                 <Route
                   path={RouteStrings.Items__Clothing}
                   element={<ItemsPage />}
