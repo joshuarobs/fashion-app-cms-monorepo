@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Table, Row } from 'antd';
-import { generateOverviewTreeFabricLayerData } from '../../../utils/generateOverviewTreeFabricLayerData';
-import { Base_Colours } from '../../../utils/baseColours';
-import { enumToCamelCase } from '../../../utils/enumToCamelCase';
 import { TableType } from './TableType';
 import { DateLastUpdatedAgo } from '../DateLastUpdatedAgo';
+// @ts-ignore
+import Values from 'values.js';
+
+const color = new Values('#FFFFFF');
+console.error('COLOR:', color);
+console.log('getBrightness:', color.getBrightness());
 
 interface ColoursTableProps {
   data: any;
@@ -26,7 +29,7 @@ function ColoursTable({
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
-      width: 80,
+      width: 60,
       render: (text: any) => (
         <span
           style={{
@@ -41,16 +44,26 @@ function ColoursTable({
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: 80,
+      width: 100,
       render: (text: any, record: any) => {
         console.log('text:', text);
         console.log('record:', record);
+
+        // Get the brightness of the colour
+        const color = new Values(record.colour_code);
+        const brightness = color.getBrightness();
+
+        // Should we draw a border or not, if the colour doesn't have enough
+        // contrast with the background? (e.g. yellows, whites)
+        const notEnoughContrast = brightness > 65;
 
         return (
           <Row
             style={{
               // display: "flex"
               marginLeft: 16,
+              minHeight: 32,
+              alignContent: 'center',
             }}
           >
             <div
@@ -58,6 +71,7 @@ function ColoursTable({
                 display: 'inline-block',
                 backgroundColor: record.colour_code,
                 borderRadius: '50%',
+                border: notEnoughContrast ? '0.5px solid #d4d4d4' : '',
                 width: 14,
                 height: 14,
                 margin: 4,
@@ -79,7 +93,7 @@ function ColoursTable({
       title: 'Colour Group',
       dataIndex: 'base_colour',
       key: 'base_colour',
-      width: 120,
+      width: 80,
       render: (text: any) => (
         <span
           style={{
@@ -94,7 +108,7 @@ function ColoursTable({
       title: 'Colour Code',
       dataIndex: 'colour_code',
       key: 'colour_code',
-      width: 100,
+      width: 60,
       render: (text: any) => (
         <span
           style={{
