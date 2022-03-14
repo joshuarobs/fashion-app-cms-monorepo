@@ -14,6 +14,7 @@ enum RouteStrings {
   Companies__Company = '/companies/company',
   Collections = '/collections',
   Colours = '/colours',
+  Colour_Mix_Parts = '/colour-mix-parts',
   Materials = '/materials',
   Fabric_Layers = '/fabric-layers',
   Body_Segments = '/body-segments',

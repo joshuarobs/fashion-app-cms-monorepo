@@ -26,6 +26,7 @@ import {
   GatewayOutlined,
   AimOutlined,
   ContainerOutlined,
+  ExperimentOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { App_Shell } from '../../strings';
@@ -247,6 +248,18 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
               <Link to={RouteStrings.Colours}>
                 <BgColorsOutlined />
                 <span>{App_Shell.Sidebar.Pages.Colours}</span>
+              </Link>
+            </Menu.Item>
+            {/* -- COLOUR MIX PARTS */}
+            <Menu.Item
+              key={getBaseRouteWithoutForwardSlash(
+                RouteStrings.Colour_Mix_Parts
+              )}
+              style={styles.menuItem}
+            >
+              <Link to={RouteStrings.Colour_Mix_Parts}>
+                <ExperimentOutlined />
+                <span>{App_Shell.Sidebar.Pages.Colour_Mix_Parts}</span>
               </Link>
             </Menu.Item>
             {/* -- MATERIALS */}

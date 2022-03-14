@@ -61,6 +61,10 @@ const Queries = gql`
     getClothingShellsListBB(limit: Int, offset: Int): [clothing_shells]
     getItemClothingShell: clothing_shells
     #--------------------------------------------------
+    # colour_mix_parts
+    #--------------------------------------------------
+    getColourMixPartsListBB(limit: Int, offset: Int): [colour_mix_parts]
+    #--------------------------------------------------
     # colours
     #--------------------------------------------------
     getColoursListBB(limit: Int, offset: Int): [colours]

@@ -141,6 +141,7 @@ import { promoteClothingShellMaindataRevisionToProduction } from './resolvers/cl
 import { promoteClothingShellMaindataRevisionNewRevision } from './resolvers/clothing_shell_maindata_revisions/promoteClothingShellMaindataRevisionNewRevision';
 import { deleteCompany } from './resolvers/companies/deleteCompany';
 import { getColoursListBB } from './resolvers/colours/getColoursListBB';
+import { getColourMixPartsListBB } from './resolvers/colour_mix_parts/getColourMixPartsListBB';
 
 const resolvers = {
   //**********************************************************************
@@ -442,6 +443,11 @@ const resolvers = {
     getClothingShellsListBB: (_, { limit, offset }) =>
       getClothingShellsListBB(limit, offset),
     getItemClothingShell,
+    //--------------------------------------------------
+    // colour_mix_parts
+    //--------------------------------------------------
+    getColourMixPartsListBB: (_, { limit, offset }) =>
+      getColourMixPartsListBB(limit, offset),
     //--------------------------------------------------
     // colours
     //--------------------------------------------------

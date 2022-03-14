@@ -214,6 +214,7 @@ const typeDefs = gql`
     # Relationships
     colour: colours
     fabric_layer_and_colour_mix_parts: [fabric_layer_and_colour_mix_part]
+    fabric_layer_and_colour_mix_parts_aggregate: hasura_aggregate_holder
   }
 
   type colours {

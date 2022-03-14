@@ -16,6 +16,7 @@ const App_Shell = {
       Companies: 'Companies',
       Collections: 'Collections',
       Colours: 'Colours',
+      Colour_Mix_Parts: 'Colour Mix Parts',
       Materials: 'Materials',
       Body_Segments: 'Body Segments',
       Templates: 'Templates',
@@ -342,6 +343,9 @@ const Table_Descriptions = {
     ' black, white. etc) or specific colours, such as "Charcoal Black" which' +
     ' can be a unique colour used by a certain brand (and would still be' +
     ' part of the generic black colour group.)',
+  Colour_Mix_Parts:
+    'All the possible combinations of a colour and what' +
+    ' percentage it makes up for usage in a fabric layer.',
   Countries:
     'The list of all the countries of the world, according to the ISO 3166' +
     ' and ISO 3166-1 standards.',
