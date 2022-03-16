@@ -12,7 +12,7 @@ import { NewEntryModal } from './NewEntryModal';
 import { FabricLayerType } from '@joshuarobs/clothing-framework';
 
 function HeaderFrame() {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
 
   const [newFabricLayerType, setNewFabricLayerType] = useState(
     FabricLayerType.Shell
