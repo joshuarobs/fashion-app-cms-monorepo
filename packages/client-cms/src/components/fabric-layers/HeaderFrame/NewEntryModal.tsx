@@ -11,7 +11,7 @@ import {
   Select,
   Divider,
 } from 'antd';
-import { ItemFilterValuesBool } from '../../framework/itemFilterValuesBool';
+import { ItemFilterValuesBool } from '../../../framework/itemFilterValuesBool';
 import { FabricLayerType } from '@joshuarobs/clothing-framework';
 import { AddedColourMixPartsTable } from './AddedColourMixPartsTable';
 import { ExperimentOutlined } from '@ant-design/icons';
@@ -54,6 +54,7 @@ interface NewEntryModalProps {
   setPermeability: Function;
   colourMixParts: string[];
   setColourMixParts: Function;
+  onClickSelectColourMixPartsModal: (e: React.MouseEvent) => void;
   loading: boolean;
 }
 
@@ -78,6 +79,7 @@ function NewEntryModal({
   setPermeability,
   colourMixParts,
   setColourMixParts,
+  onClickSelectColourMixPartsModal,
   loading,
 }: NewEntryModalProps) {
   const addButtonDisabled = false;
@@ -242,7 +244,11 @@ function NewEntryModal({
           <AddedColourMixPartsTable data={[]} />
         </Row>
         <Row style={styles.sectionTitle}>
-          <Button style={{ width: '100%' }} icon={<ExperimentOutlined />}>
+          <Button
+            style={{ width: '100%' }}
+            icon={<ExperimentOutlined />}
+            onClick={onClickSelectColourMixPartsModal}
+          >
             Add Colour Mix Part
           </Button>
         </Row>

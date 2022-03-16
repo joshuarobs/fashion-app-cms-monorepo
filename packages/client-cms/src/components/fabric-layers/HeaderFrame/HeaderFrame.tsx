@@ -5,15 +5,17 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, PageHeader } from 'antd';
-import { FabricLayersPageIcon } from '../common/icons/page-icons/FabricLayersPageIcon';
-import { App_Shell } from '../../strings';
+import { FabricLayersPageIcon } from '../../common/icons/page-icons/FabricLayersPageIcon';
+import { App_Shell } from '../../../strings';
 import { PlusOutlined, SyncOutlined } from '@ant-design/icons';
 import { NewEntryModal } from './NewEntryModal';
 import { FabricLayerType } from '@joshuarobs/clothing-framework';
+import { ColourMixPartsTableView } from '../../common/table-views/ColourMixPartsTableView';
+import { SelectColourMixPartsModal } from './SelectColourMixPartsModal';
 
 function HeaderFrame() {
+  // States - New Popup Modal
   const [showModal, setShowModal] = useState(true);
-
   const [newFabricLayerType, setNewFabricLayerType] = useState(
     FabricLayerType.Shell
   );
@@ -24,8 +26,12 @@ function HeaderFrame() {
   const [newDensity, setNewDensity] = useState(0);
   const [newPermeability, setNewPermeability] = useState(0);
   const [newColourMixParts, setNewColourMixParts] = useState([]);
-
   const totalPercentage = 0;
+
+  // States - Select Colour Mix Parts Modal
+  const [showSelectColourMixPartsModal, setShowSelectColourMixPartsModal] =
+    useState(false);
+  const selectColourMixPartsSubmitButtonDisabled = false;
 
   /*
    * Code to make the first field of the form automatically selected when
@@ -39,22 +45,36 @@ function HeaderFrame() {
     }
   }, [showModal]);
 
-  const onSubmit = async () => {};
-
-  const onClickAddNew = () => {
+  // Functions - New Popup Modal
+  const onClickAddNewFabricLayer = () => {
     setShowModal(true);
   };
 
-  const onCancel = () => {
+  const onCancelModal = () => {
     setShowModal(false);
   };
+
+  const onSubmitModal = async () => {};
+
+  // Functions - Select Colour Mix Parts Modal
+  const onClickSelectColourMixPartsModal = () => {
+    setShowSelectColourMixPartsModal(true);
+  };
+
+  const onCancelSelectColourMixPartsModal = () => {
+    setShowSelectColourMixPartsModal(false);
+  };
+
+  const onSubmitSelectColourMixPartsModal = async () => {};
+
+  console.error('newColourMixParts!:', newColourMixParts);
 
   return (
     <>
       <NewEntryModal
         showModal={showModal}
-        onCancel={onCancel}
-        onSubmit={onSubmit}
+        onCancel={onCancelModal}
+        onSubmit={onSubmitModal}
         inputRef={inputRef}
         fabricLayerType={newFabricLayerType}
         setFabricLayerType={setNewFabricLayerType}
@@ -72,7 +92,17 @@ function HeaderFrame() {
         setPermeability={setNewPermeability}
         colourMixParts={newColourMixParts}
         setColourMixParts={setNewColourMixParts}
+        onClickSelectColourMixPartsModal={onClickSelectColourMixPartsModal}
         loading={false}
+      />
+      <SelectColourMixPartsModal
+        showModal={showSelectColourMixPartsModal}
+        onCancel={onCancelSelectColourMixPartsModal}
+        // onSubmit={onSubmitSelectColourMixPartsModal}
+        loading={false}
+        setNewColourMixParts={setNewColourMixParts}
+        // rowSelection={rowSelection}
+        // onSelectColourMixPartsModal={}
       />
       <PageHeader
         style={{
@@ -91,7 +121,7 @@ function HeaderFrame() {
             type="primary"
             size="small"
             icon={<PlusOutlined />}
-            onClick={onClickAddNew}
+            onClick={onClickAddNewFabricLayer}
           >
             Add New
           </Button>,

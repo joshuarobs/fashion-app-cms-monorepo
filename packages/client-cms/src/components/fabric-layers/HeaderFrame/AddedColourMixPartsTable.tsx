@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Table, Row } from 'antd';
-import { generateOverviewTreeFabricLayerData } from '../../utils/generateOverviewTreeFabricLayerData';
-import { Base_Colours } from '../../utils/baseColours';
-import { enumToCamelCase } from '../../utils/enumToCamelCase';
+import { generateOverviewTreeFabricLayerData } from '../../../utils/generateOverviewTreeFabricLayerData';
+import { Base_Colours } from '../../../utils/baseColours';
+import { enumToCamelCase } from '../../../utils/enumToCamelCase';
 
 interface FabricLayersTableProps {
   data: any;

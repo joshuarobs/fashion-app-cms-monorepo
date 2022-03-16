@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeaderFrame } from '../components/fabric-layers/HeaderFrame';
+import { HeaderFrame } from '../components/fabric-layers/HeaderFrame/HeaderFrame';
 import { Footer } from '../components/app-shell/Footer';
 import { pageStyles } from './pageStyles';
 import { FabricLayersTableView } from '../components/common/table-views/FabricLayersTableView';

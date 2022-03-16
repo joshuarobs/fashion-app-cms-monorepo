@@ -4,6 +4,7 @@ import { TableType } from './TableType';
 import _ from 'lodash';
 // @ts-ignore
 import Values from 'values.js';
+import { SizeType } from 'antd/lib/config-provider/SizeContext';
 
 const color = new Values('#FFFFFF');
 console.error('COLOR:', color);
@@ -13,16 +14,23 @@ interface ColourMixPartsTableProps {
   data: any;
   currentColourId?: number;
   selectColour?: Function;
-  type: TableType;
+  type?: TableType;
+  size?: SizeType;
+  onSelectEntry?: Function;
+  rowSelection: any;
 }
 
 function ColourMixPartsTable({
   data,
   currentColourId,
   selectColour = () => {},
-  type,
+  type = TableType.All_List,
+  size,
+  onSelectEntry = () => {},
+  rowSelection = {},
 }: ColourMixPartsTableProps) {
   // console.log("selectedFabricLayerTypes:", selectedFabricLayerTypes);
+  const marginLeft = size === 'middle' ? 16 : 8;
 
   const columns = [
     {
@@ -33,7 +41,7 @@ function ColourMixPartsTable({
       render: (text: any) => (
         <span
           style={{
-            marginLeft: 16,
+            marginLeft,
           }}
         >
           {text}
@@ -46,10 +54,9 @@ function ColourMixPartsTable({
       key: 'colour',
       width: 100,
       render: (text: any, record: any) => {
-        console.log('text:', text);
-        console.log('record:', record);
-
-        console.log('record.colour.colour_code:', record.colour.colour_code);
+        // console.log('text:', text);
+        // console.log('record:', record);
+        // console.log('record.colour.colour_code:', record.colour.colour_code);
 
         // Get the brightness of the colour
         const color = new Values(record.colour.colour_code);
@@ -63,7 +70,7 @@ function ColourMixPartsTable({
           <Row
             style={{
               // display: "flex"
-              marginLeft: 16,
+              marginLeft,
               minHeight: 32,
               alignContent: 'center',
             }}
@@ -91,6 +98,24 @@ function ColourMixPartsTable({
         );
       },
     },
+    // {
+    //   title: 'Opacity',
+    //   dataIndex: 'opacity',
+    //   key: 'opacity',
+    //   width: 40,
+    //   render: (text: any, record: any) => {
+    //     const opacity = record.colour.opacity;
+    //     return (
+    //       <span
+    //         style={{
+    //           marginLeft: 16,
+    //         }}
+    //       >
+    //         {opacity}
+    //       </span>
+    //     );
+    //   },
+    // },
     {
       title: 'Colour ID',
       dataIndex: 'colour_id',
@@ -99,7 +124,7 @@ function ColourMixPartsTable({
       render: (text: any) => (
         <span
           style={{
-            marginLeft: 16,
+            marginLeft,
           }}
         >
           {text}
@@ -114,7 +139,7 @@ function ColourMixPartsTable({
       render: (text: any) => (
         <span
           style={{
-            marginLeft: 16,
+            marginLeft,
           }}
         >
           {_.round(text * 100, 2)}%
@@ -132,28 +157,13 @@ function ColourMixPartsTable({
         return (
           <span
             style={{
-              marginLeft: 16,
+              marginLeft,
             }}
           >
             {count > 0 ? count : ''}
           </span>
         );
       },
-    },
-    {
-      title: 'Actions',
-      dataIndex: '',
-      key: 'actions',
-      width: 64,
-      render: (text: any) => (
-        <span
-          style={{
-            marginLeft: -1,
-          }}
-        >
-          <Button type="link">View Colour</Button>
-        </span>
-      ),
     },
   ];
 
@@ -166,45 +176,43 @@ function ColourMixPartsTable({
   //   },
   // };
 
-  // switch (type) {
-  //   case TableType.All_List:
-  //     // columns.push({
-  //     //   title: "Action",
-  //     //   key: "action",
-  //     //   width: 80,
-  //     //   // Can't be put with expandedRowRender unfortunately
-  //     //   // fixed: 'right',
-  //     //   render: (text, record) => (
-  //     //     <Link to={`${ROUTES.COMPANIES__COMPANY}/${record.id}`}>
-  //     //       <Button shape="circle" icon={<SearchOutlined />} />
-  //     //     </Link>
-  //     //   )
-  //     // });
-  //     break;
-  //   case TableType.Select_One:
-  //     columns.push({
-  //       title: 'Action',
-  //       key: 'action',
-  //       width: 80,
-  //       // Can't be put with expandedRowRender unfortunately
-  //       // fixed: 'right',
-  //       // @ts-ignore
-  //       render: (text: any, record: any) =>
-  //         record.id === currentColourId ? (
-  //           <a
-  //             style={{
-  //               cursor: 'default',
-  //               visibility: 'hidden',
-  //             }}
-  //           >
-  //             Test
-  //           </a>
-  //         ) : (
-  //           <a onClick={() => selectColour(record.id)}>Select</a>
-  //         ),
-  //     });
-  //     break;
-  // }
+  switch (type) {
+    case TableType.All_List:
+      columns.push({
+        title: 'Actions',
+        dataIndex: '',
+        key: 'actions',
+        width: 64,
+        render: (text: any) => (
+          <span
+            style={{
+              marginLeft: marginLeft - 17,
+            }}
+          >
+            <Button type="link">View Colour</Button>
+          </span>
+        ),
+      });
+      break;
+    case TableType.Select_One:
+      columns.push({
+        title: 'Actions',
+        dataIndex: '',
+        key: 'actions',
+        width: 64,
+        render: (text: any) => (
+          <span
+            style={{
+              marginLeft: marginLeft - 17,
+            }}
+          >
+            <Button type="link">View Colour</Button> |
+            <Button type="link">Select</Button>
+          </span>
+        ),
+      });
+      break;
+  }
 
   return (
     <Table
@@ -213,12 +221,13 @@ function ColourMixPartsTable({
         minWidth: 1000,
         // calc(100vw - 304px)
       }}
-      // rowSelection={rowSelection}
+      rowSelection={rowSelection}
       columns={columns}
       dataSource={data}
       expandedRowRender={(record) => <p style={{ margin: 4 }}>{record.name}</p>}
       scroll={{ x: 300 }}
       pagination={{ pageSize: 20 }}
+      size={size}
     />
   );
 }

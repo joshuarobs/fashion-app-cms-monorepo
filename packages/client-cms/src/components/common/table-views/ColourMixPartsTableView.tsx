@@ -11,6 +11,7 @@ import { ColoursTable } from './ColoursTable';
 import { Get_Colours_List_BB } from '../../../queries/colours/getColoursListBB';
 import { Get_Colour_Mix_Parts_List_BB } from '../../../queries/colour_mix_parts/getColourMixPartsListBB';
 import { ColourMixPartsTable } from './ColourMixPartsTable';
+import { SizeType } from 'antd/lib/config-provider/SizeContext';
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -49,6 +50,9 @@ interface ColourMixPartsTableViewProps {
   currentFabricLayerId?: number;
   selectFabricLayer?: Function;
   type?: TableType;
+  size?: SizeType;
+  onSelectEntry?: Function;
+  rowSelection?: any;
 }
 
 function ColourMixPartsTableView({
@@ -56,6 +60,9 @@ function ColourMixPartsTableView({
   selectFabricLayer,
   currentFabricLayerId,
   type = TableType.All_List,
+  size = 'middle',
+  onSelectEntry = () => {},
+  rowSelection = {},
 }: ColourMixPartsTableViewProps) {
   // TODO: Load from user's settings, default: most highest option
   const [settingShow, setSettingShow] = useState(
@@ -170,7 +177,13 @@ function ColourMixPartsTableView({
           marginTop: 12,
         }}
       >
-        <ColourMixPartsTable data={newData} type={type} />
+        <ColourMixPartsTable
+          data={newData}
+          type={type}
+          size={size}
+          onSelectEntry={onSelectEntry}
+          rowSelection={rowSelection}
+        />
       </Row>
     </Content>
   );
