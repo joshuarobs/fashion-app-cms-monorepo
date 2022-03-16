@@ -6,9 +6,10 @@ import { enumToCamelCase } from '../../../utils/enumToCamelCase';
 
 interface FabricLayersTableProps {
   data: any;
+  loading: boolean;
 }
 
-function AddedColourMixPartsTable({ data }: FabricLayersTableProps) {
+function AddedColourMixPartsTable({ data, loading }: FabricLayersTableProps) {
   // console.log("selectedFabricLayerTypes:", selectedFabricLayerTypes);
 
   const columns = [
@@ -47,57 +48,35 @@ function AddedColourMixPartsTable({ data }: FabricLayersTableProps) {
       key: 'name',
       width: 120,
       render: (text: any, record: any) => {
-        const colours = generateOverviewTreeFabricLayerData(
-          record,
-          null,
-          0,
-          true,
-          false
-        );
-        console.log('colours:', colours);
-
         console.log('record:', record);
 
-        // @ts-ignore
-        return colours.map((colour) => {
-          let circleColour = '#000';
-          const colorName = colour.baseColour;
-          const matchingBaseColour = Base_Colours.find(
-            ({ name }) => enumToCamelCase(name) === colorName
-          );
-          console.log('matchingBaseColour:', matchingBaseColour);
-          if (matchingBaseColour) {
-            circleColour = matchingBaseColour.color;
-          }
-
-          return (
-            <Row
+        return (
+          <Row
+            style={{
+              // display: "flex"
+              marginLeft: 16,
+            }}
+          >
+            <div
               style={{
-                // display: "flex"
-                marginLeft: 16,
+                display: 'inline-block',
+                backgroundColor: record.colour.colour_code,
+                borderRadius: '50%',
+                width: 14,
+                height: 14,
+                margin: 4,
+                marginRight: 5,
+              }}
+            />
+            <div
+              style={{
+                display: 'inline-block',
               }}
             >
-              <div
-                style={{
-                  display: 'inline-block',
-                  backgroundColor: circleColour,
-                  borderRadius: '50%',
-                  width: 14,
-                  height: 14,
-                  margin: 4,
-                  marginRight: 5,
-                }}
-              />
-              <div
-                style={{
-                  display: 'inline-block',
-                }}
-              >
-                {colorName}
-              </div>
-            </Row>
-          );
-        });
+              {record.colour.name}
+            </div>
+          </Row>
+        );
       },
     },
     {
@@ -105,13 +84,13 @@ function AddedColourMixPartsTable({ data }: FabricLayersTableProps) {
       dataIndex: 'colour_group',
       key: 'colour_group',
       width: 80,
-      render: (text: any) => (
+      render: (text: any, record: any) => (
         <span
           style={{
             marginLeft: 16,
           }}
         >
-          {text}
+          {record.colour.base_colour}
         </span>
       ),
     },
@@ -120,13 +99,13 @@ function AddedColourMixPartsTable({ data }: FabricLayersTableProps) {
       dataIndex: 'colour_code',
       key: 'colour_code',
       width: 80,
-      render: (text: any) => (
+      render: (text: any, record: any) => (
         <span
           style={{
             marginLeft: 16,
           }}
         >
-          {text}
+          {record.colour.colour_code}
         </span>
       ),
     },
@@ -247,6 +226,7 @@ function AddedColourMixPartsTable({ data }: FabricLayersTableProps) {
       dataSource={data}
       scroll={{ x: 300 }}
       pagination={{ pageSize: 20 }}
+      loading={loading}
     />
   );
 }

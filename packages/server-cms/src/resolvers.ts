@@ -142,6 +142,7 @@ import { promoteClothingShellMaindataRevisionNewRevision } from './resolvers/clo
 import { deleteCompany } from './resolvers/companies/deleteCompany';
 import { getColoursListBB } from './resolvers/colours/getColoursListBB';
 import { getColourMixPartsListBB } from './resolvers/colour_mix_parts/getColourMixPartsListBB';
+import { getColourMixPartsMultipleByIds } from './resolvers/colour_mix_parts/getColourMixPartsMultipleByIds';
 
 const resolvers = {
   //**********************************************************************
@@ -448,6 +449,8 @@ const resolvers = {
     //--------------------------------------------------
     getColourMixPartsListBB: (_, { limit, offset }) =>
       getColourMixPartsListBB(limit, offset),
+    getColourMixPartsMultipleByIds: (_, { ids }) =>
+      getColourMixPartsMultipleByIds(ids),
     //--------------------------------------------------
     // colours
     //--------------------------------------------------

@@ -15,6 +15,8 @@ import { ItemFilterValuesBool } from '../../../framework/itemFilterValuesBool';
 import { FabricLayerType } from '@joshuarobs/clothing-framework';
 import { AddedColourMixPartsTable } from './AddedColourMixPartsTable';
 import { ExperimentOutlined } from '@ant-design/icons';
+import { useLazyQuery, useQuery } from '@apollo/client';
+import { Get_Colour_Mix_Parts_Multiple_By_Ids } from '../../../queries/colour_mix_parts/getColourMixPartsMultipleByIds';
 
 const { Option } = Select;
 const { Text, Title } = Typography;
@@ -56,6 +58,8 @@ interface NewEntryModalProps {
   setColourMixParts: Function;
   onClickSelectColourMixPartsModal: (e: React.MouseEvent) => void;
   loading: boolean;
+  colourMixPartsData: [];
+  loadingSelectColours: boolean;
 }
 
 function NewEntryModal({
@@ -81,8 +85,26 @@ function NewEntryModal({
   setColourMixParts,
   onClickSelectColourMixPartsModal,
   loading,
+  colourMixPartsData,
+  loadingSelectColours,
 }: NewEntryModalProps) {
   const addButtonDisabled = false;
+
+  // const {
+  //   loading: loadingGetSetColours,
+  //   error: errorGetSetColours,
+  //   data: dataGetSetColours,
+  // } = useLazyQuery(Get_Colour_Mix_Parts_Multiple_By_Ids, {
+  //   variables: {
+  //     ids: colourMixParts,
+  //   },
+  // });
+
+  const actualColourMixPartsData = colourMixPartsData
+    ? // @ts-ignore
+      colourMixPartsData.getColourMixPartsMultipleByIds
+    : [];
+  console.error('actualColourMixPartsData:', actualColourMixPartsData);
 
   return (
     <Modal
@@ -241,7 +263,10 @@ function NewEntryModal({
           </Title>
         </Row>
         <Row>
-          <AddedColourMixPartsTable data={[]} />
+          <AddedColourMixPartsTable
+            data={actualColourMixPartsData}
+            loading={loadingSelectColours}
+          />
         </Row>
         <Row style={styles.sectionTitle}>
           <Button

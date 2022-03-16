@@ -11,6 +11,7 @@ interface SelectColourMixPartsModalProps {
   // rowSelection: any;
   // submitButtonDisabled: boolean;
   setNewColourMixParts: Function;
+  loadColourMixParts: Function;
 }
 
 function SelectColourMixPartsModal({
@@ -19,6 +20,7 @@ function SelectColourMixPartsModal({
   // onSubmit,
   loading,
   setNewColourMixParts,
+  loadColourMixParts,
 }: // rowSelection,
 // submitButtonDisabled,
 SelectColourMixPartsModalProps) {
@@ -52,6 +54,7 @@ SelectColourMixPartsModalProps) {
 
   const onSubmit = (e: any) => {
     setNewColourMixParts(selectedColourMixParts);
+    loadColourMixParts();
     onCancel(e);
   };
 

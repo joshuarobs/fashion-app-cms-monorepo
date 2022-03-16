@@ -12,6 +12,8 @@ import { NewEntryModal } from './NewEntryModal';
 import { FabricLayerType } from '@joshuarobs/clothing-framework';
 import { ColourMixPartsTableView } from '../../common/table-views/ColourMixPartsTableView';
 import { SelectColourMixPartsModal } from './SelectColourMixPartsModal';
+import { useLazyQuery } from '@apollo/client';
+import { Get_Colour_Mix_Parts_Multiple_By_Ids } from '../../../queries/colour_mix_parts/getColourMixPartsMultipleByIds';
 
 function HeaderFrame() {
   // States - New Popup Modal
@@ -27,6 +29,20 @@ function HeaderFrame() {
   const [newPermeability, setNewPermeability] = useState(0);
   const [newColourMixParts, setNewColourMixParts] = useState([]);
   const totalPercentage = 0;
+
+  // Lazy query for loading the selected colour mix parts
+  const [
+    loadColourMixParts,
+    {
+      called: calledSelectColours,
+      loading: loadingSelectColours,
+      data: dataSelectColours,
+    },
+  ] = useLazyQuery(Get_Colour_Mix_Parts_Multiple_By_Ids, {
+    variables: { ids: newColourMixParts },
+  });
+
+  console.error('dataSelectColours:', dataSelectColours);
 
   // States - Select Colour Mix Parts Modal
   const [showSelectColourMixPartsModal, setShowSelectColourMixPartsModal] =
@@ -66,7 +82,6 @@ function HeaderFrame() {
   };
 
   const onSubmitSelectColourMixPartsModal = async () => {};
-
   console.error('newColourMixParts!:', newColourMixParts);
 
   return (
@@ -94,6 +109,8 @@ function HeaderFrame() {
         setColourMixParts={setNewColourMixParts}
         onClickSelectColourMixPartsModal={onClickSelectColourMixPartsModal}
         loading={false}
+        colourMixPartsData={dataSelectColours}
+        loadingSelectColours={loadingSelectColours}
       />
       <SelectColourMixPartsModal
         showModal={showSelectColourMixPartsModal}
@@ -101,6 +118,7 @@ function HeaderFrame() {
         // onSubmit={onSubmitSelectColourMixPartsModal}
         loading={false}
         setNewColourMixParts={setNewColourMixParts}
+        loadColourMixParts={loadColourMixParts}
         // rowSelection={rowSelection}
         // onSelectColourMixPartsModal={}
       />
