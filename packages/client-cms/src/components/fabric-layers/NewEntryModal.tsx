@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Button,
   Input,
+  InputNumber,
   Modal,
   Radio,
   Row,
@@ -12,6 +13,8 @@ import {
 } from 'antd';
 import { ItemFilterValuesBool } from '../../framework/itemFilterValuesBool';
 import { FabricLayerType } from '@joshuarobs/clothing-framework';
+import { AddedColourMixPartsTable } from './AddedColourMixPartsTable';
+import { ExperimentOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 const { Text, Title } = Typography;
@@ -87,6 +90,8 @@ function NewEntryModal({
       onOk={onSubmit}
       style={{
         minWidth: 996,
+        // Default values for a MacBook Pro 16
+        top: 16,
       }}
       footer={[
         <Button key="back" onClick={onCancel}>
@@ -135,17 +140,15 @@ function NewEntryModal({
         >
           <Col span={6}>
             <Select
-              defaultValue="lucy"
+              defaultValue={FabricLayerType.Shell}
               style={{ width: '100%' }}
               // @ts-ignore
-              onChange={(e) => setFabricLayerType(e.target.value)}
+              onChange={(value) => setFabricLayerType(value)}
             >
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="disabled" disabled>
-                Disabled
-              </Option>
-              <Option value="Yiminghe">yiminghe</Option>
+              <Option value={FabricLayerType.Shell}>Shell</Option>
+              <Option value={FabricLayerType.Fill}>Fill</Option>
+              <Option value={FabricLayerType.Interlining}>Lining</Option>
+              <Option value={FabricLayerType.Lining}>Interlining</Option>
             </Select>
           </Col>
           <Col span={6}>
@@ -188,27 +191,44 @@ function NewEntryModal({
           }}
         >
           <Col span={6}>
-            <Input
+            <InputNumber
               value={thickness}
-              onChange={(e) => setThickness(e.target.value)}
+              min={0}
+              max={10000}
+              step={0.1}
+              onChange={(value) => setThickness(value)}
+              style={{ width: '100%' }}
             />
           </Col>
           <Col span={6}>
-            <Input
+            <InputNumber
               value={insulationPoints}
-              onChange={(e) => setInsulationPoints(e.target.value)}
+              min={0}
+              max={1000}
+              step={1}
+              precision={0}
+              onChange={(value) => setInsulationPoints(value)}
+              style={{ width: '100%' }}
             />
           </Col>
           <Col span={6}>
-            <Input
+            <InputNumber
               value={density}
-              onChange={(e) => setDensity(e.target.value)}
+              min={0}
+              max={10000}
+              step={0.1}
+              onChange={(value) => setDensity(value)}
+              style={{ width: '100%' }}
             />
           </Col>
           <Col span={6}>
-            <Input
+            <InputNumber
               value={permeability}
-              onChange={(e) => setPermeability(e.target.value)}
+              min={0}
+              max={10000}
+              step={0.1}
+              onChange={(value) => setPermeability(value)}
+              style={{ width: '100%' }}
             />
           </Col>
         </Row>
@@ -217,6 +237,14 @@ function NewEntryModal({
           <Title level={5} type="secondary">
             Colour Mix Parts
           </Title>
+        </Row>
+        <Row>
+          <AddedColourMixPartsTable data={[]} />
+        </Row>
+        <Row style={styles.sectionTitle}>
+          <Button style={{ width: '100%' }} icon={<ExperimentOutlined />}>
+            Add Colour Mix Part
+          </Button>
         </Row>
       </div>
     </Modal>
