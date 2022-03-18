@@ -117,6 +117,7 @@ function HeaderFrame() {
         onCancel={onCancelSelectColourMixPartsModal}
         // onSubmit={onSubmitSelectColourMixPartsModal}
         loading={false}
+        newColourMixParts={newColourMixParts}
         setNewColourMixParts={setNewColourMixParts}
         loadColourMixParts={loadColourMixParts}
         // rowSelection={rowSelection}
