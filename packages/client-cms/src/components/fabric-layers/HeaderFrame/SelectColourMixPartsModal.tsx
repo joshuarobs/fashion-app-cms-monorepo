@@ -4,6 +4,7 @@ import { ColourMixPartsTableView } from '../../common/table-views/ColourMixParts
 import { TableType } from '../../common/table-views/TableType';
 import { Get_All_Colour_Mix_Parts_Ids } from '../../../queries/colour_mix_parts/getAllColourMixPartsIds';
 import { useQuery } from '@apollo/client';
+import _ from 'lodash';
 
 interface SelectColourMixPartsModalProps {
   showModal: boolean;
@@ -164,8 +165,9 @@ SelectColourMixPartsModalProps) {
     console.log('onSelectEntry.record:', record);
     console.log('selectedColourMixParts:', selectedColourMixParts);
     // Push if not exists
-    const index = selectedColourMixParts.findIndex((x) => x === record.id);
-    if (index === -1) {
+    const recordIsSelected = _.includes(selectedColourMixParts, record.id);
+
+    if (!recordIsSelected) {
       // Add the database entry id into the selected keys
       // @ts-ignore
       setSelectedColourMixParts([...selectedColourMixParts, record.id]);
@@ -183,7 +185,27 @@ SelectColourMixPartsModalProps) {
    * Function when a colour mix parts row's "Deselect" action button is clicked
    * @param record - Database info of the selected row's colour mix part
    */
-  const onDeselectEntry = (record: any) => {};
+  const onDeselectEntry = (record: any) => {
+    // Push if not exists
+    const recordIsSelected = _.includes(selectedColourMixParts, record.id);
+    console.log('onDeselectEntry.recordIsSelected:', recordIsSelected);
+
+    if (recordIsSelected) {
+      // Remove the database entry id from the selected keys
+      setSelectedColourMixParts(
+        selectedColourMixParts.filter((value) => value !== record.id)
+      );
+
+      // Add the row's key into the selected rows
+      // For now, use the `key` set from the data loaded from the database
+      // REDUNDANT? In the future, we may have to iterate through all the
+      // passed in data to the table and get the key from there (isn't this
+      // just a backwards approach of the same from the `key`?)
+      setSelectedRowKeys(
+        selectedRowKeys.filter((value) => value !== record.key)
+      );
+    }
+  };
 
   const onCancelThisPopup = (e: any) => {
     // When cancelling, reset any changes made

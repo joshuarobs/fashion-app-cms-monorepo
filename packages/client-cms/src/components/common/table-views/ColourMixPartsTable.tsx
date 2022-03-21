@@ -209,7 +209,7 @@ function ColourMixPartsTable({
         render: (text: any, record: any) => {
           // console.log('RECORD:', record);
           const rowIsSelected = _.includes(selectedRowKeys, record.key);
-          console.log('rowIsSelected:', rowIsSelected);
+          // console.log('rowIsSelected:', rowIsSelected);
 
           return (
             <span
