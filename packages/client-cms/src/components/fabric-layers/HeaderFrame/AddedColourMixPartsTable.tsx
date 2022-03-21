@@ -3,6 +3,7 @@ import { Table, Row } from 'antd';
 import { generateOverviewTreeFabricLayerData } from '../../../utils/generateOverviewTreeFabricLayerData';
 import { Base_Colours } from '../../../utils/baseColours';
 import { enumToCamelCase } from '../../../utils/enumToCamelCase';
+import _ from 'lodash';
 
 interface FabricLayersTableProps {
   data: any;
@@ -24,7 +25,7 @@ function AddedColourMixPartsTable({ data, loading }: FabricLayersTableProps) {
             marginLeft: 16,
           }}
         >
-          {text}
+          {_.round(text * 100, 2)}%
         </span>
       ),
     },
@@ -48,7 +49,7 @@ function AddedColourMixPartsTable({ data, loading }: FabricLayersTableProps) {
       key: 'name',
       width: 120,
       render: (text: any, record: any) => {
-        console.log('record:', record);
+        // console.log('record:', record);
 
         return (
           <Row

@@ -10,13 +10,17 @@ import {
   Typography,
   Select,
   Divider,
+  Tooltip,
 } from 'antd';
 import { ItemFilterValuesBool } from '../../../framework/itemFilterValuesBool';
 import { FabricLayerType } from '@joshuarobs/clothing-framework';
 import { AddedColourMixPartsTable } from './AddedColourMixPartsTable';
-import { ExperimentOutlined } from '@ant-design/icons';
+import { ExperimentOutlined, WarningFilled } from '@ant-design/icons';
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { Get_Colour_Mix_Parts_Multiple_By_Ids } from '../../../queries/colour_mix_parts/getColourMixPartsMultipleByIds';
+import _ from 'lodash';
+import { ErrorTooltipContent } from '../../common/ErrorTooltipContent';
+import { red } from '@ant-design/colors';
 
 const { Option } = Select;
 const { Text, Title } = Typography;
@@ -106,6 +110,14 @@ function NewEntryModal({
     colourMixPartsData.getColourMixPartsMultipleByIds;
   console.error('actualColourMixPartsData:', actualColourMixPartsData);
 
+  let totalPercent = 0;
+  // @ts-ignore
+  actualColourMixPartsData.forEach(({ percent }) => (totalPercent += percent));
+
+  const percentIsNot100 = totalPercent !== 1;
+  const totalPercentError =
+    actualColourMixPartsData.length > 0 && percentIsNot100;
+
   return (
     <Modal
       visible={showModal}
@@ -126,7 +138,7 @@ function NewEntryModal({
           type="primary"
           loading={loading}
           onClick={onSubmit}
-          disabled={addButtonDisabled}
+          disabled={totalPercentError}
         >
           Submit
         </Button>,
@@ -267,6 +279,27 @@ function NewEntryModal({
             data={actualColourMixPartsData}
             loading={loadingSelectColours}
           />
+        </Row>
+        <Row style={styles.sectionTitle}>
+          {totalPercentError ? (
+            <>
+              <Text strong type="danger">
+                Total Percent: {_.round(totalPercent * 100, 2)}%
+              </Text>
+              <Tooltip title="The total percent must be equal to 100%.">
+                <WarningFilled
+                  style={{
+                    color: red[3],
+                    marginRight: 1,
+                    padding: 4,
+                    paddingRight: 8,
+                  }}
+                />
+              </Tooltip>
+            </>
+          ) : (
+            <Text>Total Percent: {_.round(totalPercent * 100, 2)}%</Text>
+          )}
         </Row>
         <Row style={styles.sectionTitle}>
           <Button

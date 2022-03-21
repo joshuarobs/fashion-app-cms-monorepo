@@ -92,7 +92,7 @@ SelectColourMixPartsModalProps) {
   const rowSelection = {
     selectedRowKeys,
     hideSelectAll: true,
-    preserveSelectedRowKeys: true,
+    // preserveSelectedRowKeys: true,
     onChange: (selectedRowKeys: React.Key[], selectedRows: []) => {
       console.log(
         `selectedRowKeys: ${selectedRowKeys}`,
