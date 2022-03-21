@@ -42,13 +42,17 @@ SelectColourMixPartsModalProps) {
    */
   const [selectedRowsCopy, setSelectedRowsCopy] = useState([]);
   const [allColourMixParts, setAllColourMixParts] = useState([]);
-  const [selectedColourMixParts, setSelectedColourMixParts] = useState([]);
+  const [selectedColourMixPartsIds, setSelectedColourMixPartsIds] = useState(
+    []
+  );
+  const [prevSelectedColourMixPartsIds, setPrevSelectedColourMixPartsIds] =
+    useState([]);
   const submitButtonDisabled = false;
 
   // When selectedColourMixParts gets updated, update the selected keys
-  useEffect(() => {
-    // setSelectedRowKeys();
-  }, [selectedColourMixParts]);
+  // useEffect(() => {
+  //   // setSelectedRowKeys();
+  // }, [selectedColourMixParts]);
 
   // Set the colour mix parts of the select colour mix parts popup, to that
   // of those already selected in the previous main popup
@@ -73,7 +77,7 @@ SelectColourMixPartsModalProps) {
     console.error(errorAllColourMixParts);
     return <p>Error :(</p>;
   }
-  console.log('selectedColourMixParts:', selectedColourMixParts);
+  console.log('selectedColourMixParts:', selectedColourMixPartsIds);
   console.log('selectedRowKeys:', selectedRowKeys);
   // console.log('dataAllColourMixParts:', dataAllColourMixParts);
   // console.log('allColourMixParts:', allColourMixParts);
@@ -138,20 +142,33 @@ SelectColourMixPartsModalProps) {
     // setNewColourMixParts(dataAllColourMixParts.getAllColourMixPartsIds.filter((tet) => return 5;));
     // setNewColourMixParts(colourMixParts);
 
-    const colourMixParts = selectedRowKeys.filter((key) => {
-      console.log('key:', key);
-      // @ts-ignore
-      const isSelected = dataAllColourMixParts.getAllColourMixPartsIds.find(
-        (item: any) => item.id === key
-      );
-      console.log('isSelected:', isSelected);
-      return isSelected;
-    });
-    console.log('colourMixParts!!!:', colourMixParts);
+    // const colourMixParts = selectedRowKeys.filter((key) => {
+    //   console.log('key:', key);
+    //   // @ts-ignore
+    //   const isSelected = dataAllColourMixParts.getAllColourMixPartsIds.find(
+    //     (item: any) => item.id === key
+    //   );
+    //   console.log('isSelected:', isSelected);
+    //   return isSelected;
+    // });
+    // console.log('colourMixParts!!!:', colourMixParts);
 
     // @ts-ignore
     setPrevSelectedRowKeys(selectedRowKeys);
+    setPrevSelectedColourMixPartsIds(selectedColourMixPartsIds);
+    setNewColourMixParts(selectedColourMixPartsIds);
     loadColourMixParts();
+    onCancel(e);
+  };
+
+  /**
+   * Function to call when closing the popup
+   * @param e
+   */
+  const onCancelThisPopup = (e: any) => {
+    // When cancelling, reset any changes made
+    setSelectedRowKeys(prevSelectedRowKeys);
+    setSelectedColourMixPartsIds(prevSelectedColourMixPartsIds);
     onCancel(e);
   };
 
@@ -163,21 +180,23 @@ SelectColourMixPartsModalProps) {
   const onSelectEntry = (record: any, e?: any) => {
     // console.log('e:', e.target);
     console.log('onSelectEntry.record:', record);
-    console.log('selectedColourMixParts:', selectedColourMixParts);
+    console.log('selectedColourMixParts:', selectedColourMixPartsIds);
     // Push if not exists
-    const recordIsSelected = _.includes(selectedColourMixParts, record.id);
+    const recordIsSelected = _.includes(selectedColourMixPartsIds, record.id);
 
     if (!recordIsSelected) {
       // Add the database entry id into the selected keys
-      // @ts-ignore
-      setSelectedColourMixParts([...selectedColourMixParts, record.id]);
+      setSelectedColourMixPartsIds(
+        // @ts-ignore
+        [...selectedColourMixPartsIds, record.id].sort()
+      );
       // Add the row's key into the selected rows
       // For now, use the `key` set from the data loaded from the database
       // REDUNDANT? In the future, we may have to iterate through all the
       // passed in data to the table and get the key from there (isn't this
       // just a backwards approach of the same from the `key`?)
       // @ts-ignore
-      setSelectedRowKeys([...selectedRowKeys, record.key]);
+      setSelectedRowKeys([...selectedRowKeys, record.key].sort());
     }
   };
 
@@ -187,13 +206,13 @@ SelectColourMixPartsModalProps) {
    */
   const onDeselectEntry = (record: any) => {
     // Push if not exists
-    const recordIsSelected = _.includes(selectedColourMixParts, record.id);
+    const recordIsSelected = _.includes(selectedColourMixPartsIds, record.id);
     console.log('onDeselectEntry.recordIsSelected:', recordIsSelected);
 
     if (recordIsSelected) {
       // Remove the database entry id from the selected keys
-      setSelectedColourMixParts(
-        selectedColourMixParts.filter((value) => value !== record.id)
+      setSelectedColourMixPartsIds(
+        selectedColourMixPartsIds.filter((value) => value !== record.id)
       );
 
       // Add the row's key into the selected rows
@@ -205,12 +224,6 @@ SelectColourMixPartsModalProps) {
         selectedRowKeys.filter((value) => value !== record.key)
       );
     }
-  };
-
-  const onCancelThisPopup = (e: any) => {
-    // When cancelling, reset any changes made
-    setSelectedRowKeys(prevSelectedRowKeys);
-    onCancel(e);
   };
 
   return (

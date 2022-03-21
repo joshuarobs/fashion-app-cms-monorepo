@@ -58,7 +58,7 @@ interface NewEntryModalProps {
   setColourMixParts: Function;
   onClickSelectColourMixPartsModal: (e: React.MouseEvent) => void;
   loading: boolean;
-  colourMixPartsData: [];
+  colourMixPartsData: any;
   loadingSelectColours: boolean;
 }
 
@@ -85,7 +85,9 @@ function NewEntryModal({
   setColourMixParts,
   onClickSelectColourMixPartsModal,
   loading,
-  colourMixPartsData,
+  colourMixPartsData = {
+    getColourMixPartsMultipleByIds: [],
+  },
   loadingSelectColours,
 }: NewEntryModalProps) {
   const addButtonDisabled = false;
@@ -100,10 +102,8 @@ function NewEntryModal({
   //   },
   // });
 
-  const actualColourMixPartsData = colourMixPartsData
-    ? // @ts-ignore
-      colourMixPartsData.getColourMixPartsMultipleByIds
-    : [];
+  const actualColourMixPartsData =
+    colourMixPartsData.getColourMixPartsMultipleByIds;
   console.error('actualColourMixPartsData:', actualColourMixPartsData);
 
   return (

@@ -42,7 +42,12 @@ function HeaderFrame() {
     variables: { ids: newColourMixParts },
   });
 
-  console.error('dataSelectColours:', dataSelectColours);
+  console.error(
+    'newColourMixParts:',
+    newColourMixParts,
+    '| dataSelectColours:',
+    dataSelectColours
+  );
 
   // States - Select Colour Mix Parts Modal
   const [showSelectColourMixPartsModal, setShowSelectColourMixPartsModal] =
