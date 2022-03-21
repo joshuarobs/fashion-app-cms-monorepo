@@ -17,7 +17,9 @@ interface ColourMixPartsTableProps {
   type?: TableType;
   size?: SizeType;
   onSelectEntry?: Function;
+  onDeselectEntry?: Function;
   rowSelection: any;
+  selectedRowKeys?: number[];
 }
 
 function ColourMixPartsTable({
@@ -27,10 +29,14 @@ function ColourMixPartsTable({
   type = TableType.All_List,
   size,
   onSelectEntry = () => {},
+  onDeselectEntry = () => {},
   rowSelection = {},
+  selectedRowKeys = [],
 }: ColourMixPartsTableProps) {
   // console.log("selectedFabricLayerTypes:", selectedFabricLayerTypes);
   const marginLeft = size === 'middle' ? 16 : 8;
+
+  console.log('data44:', data);
 
   const columns = [
     {
@@ -200,16 +206,30 @@ function ColourMixPartsTable({
         dataIndex: '',
         key: 'actions',
         width: 64,
-        render: (text: any) => (
-          <span
-            style={{
-              marginLeft: marginLeft - 17,
-            }}
-          >
-            <Button type="link">View Colour</Button> |
-            <Button type="link">Select</Button>
-          </span>
-        ),
+        render: (text: any, record: any) => {
+          // console.log('RECORD:', record);
+          const rowIsSelected = _.includes(selectedRowKeys, record.key);
+          console.log('rowIsSelected:', rowIsSelected);
+
+          return (
+            <span
+              style={{
+                marginLeft: marginLeft - 17,
+              }}
+            >
+              <Button type="link">View Colour</Button> |
+              {!rowIsSelected ? (
+                <Button type="link" onClick={(e) => onSelectEntry(record, e)}>
+                  Select
+                </Button>
+              ) : (
+                <Button type="link" onClick={(e) => onDeselectEntry(record)}>
+                  Deselect
+                </Button>
+              )}
+            </span>
+          );
+        },
       });
       break;
   }

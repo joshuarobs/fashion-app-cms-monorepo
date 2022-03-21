@@ -143,6 +143,7 @@ import { deleteCompany } from './resolvers/companies/deleteCompany';
 import { getColoursListBB } from './resolvers/colours/getColoursListBB';
 import { getColourMixPartsListBB } from './resolvers/colour_mix_parts/getColourMixPartsListBB';
 import { getColourMixPartsMultipleByIds } from './resolvers/colour_mix_parts/getColourMixPartsMultipleByIds';
+import { getAllColourMixPartsIds } from './resolvers/colour_mix_parts/getAllColourMixPartsIds';
 
 const resolvers = {
   //**********************************************************************
@@ -449,6 +450,8 @@ const resolvers = {
     //--------------------------------------------------
     getColourMixPartsListBB: (_, { limit, offset }) =>
       getColourMixPartsListBB(limit, offset),
+    getAllColourMixPartsIds: (_, __, context) =>
+      getAllColourMixPartsIds(context),
     getColourMixPartsMultipleByIds: (_, { ids }) =>
       getColourMixPartsMultipleByIds(ids),
     //--------------------------------------------------

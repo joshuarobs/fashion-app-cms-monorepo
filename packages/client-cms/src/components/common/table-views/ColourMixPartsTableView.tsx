@@ -52,7 +52,9 @@ interface ColourMixPartsTableViewProps {
   type?: TableType;
   size?: SizeType;
   onSelectEntry?: Function;
+  onDeselectEntry?: Function;
   rowSelection?: any;
+  selectedRowKeys?: number[];
 }
 
 function ColourMixPartsTableView({
@@ -62,7 +64,9 @@ function ColourMixPartsTableView({
   type = TableType.All_List,
   size = 'middle',
   onSelectEntry = () => {},
+  onDeselectEntry = () => {},
   rowSelection = {},
+  selectedRowKeys = [],
 }: ColourMixPartsTableViewProps) {
   // TODO: Load from user's settings, default: most highest option
   const [settingShow, setSettingShow] = useState(
@@ -93,6 +97,10 @@ function ColourMixPartsTableView({
 
   // Get the number of all fabric layers
   const numResults = data.getColourMixPartsListBB.length;
+
+  const testOnSelectEntry = (a: any) => {
+    console.log('a:', a);
+  };
 
   return (
     <Content
@@ -182,7 +190,9 @@ function ColourMixPartsTableView({
           type={type}
           size={size}
           onSelectEntry={onSelectEntry}
+          onDeselectEntry={onDeselectEntry}
           rowSelection={rowSelection}
+          selectedRowKeys={selectedRowKeys}
         />
       </Row>
     </Content>

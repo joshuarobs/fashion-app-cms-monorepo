@@ -64,6 +64,7 @@ const Queries = gql`
     # colour_mix_parts
     #--------------------------------------------------
     getColourMixPartsListBB(limit: Int, offset: Int): [colour_mix_parts]
+    getAllColourMixPartsIds: [colour_mix_parts]
     getColourMixPartsMultipleByIds(ids: [Int!]): [colour_mix_parts]
     #--------------------------------------------------
     # colours

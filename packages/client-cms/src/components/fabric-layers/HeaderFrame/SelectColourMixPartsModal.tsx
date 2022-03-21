@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'antd';
 import { ColourMixPartsTableView } from '../../common/table-views/ColourMixPartsTableView';
 import { TableType } from '../../common/table-views/TableType';
+import { Get_All_Colour_Mix_Parts_Ids } from '../../../queries/colour_mix_parts/getAllColourMixPartsIds';
+import { useQuery } from '@apollo/client';
 
 interface SelectColourMixPartsModalProps {
   showModal: boolean;
@@ -38,41 +40,90 @@ SelectColourMixPartsModalProps) {
    * modal.
    */
   const [selectedRowsCopy, setSelectedRowsCopy] = useState([]);
+  const [allColourMixParts, setAllColourMixParts] = useState([]);
+  const [selectedColourMixParts, setSelectedColourMixParts] = useState([]);
   const submitButtonDisabled = false;
+
+  // When selectedColourMixParts gets updated, update the selected keys
+  useEffect(() => {
+    // setSelectedRowKeys();
+  }, [selectedColourMixParts]);
 
   // Set the colour mix parts of the select colour mix parts popup, to that
   // of those already selected in the previous main popup
-  useEffect(() => {
-    // @ts-ignore
-    // setSelectedRowKeys(newColourMixParts);
-    // selectedRowKeys(selectedRowsCopy.map((value: any) => value.id));
-    console.error('newColourMixParts:', newColourMixParts);
-    console.error('selectedRowKeys:', selectedRowKeys);
-  }, [newColourMixParts, showModal]);
+  // useEffect(() => {
+  //   // @ts-ignore
+  //   // setSelectedRowKeys(newColourMixParts);
+  //   // selectedRowKeys(selectedRowsCopy.map((value: any) => value.id));
+  //   console.error('newColourMixParts:', newColourMixParts);
+  //   console.error('selectedRowKeys:', selectedRowKeys);
+  // }, [newColourMixParts, showModal]);
+
+  const {
+    loading: loadingAllColourMixParts,
+    error: errorAllColourMixParts,
+    data: dataAllColourMixParts,
+  } = useQuery(Get_All_Colour_Mix_Parts_Ids, {
+    onCompleted: setAllColourMixParts,
+  });
+
+  if (loadingAllColourMixParts) return <div />;
+  if (errorAllColourMixParts) {
+    console.error(errorAllColourMixParts);
+    return <p>Error :(</p>;
+  }
+  console.log('selectedColourMixParts:', selectedColourMixParts);
+  console.log('selectedRowKeys:', selectedRowKeys);
+  // console.log('dataAllColourMixParts:', dataAllColourMixParts);
+  // console.log('allColourMixParts:', allColourMixParts);
+  // useEffect(() => {
+  //   setAllColourMixParts(dataAllColourMixParts.getAllColourMixPartsIds);
+  // }, [dataAllColourMixParts]);
 
   /**
    * Code required for row selection with checkboxes to work in the table
    * when selecting multiple colour mix parts
    */
   const rowSelection = {
-    selectedRowKeys: selectedRowKeys,
+    selectedRowKeys,
+    hideSelectAll: true,
+    preserveSelectedRowKeys: true,
     onChange: (selectedRowKeys: React.Key[], selectedRows: []) => {
-      // console.log(
-      //   `selectedRowKeys: ${selectedRowKeys}`,
-      //   'selectedRows: ',
-      //   selectedRows
-      // );
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        'selectedRows: ',
+        selectedRows
+      );
       // const ids: number[] = [];
       // @ts-ignore
       // selectedRows.forEach((value) => ids.push(value.id));
       // selectedRowKeys.forEach((value) => ids.push(value.id));
-      setSelectedRowsCopy(selectedRows);
+      // setSelectedRowsCopy(selectedRows);
+
+      console.log(
+        'dataAllColourMixParts.getAllColourMixPartsIds:',
+        // @ts-ignore
+        dataAllColourMixParts.getAllColourMixPartsIds
+      );
+
+      const colourMixParts = selectedRows.filter(({ id }) => {
+        // console.log('key:', key);
+        // @ts-ignore
+        const isSelected = dataAllColourMixParts.getAllColourMixPartsIds.find(
+          (item: any) => item.id === id
+        );
+        console.log('isSelected:', isSelected);
+        return isSelected;
+      });
+      console.log('colourMixParts!!!:', colourMixParts);
+
       // @ts-ignore
       setSelectedRowKeys(selectedRowKeys);
-      console.error('selectedRows:', selectedRows);
+      // console.error('selectedRows:', selectedRows);
     },
     getCheckboxProps: (record: any) => ({
-      disabled: record.name === 'Disabled User', // Column configuration not to be checked
+      // disabled: record.name === 'Disabled User', // Column configuration not to be checked
+      disabled: true,
       name: record.name,
     }),
   };
@@ -81,12 +132,58 @@ SelectColourMixPartsModalProps) {
     // const ids: number[] = [];
     // selectedRowsCopy.forEach((value: any) => ids.push(value.id));
     // setNewColourMixParts(ids);
-    setNewColourMixParts(selectedRowsCopy.map((value: any) => value.id));
+    // setNewColourMixParts(selectedRowsCopy.map((value: any) => value.id));
+    // @ts-ignore
+    // setNewColourMixParts(dataAllColourMixParts.getAllColourMixPartsIds.filter((tet) => return 5;));
+    // setNewColourMixParts(colourMixParts);
+
+    const colourMixParts = selectedRowKeys.filter((key) => {
+      console.log('key:', key);
+      // @ts-ignore
+      const isSelected = dataAllColourMixParts.getAllColourMixPartsIds.find(
+        (item: any) => item.id === key
+      );
+      console.log('isSelected:', isSelected);
+      return isSelected;
+    });
+    console.log('colourMixParts!!!:', colourMixParts);
+
     // @ts-ignore
     setPrevSelectedRowKeys(selectedRowKeys);
     loadColourMixParts();
     onCancel(e);
   };
+
+  /**
+   * Function when a colour mix parts row's "Select" action button is clicked
+   * @param record - Database info of the selected row's colour mix part
+   * @param e
+   */
+  const onSelectEntry = (record: any, e?: any) => {
+    // console.log('e:', e.target);
+    console.log('onSelectEntry.record:', record);
+    console.log('selectedColourMixParts:', selectedColourMixParts);
+    // Push if not exists
+    const index = selectedColourMixParts.findIndex((x) => x === record.id);
+    if (index === -1) {
+      // Add the database entry id into the selected keys
+      // @ts-ignore
+      setSelectedColourMixParts([...selectedColourMixParts, record.id]);
+      // Add the row's key into the selected rows
+      // For now, use the `key` set from the data loaded from the database
+      // REDUNDANT? In the future, we may have to iterate through all the
+      // passed in data to the table and get the key from there (isn't this
+      // just a backwards approach of the same from the `key`?)
+      // @ts-ignore
+      setSelectedRowKeys([...selectedRowKeys, record.key]);
+    }
+  };
+
+  /**
+   * Function when a colour mix parts row's "Deselect" action button is clicked
+   * @param record - Database info of the selected row's colour mix part
+   */
+  const onDeselectEntry = (record: any) => {};
 
   const onCancelThisPopup = (e: any) => {
     // When cancelling, reset any changes made
@@ -123,8 +220,10 @@ SelectColourMixPartsModalProps) {
       <ColourMixPartsTableView
         size="small"
         type={TableType.Select_One}
-        onSelectEntry={() => {}}
+        onSelectEntry={onSelectEntry}
+        onDeselectEntry={onDeselectEntry}
         rowSelection={rowSelection}
+        selectedRowKeys={selectedRowKeys}
       />
     </Modal>
   );
