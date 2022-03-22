@@ -1,7 +1,13 @@
 import React from 'react';
-import { Button, Empty, Row, Typography } from 'antd';
+import { Button, Empty, Col, Row, Typography } from 'antd';
 
 const { Text } = Typography;
+
+const styles = {
+  text: {
+    margin: '0 auto',
+  },
+};
 
 const size = 'small';
 
@@ -21,15 +27,14 @@ function NoGenericAssociationFullCol({
   disabled,
 }: NoGenericAssociationFullColProps) {
   let description = (
-    <span>
-      <Text>No {itemName}</Text>
+    <span style={styles.text}>
+      <Text type="secondary">No {itemName}</Text>
     </span>
   );
 
   if (isChangesMade) {
     description = (
-      <span>
-        {' '}
+      <span style={styles.text}>
         <Text strong mark>
           No {itemName}!**
         </Text>
@@ -37,7 +42,7 @@ function NoGenericAssociationFullCol({
     );
   } else if (isImportant) {
     description = (
-      <span>
+      <span style={styles.text}>
         <Text strong type="danger">
           No {itemName}!
         </Text>
@@ -58,22 +63,30 @@ function NoGenericAssociationFullCol({
     >
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}
-        style={{
-          margin: '16px auto',
+        imageStyle={{
+          height: 32,
         }}
-        description={description}
-      >
-        <Button
-          // @ts-ignore
-          type="secondary"
-          size={size}
-          // @ts-ignore
-          onClick={onClick}
-          disabled={disabled}
-        >
-          Select {itemName}
-        </Button>
-      </Empty>
+        style={{
+          margin: '12px auto',
+        }}
+        description={
+          <Col>
+            <Row>{description}</Row>
+            <Row style={{ marginTop: 8 }}>
+              <Button
+                // @ts-ignore
+                type="secondary"
+                size={size}
+                // @ts-ignore
+                onClick={onClick}
+                disabled={disabled}
+              >
+                Select {itemName}
+              </Button>
+            </Row>
+          </Col>
+        }
+      />
     </Row>
   );
 }

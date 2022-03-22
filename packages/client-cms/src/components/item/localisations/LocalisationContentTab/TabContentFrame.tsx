@@ -192,7 +192,7 @@ function TabContentFrame({
       {/* TITLE - INPUTS */}
       <Row>
         <TextArea
-          rows={6}
+          rows={4}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           autoComplete="new-password"
