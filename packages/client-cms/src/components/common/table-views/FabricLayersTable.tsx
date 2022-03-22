@@ -86,6 +86,7 @@ function FabricLayersTable({
         return colours.map((colour) => {
           let circleColour = '#000';
           const colorName = colour.baseColour;
+          const colorTitle = colour.title;
           const matchingBaseColour = Base_Colours.find(
             ({ name }) => enumToCamelCase(name) === colorName
           );
@@ -119,7 +120,7 @@ function FabricLayersTable({
                   display: 'inline-block',
                 }}
               >
-                {colorName}
+                {colorTitle}
               </div>
             </Row>
           );
