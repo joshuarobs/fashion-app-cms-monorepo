@@ -277,7 +277,7 @@ SelectColourMixPartsModalProps) {
         rowSelection={rowSelection}
         selectedRowKeys={selectedRowKeys}
       />
-      <div style={{ marginLeft: 24, marginBottom: 16 }}>
+      <div style={{ marginLeft: 24, marginBottom: 16, marginTop: -12 }}>
         <TotalPercentRow
           totalPercent={totalPercent}
           totalPercentError={totalPercentError}
