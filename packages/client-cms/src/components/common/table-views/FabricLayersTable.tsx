@@ -99,6 +99,8 @@ function FabricLayersTable({
               style={{
                 // display: "flex"
                 marginLeft: 16,
+                minHeight: 32,
+                alignContent: 'center',
               }}
             >
               <div

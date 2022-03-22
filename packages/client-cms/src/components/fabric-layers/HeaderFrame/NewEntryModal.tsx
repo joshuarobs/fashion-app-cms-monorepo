@@ -21,6 +21,7 @@ import { Get_Colour_Mix_Parts_Multiple_By_Ids } from '../../../queries/colour_mi
 import _ from 'lodash';
 import { ErrorTooltipContent } from '../../common/ErrorTooltipContent';
 import { red } from '@ant-design/colors';
+import { TotalPercentRow } from './TotalPercentRow';
 
 const { Option } = Select;
 const { Text, Title } = Typography;
@@ -281,25 +282,10 @@ function NewEntryModal({
           />
         </Row>
         <Row style={styles.sectionTitle}>
-          {totalPercentError ? (
-            <>
-              <Text strong type="danger">
-                Total Percent: {_.round(totalPercent * 100, 2)}%
-              </Text>
-              <Tooltip title="The total percent must be equal to 100%.">
-                <WarningFilled
-                  style={{
-                    color: red[3],
-                    marginRight: 1,
-                    padding: 4,
-                    paddingRight: 8,
-                  }}
-                />
-              </Tooltip>
-            </>
-          ) : (
-            <Text>Total Percent: {_.round(totalPercent * 100, 2)}%</Text>
-          )}
+          <TotalPercentRow
+            totalPercent={totalPercent}
+            totalPercentError={totalPercentError}
+          />
         </Row>
         <Row style={styles.sectionTitle}>
           <Button

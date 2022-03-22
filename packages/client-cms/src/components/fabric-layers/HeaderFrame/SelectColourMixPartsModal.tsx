@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Row, Col } from 'antd';
 import { ColourMixPartsTableView } from '../../common/table-views/ColourMixPartsTableView';
 import { TableType } from '../../common/table-views/TableType';
 import { Get_All_Colour_Mix_Parts_Ids } from '../../../queries/colour_mix_parts/getAllColourMixPartsIds';
 import { useQuery } from '@apollo/client';
 import _ from 'lodash';
+import { TotalPercentRow } from './TotalPercentRow';
 
 interface SelectColourMixPartsModalProps {
   showModal: boolean;
@@ -47,6 +48,8 @@ SelectColourMixPartsModalProps) {
   );
   const [prevSelectedColourMixPartsIds, setPrevSelectedColourMixPartsIds] =
     useState([]);
+  const [totalPercent, setTotalPercent] = useState(0);
+  const [prevTotalPercent, setPrevTotalPercent] = useState(0);
   const submitButtonDisabled = false;
 
   // When selectedColourMixParts gets updated, update the selected keys
@@ -156,6 +159,7 @@ SelectColourMixPartsModalProps) {
     // @ts-ignore
     setPrevSelectedRowKeys(selectedRowKeys);
     setPrevSelectedColourMixPartsIds(selectedColourMixPartsIds);
+    setPrevTotalPercent(totalPercent);
     setNewColourMixParts(selectedColourMixPartsIds);
     loadColourMixParts();
     onCancel(e);
@@ -169,6 +173,7 @@ SelectColourMixPartsModalProps) {
     // When cancelling, reset any changes made
     setSelectedRowKeys(prevSelectedRowKeys);
     setSelectedColourMixPartsIds(prevSelectedColourMixPartsIds);
+    setTotalPercent(prevTotalPercent);
     onCancel(e);
   };
 
@@ -197,6 +202,8 @@ SelectColourMixPartsModalProps) {
       // just a backwards approach of the same from the `key`?)
       // @ts-ignore
       setSelectedRowKeys([...selectedRowKeys, record.key].sort());
+      // Add to the total percent
+      setTotalPercent(totalPercent + record.percent);
     }
   };
 
@@ -223,8 +230,18 @@ SelectColourMixPartsModalProps) {
       setSelectedRowKeys(
         selectedRowKeys.filter((value) => value !== record.key)
       );
+      // Remove from the total percent
+      setTotalPercent(totalPercent - record.percent);
     }
   };
+
+  // let totalPercent = 0;
+  // // @ts-ignore
+  // actualColourMixPartsData.forEach(({ percent }) => (totalPercent += percent));
+  //
+  const percentIsNot100 = totalPercent !== 1;
+  const totalPercentError =
+    selectedColourMixPartsIds.length > 0 && percentIsNot100;
 
   return (
     <Modal
@@ -260,6 +277,12 @@ SelectColourMixPartsModalProps) {
         rowSelection={rowSelection}
         selectedRowKeys={selectedRowKeys}
       />
+      <div style={{ marginLeft: 24, marginBottom: 16 }}>
+        <TotalPercentRow
+          totalPercent={totalPercent}
+          totalPercentError={totalPercentError}
+        />
+      </div>
     </Modal>
   );
 }
