@@ -10,14 +10,15 @@ import { App_Shell } from '../../../strings';
 import { PlusOutlined, SyncOutlined } from '@ant-design/icons';
 import { NewEntryModal } from './NewEntryModal';
 import { FabricLayerType } from '@joshuarobs/clothing-framework';
-import { ColourMixPartsTableView } from '../../common/table-views/ColourMixPartsTableView';
 import { SelectColourMixPartsModal } from './SelectColourMixPartsModal';
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { Get_Colour_Mix_Parts_Multiple_By_Ids } from '../../../queries/colour_mix_parts/getColourMixPartsMultipleByIds';
+import { Insert_Fabric_Layer_With_Colour_Mix_Parts } from '../../../queries/fabric_layers/insertFabricLayerWithColourMixParts';
+import { Get_Fabric_Layers_List_BB } from '../../../queries/fabric_layers/getFabricLayersListBB';
 
 function HeaderFrame() {
   // States - New Popup Modal
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [newFabricLayerType, setNewFabricLayerType] = useState(
     FabricLayerType.Shell
   );
@@ -29,6 +30,29 @@ function HeaderFrame() {
   const [newPermeability, setNewPermeability] = useState(0);
   const [newColourMixParts, setNewColourMixParts] = useState([]);
   const totalPercentage = 0;
+
+  // Hooks for GraphQL queries
+  const [
+    insertFabricLayerWithColourMixParts,
+    { loading: mutationLoading, error: mutationError },
+  ] = useMutation(Insert_Fabric_Layer_With_Colour_Mix_Parts, {
+    awaitRefetchQueries: true,
+    refetchQueries: [
+      {
+        query: Get_Fabric_Layers_List_BB,
+        variables: {
+          fabricLayerTypes: [
+            FabricLayerType.Shell,
+            FabricLayerType.Fill,
+            FabricLayerType.Interlining,
+            FabricLayerType.Lining,
+          ],
+          limit: 20,
+          offset: 0,
+        },
+      },
+    ],
+  });
 
   // Lazy query for loading the selected colour mix parts
   const [
@@ -42,12 +66,12 @@ function HeaderFrame() {
     variables: { ids: newColourMixParts },
   });
 
-  console.error(
-    'newColourMixParts:',
-    newColourMixParts,
-    '| dataSelectColours:',
-    dataSelectColours
-  );
+  // console.error(
+  //   'newColourMixParts:',
+  //   newColourMixParts,
+  //   '| dataSelectColours:',
+  //   dataSelectColours
+  // );
 
   // States - Select Colour Mix Parts Modal
   const [showSelectColourMixPartsModal, setShowSelectColourMixPartsModal] =
@@ -75,7 +99,23 @@ function HeaderFrame() {
     setShowModal(false);
   };
 
-  const onSubmitModal = async () => {};
+  const onSubmitModal = async () => {
+    console.log('ON SUBMIT');
+    await insertFabricLayerWithColourMixParts({
+      variables: {
+        fabric_layer: {
+          density: newDensity,
+          fabric_layer_type: newFabricLayerType,
+          insulation: newInsulationPoints,
+          permeability: newPermeability,
+          thickness: newThickness,
+          notes: newNotes,
+          // colour_pattern: newColourPattern,
+        },
+        colour_mix_parts_ids: newColourMixParts,
+      },
+    });
+  };
 
   // Functions - Select Colour Mix Parts Modal
   const onClickSelectColourMixPartsModal = () => {
@@ -87,7 +127,7 @@ function HeaderFrame() {
   };
 
   const onSubmitSelectColourMixPartsModal = async () => {};
-  console.error('newColourMixParts!:', newColourMixParts);
+  // console.error('newColourMixParts!:', newColourMixParts);
 
   return (
     <>
@@ -121,7 +161,7 @@ function HeaderFrame() {
         showModal={showSelectColourMixPartsModal}
         onCancel={onCancelSelectColourMixPartsModal}
         // onSubmit={onSubmitSelectColourMixPartsModal}
-        loading={false}
+        loading={mutationLoading}
         newColourMixParts={newColourMixParts}
         setNewColourMixParts={setNewColourMixParts}
         loadColourMixParts={loadColourMixParts}

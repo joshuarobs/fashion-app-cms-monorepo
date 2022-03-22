@@ -111,6 +111,10 @@ const Mutations = gql`
     #--------------------------------------------------
     # fabric_layers
     #--------------------------------------------------
+    insertFabricLayerWithColourMixParts(
+      fabric_layer: fabric_layers_set_input!
+      colour_mix_parts_ids: [Int!]!
+    ): fabric_layers
     #--------------------------------------------------
     # fabric_types
     #--------------------------------------------------

@@ -144,6 +144,7 @@ import { getColoursListBB } from './resolvers/colours/getColoursListBB';
 import { getColourMixPartsListBB } from './resolvers/colour_mix_parts/getColourMixPartsListBB';
 import { getColourMixPartsMultipleByIds } from './resolvers/colour_mix_parts/getColourMixPartsMultipleByIds';
 import { getAllColourMixPartsIds } from './resolvers/colour_mix_parts/getAllColourMixPartsIds';
+import { insertFabricLayerWithColourMixParts } from './resolvers/fabric_layers/insertFabricLayerWithColourMixParts';
 
 const resolvers = {
   //**********************************************************************
@@ -251,6 +252,16 @@ const resolvers = {
     //--------------------------------------------------
     // fabric_layers
     //--------------------------------------------------
+    insertFabricLayerWithColourMixParts: (
+      _,
+      { fabric_layer, colour_mix_parts_ids },
+      context
+    ) =>
+      insertFabricLayerWithColourMixParts(
+        fabric_layer,
+        colour_mix_parts_ids,
+        context
+      ),
     //--------------------------------------------------
     // fabric_types
     //--------------------------------------------------

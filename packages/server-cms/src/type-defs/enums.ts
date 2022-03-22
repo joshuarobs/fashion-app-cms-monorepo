@@ -802,6 +802,7 @@ const Enums = gql`
     fabric_layer_type: fabric_layer_types_enum
     id: Int
     insulation: Float
+    notes: String
     permeability: Int
     thickness: Float
     type: String
