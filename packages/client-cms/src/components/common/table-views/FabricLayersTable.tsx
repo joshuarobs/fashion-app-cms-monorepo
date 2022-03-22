@@ -152,7 +152,7 @@ function FabricLayersTable({
             marginLeft: 16,
           }}
         >
-          {text}
+          {text && text > 0 ? text : ''}
         </span>
       ),
     },
