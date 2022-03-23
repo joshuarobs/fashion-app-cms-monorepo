@@ -4,6 +4,14 @@ import { logger } from '../../logger';
 
 async function getFabricLayerByPk(id: number, context?: any) {
   try {
+    logger.info(
+      `graphql > getFabricLayerByPk() :: args: id: ${id} | context: ${JSON.stringify(
+        context,
+        null,
+        2
+      )}`
+    );
+
     const data = await client.query({
       query: gql`
         query getFabricLayerByPk($id: Int!) {

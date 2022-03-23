@@ -203,6 +203,8 @@ const Common = {
   Deleted_Clothing_Shell: 'Deleted the Clothing Shell!',
   Deleting_Company: 'Deleting new Company...',
   Deleted_Company: 'Deleted new Company!',
+  Deleting_Fabric_Layer: 'Deleting the Fabric Layer...',
+  Deleted_Fabric_Layer: 'Deleted the Fabric Layer!',
   Deleting_Item: 'Deleting new Item...',
   Deleted_Item: 'Deleted new Item!',
   Adding_New_Locale: 'Adding new Locale...',

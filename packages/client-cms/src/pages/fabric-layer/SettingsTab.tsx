@@ -1,16 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Get_All_Clothing_Shell_Maindata_Revisions_For_Clothing_Shell_Id } from '../../queries/clothing_shell_maindata_revisions/getLatestProdClothingShellMaindataRevByClothingShellId';
-import { SettingsTabView } from '../../components/clothing-shell/settings/SettingsTabView';
-import { Delete_Clothing_Shell } from '../../queries/clothing_shells/deleteClothingShell';
-import { Get_Clothing_Shells_For_Clothing_Shells_Table_Latest } from '../../queries/clothing_shells/getClothingShellsForClothingShellsTableLatest';
+import { FabricLayerType } from '@joshuarobs/clothing-framework';
 import { RouteStrings } from '../../routeStrings';
 import { Layout, message, Row, Typography } from 'antd';
 import { Common } from '../../strings';
 import { ConfirmDeleteModal } from '../../components/common/popups/ConfirmDeleteModal';
 import { DangerZonePageIcon } from '../../components/common/icons/page-icons/DangerZonePageIcon';
 import { SettingsEntry } from '../../components/common/settings/SettingsEntry';
+import { Delete_Fabric_Layer_And_Its_Colour_Mix_Parts } from '../../queries/fabric_layers/deleteFabricLayerAndItsColourMixParts';
+import { Get_Fabric_Layers_List_BB } from '../../queries/fabric_layers/getFabricLayersListBB';
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -35,20 +34,28 @@ function FabricLayerSettingsTab({ headerData }: SettingsProps) {
   const [showModalKind, setShowModalKind] = useState(ModalKind.None);
 
   const [
-    deleteClothingShell,
-    { loading: loadingDeleteClothingShell, error: errorDeleteClothingShell },
-  ] = useMutation(Delete_Clothing_Shell, {
+    deleteFabricLayer,
+    { loading: loadingDeleteFabricLayer, error: errorDeleteFabricLayer },
+  ] = useMutation(Delete_Fabric_Layer_And_Its_Colour_Mix_Parts, {
     awaitRefetchQueries: true,
     refetchQueries: [
       {
-        query: Get_Clothing_Shells_For_Clothing_Shells_Table_Latest,
+        query: Get_Fabric_Layers_List_BB,
+        variables: {
+          fabricLayerTypes: [
+            FabricLayerType.Shell,
+            FabricLayerType.Fill,
+            FabricLayerType.Interlining,
+            FabricLayerType.Lining,
+          ],
+          limit: 20,
+          offset: 0,
+        },
       },
     ],
     onCompleted: () => {
-      navigate(RouteStrings.Clothing_Shells);
-      message
-        .success({ content: Common.Deleted_Clothing_Shell, key }, 2)
-        .then();
+      navigate(RouteStrings.Fabric_Layers);
+      message.success({ content: Common.Deleted_Fabric_Layer, key }, 2).then();
     },
   });
 
@@ -57,7 +64,7 @@ function FabricLayerSettingsTab({ headerData }: SettingsProps) {
   };
 
   const onSubmitDelete = async () => {
-    await deleteClothingShell({
+    await deleteFabricLayer({
       variables: {
         id: parseInt(id ?? ''),
       },
@@ -110,7 +117,7 @@ function FabricLayerSettingsTab({ headerData }: SettingsProps) {
           </Title>
         </Row>
         <SettingsEntry
-          title={'Delete this item entry'}
+          title={'Delete this Fabric Layer entry'}
           description={
             <Typography>
               <Paragraph>
@@ -118,19 +125,19 @@ function FabricLayerSettingsTab({ headerData }: SettingsProps) {
                 certain.
               </Paragraph>
               <Paragraph>
-                This action deletes this whole Item data entry including:
+                This action deletes this whole Fabric Layer data entry
+                including:
               </Paragraph>
               <Paragraph>
                 <ul>
-                  <li>Maindata</li>
-                  <li>Translations</li>
+                  <li>Fabric Layer and Colour Mix Part relationships</li>
                   <li>Change History activity</li>
                 </ul>
               </Paragraph>
             </Typography>
           }
           onClick={() => setShowModalKind(ModalKind.Delete_Item)}
-          loading={loadingDeleteClothingShell}
+          loading={loadingDeleteFabricLayer}
         />
       </Content>
     </>

@@ -146,6 +146,7 @@ import { getColourMixPartsMultipleByIds } from './resolvers/colour_mix_parts/get
 import { getAllColourMixPartsIds } from './resolvers/colour_mix_parts/getAllColourMixPartsIds';
 import { insertFabricLayerWithColourMixParts } from './resolvers/fabric_layers/insertFabricLayerWithColourMixParts';
 import { getFabricLayerByPk } from './resolvers/fabric_layers/getFabricLayerByPk';
+import { deleteFabricLayerAndItsColourMixParts } from './resolvers/fabric_layers/deleteFabricLayerAndItsColourMixParts';
 
 const resolvers = {
   //**********************************************************************
@@ -263,6 +264,8 @@ const resolvers = {
         colour_mix_parts_ids,
         context
       ),
+    deleteFabricLayerAndItsColourMixParts: (_, { id }, context) =>
+      deleteFabricLayerAndItsColourMixParts(id, context),
     //--------------------------------------------------
     // fabric_types
     //--------------------------------------------------
