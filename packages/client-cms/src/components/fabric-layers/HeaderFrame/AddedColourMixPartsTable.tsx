@@ -8,11 +8,24 @@ import _ from 'lodash';
 interface FabricLayersTableProps {
   data: any;
   loading: boolean;
+  isPopup?: boolean;
+  isTwoColumns?: boolean;
 }
 
-function AddedColourMixPartsTable({ data, loading }: FabricLayersTableProps) {
+function AddedColourMixPartsTable({
+  data,
+  loading,
+  isPopup,
+  isTwoColumns,
+}: FabricLayersTableProps) {
   console.log('AddedColourMixPartsTable#data:', data);
   // console.log("selectedFabricLayerTypes:", selectedFabricLayerTypes);
+  let minWidth = 0;
+  if (isPopup) {
+    minWidth = 932;
+  } else if (isTwoColumns) {
+    minWidth = 804;
+  }
 
   const columns = [
     {
@@ -161,51 +174,12 @@ function AddedColourMixPartsTable({ data, loading }: FabricLayersTableProps) {
     // },
   ];
 
-  // switch (type) {
-  //   case TableType.All_List:
-  //     // columns.push({
-  //     //   title: "Action",
-  //     //   key: "action",
-  //     //   width: 80,
-  //     //   // Can't be put with expandedRowRender unfortunately
-  //     //   // fixed: 'right',
-  //     //   render: (text, record) => (
-  //     //     <Link to={`${ROUTES.COMPANIES__COMPANY}/${record.id}`}>
-  //     //       <Button shape="circle" icon={<SearchOutlined />} />
-  //     //     </Link>
-  //     //   )
-  //     // });
-  //     break;
-  //   case TableType.Select_One:
-  //     columns.push({
-  //       title: 'Action',
-  //       key: 'action',
-  //       width: 80,
-  //       // Can't be put with expandedRowRender unfortunately
-  //       // fixed: 'right',
-  //       render: (text, record) =>
-  //         record.id === currentFabricLayerId ? (
-  //           <a
-  //             style={{
-  //               cursor: 'default',
-  //               visibility: 'hidden',
-  //             }}
-  //           >
-  //             Test
-  //           </a>
-  //         ) : (
-  //           <a onClick={() => selectFabricLayer(record.id)}>Select</a>
-  //         ),
-  //     });
-  //     break;
-  // }
-
   return (
     <Table
       size="small"
       style={{
         width: '100%',
-        minWidth: 932,
+        minWidth,
         // calc(100vw - 304px)
       }}
       // rowSelection={rowSelection}

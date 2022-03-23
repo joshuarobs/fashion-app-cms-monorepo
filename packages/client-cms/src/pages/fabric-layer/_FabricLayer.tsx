@@ -8,9 +8,7 @@ import { pageStyles } from '../pageStyles';
 import { OverviewTab } from './OverviewTab';
 import { Button, Result } from 'antd';
 import { RouteStrings } from '../../routeStrings';
-import { Get_Revisions_For_Clothing_Shell_BB } from '../../queries/clothing_shell_maindata_revisions/getRevisionsForClothingShellBB';
-import { Get_Clothing_Shell_Base_Data_By_Pk } from '../../queries/clothing_shells/getClothingShellBaseDataByPk';
-import { ClothingShellSettingsTab } from './SettingsTab';
+import { FabricLayerSettingsTab } from './SettingsTab';
 import { Get_Fabric_Layer_By_Pk } from '../../queries/fabric_layers/getFabricLayerByPk';
 
 function FabricLayerPage() {
@@ -78,7 +76,7 @@ function FabricLayerPage() {
           />
           <Route
             path={RouteStrings.Settings}
-            element={<ClothingShellSettingsTab headerData={fabricLayerData} />}
+            element={<FabricLayerSettingsTab headerData={fabricLayerData} />}
           />
         </Routes>
       </div>

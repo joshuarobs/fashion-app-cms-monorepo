@@ -62,7 +62,7 @@ const styles = {
     verticalAlign: 'middle',
   },
   sectionTitle: {
-    marginTop: 12,
+    marginTop: 8,
     marginBottom: 8,
   },
   occasionsTitle: {
@@ -329,6 +329,7 @@ function DetailsFrame({ data }: DetailsFrameProps) {
               <FrameTitleLevel2
                 text={Fabric_Layer_Details_Frame.General_Information}
                 noMargin
+                typeIsSecondary
               />
             </Col>
           </Row>
@@ -397,6 +398,7 @@ function DetailsFrame({ data }: DetailsFrameProps) {
             <FrameTitleLevel2
               text={Fabric_Layer_Details_Frame.Thermal_Attributes}
               noMargin
+              typeIsSecondary
             />
           </Row>
           <Row style={styles.sectionTitle} gutter={gutter}>
@@ -479,12 +481,14 @@ function DetailsFrame({ data }: DetailsFrameProps) {
             <FrameTitleLevel2
               text={Fabric_Layer_Details_Frame.Colour_Mix_Parts}
               noMargin
+              typeIsSecondary
             />
           </Row>
-          <Row>
+          <Row style={styles.sectionTitle}>
             <AddedColourMixPartsTable
               data={colour_mix_parts}
               loading={loadingColourMixParts}
+              isTwoColumns
             />
           </Row>
           <Row style={styles.sectionTitle}>

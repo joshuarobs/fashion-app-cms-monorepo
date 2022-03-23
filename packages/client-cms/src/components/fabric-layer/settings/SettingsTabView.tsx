@@ -1,22 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Get_All_Clothing_Shell_Maindata_Revisions_For_Clothing_Shell_Id } from '../../queries/clothing_shell_maindata_revisions/getLatestProdClothingShellMaindataRevByClothingShellId';
-import { SettingsTabView } from '../../components/clothing-shell/settings/SettingsTabView';
-import { Delete_Clothing_Shell } from '../../queries/clothing_shells/deleteClothingShell';
-import { Get_Clothing_Shells_For_Clothing_Shells_Table_Latest } from '../../queries/clothing_shells/getClothingShellsForClothingShellsTableLatest';
-import { RouteStrings } from '../../routeStrings';
 import { Layout, message, Row, Typography } from 'antd';
-import { Common } from '../../strings';
-import { ConfirmDeleteModal } from '../../components/common/popups/ConfirmDeleteModal';
-import { DangerZonePageIcon } from '../../components/common/icons/page-icons/DangerZonePageIcon';
-import { SettingsEntry } from '../../components/common/settings/SettingsEntry';
+import { Common } from '../../../strings';
+import { DangerZonePageIcon } from '../../common/icons/page-icons/DangerZonePageIcon';
+import { ConfirmDeleteModal } from '../../common/popups/ConfirmDeleteModal';
+import { useMutation } from '@apollo/client';
+import { RouteStrings } from '../../../routeStrings';
+import { SettingsEntry } from '../../common/settings/SettingsEntry';
+import { Get_Clothing_Shells_For_Clothing_Shells_Table_Latest } from '../../../queries/clothing_shells/getClothingShellsForClothingShellsTableLatest';
+import { Delete_Clothing_Shell } from '../../../queries/clothing_shells/deleteClothingShell';
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
 
-interface SettingsProps {
+interface SettingsTabProps {
   headerData: any;
+  dataProdClothingShellMaindataRev: any;
 }
 
 enum ModalKind {
@@ -26,9 +25,31 @@ enum ModalKind {
 
 const key = 'clothing-shell-tab-settings';
 
-function FabricLayerSettingsTab({ headerData }: SettingsProps) {
+function SettingsTabView({
+  headerData,
+  dataProdClothingShellMaindataRev,
+}: SettingsTabProps) {
+  console.log('headerData:', headerData);
   // @ts-ignore
   const { id } = useParams();
+  const clothingShellId = id;
+
+  // console.log("SETTINGS TAB > item:", item);
+  console.log(
+    'SETTINGS TAB > dataProdClothingShellMaindataRev:',
+    dataProdClothingShellMaindataRev
+  );
+
+  const { clothing_shell_maindata_revisions } = headerData;
+  const hasMaindataRevision = clothing_shell_maindata_revisions.length > 0;
+  const hasMaindata =
+    hasMaindataRevision &&
+    clothing_shell_maindata_revisions[0].clothing_shell_maindata.length > 0;
+
+  const clothingShellName =
+    hasMaindataRevision && hasMaindata
+      ? clothing_shell_maindata_revisions[0].clothing_shell_maindata[0].name
+      : 'null';
 
   const navigate = useNavigate();
 
@@ -59,7 +80,7 @@ function FabricLayerSettingsTab({ headerData }: SettingsProps) {
   const onSubmitDelete = async () => {
     await deleteClothingShell({
       variables: {
-        id: parseInt(id ?? ''),
+        id: parseInt(clothingShellId ?? ''),
       },
     });
   };
@@ -76,17 +97,17 @@ function FabricLayerSettingsTab({ headerData }: SettingsProps) {
   return (
     <>
       <ConfirmDeleteModal
-        title={`Delete Fabric Layer - id: ${id}`}
-        targetText={id ? id.toString() : ''}
+        title={`Delete Item - ${clothingShellName}`}
+        targetText={clothingShellName}
         messages={[
           {
-            message: Common.State_Related.Warning_Delete_Fabric_Layer,
+            message: Common.State_Related.Warning_Delete_Localisation_Revision,
             type: 'warning',
           },
           {
             message:
               Common.State_Related.Warning_Delete_Confirmation_Part_1 +
-              id +
+              clothingShellName +
               Common.State_Related.Warning_Delete_Confirmation_Part_2,
             type: 'warning',
           },
@@ -137,4 +158,4 @@ function FabricLayerSettingsTab({ headerData }: SettingsProps) {
   );
 }
 
-export { FabricLayerSettingsTab };
+export { SettingsTabView };

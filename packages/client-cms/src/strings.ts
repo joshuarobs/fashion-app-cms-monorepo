@@ -261,6 +261,8 @@ const Common = {
       'Are you sure you want to delete this Localisation Revision?',
     Warning_Retire_Maindata_Revision:
       'Are you sure you want to retire This Maindata Revision?',
+    Warning_Delete_Fabric_Layer:
+      'Are you sure you want to delete this Fabric Layer?',
     Warning_Delete_Confirmation_Part_1: 'Enter "',
     Warning_Delete_Confirmation_Part_2: '" below to confirm:',
     Deleting_Revision: 'Deleting Revision...',

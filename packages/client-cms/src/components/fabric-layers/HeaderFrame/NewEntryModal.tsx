@@ -280,6 +280,7 @@ function NewEntryModal({
           <AddedColourMixPartsTable
             data={actualColourMixPartsData}
             loading={loadingSelectColours}
+            isPopup
           />
         </Row>
         <Row style={styles.sectionTitle}>

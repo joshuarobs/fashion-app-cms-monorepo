@@ -9,6 +9,7 @@ interface FrameTitleLevel2Props {
   count?: number;
   span?: number;
   noMargin?: boolean;
+  typeIsSecondary?: boolean;
 }
 
 function FrameTitleLevel2({
@@ -16,6 +17,7 @@ function FrameTitleLevel2({
   count,
   span = 16,
   noMargin,
+  typeIsSecondary,
 }: FrameTitleLevel2Props) {
   // console.log("count:", count);
   const titleStyle = {};
@@ -30,9 +32,15 @@ function FrameTitleLevel2({
         display: 'inline-flex',
       }}
     >
-      <Title style={titleStyle} level={5}>
-        {text}
-      </Title>
+      {typeIsSecondary ? (
+        <Title style={titleStyle} level={5} type="secondary">
+          {text}
+        </Title>
+      ) : (
+        <Title style={titleStyle} level={5}>
+          {text}
+        </Title>
+      )}
       {count && count > 0 && (
         <HeaderTabLinkCountBadge count={count} adjustY={4} />
       )}
