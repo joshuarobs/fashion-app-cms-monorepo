@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { ExperimentOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import {
   Avatar,
   Alert,
@@ -25,7 +25,7 @@ import {
   Tooltip,
   Divider,
 } from 'antd';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, gql, useLazyQuery, useQuery } from '@apollo/client';
 import { UnsavedChangesCard } from '../../../common/UnsavedChangesCard';
 import { Common, Fabric_Layer_Details_Frame } from '../../../../strings';
 import { FrameTitle } from '../../../common/typography/FrameTitle';
@@ -36,6 +36,10 @@ import { companies } from '../../../../utils/gql-interfaces/companies';
 import { FabricLayerType } from '@joshuarobs/clothing-framework';
 import { fabric_layers } from '../../../../utils/gql-interfaces/fabric_layers';
 import { FrameTitleLevel2 } from '../../../common/typography/FrameTitleLevel2';
+import { TotalPercentRow } from '../../../fabric-layers/HeaderFrame/TotalPercentRow';
+import { SelectColourMixPartsModal } from '../../../fabric-layers/HeaderFrame/SelectColourMixPartsModal';
+import { AddedColourMixPartsTable } from '../../../fabric-layers/HeaderFrame/AddedColourMixPartsTable';
+import { Get_Colour_Mix_Parts_Multiple_By_Ids } from '../../../../queries/colour_mix_parts/getColourMixPartsMultipleByIds';
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const { Text } = Typography;
@@ -91,7 +95,54 @@ function DetailsFrame({ data }: DetailsFrameProps) {
   const [insulation, setInsulation] = useState<number | null>(0);
   const [density, setDensity] = useState<number | null>(0);
   const [permeability, setPermeability] = useState<number | null>(0);
-  const [colour_mix_parts, setColourMixParts] = useState([]);
+  const [colour_mix_parts, setColourMixParts] = useState<any[]>([]);
+  const [colourMixPartsIds, setColourMixPartsIds] = useState<number[]>([]);
+
+  const [showSelectColourMixPartsModal, setShowSelectColourMixPartsModal] =
+    useState(false);
+
+  console.error('data77:', data);
+
+  // Lazy query for loading the selected colour mix parts
+  const [
+    loadColourMixParts,
+    {
+      called: calledColourMixParts,
+      loading: loadingColourMixParts,
+      data: dataColourMixParts,
+    },
+  ] = useLazyQuery(Get_Colour_Mix_Parts_Multiple_By_Ids, {
+    variables: { ids: colourMixPartsIds },
+    onCompleted: (data) => {
+      console.log('onCompleted:', data.getColourMixPartsMultipleByIds);
+      const colourMixParts: any[] = [];
+      data.getColourMixPartsMultipleByIds.forEach(
+        // @ts-ignore
+        (item) => colourMixParts.push(item)
+      );
+      setColourMixParts(colourMixParts);
+    },
+  });
+
+  console.log('dataColourMixParts:', dataColourMixParts);
+
+  useEffect(() => {
+    setFabricLayerType(data.fabric_layer_type);
+    setNotes(data.notes);
+    setThickness(data.thickness);
+    setInsulation(data.insulation);
+    setDensity(data.density);
+    setPermeability(data.permeability);
+    // setColourMixParts(data.fabric_layer_and_colour_mix_parts);
+    const colourMixPartsIds: any[] = [];
+    data.fabric_layer_and_colour_mix_parts.forEach(
+      // @ts-ignore
+      ({ colour_mix_part_id }) => colourMixPartsIds.push(colour_mix_part_id)
+    );
+    // setColourMixParts(colourMixParts);
+    setColourMixPartsIds(colourMixPartsIds);
+    loadColourMixParts().then();
+  }, [data]);
 
   // Hooks for GraphQL queries
   const [updateCompany, { loading: mutationLoading, error: mutationError }] =
@@ -99,6 +150,17 @@ function DetailsFrame({ data }: DetailsFrameProps) {
       onCompleted() {},
       refetchQueries: [],
     });
+
+  // Lazy query for loading the selected colour mix parts
+  // const {
+  //   loading: loadingColourMixParts,
+  //   error: errorColourMixParts,
+  //   data: dataColourMixParts,
+  // } = useQuery(Get_Colour_Mix_Parts_Multiple_By_Ids, {
+  //   variables: { ids: colourMixPartsIds },
+  // });
+  //
+  // if (loadingColourMixParts) return <div />;
 
   const hasChanged = {
     fabric_layer_type: fabric_layer_type !== data.fabric_layer_type,
@@ -128,6 +190,7 @@ function DetailsFrame({ data }: DetailsFrameProps) {
 
   const discardChanges = () => {
     // setColourPattern(data.colour_pattern);
+    setFabricLayerType(data.fabric_layer_type);
     setNotes(data.notes);
     setThickness(data.thickness);
     setInsulation(data.insulation);
@@ -207,8 +270,39 @@ function DetailsFrame({ data }: DetailsFrameProps) {
     // }
   };
 
+  // Functions - Select Colour Mix Parts Modal
+  const onClickSelectColourMixPartsModal = () => {
+    setShowSelectColourMixPartsModal(true);
+  };
+
+  const onCancelSelectColourMixPartsModal = () => {
+    setShowSelectColourMixPartsModal(false);
+  };
+
+  let totalPercent = 0;
+  data.fabric_layer_and_colour_mix_parts.forEach(
+    // @ts-ignore
+    ({ colour_mix_part }) => (totalPercent += colour_mix_part.percent)
+  );
+
+  const percentIsNot100 = totalPercent !== 1;
+  const totalPercentError =
+    data.fabric_layer_and_colour_mix_parts.length > 0 && percentIsNot100;
+
   return (
     <>
+      <SelectColourMixPartsModal
+        showModal={showSelectColourMixPartsModal}
+        onCancel={onCancelSelectColourMixPartsModal}
+        // onSubmit={onSubmitSelectColourMixPartsModal}
+        loading={mutationLoading}
+        // newColourMixParts={colour_mix_parts}
+        setNewColourMixParts={setColourMixParts}
+        loadColourMixParts={() => {}}
+        // loadColourMixParts={loadColourMixParts}
+        // rowSelection={rowSelection}
+        // onSelectColourMixPartsModal={}
+      />
       <UnsavedChangesCard
         numberOfChanges={numberOfChanges}
         discardChanges={discardChanges}
@@ -244,6 +338,7 @@ function DetailsFrame({ data }: DetailsFrameProps) {
                 text={Fabric_Layer_Details_Frame.Fabric_Layer_Type}
                 hasChanged={hasChanged.fabric_layer_type}
                 span={6}
+                noColumn
               />
             </Col>
             <Col span={6}>
@@ -251,6 +346,7 @@ function DetailsFrame({ data }: DetailsFrameProps) {
                 text={Fabric_Layer_Details_Frame.Colour_Pattern}
                 // hasChanged={hasChanged.fabric_layer_type}
                 span={6}
+                noColumn
               />
             </Col>
             <Col span={12}>
@@ -258,13 +354,14 @@ function DetailsFrame({ data }: DetailsFrameProps) {
                 text={Fabric_Layer_Details_Frame.Notes}
                 hasChanged={hasChanged.notes}
                 span={6}
+                noColumn
               />
             </Col>
           </Row>
           <Row gutter={gutter}>
             <Col span={6}>
               <Select
-                defaultValue={FabricLayerType.Shell}
+                value={fabric_layer_type}
                 style={{ width: '100%' }}
                 // @ts-ignore
                 onChange={(value) => setFabricLayerType(value)}
@@ -294,20 +391,21 @@ function DetailsFrame({ data }: DetailsFrameProps) {
           </Row>
           <Divider />
           {/* ============================== */}
-          {/* COLOUR PATTERN */}
+          {/* THERMAL ATTRIBUTES */}
           {/* ============================== */}
-          <Col span={16}>
+          <Row>
             <FrameTitleLevel2
               text={Fabric_Layer_Details_Frame.Thermal_Attributes}
               noMargin
             />
-          </Col>
+          </Row>
           <Row style={styles.sectionTitle} gutter={gutter}>
             <Col span={6}>
               <FrameInputLabel
                 text={Fabric_Layer_Details_Frame.Thickness}
                 hasChanged={hasChanged.thickness}
                 span={6}
+                noColumn
               />
             </Col>
             <Col span={6}>
@@ -315,6 +413,7 @@ function DetailsFrame({ data }: DetailsFrameProps) {
                 text={Fabric_Layer_Details_Frame.Insulation_Points}
                 hasChanged={hasChanged.insulation}
                 span={6}
+                noColumn
               />
             </Col>
             <Col span={6}>
@@ -322,6 +421,7 @@ function DetailsFrame({ data }: DetailsFrameProps) {
                 text={Fabric_Layer_Details_Frame.Density}
                 hasChanged={hasChanged.density}
                 span={6}
+                noColumn
               />
             </Col>
             <Col span={6}>
@@ -329,6 +429,7 @@ function DetailsFrame({ data }: DetailsFrameProps) {
                 text={Fabric_Layer_Details_Frame.Permeability}
                 hasChanged={hasChanged.permeability}
                 span={6}
+                noColumn
               />
             </Col>
           </Row>
@@ -338,6 +439,7 @@ function DetailsFrame({ data }: DetailsFrameProps) {
                 style={{ width: '100%' }}
                 value={thickness ? thickness : undefined}
                 onChange={(value) => setThickness(value)}
+                min={0}
                 // onPressEnter={onPressEnterName}
               />
             </Col>
@@ -346,6 +448,7 @@ function DetailsFrame({ data }: DetailsFrameProps) {
                 style={{ width: '100%' }}
                 value={insulation ? insulation : undefined}
                 onChange={(value) => setInsulation(value)}
+                min={0}
                 // onPressEnter={onPressEnterName}
               />
             </Col>
@@ -354,6 +457,7 @@ function DetailsFrame({ data }: DetailsFrameProps) {
                 style={{ width: '100%' }}
                 value={density ? density : undefined}
                 onChange={(value) => setDensity(value)}
+                min={0}
                 // onPressEnter={onPressEnterName}
               />
             </Col>
@@ -362,103 +466,42 @@ function DetailsFrame({ data }: DetailsFrameProps) {
                 style={{ width: '100%' }}
                 value={permeability ? permeability : undefined}
                 onChange={(value) => setPermeability(value)}
+                min={0}
                 // onPressEnter={onPressEnterName}
               />
             </Col>
           </Row>
           <Divider />
           {/* ============================== */}
-          {/* IS RESELLER? + IS AFFILIATE? */}
+          {/* COLOUR MIX PARTS */}
           {/* ============================== */}
-          {/*<Row gutter={16} style={styles.sectionTitle}>*/}
-          {/*  <FrameInputLabel*/}
-          {/*    text={Fabric_Layer_Details_Frame.Is_Affiliate}*/}
-          {/*    hasChanged={hasChanged.is_affiliate}*/}
-          {/*    span={12}*/}
-          {/*  />*/}
-          {/*  <FrameInputLabel*/}
-          {/*    text={Fabric_Layer_Details_Frame.Is_Reseller}*/}
-          {/*    hasChanged={hasChanged.is_reseller}*/}
-          {/*    span={12}*/}
-          {/*  />*/}
-          {/*</Row>*/}
-          {/*<Row gutter={16}>*/}
-          {/*  <Col span={12}>*/}
-          {/*    <Radio.Group*/}
-          {/*      onChange={(e) => setIsAffiliate(e.target.value)}*/}
-          {/*      value={is_affiliate}*/}
-          {/*    >*/}
-          {/*      <Radio value={true}>True</Radio>*/}
-          {/*      <Radio value={false}>False</Radio>*/}
-          {/*    </Radio.Group>*/}
-          {/*  </Col>*/}
-          {/*  <Col span={12}>*/}
-          {/*    <Radio.Group*/}
-          {/*      onChange={(e) => setIsReseller(e.target.value)}*/}
-          {/*      value={is_reseller}*/}
-          {/*    >*/}
-          {/*      <Radio value={true}>True</Radio>*/}
-          {/*      <Radio value={false}>False</Radio>*/}
-          {/*    </Radio.Group>*/}
-          {/*  </Col>*/}
-          {/*</Row>*/}
-          {/* ============================== */}
-          {/* AFFILIATE START DATE */}
-          {/* ============================== */}
-          {/*<Row gutter={16} style={styles.sectionTitle}>*/}
-          {/*  <FrameInputLabel*/}
-          {/*    text={Fabric_Layer_Details_Frame.Affiliate_Start_Date}*/}
-          {/*    hasChanged={hasChanged.affiliate_start_date}*/}
-          {/*    span={12}*/}
-          {/*  />*/}
-          {/*</Row>*/}
-          {/*<Row gutter={16}>*/}
-          {/*  <Col span={12}>*/}
-          {/*    <DatePicker style={{ width: '100%' }} />*/}
-          {/*  </Col>*/}
-          {/*</Row>*/}
-          {/* ============================== */}
-          {/* LOGO URL */}
-          {/* ============================== */}
-          {/*<Row style={styles.sectionTitle}>*/}
-          {/*  <FrameInputLabel*/}
-          {/*    text={Fabric_Layer_Details_Frame.Logo_Url}*/}
-          {/*    hasChanged={hasChanged.logo_url}*/}
-          {/*  />*/}
-          {/*</Row>*/}
-          {/*<Row>*/}
-          {/*  <Input*/}
-          {/*    // @ts-ignore*/}
-          {/*    value={logo_url}*/}
-          {/*    onChange={(e) => setLogoUrl(e.target.value)}*/}
-          {/*  />*/}
-          {/*</Row>*/}
-          {/* ============================== */}
-          {/* FOUNDING DATE + COUNTRY FOUNDED */}
-          {/* ============================== */}
-          {/*<Row gutter={16} style={styles.sectionTitle}>*/}
-          {/*  <FrameInputLabel*/}
-          {/*    text={Fabric_Layer_Details_Frame.Founding_Date}*/}
-          {/*    hasChanged={false}*/}
-          {/*    span={12}*/}
-          {/*  />*/}
-          {/*  <FrameInputLabel*/}
-          {/*    text={Fabric_Layer_Details_Frame.Country_Founded}*/}
-          {/*    hasChanged={hasChanged.founded_in_id}*/}
-          {/*    span={12}*/}
-          {/*  />*/}
-          {/*</Row>*/}
-          {/*<Row gutter={16}>*/}
-          {/*  <Col span={12}>*/}
-          {/*    <DatePicker style={{ width: '100%' }} />*/}
-          {/*  </Col>*/}
-          {/*  <Col span={12}>*/}
-          {/*    <SelectCountryOfBrandOrigin*/}
-          {/*      founded_in_id={founded_in_id}*/}
-          {/*      setFoundedInId={setFoundedInId}*/}
-          {/*    />*/}
-          {/*  </Col>*/}
-          {/*</Row>*/}
+          <Row>
+            <FrameTitleLevel2
+              text={Fabric_Layer_Details_Frame.Colour_Mix_Parts}
+              noMargin
+            />
+          </Row>
+          <Row>
+            <AddedColourMixPartsTable
+              data={colour_mix_parts}
+              loading={loadingColourMixParts}
+            />
+          </Row>
+          <Row style={styles.sectionTitle}>
+            <TotalPercentRow
+              totalPercent={totalPercent}
+              totalPercentError={totalPercentError}
+            />
+          </Row>
+          <Row style={styles.sectionTitle}>
+            <Button
+              style={{ width: '100%' }}
+              icon={<ExperimentOutlined />}
+              onClick={onClickSelectColourMixPartsModal}
+            >
+              {Fabric_Layer_Details_Frame.Select_Colour_Mix_Parts}
+            </Button>
+          </Row>
         </div>
       </Content>
     </>

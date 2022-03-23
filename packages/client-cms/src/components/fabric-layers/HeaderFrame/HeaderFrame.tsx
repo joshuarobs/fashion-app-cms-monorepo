@@ -162,7 +162,7 @@ function HeaderFrame() {
         onCancel={onCancelSelectColourMixPartsModal}
         // onSubmit={onSubmitSelectColourMixPartsModal}
         loading={mutationLoading}
-        newColourMixParts={newColourMixParts}
+        // newColourMixParts={newColourMixParts}
         setNewColourMixParts={setNewColourMixParts}
         loadColourMixParts={loadColourMixParts}
         // rowSelection={rowSelection}

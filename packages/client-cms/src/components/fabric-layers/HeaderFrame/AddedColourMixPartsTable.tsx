@@ -11,6 +11,7 @@ interface FabricLayersTableProps {
 }
 
 function AddedColourMixPartsTable({ data, loading }: FabricLayersTableProps) {
+  console.log('AddedColourMixPartsTable#data:', data);
   // console.log("selectedFabricLayerTypes:", selectedFabricLayerTypes);
 
   const columns = [
@@ -130,21 +131,6 @@ function AddedColourMixPartsTable({ data, loading }: FabricLayersTableProps) {
       dataIndex: 'companies',
       key: 'companies',
       width: 80,
-      render: (text: any) => (
-        <span
-          style={{
-            marginLeft: 16,
-          }}
-        >
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: 'Actions',
-      dataIndex: 'actions',
-      key: 'actions',
-      width: 100,
       render: (text: any) => (
         <span
           style={{

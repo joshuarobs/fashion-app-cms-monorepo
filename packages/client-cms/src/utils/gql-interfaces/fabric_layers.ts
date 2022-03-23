@@ -2,11 +2,13 @@
  * http://localhost:9696/console/data/schema/public/tables/collections/modify
  */
 
+import { FabricLayerType } from '@joshuarobs/clothing-framework';
+
 interface fabric_layers {
   id: number;
   thickness: number | null;
   type: string | null;
-  fabric_layer_type: string | null;
+  fabric_layer_type: FabricLayerType;
   insulation: number | null;
   density: number | null;
   permeability: number | null;

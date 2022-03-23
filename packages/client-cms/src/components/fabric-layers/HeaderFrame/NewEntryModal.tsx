@@ -22,6 +22,7 @@ import _ from 'lodash';
 import { ErrorTooltipContent } from '../../common/ErrorTooltipContent';
 import { red } from '@ant-design/colors';
 import { TotalPercentRow } from './TotalPercentRow';
+import { Fabric_Layer_Details_Frame } from '../../../strings';
 
 const { Option } = Select;
 const { Text, Title } = Typography;
@@ -293,7 +294,7 @@ function NewEntryModal({
             icon={<ExperimentOutlined />}
             onClick={onClickSelectColourMixPartsModal}
           >
-            Add Colour Mix Part
+            {Fabric_Layer_Details_Frame.Select_Colour_Mix_Parts}
           </Button>
         </Row>
       </div>

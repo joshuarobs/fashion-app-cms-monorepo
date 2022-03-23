@@ -351,6 +351,7 @@ const typeDefs = gql`
     insulation: Int
     density: Int
     permeability: Int
+    notes: String
     created_at: String
     updated_at: String
     # Relationships

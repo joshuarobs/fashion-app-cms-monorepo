@@ -14,7 +14,7 @@ interface SelectColourMixPartsModalProps {
   loading: boolean;
   // rowSelection: any;
   // submitButtonDisabled: boolean;
-  newColourMixParts: number[];
+  // newColourMixParts: number[];
   setNewColourMixParts: Function;
   loadColourMixParts: Function;
 }
@@ -24,7 +24,7 @@ function SelectColourMixPartsModal({
   onCancel,
   // onSubmit,
   loading,
-  newColourMixParts,
+  // newColourMixParts,
   setNewColourMixParts,
   loadColourMixParts,
 }: // rowSelection,

@@ -294,7 +294,8 @@ const Fabric_Layer_Details_Frame = {
   Insulation_Points: 'Insulation Points',
   Density: 'Density (?)',
   Permeability: 'Permeability',
-  Add_Colour_Mix_Part: 'Add Colour Mix Part',
+  Colour_Mix_Parts: 'Colour Mix Parts',
+  Select_Colour_Mix_Parts: 'Select Colour Mix Parts',
 };
 
 const Item_Details_Frame = {
