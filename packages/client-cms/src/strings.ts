@@ -284,6 +284,19 @@ const Edit_Related = {
   Asterisks_2: '**',
 };
 
+const Fabric_Layer_Details_Frame = {
+  General_Information: 'General Information',
+  Fabric_Layer_Type: 'Fabric Layer Type',
+  Colour_Pattern: 'Colour Pattern',
+  Notes: 'Notes',
+  Thermal_Attributes: 'Thermal Attributes',
+  Thickness: 'Thickness (mm)',
+  Insulation_Points: 'Insulation Points',
+  Density: 'Density (?)',
+  Permeability: 'Permeability',
+  Add_Colour_Mix_Part: 'Add Colour Mix Part',
+};
+
 const Item_Details_Frame = {
   General_Details: 'General Details',
   Brand: 'Brand',
@@ -527,6 +540,7 @@ const Clothing_Segment_Bounds = {
 export {
   App_Shell,
   Items,
+  Fabric_Layer_Details_Frame,
   Framework_Items,
   Popup_New_Entry,
   Generic,

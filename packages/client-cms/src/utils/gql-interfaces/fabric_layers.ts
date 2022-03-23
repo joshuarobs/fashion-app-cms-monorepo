@@ -12,6 +12,7 @@ interface fabric_layers {
   permeability: number | null;
   created_at: any;
   updated_at: any;
+  notes: string;
   // Object relationships
   // Array relationships
   fabric_layer_and_colour_mix_parts: any;

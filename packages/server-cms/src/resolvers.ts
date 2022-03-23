@@ -145,6 +145,7 @@ import { getColourMixPartsListBB } from './resolvers/colour_mix_parts/getColourM
 import { getColourMixPartsMultipleByIds } from './resolvers/colour_mix_parts/getColourMixPartsMultipleByIds';
 import { getAllColourMixPartsIds } from './resolvers/colour_mix_parts/getAllColourMixPartsIds';
 import { insertFabricLayerWithColourMixParts } from './resolvers/fabric_layers/insertFabricLayerWithColourMixParts';
+import { getFabricLayerByPk } from './resolvers/fabric_layers/getFabricLayerByPk';
 
 const resolvers = {
   //**********************************************************************
@@ -528,6 +529,7 @@ const resolvers = {
     //--------------------------------------------------
     getFabricLayersListBB: (_, { limit, offset, fabricLayerTypes }) =>
       getFabricLayersListBB(limit, offset, fabricLayerTypes),
+    getFabricLayerByPk: (_, { id }, context) => getFabricLayerByPk(id, context),
     //--------------------------------------------------
     // fabric_types
     //--------------------------------------------------

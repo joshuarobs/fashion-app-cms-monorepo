@@ -17,6 +17,7 @@ enum RouteStrings {
   Colour_Mix_Parts = '/colour-mix-parts',
   Materials = '/materials',
   Fabric_Layers = '/fabric-layers',
+  Fabric_Layers__Fabric_Layer = '/fabric-layers/fabric-layer',
   Body_Segments = '/body-segments',
   Templates = '/templates',
   Settings = '/settings',

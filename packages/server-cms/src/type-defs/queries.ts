@@ -126,6 +126,7 @@ const Queries = gql`
       offset: Int
       fabricLayerTypes: [fabric_layer_types_enum!]
     ): [fabric_layers]
+    getFabricLayerByPk(id: Int): fabric_layers
     #--------------------------------------------------
     # fabric_types
     #--------------------------------------------------

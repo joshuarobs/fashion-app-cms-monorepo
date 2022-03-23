@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Table, Row } from 'antd';
+import { Table, Row, Button } from 'antd';
 import { generateOverviewTreeFabricLayerData } from '../../../utils/generateOverviewTreeFabricLayerData';
 import { Base_Colours } from '../../../utils/baseColours';
 import { enumToCamelCase } from '../../../utils/enumToCamelCase';
 import { TableType } from './TableType';
+import { Link } from 'react-router-dom';
+import { SearchOutlined } from '@ant-design/icons';
+import { RouteStrings } from '../../../routeStrings';
 
 interface FabricLayersTableProps {
   data: any;
@@ -218,18 +221,21 @@ function FabricLayersTable({
 
   switch (type) {
     case TableType.All_List:
-      // columns.push({
-      //   title: "Action",
-      //   key: "action",
-      //   width: 80,
-      //   // Can't be put with expandedRowRender unfortunately
-      //   // fixed: 'right',
-      //   render: (text, record) => (
-      //     <Link to={`${ROUTES.COMPANIES__COMPANY}/${record.id}`}>
-      //       <Button shape="circle" icon={<SearchOutlined />} />
-      //     </Link>
-      //   )
-      // });
+      columns.push({
+        title: 'Action',
+        key: 'action',
+        width: 80,
+        // Can't be put with expandedRowRender unfortunately
+        // fixed: 'right',
+        render: (text, record) => (
+          <Link
+            to={`${RouteStrings.Fabric_Layers__Fabric_Layer}/${record.id}`}
+            style={{ padding: 0 }}
+          >
+            <Button type="link">View Colour</Button>
+          </Link>
+        ),
+      });
       break;
     case TableType.Select_One:
       columns.push({
