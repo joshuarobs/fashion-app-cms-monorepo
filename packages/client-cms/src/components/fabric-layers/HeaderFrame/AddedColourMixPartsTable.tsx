@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Table, Row } from 'antd';
-import { generateOverviewTreeFabricLayerData } from '../../../utils/generateOverviewTreeFabricLayerData';
-import { Base_Colours } from '../../../utils/baseColours';
-import { enumToCamelCase } from '../../../utils/enumToCamelCase';
 import _ from 'lodash';
+// @ts-ignore
+import Values from 'values.js';
 
 interface FabricLayersTableProps {
   data: any;
@@ -65,11 +64,21 @@ function AddedColourMixPartsTable({
       render: (text: any, record: any) => {
         // console.log('record:', record);
 
+        // Get the brightness of the colour
+        const color = new Values(record.colour.colour_code);
+        const brightness = color.getBrightness();
+
+        // Should we draw a border or not, if the colour doesn't have enough
+        // contrast with the background? (e.g. yellows, whites)
+        const notEnoughContrast = brightness > 65;
+
         return (
           <Row
             style={{
               // display: "flex"
               marginLeft: 16,
+              minHeight: 32,
+              alignContent: 'center',
             }}
           >
             <div
@@ -77,6 +86,7 @@ function AddedColourMixPartsTable({
                 display: 'inline-block',
                 backgroundColor: record.colour.colour_code,
                 borderRadius: '50%',
+                border: notEnoughContrast ? '0.5px solid #d4d4d4' : '',
                 width: 14,
                 height: 14,
                 margin: 4,

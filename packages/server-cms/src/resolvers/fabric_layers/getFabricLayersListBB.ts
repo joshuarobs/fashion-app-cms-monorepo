@@ -41,6 +41,7 @@ async function getFabricLayersListBB(
                 colour {
                   id
                   name
+                  colour_code
                 }
               }
             }

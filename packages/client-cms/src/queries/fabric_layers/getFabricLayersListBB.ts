@@ -26,6 +26,7 @@ const Get_Fabric_Layers_List_BB = gql`
           colour {
             id
             name
+            colour_code
           }
         }
       }

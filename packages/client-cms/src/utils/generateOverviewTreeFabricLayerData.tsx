@@ -120,6 +120,8 @@ function generateOverviewTreeFabricLayerData(
         const percent =
           totalPercent === 1 ? colour_mix_part.percent * 100 : overridePercent;
 
+        console.error('colour_mix_part.colour:', colour_mix_part.colour);
+
         // Display the percent alongside the colour name IF its not 100%
         const colorMixPart = {
           title:
@@ -127,6 +129,7 @@ function generateOverviewTreeFabricLayerData(
               ? colour_mix_part.colour.name
               : `${colour_mix_part.colour.name} - ${percent}%`,
           baseColour: colour_mix_part.colour.name,
+          colour_code: colour_mix_part.colour.colour_code,
           key: `${index}-shell-color-${index2}`,
           icon: <BgColorsOutlined />,
         };

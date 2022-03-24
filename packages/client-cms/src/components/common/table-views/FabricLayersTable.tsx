@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+// @ts-ignore
+import Values from 'values.js';
 import { Table, Row, Button } from 'antd';
 import { generateOverviewTreeFabricLayerData } from '../../../utils/generateOverviewTreeFabricLayerData';
 import { Base_Colours } from '../../../utils/baseColours';
@@ -87,16 +89,15 @@ function FabricLayersTable({
 
         // @ts-ignore
         return colours.map((colour) => {
-          let circleColour = '#000';
-          const colorName = colour.baseColour;
           const colorTitle = colour.title;
-          const matchingBaseColour = Base_Colours.find(
-            ({ name }) => enumToCamelCase(name) === colorName
-          );
-          console.log('matchingBaseColour:', matchingBaseColour);
-          if (matchingBaseColour) {
-            circleColour = matchingBaseColour.color;
-          }
+
+          // Get the brightness of the colour
+          const color = new Values(colour.colour_code);
+          const brightness = color.getBrightness();
+
+          // Should we draw a border or not, if the colour doesn't have enough
+          // contrast with the background? (e.g. yellows, whites)
+          const notEnoughContrast = brightness > 65;
 
           return (
             <Row
@@ -110,8 +111,9 @@ function FabricLayersTable({
               <div
                 style={{
                   display: 'inline-block',
-                  backgroundColor: circleColour,
+                  backgroundColor: colour.colour_code,
                   borderRadius: '50%',
+                  border: notEnoughContrast ? '0.5px solid #d4d4d4' : '',
                   width: 14,
                   height: 14,
                   margin: 4,
