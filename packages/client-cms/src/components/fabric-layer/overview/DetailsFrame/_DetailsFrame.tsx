@@ -40,6 +40,7 @@ import { TotalPercentRow } from '../../../fabric-layers/HeaderFrame/TotalPercent
 import { SelectColourMixPartsModal } from '../../../fabric-layers/HeaderFrame/SelectColourMixPartsModal';
 import { AddedColourMixPartsTable } from '../../../fabric-layers/HeaderFrame/AddedColourMixPartsTable';
 import { Get_Colour_Mix_Parts_Multiple_By_Ids } from '../../../../queries/colour_mix_parts/getColourMixPartsMultipleByIds';
+import { useLocation } from 'react-router-dom';
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const { Text } = Typography;
@@ -86,6 +87,8 @@ interface DetailsFrameProps {
 }
 
 function DetailsFrame({ data }: DetailsFrameProps) {
+  const location = useLocation();
+
   const [fabric_layer_type, setFabricLayerType] = useState(
     FabricLayerType.Shell
   );
@@ -112,37 +115,44 @@ function DetailsFrame({ data }: DetailsFrameProps) {
       data: dataColourMixParts,
     },
   ] = useLazyQuery(Get_Colour_Mix_Parts_Multiple_By_Ids, {
-    variables: { ids: colourMixPartsIds },
+    // variables: { ids: colourMixPartsIds },
     onCompleted: (data) => {
       console.log('onCompleted:', data.getColourMixPartsMultipleByIds);
       const colourMixParts: any[] = [];
       data.getColourMixPartsMultipleByIds.forEach(
         // @ts-ignore
-        (item) => colourMixParts.push(item)
+        (item) => colourMixParts.push({ ...item, key: item.id })
       );
       setColourMixParts(colourMixParts);
     },
   });
 
-  console.log('dataColourMixParts:', dataColourMixParts);
+  // console.log('dataColourMixParts:', dataColourMixParts);
 
-  useEffect(() => {
-    setFabricLayerType(data.fabric_layer_type);
-    setNotes(data.notes);
-    setThickness(data.thickness);
-    setInsulation(data.insulation);
-    setDensity(data.density);
-    setPermeability(data.permeability);
-    // setColourMixParts(data.fabric_layer_and_colour_mix_parts);
-    const colourMixPartsIds: any[] = [];
-    data.fabric_layer_and_colour_mix_parts.forEach(
-      // @ts-ignore
-      ({ colour_mix_part_id }) => colourMixPartsIds.push(colour_mix_part_id)
-    );
-    // setColourMixParts(colourMixParts);
-    setColourMixPartsIds(colourMixPartsIds);
-    loadColourMixParts().then();
-  }, [data]);
+  useEffect(
+    () => {
+      console.error('USE EFFECT');
+      setFabricLayerType(data.fabric_layer_type);
+      setNotes(data.notes);
+      setThickness(data.thickness);
+      setInsulation(data.insulation);
+      setDensity(data.density);
+      setPermeability(data.permeability);
+      // setColourMixParts(data.fabric_layer_and_colour_mix_parts);
+      const colourMixPartsIds: any[] = [];
+      data.fabric_layer_and_colour_mix_parts.forEach(
+        // @ts-ignore
+        ({ colour_mix_part_id }) => colourMixPartsIds.push(colour_mix_part_id)
+      );
+      // setColourMixParts(colourMixParts);
+      setColourMixPartsIds(colourMixPartsIds);
+      console.error('colourMixPartsIds:', colourMixPartsIds);
+      loadColourMixParts({ variables: { ids: colourMixPartsIds } }).then();
+    },
+    [
+      /*data*/
+    ]
+  );
 
   // Hooks for GraphQL queries
   const [updateCompany, { loading: mutationLoading, error: mutationError }] =

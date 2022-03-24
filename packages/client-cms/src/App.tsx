@@ -77,7 +77,7 @@ const App = (): ReactElement => {
       .then((response) => response.json())
       .then((data) => {
         // Do something with the user's data
-        console.log('data2:', data);
+        // console.log('data2:', data);
         setUserData(data);
       })
       .catch(function (err) {

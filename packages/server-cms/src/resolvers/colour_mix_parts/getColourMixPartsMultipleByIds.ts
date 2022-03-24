@@ -3,6 +3,8 @@ import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 
 async function getColourMixPartsMultipleByIds(ids: number[]) {
+  logger.info(`graphql > getColourMixPartsMultipleByIds() | args: ids: ${ids}`);
+
   try {
     const data = await client.query({
       query: gql`

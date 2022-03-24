@@ -26,8 +26,8 @@ interface HeaderFrameProps {
 function HeaderFrame({ data }: HeaderFrameProps) {
   const { pathname } = useLocation();
   const currentTab = getCurrentPageTabName(pathname);
-  console.log('currentTab:', currentTab);
-  console.log('HeaderFrame#data:', data);
+  // console.log('currentTab:', currentTab);
+  // console.log('HeaderFrame#data:', data);
 
   const { id } = data;
 
