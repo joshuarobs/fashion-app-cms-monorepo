@@ -10,6 +10,7 @@ import {
   Typography,
   message,
 } from 'antd';
+import { DashboardOutlined } from '@ant-design/icons';
 import { getRouteTab } from '../../../../utils/getRouteTab';
 import { Locale_Sidebar_Order } from './localeSidebarOrders';
 import { PopupSelectLocale } from './PopupSelectLocale';
@@ -185,6 +186,7 @@ function LocalisationSidebar({
                 key={getRouteTab(`${tabPath}`, urlNumberOfParts)}
                 // @ts-ignore
                 style={cssStyles.menuTab}
+                icon={<DashboardOutlined />}
               >
                 <Link to={`${tabPath}`}>
                   {Common.Localisation_Related.Locale_Dashboard}
