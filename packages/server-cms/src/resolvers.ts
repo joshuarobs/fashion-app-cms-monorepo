@@ -147,6 +147,7 @@ import { getAllColourMixPartsIds } from './resolvers/colour_mix_parts/getAllColo
 import { insertFabricLayerWithColourMixParts } from './resolvers/fabric_layers/insertFabricLayerWithColourMixParts';
 import { getFabricLayerByPk } from './resolvers/fabric_layers/getFabricLayerByPk';
 import { deleteFabricLayerAndItsColourMixParts } from './resolvers/fabric_layers/deleteFabricLayerAndItsColourMixParts';
+import { getMediaListBB } from './resolvers/media_items/getMediaListBB';
 
 const resolvers = {
   //**********************************************************************
@@ -378,6 +379,9 @@ const resolvers = {
     //--------------------------------------------------
     //--------------------------------------------------
     // materials
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // media_items
     //--------------------------------------------------
     //--------------------------------------------------
     // staff_users
@@ -635,6 +639,10 @@ const resolvers = {
     // materials
     //--------------------------------------------------
     getMaterials,
+    //--------------------------------------------------
+    // media_items
+    //--------------------------------------------------
+    getMediaListBB: (_, { id, limit }) => getMediaListBB(id, limit),
     //--------------------------------------------------
     // staff_users
     //--------------------------------------------------

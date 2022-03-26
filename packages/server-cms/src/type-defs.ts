@@ -515,6 +515,16 @@ const typeDefs = gql`
     material: materials
   }
 
+  type media_items {
+    id: String!
+    name: String!
+    description: String
+    type: String!
+    url: String!
+    created_at: String!
+    updated_at: String!
+  }
+
   type staff_users {
     id: Int!
     email: String!

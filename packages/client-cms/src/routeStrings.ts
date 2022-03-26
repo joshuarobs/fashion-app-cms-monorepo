@@ -30,6 +30,7 @@ enum RouteStrings {
   Mask_Shapes = '/mask-shapes',
   Fabric_Types = '/fabric-types',
   Item_Features = '/item-features',
+  Media_List = '/media-list',
   Other_Enums = '/other',
   Countries = '/countries',
   Languages = '/languages',

@@ -27,6 +27,7 @@ import {
   AimOutlined,
   ContainerOutlined,
   ExperimentOutlined,
+  PictureOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import { App_Shell } from '../../strings';
@@ -196,6 +197,16 @@ function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
               <Link to={RouteStrings.Collections}>
                 <FolderOpenOutlined />
                 <span>{App_Shell.Sidebar.Pages.Collections}</span>
+              </Link>
+            </Menu.Item>
+            {/* -- MEDIA */}
+            <Menu.Item
+              key={getBaseRouteWithoutForwardSlash(RouteStrings.Media_List)}
+              style={styles.menuItem}
+            >
+              <Link to={RouteStrings.Media_List}>
+                <PictureOutlined />
+                <span>{App_Shell.Sidebar.Pages.Media}</span>
               </Link>
             </Menu.Item>
           </Menu.ItemGroup>

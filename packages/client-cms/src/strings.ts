@@ -26,6 +26,7 @@ const App_Shell = {
       Base_Colours: 'Base Colours',
       Mask_Shapes: 'Mask Shapes',
       Fabric_Types: 'Fabric Types',
+      Media: 'Media',
       // Clothing_features: "Clothing Features",
       Countries: 'Countries',
       Languages: 'Languages',
