@@ -84,10 +84,6 @@ function MediaItemsTableView({
 
   const { loading, error, data } = useQuery(Get_Media_List_BB, {
     variables: {
-      // fabricLayerTypes:
-      //   selectedFabricLayerTypes.length > 0
-      //     ? selectedFabricLayerTypes
-      //     : ALL_FABRIC_LAYER_TYPES,
       limit: 20,
       offset: 0,
     },

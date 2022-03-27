@@ -642,7 +642,7 @@ const resolvers = {
     //--------------------------------------------------
     // media_items
     //--------------------------------------------------
-    getMediaListBB: (_, { id, limit }) => getMediaListBB(id, limit),
+    getMediaListBB: (_, { limit, offset }) => getMediaListBB(limit, offset),
     //--------------------------------------------------
     // staff_users
     //--------------------------------------------------

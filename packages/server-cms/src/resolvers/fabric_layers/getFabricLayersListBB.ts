@@ -8,6 +8,9 @@ async function getFabricLayersListBB(
   offset: number,
   fabricLayerTypes: any
 ) {
+  logger.info(
+    `graphql > getFabricLayersListBB() | args: limit: ${limit} | offset: ${offset} | fabricLayerTypes: ${fabricLayerTypes}`
+  );
   if (limit > Data_Entry_Query_Amount_Max_Limit)
     limit = Data_Entry_Query_Amount_Max_Limit;
 
@@ -55,6 +58,7 @@ async function getFabricLayersListBB(
       },
       fetchPolicy: 'network-only',
     });
+    console.log('data:', data);
     return data.data.fabric_layers;
   } catch (e) {
     logger.error(e);

@@ -3,12 +3,10 @@ import { client } from '../../graphql-client';
 import { logger } from '../../logger';
 import { Data_Entry_Query_Amount_Max_Limit } from '../../settings';
 
-async function getMediaListBB(
-  limit: number,
-  offset: number,
-  fabricLayerTypes: any
-) {
-  logger.info(`graphql > getMediaListBB() | args: id:`);
+async function getMediaListBB(limit: number, offset: number) {
+  logger.info(
+    `graphql > getMediaListBB() | args: limit: ${limit} | offset: ${offset}`
+  );
   if (limit > Data_Entry_Query_Amount_Max_Limit)
     limit = Data_Entry_Query_Amount_Max_Limit;
 
@@ -19,13 +17,7 @@ async function getMediaListBB(
           $limit: Int
           $offset: Int # $fabricLayerTypes: [fabric_layer_types_enum!]
         ) {
-          media_items(
-            order_by: { updated_at: desc }
-            # $filters
-            # where: { fabric_layer_type: { _in: $fabricLayerTypes } }
-            limit: $limit
-            offset: $offset
-          ) {
+          media_items(limit: $limit, offset: $offset) {
             id
             name
             description
