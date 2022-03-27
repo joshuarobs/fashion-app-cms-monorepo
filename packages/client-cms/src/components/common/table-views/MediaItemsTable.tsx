@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 // @ts-ignore
 import Values from 'values.js';
-import { Table, Row, Button } from 'antd';
-import { generateOverviewTreeFabricLayerData } from '../../../utils/generateOverviewTreeFabricLayerData';
-import { Base_Colours } from '../../../utils/baseColours';
-import { enumToCamelCase } from '../../../utils/enumToCamelCase';
+import { Table, Row, Button, Avatar, Tooltip, message, Col } from 'antd';
 import { TableType } from './TableType';
-import { Link } from 'react-router-dom';
-import { SearchOutlined } from '@ant-design/icons';
-import { RouteStrings } from '../../../routeStrings';
+import { CopyOutlined } from '@ant-design/icons';
+import { DateLastUpdatedAgo } from '../DateLastUpdatedAgo';
+import { Common } from '../../../strings';
+
+const key = 'media-items-table';
 
 interface MediaItemsTableProps {
   data: any;
@@ -27,179 +26,143 @@ function MediaItemsTable({
 
   const columns = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-      width: 80,
-      render: (text: any) => (
-        <span
-          style={{
-            marginLeft: 16,
-          }}
-        >
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: 'Fabric',
-      dataIndex: 'fabric',
-      key: 'fabric',
-      width: 80,
-      render: (text: any) => (
-        <span
-          style={{
-            marginLeft: 16,
-          }}
-        >
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: 'Materials',
-      dataIndex: 'materials',
-      key: 'materials',
-      width: 120,
-      render: (text: any) => (
-        <span
-          style={{
-            marginLeft: 16,
-          }}
-        >
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: 'Colours',
-      key: 'colours',
-      width: 120,
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      width: 200,
       render: (text: any, record: any) => {
-        const colours = generateOverviewTreeFabricLayerData(
-          record,
-          null,
-          0,
-          true,
-          false
-        );
-        console.log('colours:', colours);
-
         console.log('record:', record);
 
-        // @ts-ignore
-        return colours.map((colour) => {
-          const colorTitle = colour.title;
-
-          // Get the brightness of the colour
-          const color = new Values(colour.colour_code);
-          const brightness = color.getBrightness();
-
-          // Should we draw a border or not, if the colour doesn't have enough
-          // contrast with the background? (e.g. yellows, whites)
-          const notEnoughContrast = brightness > 65;
-
-          return (
-            <Row
-              style={{
-                // display: "flex"
-                marginLeft: 16,
-                minHeight: 32,
-                alignContent: 'center',
-              }}
-            >
-              <div
-                style={{
-                  display: 'inline-block',
-                  backgroundColor: colour.colour_code,
-                  borderRadius: '50%',
-                  border: notEnoughContrast ? '0.5px solid #d4d4d4' : '',
-                  width: 14,
-                  height: 14,
-                  margin: 4,
-                  marginRight: 5,
-                }}
-              />
-              <div
-                style={{
-                  display: 'inline-block',
-                }}
-              >
-                {colorTitle}
-              </div>
-            </Row>
-          );
-        });
+        return (
+          <a
+            style={{
+              marginLeft: 16,
+              padding: 0,
+              paddingTop: 4,
+              paddingBottom: 4,
+            }}
+          >
+            <Avatar shape="square" size={48} src={record.url} />
+            <span style={{ marginLeft: 8 }}>{text}</span>
+          </a>
+        );
       },
     },
     {
-      title: 'Colour Pattern',
-      dataIndex: 'fabric',
-      key: 'fabric',
+      title: 'Type',
+      dataIndex: 'type',
+      key: 'type',
+      width: 60,
+      render: (text: any) => (
+        <span
+          style={{
+            marginLeft: 16,
+          }}
+        >
+          {text}
+        </span>
+      ),
+    },
+    {
+      // We put it like this, so it appears as such:
+      // Entries
+      // Used In
+      // We don't want Entries + Used on the same line as it looks bad
+      title: (
+        <div>
+          <div>Entries</div> Used In
+        </div>
+      ),
+      dataIndex: 'entries',
+      // key: 'entries',
+      width: 60,
+      render: (text: any) => (
+        <span
+          style={{
+            marginLeft: 16,
+          }}
+        >
+          {text}
+        </span>
+      ),
+    },
+    {
+      title: 'UUID',
+      dataIndex: 'id',
+      key: 'id',
       width: 100,
       render: (text: any) => (
-        <span
+        <Row
           style={{
             marginLeft: 16,
           }}
         >
-          {text}
-        </span>
+          <Col span={17}>{`${text.slice(0, 6)}......${text.slice(
+            30,
+            36
+          )}`}</Col>
+          <Col span={7}>
+            <Tooltip title="Copy to clipboard">
+              <Button
+                size="small"
+                shape="circle"
+                icon={
+                  <CopyOutlined
+                    style={{ opacity: 0.5 }}
+                    onClick={async () => {
+                      await navigator.clipboard.writeText(text);
+                      message
+                        .success(
+                          { content: Common.Copied_To_Clipboard, key },
+                          2
+                        )
+                        .then();
+                    }}
+                  />
+                }
+              />
+            </Tooltip>
+          </Col>
+        </Row>
       ),
     },
     {
-      title: 'Thickness (mm)',
-      dataIndex: 'thickness',
-      key: 'thickness',
+      title: 'Uploaded',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      width: 64,
+      render: (text: any) => (
+        <div
+          style={{
+            marginLeft: 16,
+          }}
+        >
+          <DateLastUpdatedAgo text={text} />
+        </div>
+      ),
+    },
+    {
+      title: 'Last Updated',
+      dataIndex: 'updated_at',
+      key: 'updated_at',
+      width: 64,
+      render: (text: any, record: any) => {
+        const newlyCreated = record.created_at === record.updated_at;
+        return (
+          <div
+            style={{
+              marginLeft: 16,
+            }}
+          >
+            {newlyCreated ? '' : <DateLastUpdatedAgo text={text} />}
+          </div>
+        );
+      },
+    },
+    {
+      title: 'Actions',
+      dataIndex: 'actions',
       width: 80,
-      render: (text: any) => (
-        <span
-          style={{
-            marginLeft: 16,
-          }}
-        >
-          {text && text > 0 ? text : ''}
-        </span>
-      ),
-    },
-    // {
-    //   title: "icl",
-    //   dataIndex: "insulation",
-    //   key: "insulation",
-    //   width: 80
-    // },
-    // {
-    //   title: "Density",
-    //   dataIndex: "density",
-    //   key: "density",
-    //   width: 80
-    // },
-    // {
-    //   title: "Perm.",
-    //   dataIndex: "permeability",
-    //   key: "permeability",
-    //   width: 80
-    // },
-    {
-      title: 'Rev.',
-      dataIndex: 'revision',
-      key: 'revision',
-      width: 64,
-      render: (text: any) => (
-        <span
-          style={{
-            marginLeft: 16,
-          }}
-        >
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: 'Type',
-      dataIndex: 'fabric_layer_type',
-      key: 'fabric_layer_type',
-      width: 64,
       render: (text: any) => (
         <span
           style={{
@@ -221,48 +184,6 @@ function MediaItemsTable({
   //   },
   // };
 
-  switch (type) {
-    case TableType.All_List:
-      columns.push({
-        title: 'Action',
-        key: 'action',
-        width: 80,
-        // Can't be put with expandedRowRender unfortunately
-        // fixed: 'right',
-        render: (text, record) => (
-          <Link
-            to={`${RouteStrings.Fabric_Layers__Fabric_Layer}/${record.id}`}
-            style={{ padding: 0 }}
-          >
-            <Button type="link">View Colour</Button>
-          </Link>
-        ),
-      });
-      break;
-    case TableType.Select_One:
-      columns.push({
-        title: 'Action',
-        key: 'action',
-        width: 80,
-        // Can't be put with expandedRowRender unfortunately
-        // fixed: 'right',
-        render: (text, record) =>
-          record.id === currentFabricLayerId ? (
-            <a
-              style={{
-                cursor: 'default',
-                visibility: 'hidden',
-              }}
-            >
-              Test
-            </a>
-          ) : (
-            <a onClick={() => selectFabricLayer(record.id)}>Select</a>
-          ),
-      });
-      break;
-  }
-
   return (
     <Table
       style={{
@@ -271,6 +192,7 @@ function MediaItemsTable({
         // calc(100vw - 304px)
       }}
       // rowSelection={rowSelection}
+      size="small"
       columns={columns}
       dataSource={data}
       expandedRowRender={(record) => <p style={{ margin: 0 }}>{record.name}</p>}

@@ -194,6 +194,7 @@ const Generic = {
 const Common = {
   Saving_Changes: 'Saving Changes...',
   Changes_Saved: 'Changes Saved!',
+  Copied_To_Clipboard: 'Copied to clipboard!',
   Creating_New_Clothing_Shell: 'Creating new Clothing Shell...',
   Created_New_Clothing_Shell: 'Created new Clothing Shell!',
   Creating_New_Company: 'Creating new Company...',

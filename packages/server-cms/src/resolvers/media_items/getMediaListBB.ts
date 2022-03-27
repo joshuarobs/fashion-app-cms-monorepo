@@ -35,7 +35,7 @@ async function getMediaListBB(limit: number, offset: number) {
       },
       fetchPolicy: 'network-only',
     });
-    console.log('data:', data);
+    // console.log('data:', data);
     return data.data.media_items;
   } catch (e) {
     logger.error(e);
