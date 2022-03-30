@@ -8,6 +8,8 @@ import {
 } from '@joshuarobs/clothing-framework';
 import { insertItemMaindataBarebones } from '../item_maindata/insertItemMaindataBarebones';
 import { insertItemMaindataRevisionChange } from '../item_maindata_revision_changes/insertItemMaindataRevisionChange';
+import { insertItemTranslationRevisionAddLocale } from '../item_translation_revisions/insertItemTranslationRevisionAddLocale';
+import { insertItemGlobalMediaBarebones } from '../item_global_media/insertItemGlobalMediaBarebones';
 
 /**
  * Insert a new Item entry with all of it's required dependent rows
@@ -26,7 +28,9 @@ async function insertItem(name: string, item_type: ItemType, context: any) {
 
   try {
     /*
+     * ============================================================
      * 1. Insert a (Item) data entry
+     * ============================================================
      */
     const data1 = await client.mutate({
       mutation: gql`
@@ -43,7 +47,9 @@ async function insertItem(name: string, item_type: ItemType, context: any) {
     const itemId = data1.data.insert_items_one.id;
 
     /*
+     * ============================================================
      * 2. Insert a (Item) maindata revision
+     * ============================================================
      */
     const data2 = await client.mutate({
       mutation: gql`
@@ -72,7 +78,9 @@ async function insertItem(name: string, item_type: ItemType, context: any) {
     const revisionId = data2.data.insert_item_maindata_revisions_one.id;
 
     /*
+     * ============================================================
      * 3. Insert a (Item) maindata
+     * ============================================================
      */
     const data3 = await insertItemMaindataBarebones(
       revisionId,
@@ -83,7 +91,9 @@ async function insertItem(name: string, item_type: ItemType, context: any) {
     // console.log('data3:', data3);
 
     /*
+     * ============================================================
      * 4. Insert a (Item) maindata revision change
+     * ============================================================
      */
     const data4 = await insertItemMaindataRevisionChange(
       revisionId,
@@ -93,6 +103,60 @@ async function insertItem(name: string, item_type: ItemType, context: any) {
       '--'
     );
     // console.log('data4:', data4);
+
+    /*
+     * ============================================================
+     * 5. Insert a locale for en-US
+     * ============================================================
+     */
+    const data5 = await insertItemTranslationRevisionAddLocale(
+      itemId,
+      'en-US',
+      context
+    );
+
+    /*
+     * ============================================================
+     * 6. Insert a (Global Media) maindata revision
+     * ============================================================
+     */
+    const data6 = await client.mutate({
+      mutation: gql`
+        mutation insertItemGlobalMediaRevision(
+          $item_id: Int!
+          $revision: Int!
+          $state: data_states_enum
+        ) {
+          insert_item_global_media_revisions_one(
+            object: { item_id: $item_id, revision: $revision, state: $state }
+          ) {
+            id
+            item_id
+            revision
+            state
+          }
+        }
+      `,
+      variables: {
+        item_id: itemId,
+        revision: 1,
+        state: DataState.Development,
+      },
+    });
+    // console.log('data2:', data2.data.insert_item_maindata_revisions_one);
+    const globalMediaRevisionId =
+      data6.data.insert_item_global_media_revisions_one.id;
+
+    /*
+     * ============================================================
+     * 7. Insert a (Global Media) maindata
+     * ============================================================
+     */
+    const data7 = await insertItemGlobalMediaBarebones(
+      globalMediaRevisionId,
+      true
+    );
+    // console.log('data3:', data3);
 
     /*
      * ============================================================
