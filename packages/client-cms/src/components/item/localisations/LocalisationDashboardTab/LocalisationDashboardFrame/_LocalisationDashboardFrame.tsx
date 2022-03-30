@@ -3,6 +3,8 @@ import { Layout } from 'antd';
 import { FrameTitle } from '../../../../common/typography/FrameTitle';
 import { LocalisationsTable } from './LocalisationsTable';
 import { Locale_Sidebar_Order } from '../../../../common/localisation/LocalisationSidebar/localeSidebarOrders';
+import { FrameTitleLevel2 } from '../../../../common/typography/FrameTitleLevel2';
+import { AssociatedMediaSection } from './AssociatedMediaSection';
 
 const { Content } = Layout;
 
@@ -45,6 +47,9 @@ function LocalisationDashboardFrame({
     >
       <FrameTitle text="Localisation Dashboard" />
       <LocalisationsTable item_translations={sortedLocales} tabPath={tabPath} />
+      <p />
+      {/*<FrameTitleLevel2 text="Associated Media" />*/}
+      <AssociatedMediaSection />
     </Content>
   );
 }

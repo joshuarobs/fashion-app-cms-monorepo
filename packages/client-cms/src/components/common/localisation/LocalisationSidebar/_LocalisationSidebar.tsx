@@ -10,7 +10,7 @@ import {
   Typography,
   message,
 } from 'antd';
-import { DashboardOutlined } from '@ant-design/icons';
+import { DashboardOutlined, PictureOutlined } from '@ant-design/icons';
 import { getRouteTab } from '../../../../utils/getRouteTab';
 import { Locale_Sidebar_Order } from './localeSidebarOrders';
 import { PopupSelectLocale } from './PopupSelectLocale';
@@ -190,6 +190,16 @@ function LocalisationSidebar({
               >
                 <Link to={`${tabPath}`}>
                   {Common.Localisation_Related.Locale_Dashboard}
+                </Link>
+              </Menu.Item>
+              <Menu.Item
+                key={getRouteTab(`${tabPath}/global-media`, urlNumberOfParts)}
+                // @ts-ignore
+                style={cssStyles.menuTab}
+                icon={<PictureOutlined />}
+              >
+                <Link to={`${tabPath}/global-media`}>
+                  {Common.Localisation_Related.Global_Media}
                 </Link>
               </Menu.Item>
             </Menu>

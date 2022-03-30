@@ -283,6 +283,7 @@ const Common = {
     Add_Locale: 'Add Locale',
     Add_Locale_Select_Clothing_Shell: 'Add Locale - Select Clothing Shell',
     Locale_Dashboard: 'Locale Dashboard',
+    Global_Media: 'Global Media',
   },
 };
 
