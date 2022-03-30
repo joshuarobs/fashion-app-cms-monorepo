@@ -13,6 +13,7 @@ import { Insert_Item_Translation_Revision_Change } from '../../queries/item_tran
 import { Insert_Item_Translation_Blank_Draft } from '../../queries/item_translations/insertItemTranslationBlankDraft';
 import { Update_Item_Updated_At } from '../../queries/items/updateItemUpdatedAt';
 import { Get_Item_Translation_Revisions } from '../../queries/item_translation_revisions/getItemTranslationRevisions';
+import { GlobalMediaTab } from '../../components/item/localisations/GlobalMediaTab/_GlobalMediaTab';
 
 // const GET_ITEM_TRANSLATIONS = gql`
 //   query getItemTranslations($id: Int!) {
@@ -163,6 +164,41 @@ function LocalisationsTab() {
   //   currentTab
   // );
 
+  let contentToShow = (
+    <LocalisationDashboardTab
+      itemId={id}
+      latestTranslations={latestTranslationRevisions}
+      tabPath={tabPath}
+      urlNumberOfParts={Url_Number_Of_Parts}
+    />
+  );
+
+  if (currentTab !== '/' && currentRevision) {
+    contentToShow = (
+      <LocalisationContentTab
+        itemId={id}
+        currentTab={currentTab}
+        // currentRevision={currentRevision}
+        // setHasChangesMade={setHasChangesMade}
+        paramsRevision={paramsRevision}
+        paramsIsRelease={paramsIsRelease}
+        location={location}
+        refetchItemTransRevs={refetchItemTransRevs}
+      />
+    );
+  } else if (currentTab === 'global-media') {
+    contentToShow = (
+      <GlobalMediaTab
+        itemId={id}
+        currentTab={currentTab}
+        paramsRevision={paramsRevision}
+        paramsIsRelease={paramsIsRelease}
+        location={location}
+        refetchItemTransRevs={refetchItemTransRevs}
+      />
+    );
+  }
+
   return (
     <>
       <ColumnOfFrames freeWidth>
@@ -180,25 +216,7 @@ function LocalisationsTab() {
           }
         />
       </ColumnOfFrames>
-      {currentTab === '/' || !currentRevision ? (
-        <LocalisationDashboardTab
-          itemId={id}
-          latestTranslations={latestTranslationRevisions}
-          tabPath={tabPath}
-          urlNumberOfParts={Url_Number_Of_Parts}
-        />
-      ) : (
-        <LocalisationContentTab
-          itemId={id}
-          currentTab={currentTab}
-          // currentRevision={currentRevision}
-          // setHasChangesMade={setHasChangesMade}
-          paramsRevision={paramsRevision}
-          paramsIsRelease={paramsIsRelease}
-          location={location}
-          refetchItemTransRevs={refetchItemTransRevs}
-        />
-      )}
+      {contentToShow}
     </>
   );
 }

@@ -112,7 +112,11 @@ function LocalisationSidebar({
   const [currentTab, setCurrentTab] = useState('');
   useEffect(() => {
     if (invalidPath) {
-      setCurrentTab('/');
+      if (getRouteTab(location.pathname, urlNumberOfParts) === 'global-media') {
+        setCurrentTab('/global-media');
+      } else {
+        setCurrentTab('/');
+      }
     } else {
       setCurrentTab(getRouteTab(location.pathname, urlNumberOfParts));
     }
@@ -193,7 +197,7 @@ function LocalisationSidebar({
                 </Link>
               </Menu.Item>
               <Menu.Item
-                key={getRouteTab(`${tabPath}/global-media`, urlNumberOfParts)}
+                key={'/global-media'}
                 // @ts-ignore
                 style={cssStyles.menuTab}
                 icon={<PictureOutlined />}
