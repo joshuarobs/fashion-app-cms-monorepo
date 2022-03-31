@@ -136,6 +136,14 @@ const Queries = gql`
     #--------------------------------------------------
     getGenders: [genders]
     #--------------------------------------------------
+    # item_and_media_item_associated
+    #--------------------------------------------------
+    getItemAndMediaItemAssociatedForItemId(
+      id: Int!
+      limit: Int
+      offset: Int
+    ): [item_and_media_item_associated]
+    #--------------------------------------------------
     # item_maindata
     #--------------------------------------------------
     #--------------------------------------------------

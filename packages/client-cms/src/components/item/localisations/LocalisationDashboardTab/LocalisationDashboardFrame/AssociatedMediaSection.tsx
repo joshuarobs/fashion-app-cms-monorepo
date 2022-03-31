@@ -6,16 +6,19 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { SwitchElement } from '../../../../common/SwitchElement';
 import { FrameTitleLevel2 } from '../../../../common/typography/FrameTitleLevel2';
 
-const { Paragraph } = Typography;
+const { Paragraph, Text } = Typography;
 
 interface AssociatedMediaSectionProps {
+  mediaItemAssociated: [];
   showTitle?: boolean;
 }
 
 function AssociatedMediaSection({
+  mediaItemAssociated,
   showTitle = false,
 }: AssociatedMediaSectionProps) {
   const [viewGuidelines, setViewGuidelines] = useState(false);
+  console.log('mediaItemAssociated:', mediaItemAssociated);
 
   return (
     <div>
@@ -30,13 +33,14 @@ function AssociatedMediaSection({
               padding: 6,
             }}
           >
-            <span
+            <Text
               style={{
                 marginRight: 12,
               }}
+              type="secondary"
             >
               View Guidelines
-            </span>
+            </Text>
             <SwitchElement
               checked={viewGuidelines}
               onChange={(checked: any) => setViewGuidelines(checked)}
@@ -63,12 +67,12 @@ function AssociatedMediaSection({
           </Typography>
         </Row>
       )}
-      <Row style={{ marginTop: 12 }}>
-        <MediaSmallCard onClick={() => {}} />
-        <MediaSmallCard onClick={() => {}} />
-        <MediaSmallCard onClick={() => {}} />
+      <div style={{ width: '100%', display: 'flex', flexFlow: 'row wrap' }}>
+        {mediaItemAssociated.map(() => (
+          <MediaSmallCard onClick={() => {}} />
+        ))}
         <MediaSmallCardAdd onClick={() => {}} />
-      </Row>
+      </div>
     </div>
   );
 }

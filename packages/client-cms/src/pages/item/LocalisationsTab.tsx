@@ -14,6 +14,7 @@ import { Insert_Item_Translation_Blank_Draft } from '../../queries/item_translat
 import { Update_Item_Updated_At } from '../../queries/items/updateItemUpdatedAt';
 import { Get_Item_Translation_Revisions } from '../../queries/item_translation_revisions/getItemTranslationRevisions';
 import { GlobalMediaTab } from '../../components/item/localisations/GlobalMediaTab/_GlobalMediaTab';
+import { Get_Item_And_Media_Item_Associated_For_Item_Id } from '../../queries/item_and_media_item_associated/getItemAndMediaItemAssociatedForItemId';
 
 // const GET_ITEM_TRANSLATIONS = gql`
 //   query getItemTranslations($id: Int!) {
@@ -79,42 +80,69 @@ function LocalisationsTab() {
   // console.log("id:", id);
 
   const {
-    loading,
-    error,
-    data,
+    loading: loadingTranslationRevisions,
+    error: errorTranslationRevisions,
+    data: dataTranslationRevisions,
     refetch: refetchItemTransRevs,
   } = useQuery(Get_Item_Translation_Revisions, {
     variables: { id: Number.parseInt(String(id)) },
     fetchPolicy: 'network-only',
   });
 
-  if (loading) return <div />;
-  if (error) return <div>Error! ${JSON.stringify(error, null, 2)}</div>;
-  console.log('LocalisationsTab#data:', data);
+  const {
+    loading: loadingMediaItemAssociated,
+    error: errorMediaItemAssociated,
+    data: dataMediaItemAssociated,
+    refetch: refetchMediaItemAssociated,
+  } = useQuery(Get_Item_And_Media_Item_Associated_For_Item_Id, {
+    variables: { id: Number.parseInt(String(id)) },
+    fetchPolicy: 'network-only',
+  });
+
+  if (loadingTranslationRevisions || loadingMediaItemAssociated) return <div />;
+  if (errorTranslationRevisions) {
+    return (
+      <div>Error! ${JSON.stringify(errorTranslationRevisions, null, 2)}</div>
+    );
+  }
+
+  if (errorMediaItemAssociated) {
+    return (
+      <div>Error! ${JSON.stringify(errorMediaItemAssociated, null, 2)}</div>
+    );
+  }
+  console.log(
+    'LocalisationsTab#dataTranslationRevisions:',
+    dataTranslationRevisions,
+    '| LocalisationsTab#dataMediaItemAssociated:',
+    dataMediaItemAssociated
+  );
 
   // const item_translation_revisions = data.item_translation_revisions;
   // console.log("item_translation_revisions:", item_translation_revisions);
 
   // Convert the latest translations map object into an array
-  const latestTranslationRevisions = data.getItemTranslationRevisions.map(
-    (translationRevision: any) => {
-      console.log('translationRevision:', translationRevision);
-      const { locale_code, revision, item_translations } = translationRevision;
-      // Create a url that we can load the latest revision with
-      // const pathNoRelease = `${tabPath}/${locale_code}/?id=${id}&rev=${revision}&release=`;
-      const pathNoRelease = `${tabPath}/${locale_code}/?rev=${revision}&release=`;
-      // Set is release to either its actual value (true or false), or if we
-      // can't find it, play it safe and assume that it would be false (a
-      // revision SHOULD have at least a draft version, i.e. is_release = false)
-      // We are selecting the first item (array index 0), typically is the
-      // most latest version (i.e. the release version)
-      const path = `${pathNoRelease}${
-        item_translations.length > 0 ? item_translations[0].is_release : false
-      }`;
-      // console.log("Path:", path);
-      return { ...translationRevision, path, pathNoRelease };
-    }
-  );
+  const latestTranslationRevisions =
+    dataTranslationRevisions.getItemTranslationRevisions.map(
+      (translationRevision: any) => {
+        console.log('translationRevision:', translationRevision);
+        const { locale_code, revision, item_translations } =
+          translationRevision;
+        // Create a url that we can load the latest revision with
+        // const pathNoRelease = `${tabPath}/${locale_code}/?id=${id}&rev=${revision}&release=`;
+        const pathNoRelease = `${tabPath}/${locale_code}/?rev=${revision}&release=`;
+        // Set is release to either its actual value (true or false), or if we
+        // can't find it, play it safe and assume that it would be false (a
+        // revision SHOULD have at least a draft version, i.e. is_release = false)
+        // We are selecting the first item (array index 0), typically is the
+        // most latest version (i.e. the release version)
+        const path = `${pathNoRelease}${
+          item_translations.length > 0 ? item_translations[0].is_release : false
+        }`;
+        // console.log("Path:", path);
+        return { ...translationRevision, path, pathNoRelease };
+      }
+    );
   console.log('latestTranslationRevisions:', latestTranslationRevisions);
 
   // Get the locales data from each most latest translation to display in
@@ -164,15 +192,24 @@ function LocalisationsTab() {
   //   currentTab
   // );
 
+  // ------------------------------
+  // Locale Dashboard
+  // ------------------------------
   let contentToShow = (
     <LocalisationDashboardTab
       itemId={id}
       latestTranslations={latestTranslationRevisions}
+      mediaItemAssociated={
+        dataMediaItemAssociated.getItemAndMediaItemAssociatedForItemId
+      }
       tabPath={tabPath}
       urlNumberOfParts={Url_Number_Of_Parts}
     />
   );
 
+  // ------------------------------
+  // Locales
+  // ------------------------------
   if (currentTab !== '/' && currentRevision) {
     contentToShow = (
       <LocalisationContentTab
@@ -186,7 +223,11 @@ function LocalisationsTab() {
         refetchItemTransRevs={refetchItemTransRevs}
       />
     );
-  } else if (currentTab === 'global-media') {
+  }
+  // ------------------------------
+  // Global Media
+  // ------------------------------
+  else if (currentTab === 'global-media') {
     contentToShow = (
       <GlobalMediaTab
         itemId={id}

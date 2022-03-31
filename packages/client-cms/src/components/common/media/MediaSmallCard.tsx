@@ -17,11 +17,14 @@ function MediaSmallCard({ onClick }: MediaSmallCardProps) {
       style={{
         width,
         height: 160,
-        marginRight: 12,
-        border: '1px solid #C4C4C4',
+        marginTop: 6,
+        marginBottom: 6,
+        marginRight: 9,
+        border: '1px solid #e6e6e6',
         borderRadius: 8,
         cursor: 'pointer',
         boxShadow: '0px 2px 12px rgba(0, 0, 0, 0.1)',
+        display: 'inline-block',
       }}
       onClick={onClick}
     >

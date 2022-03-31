@@ -148,6 +148,7 @@ import { insertFabricLayerWithColourMixParts } from './resolvers/fabric_layers/i
 import { getFabricLayerByPk } from './resolvers/fabric_layers/getFabricLayerByPk';
 import { deleteFabricLayerAndItsColourMixParts } from './resolvers/fabric_layers/deleteFabricLayerAndItsColourMixParts';
 import { getMediaListBB } from './resolvers/media_items/getMediaListBB';
+import { getItemAndMediaItemAssociatedForItemId } from './resolvers/item_and_media_item_associated/getItemAndMediaItemAssociatedForItemId';
 
 const resolvers = {
   //**********************************************************************
@@ -551,6 +552,11 @@ const resolvers = {
     // genders
     //--------------------------------------------------
     getGenders,
+    //--------------------------------------------------
+    // item_and_media_item_associated
+    //--------------------------------------------------
+    getItemAndMediaItemAssociatedForItemId: (_, { id, limit, offset }) =>
+      getItemAndMediaItemAssociatedForItemId(id, limit, offset),
     //--------------------------------------------------
     // item_maindata
     //--------------------------------------------------

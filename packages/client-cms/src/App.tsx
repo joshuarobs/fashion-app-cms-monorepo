@@ -50,6 +50,9 @@ const client = new ApolloClient({
       fabric_layer_and_colour_mix_part: {
         keyFields: ['colour_mix_part_id', 'fabric_layer_id'],
       },
+      item_and_media_item_associated: {
+        keyFields: ['item_id', 'media_item_id'],
+      },
       // item_translations: {
       //   keyFields: ["revision_id", "is_release"]
       // }

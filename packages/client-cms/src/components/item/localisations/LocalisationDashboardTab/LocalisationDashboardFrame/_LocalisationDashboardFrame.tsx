@@ -10,11 +10,13 @@ const { Content } = Layout;
 
 interface LocalisationDashboardFrameProps {
   latestTranslations: any;
+  mediaItemAssociated: [];
   tabPath: string;
 }
 
 function LocalisationDashboardFrame({
   latestTranslations,
+  mediaItemAssociated,
   tabPath,
 }: LocalisationDashboardFrameProps) {
   // Sort the translations so they appear in order, like they do in the sidebar
@@ -49,7 +51,7 @@ function LocalisationDashboardFrame({
       <LocalisationsTable item_translations={sortedLocales} tabPath={tabPath} />
       <p />
       {/*<FrameTitleLevel2 text="Associated Media" />*/}
-      <AssociatedMediaSection />
+      <AssociatedMediaSection mediaItemAssociated={mediaItemAssociated} />
     </Content>
   );
 }

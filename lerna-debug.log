@@ -1,0 +1,15 @@
+0 silly argv {
+0 silly argv   _: [ 'add' ],
+0 silly argv   scope: '@namespace/client-cms',
+0 silly argv   dev: true,
+0 silly argv   D: true,
+0 silly argv   globs: [],
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': '/Users/joshua/WebstormProjects/fashion-app-cms-monorepo/node_modules/.bin/lerna',
+0 silly argv   pkg: '@types/values.js'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath /Users/joshua/WebstormProjects/fashion-app-cms-monorepo
+3 info versioning independent
+4 error Error: 404 Not Found - GET https://registry.yarnpkg.com/@types%2fvalues.js - Not found
+4 error     at /Users/joshua/WebstormProjects/fashion-app-cms-monorepo/node_modules/npm-registry-fetch/check-response.js:123:15
