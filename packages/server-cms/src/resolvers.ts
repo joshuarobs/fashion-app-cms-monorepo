@@ -328,9 +328,15 @@ const resolvers = {
     // insertItemTranslationRevision,
     insertItemTranslationRevisionAddLocale: (
       _,
-      { item_id, locale_code },
+      { item_id, locale_code, name },
       context
-    ) => insertItemTranslationRevisionAddLocale(item_id, locale_code, context),
+    ) =>
+      insertItemTranslationRevisionAddLocale(
+        item_id,
+        locale_code,
+        name,
+        context
+      ),
     // updateItemTranslationRevisionToProduction,
     insertItemTranslationRevisionPromoteNewRevision: (
       _,

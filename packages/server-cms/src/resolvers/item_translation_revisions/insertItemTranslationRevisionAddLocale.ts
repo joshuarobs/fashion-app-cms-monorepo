@@ -9,11 +9,13 @@ import { DataChangeType, DataState } from '@joshuarobs/clothing-framework';
  * The new first Revision starts off in the `Development` state.
  * @param item_id - The item id
  * @param locale_code - The locale we want a new revision for
+ * @param name - The optional name to put as the full name and short name
  * @param context - Apollo context
  */
 async function insertItemTranslationRevisionAddLocale(
   item_id: number,
   locale_code: string,
+  name: string,
   context: any
 ) {
   logger.info(
@@ -154,17 +156,22 @@ async function insertItemTranslationRevisionAddLocale(
 
     /*
      * ============================================================
-     * 4. Insert translation blank draft
+     * 4. Insert translation draft
      * ============================================================
      */
     const data4 = await client.mutate({
       mutation: gql`
-        mutation insertItemTranslationBlankDraft($revision_id: uuid!) {
+        mutation insertItemTranslationDraft(
+          $revision_id: uuid!
+          $full_name: String!
+          $short_name: String
+        ) {
           insert_item_translations_one(
             object: {
               revision_id: $revision_id
               is_release: false
-              full_name: ""
+              full_name: $full_name
+              short_name: $short_name
             }
           ) {
             id
@@ -178,6 +185,8 @@ async function insertItemTranslationRevisionAddLocale(
       `,
       variables: {
         revision_id: revisionId,
+        full_name: name ? name : '',
+        short_name: name,
       },
     });
 

@@ -112,6 +112,7 @@ async function insertItem(name: string, item_type: ItemType, context: any) {
     const data5 = await insertItemTranslationRevisionAddLocale(
       itemId,
       'en-US',
+      name,
       context
     );
 

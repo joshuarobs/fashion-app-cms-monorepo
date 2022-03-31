@@ -193,6 +193,7 @@ const Mutations = gql`
     insertItemTranslationRevisionAddLocale(
       item_id: Int!
       locale_code: String!
+      name: String
     ): item_translation_revisions
     #    updateItemTranslationRevisionToProduction: item_translation_revisions
     insertItemTranslationRevisionPromoteNewRevision(
