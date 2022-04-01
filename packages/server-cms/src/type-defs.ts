@@ -254,6 +254,11 @@ const typeDefs = gql`
     ): hasura_aggregate_holder
   }
 
+  type companies_and_companies_aggregate {
+    companies: [companies]
+    companies_aggregate: hasura_aggregate_holder
+  }
+
   type company_counts {
     id: Int!
     company_id: Int!

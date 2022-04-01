@@ -37,6 +37,11 @@ async function getCompaniesListBB(limit: number, offset: number) {
               }
             }
           }
+          companies_aggregate {
+            aggregate {
+              count
+            }
+          }
         }
       `,
       variables: {
@@ -45,8 +50,9 @@ async function getCompaniesListBB(limit: number, offset: number) {
       },
       fetchPolicy: 'network-only',
     });
-    // console.log('data:', data);
-    return data.data.companies;
+    console.log('data:', data.data);
+    // return data.data.companies;
+    return data.data;
   } catch (e) {
     logger.error(e);
     return null;

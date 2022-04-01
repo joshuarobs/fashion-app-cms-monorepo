@@ -5,6 +5,7 @@ import { MediaSmallCard } from '../../../../common/media/MediaSmallCard';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { SwitchElement } from '../../../../common/SwitchElement';
 import { FrameTitleLevel2 } from '../../../../common/typography/FrameTitleLevel2';
+import { AddMediaModal } from '../AddMediaModal';
 
 const { Paragraph, Text } = Typography;
 
@@ -18,62 +19,81 @@ function AssociatedMediaSection({
   showTitle = false,
 }: AssociatedMediaSectionProps) {
   const [viewGuidelines, setViewGuidelines] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   console.log('mediaItemAssociated:', mediaItemAssociated);
 
+  const openPopup = () => {
+    setShowPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
   return (
-    <div>
-      <Row>
-        <Col span={16}>
-          <FrameTitleLevel2 text="Associated Media" />
-        </Col>
-        <Col span={8}>
-          <label
-            style={{
-              userSelect: 'none',
-              padding: 6,
-            }}
-          >
-            <Text
+    <>
+      <AddMediaModal
+        loadColourMixParts={() => {}}
+        loading={false}
+        showModal={showPopup}
+        setNewColourMixParts={() => {}}
+        onCancel={closePopup}
+      />
+      <div>
+        <Row>
+          <Col span={16}>
+            <FrameTitleLevel2 text="Associated Media" />
+          </Col>
+          <Col span={8}>
+            <label
               style={{
-                marginRight: 12,
+                userSelect: 'none',
+                padding: 6,
               }}
-              type="secondary"
             >
-              View Guidelines
-            </Text>
-            <SwitchElement
-              checked={viewGuidelines}
-              onChange={(checked: any) => setViewGuidelines(checked)}
-            />
-          </label>
-        </Col>
-      </Row>
-      {viewGuidelines && (
-        <Row style={{ whiteSpace: 'pre-wrap' }}>
-          {/*<Button style={{ width: '100%' }}>View Guidelines</Button>*/}
-          <Typography>
-            <Paragraph>
-              This is the collection of all the media (images and video)
-              associated with this item. These media will appear as first
-              selection when choosing the 10 images to show for this item. You
-              can still choose to add images to the 10 images list even if they
-              aren’t associated (as shown below).
-            </Paragraph>
-            <Paragraph>
-              Any image or video that shows the product (item) should be
-              included here. Whether or not they will actually be displayed,
-              will be determined in the Global Media tab, or within the locales.
-            </Paragraph>
-          </Typography>
+              <Text
+                style={{
+                  marginRight: 12,
+                }}
+                type="secondary"
+              >
+                View Guidelines
+              </Text>
+              <SwitchElement
+                checked={viewGuidelines}
+                onChange={(checked: any) => setViewGuidelines(checked)}
+              />
+            </label>
+          </Col>
         </Row>
-      )}
-      <div style={{ width: '100%', display: 'flex', flexFlow: 'row wrap' }}>
-        {mediaItemAssociated.map(() => (
-          <MediaSmallCard onClick={() => {}} />
-        ))}
-        <MediaSmallCardAdd onClick={() => {}} />
+        {viewGuidelines && (
+          <Row style={{ whiteSpace: 'pre-wrap' }}>
+            {/*<Button style={{ width: '100%' }}>View Guidelines</Button>*/}
+            <Typography>
+              <Paragraph>
+                This is the collection of all the media (images and video)
+                associated with this item. These media will appear as first
+                selection when choosing the 10 images to show for this item. You
+                can still choose to add images to the 10 images list even if
+                they aren’t associated (as shown below).
+              </Paragraph>
+              <Paragraph>
+                Any image or video that shows the product (item) should be
+                included here. Whether or not they will actually be displayed,
+                will be determined in the Global Media tab, or within the
+                locales.
+              </Paragraph>
+            </Typography>
+          </Row>
+        )}
+        <div style={{ width: '100%', display: 'flex', flexFlow: 'row wrap' }}>
+          {mediaItemAssociated.map(() => (
+            <MediaSmallCard onClick={() => {}} />
+          ))}
+          <MediaSmallCardAdd onClick={openPopup} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

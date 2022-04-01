@@ -4,7 +4,16 @@ import {
   CheckCircleOutlined,
   ShopOutlined,
 } from '@ant-design/icons';
-import { Table, Divider, Tag, Button, Avatar, Tooltip, Typography } from 'antd';
+import {
+  Table,
+  Divider,
+  Tag,
+  Button,
+  Avatar,
+  Tooltip,
+  Typography,
+  Pagination,
+} from 'antd';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { RouteStrings } from '../../../routeStrings';
 import dayjs from 'dayjs';
@@ -19,6 +28,10 @@ interface CompaniesTableProps {
   currentCompanyId?: number;
   selectCompany?: Function;
   type: TableType;
+  currentTablePage: number;
+  setTablePage: Function;
+  settingShow: number;
+  numTotalEntries: number;
 }
 
 function CompaniesTable({
@@ -26,6 +39,10 @@ function CompaniesTable({
   currentCompanyId,
   selectCompany = () => {},
   type,
+  currentTablePage,
+  setTablePage,
+  settingShow,
+  numTotalEntries,
 }: CompaniesTableProps) {
   const columns = [
     {
@@ -214,16 +231,28 @@ function CompaniesTable({
   }
 
   return (
-    <Table
-      style={{
-        width: '100%',
-        // calc(100vw - 304px)
-      }}
-      columns={columns}
-      dataSource={data}
-      expandedRowRender={(record) => <p style={{ margin: 0 }}>{record.name}</p>}
-      pagination={{ pageSize: 20 }}
-    />
+    <>
+      <Table
+        style={{
+          width: '100%',
+          // calc(100vw - 304px)
+        }}
+        columns={columns}
+        dataSource={data}
+        expandedRowRender={(record) => (
+          <p style={{ margin: 0 }}>{record.name}</p>
+        )}
+        pagination={false}
+      />
+      <div style={{ padding: 16, margin: '0 auto' }}>
+        <Pagination
+          defaultPageSize={settingShow}
+          current={currentTablePage}
+          onChange={(page) => setTablePage(page)}
+          total={numTotalEntries}
+        />
+      </div>
+    </>
   );
 }
 

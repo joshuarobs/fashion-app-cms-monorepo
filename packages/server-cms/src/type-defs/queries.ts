@@ -74,7 +74,11 @@ const Queries = gql`
     # companies
     #--------------------------------------------------
     getCompanies(limit: Int, offset: Int): [companies]
-    getCompaniesListBB(limit: Int, offset: Int): [companies]
+    # getCompaniesListBB(limit: Int, offset: Int): [companies]
+    getCompaniesListBB(
+      limit: Int
+      offset: Int
+    ): companies_and_companies_aggregate
     getCompany(id: Int!): companies
     #--------------------------------------------------
     # company_counts

@@ -1,4 +1,10 @@
 import React, { useState } from 'react';
+import {
+  useLocation,
+  useSearchParams,
+  useNavigate,
+  createSearchParams,
+} from 'react-router-dom';
 import { FilterOutlined } from '@ant-design/icons';
 import { Layout, Row, Col, Select, Input, Button } from 'antd';
 import { CompaniesTable } from './CompaniesTable';
@@ -40,13 +46,21 @@ function CompaniesTableView({
   currentCompanyId,
   type,
 }: CompaniesTableViewProps) {
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  console.log('location:', location, '| searchParams:', searchParams);
+
   // TODO: Load from user's settings, default: most highest option
-  const [settingShow, setSettingShow] = useState(
-    SETTINGS.SHOW_ROWS[SETTINGS.SHOW_ROWS.length - 1]
-  );
+  const [settingShow, setSettingShow] = useState(SETTINGS.SHOW_ROWS[0]);
+  const [currentTablePage, setCurrentTablePage] = useState(1);
 
   const { loading, error, data } = useQuery(Get_Companies_List_BB, {
-    variables: { limit: 20, offset: 0 },
+    variables: {
+      limit: settingShow,
+      offset: (currentTablePage - 1) * settingShow,
+    },
   });
 
   // const [selectedRows, setSelectedRows] = useState([]);
@@ -59,13 +73,26 @@ function CompaniesTableView({
   console.log('data2:', data);
 
   // Iterate through all data and set keys
-  const newData = _.cloneDeep(data.getCompaniesListBB);
+  const newData = _.cloneDeep(data.getCompaniesListBB.companies);
   newData.forEach((item: any, index: number) => {
     item.key = index;
   });
 
   // Get the number of all fabric layers
-  const numResults = data.getCompaniesListBB.length;
+  const numTotalEntries =
+    data.getCompaniesListBB.companies_aggregate.aggregate.count;
+
+  // Functions to handle table page state
+  const setTablePage = (page: number) => {
+    setCurrentTablePage(page);
+    navigate({
+      pathname: location.pathname,
+      search: createSearchParams({
+        page: page.toString(),
+        show: settingShow.toString(),
+      }).toString(),
+    });
+  };
 
   return (
     <Content
@@ -79,7 +106,7 @@ function CompaniesTableView({
     >
       <Row>
         <Col span={14}>
-          Showing 1-{Math.min(numResults, 20)} of {numResults} results
+          Showing 1-{Math.min(numTotalEntries, 20)} of {numTotalEntries} results
         </Col>
         <Col
           span={10}
@@ -154,6 +181,10 @@ function CompaniesTableView({
           currentCompanyId={currentCompanyId}
           selectCompany={selectCompany}
           type={type}
+          currentTablePage={currentTablePage}
+          setTablePage={setTablePage}
+          settingShow={settingShow}
+          numTotalEntries={numTotalEntries}
         />
       </Row>
     </Content>
