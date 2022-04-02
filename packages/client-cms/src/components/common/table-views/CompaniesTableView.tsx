@@ -94,6 +94,18 @@ function CompaniesTableView({
     });
   };
 
+  const onClickSetShowValue = (v: number) => {
+    setSettingShow(v);
+    navigate({
+      pathname: location.pathname,
+      search: createSearchParams({
+        // page: page.toString(),
+        page: currentTablePage.toString(),
+        show: settingShow.toString(),
+      }).toString(),
+    });
+  };
+
   return (
     <Content
       style={{
@@ -121,7 +133,7 @@ function CompaniesTableView({
               value={settingShow}
               size="small"
               style={{ width: 64 }}
-              onChange={(value) => setSettingShow(value)}
+              onChange={(v) => onClickSetShowValue(v)}
               className="not-bold"
             >
               {SETTINGS.SHOW_ROWS.map((value, index) => {
