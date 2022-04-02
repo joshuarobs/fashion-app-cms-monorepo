@@ -209,6 +209,7 @@ function LocalisationsTab() {
       //   dataMediaItemAssociated.getItemAndMediaItemAssociatedForItemId
       // }
       mediaItemAssociated={mediaItemAssociated}
+      refetchMediaItemAssociated={refetchMediaItemAssociated}
       tabPath={tabPath}
       urlNumberOfParts={Url_Number_Of_Parts}
     />

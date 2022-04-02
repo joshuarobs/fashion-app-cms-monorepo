@@ -16,6 +16,7 @@ interface LocalisationDashboardFrameProps {
   id: number;
   latestTranslations: any;
   mediaItemAssociated: [];
+  refetchMediaItemAssociated: Function;
   tabPath: string;
   // setMediaItemIds: Function;
 }
@@ -24,6 +25,7 @@ function LocalisationDashboardFrame({
   id,
   latestTranslations,
   mediaItemAssociated,
+  refetchMediaItemAssociated,
   tabPath,
 }: // setMediaItemIds,
 LocalisationDashboardFrameProps) {
@@ -83,7 +85,9 @@ LocalisationDashboardFrameProps) {
       <p />
       {/*<FrameTitleLevel2 text="Associated Media" />*/}
       <AssociatedMediaSection
+        id={id}
         mediaItemAssociated={mediaItemAssociated}
+        refetchMediaItemAssociated={refetchMediaItemAssociated}
         setMediaItemIds={setMediaItemIds}
       />
     </Content>

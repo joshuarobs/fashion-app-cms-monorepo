@@ -6,22 +6,58 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { SwitchElement } from '../../../../common/SwitchElement';
 import { FrameTitleLevel2 } from '../../../../common/typography/FrameTitleLevel2';
 import { AddMediaModal } from '../AddMediaModal';
+import { useQuery } from '@apollo/client';
+import { Get_Item_And_Media_Item_Associated_For_Item_Id } from '../../../../../queries/item_and_media_item_associated/getItemAndMediaItemAssociatedForItemId';
 
 const { Paragraph, Text } = Typography;
 
 interface AssociatedMediaSectionProps {
+  id: number;
   mediaItemAssociated: [];
+  refetchMediaItemAssociated: Function;
   showTitle?: boolean;
   setMediaItemIds: Function;
 }
 
 function AssociatedMediaSection({
-  mediaItemAssociated,
+  id,
+  // mediaItemAssociated,
+  // refetchMediaItemAssociated,
   showTitle = false,
   setMediaItemIds,
 }: AssociatedMediaSectionProps) {
   const [viewGuidelines, setViewGuidelines] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [currentMediaIds, setCurrentMediaIds] = useState([]);
+  const [prevMediaIds, setPrevMediaIds] = useState([]);
+  // Differs from prev, as prev is part of unsaved changes, but original is
+  // the original data from the database
+  const [originalMediaIds, setOriginalMediaIds] = useState([]);
+
+  // TODO: Make a query that does it, but takes in an array of ids
+
+  const {
+    loading: loadingMediaItemAssociated,
+    error: errorMediaItemAssociated,
+    data: dataMediaItemAssociated,
+    refetch: refetchMediaItemAssociated,
+  } = useQuery(Get_Item_And_Media_Item_Associated_For_Item_Id, {
+    variables: { id },
+    fetchPolicy: 'network-only',
+  });
+
+  if (loadingMediaItemAssociated) return <div />;
+  if (errorMediaItemAssociated) {
+    console.error(errorMediaItemAssociated);
+    return <div>{errorMediaItemAssociated}</div>;
+  }
+
+  const mediaItemAssociated =
+    dataMediaItemAssociated.getItemAndMediaItemAssociatedForItemId.map(
+      // @ts-ignore
+      ({ media_item }) => media_item
+    );
+
   // const [mediaItemIds, setMediaItemIds] = useState([]);
   console.log('mediaItemAssociated:', mediaItemAssociated);
 
@@ -90,7 +126,7 @@ function AssociatedMediaSection({
           </Row>
         )}
         <div style={{ width: '100%', display: 'flex', flexFlow: 'row wrap' }}>
-          {mediaItemAssociated.map((media_item) => (
+          {mediaItemAssociated.map((media_item: any) => (
             <MediaSmallCard media_item={media_item} onClick={() => {}} />
           ))}
           <MediaSmallCardAdd onClick={openPopup} />
