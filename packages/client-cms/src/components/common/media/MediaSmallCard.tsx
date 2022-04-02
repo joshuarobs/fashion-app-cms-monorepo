@@ -3,14 +3,17 @@ import { CloseOutlined, PlusOutlined, ZoomInOutlined } from '@ant-design/icons';
 import { Avatar, Button, Row } from 'antd';
 
 interface MediaSmallCardProps {
+  media_item: any;
   onClick: MouseEventHandler<HTMLDivElement>;
 }
 
 const width = 126;
 
-function MediaSmallCard({ onClick }: MediaSmallCardProps) {
-  const url =
-    'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png';
+function MediaSmallCard({ media_item, onClick }: MediaSmallCardProps) {
+  const { name, url } = media_item;
+
+  // const url =
+  //   'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png';
 
   return (
     <div
@@ -62,7 +65,7 @@ function MediaSmallCard({ onClick }: MediaSmallCardProps) {
             margin: '0 auto',
           }}
         >
-          Name of item
+          {name}
         </span>
       </Row>
     </div>

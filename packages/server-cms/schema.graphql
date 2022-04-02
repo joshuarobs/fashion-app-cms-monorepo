@@ -9637,7 +9637,12 @@ type item_and_clothing_shell_variance_fields {
 # columns and relationships of "item_and_media_item_associated"
 #
 type item_and_media_item_associated {
+  # An object relationship
+  item: items!
   item_id: Int!
+
+  # An object relationship
+  media_item: media_items!
   media_item_id: uuid!
 }
 
@@ -9673,7 +9678,9 @@ input item_and_media_item_associated_bool_exp {
   _and: [item_and_media_item_associated_bool_exp!]
   _not: item_and_media_item_associated_bool_exp
   _or: [item_and_media_item_associated_bool_exp!]
+  item: items_bool_exp
   item_id: Int_comparison_exp
+  media_item: media_items_bool_exp
   media_item_id: uuid_comparison_exp
 }
 
@@ -9690,7 +9697,9 @@ input item_and_media_item_associated_inc_input {
 
 # input type for inserting data into table "item_and_media_item_associated"
 input item_and_media_item_associated_insert_input {
+  item: items_obj_rel_insert_input
   item_id: Int
+  media_item: media_items_obj_rel_insert_input
   media_item_id: uuid
 }
 
@@ -9724,7 +9733,9 @@ input item_and_media_item_associated_on_conflict {
 
 # Ordering options when selecting data from "item_and_media_item_associated".
 input item_and_media_item_associated_order_by {
+  item: items_order_by
   item_id: order_by
+  media_item: media_items_order_by
   media_item_id: order_by
 }
 
@@ -14073,6 +14084,11 @@ type materials_variance_fields {
 # columns and relationships of "media_items"
 #
 type media_items {
+  # The company id of the product that this media is associated with.
+  company_id: Int
+
+  # The company's unique item product id that this media is associated with.
+  company_item_product_id: String
   created_at: timestamptz!
   description: String
   id: uuid!
@@ -14090,9 +14106,23 @@ type media_items_aggregate {
 
 # aggregate fields of "media_items"
 type media_items_aggregate_fields {
+  avg: media_items_avg_fields
   count(columns: [media_items_select_column!], distinct: Boolean): Int!
   max: media_items_max_fields
   min: media_items_min_fields
+  stddev: media_items_stddev_fields
+  stddev_pop: media_items_stddev_pop_fields
+  stddev_samp: media_items_stddev_samp_fields
+  sum: media_items_sum_fields
+  var_pop: media_items_var_pop_fields
+  var_samp: media_items_var_samp_fields
+  variance: media_items_variance_fields
+}
+
+# aggregate avg on columns
+type media_items_avg_fields {
+  # The company id of the product that this media is associated with.
+  company_id: Float
 }
 
 # Boolean expression to filter rows from the table "media_items". All fields are combined with a logical 'AND'.
@@ -14100,6 +14130,8 @@ input media_items_bool_exp {
   _and: [media_items_bool_exp!]
   _not: media_items_bool_exp
   _or: [media_items_bool_exp!]
+  company_id: Int_comparison_exp
+  company_item_product_id: String_comparison_exp
   created_at: timestamptz_comparison_exp
   description: String_comparison_exp
   id: uuid_comparison_exp
@@ -14118,8 +14150,19 @@ enum media_items_constraint {
   media_items_url_key
 }
 
+# input type for incrementing numeric columns in table "media_items"
+input media_items_inc_input {
+  # The company id of the product that this media is associated with.
+  company_id: Int
+}
+
 # input type for inserting data into table "media_items"
 input media_items_insert_input {
+  # The company id of the product that this media is associated with.
+  company_id: Int
+
+  # The company's unique item product id that this media is associated with.
+  company_item_product_id: String
   created_at: timestamptz
   description: String
   id: uuid
@@ -14131,6 +14174,11 @@ input media_items_insert_input {
 
 # aggregate max on columns
 type media_items_max_fields {
+  # The company id of the product that this media is associated with.
+  company_id: Int
+
+  # The company's unique item product id that this media is associated with.
+  company_item_product_id: String
   created_at: timestamptz
   description: String
   id: uuid
@@ -14141,6 +14189,11 @@ type media_items_max_fields {
 
 # aggregate min on columns
 type media_items_min_fields {
+  # The company id of the product that this media is associated with.
+  company_id: Int
+
+  # The company's unique item product id that this media is associated with.
+  company_item_product_id: String
   created_at: timestamptz
   description: String
   id: uuid
@@ -14158,6 +14211,14 @@ type media_items_mutation_response {
   returning: [media_items!]!
 }
 
+# input type for inserting object relation for remote table "media_items"
+input media_items_obj_rel_insert_input {
+  data: media_items_insert_input!
+
+  # upsert condition
+  on_conflict: media_items_on_conflict
+}
+
 # on_conflict condition type for table "media_items"
 input media_items_on_conflict {
   constraint: media_items_constraint!
@@ -14167,6 +14228,8 @@ input media_items_on_conflict {
 
 # Ordering options when selecting data from "media_items".
 input media_items_order_by {
+  company_id: order_by
+  company_item_product_id: order_by
   created_at: order_by
   description: order_by
   id: order_by
@@ -14183,6 +14246,12 @@ input media_items_pk_columns_input {
 
 # select columns of table "media_items"
 enum media_items_select_column {
+  # column name
+  company_id
+
+  # column name
+  company_item_product_id
+
   # column name
   created_at
 
@@ -14207,6 +14276,11 @@ enum media_items_select_column {
 
 # input type for updating data in table "media_items"
 input media_items_set_input {
+  # The company id of the product that this media is associated with.
+  company_id: Int
+
+  # The company's unique item product id that this media is associated with.
+  company_item_product_id: String
   created_at: timestamptz
   description: String
   id: uuid
@@ -14216,8 +14290,38 @@ input media_items_set_input {
   url: String
 }
 
+# aggregate stddev on columns
+type media_items_stddev_fields {
+  # The company id of the product that this media is associated with.
+  company_id: Float
+}
+
+# aggregate stddev_pop on columns
+type media_items_stddev_pop_fields {
+  # The company id of the product that this media is associated with.
+  company_id: Float
+}
+
+# aggregate stddev_samp on columns
+type media_items_stddev_samp_fields {
+  # The company id of the product that this media is associated with.
+  company_id: Float
+}
+
+# aggregate sum on columns
+type media_items_sum_fields {
+  # The company id of the product that this media is associated with.
+  company_id: Int
+}
+
 # update columns of table "media_items"
 enum media_items_update_column {
+  # column name
+  company_id
+
+  # column name
+  company_item_product_id
+
   # column name
   created_at
 
@@ -14238,6 +14342,24 @@ enum media_items_update_column {
 
   # column name
   url
+}
+
+# aggregate var_pop on columns
+type media_items_var_pop_fields {
+  # The company id of the product that this media is associated with.
+  company_id: Float
+}
+
+# aggregate var_samp on columns
+type media_items_var_samp_fields {
+  # The company id of the product that this media is associated with.
+  company_id: Float
+}
+
+# aggregate variance on columns
+type media_items_variance_fields {
+  # The company id of the product that this media is associated with.
+  company_id: Float
 }
 
 # The types a media file can be in.
@@ -16980,6 +17102,9 @@ type mutation_root {
 
   # update data of the table: "media_items"
   update_media_items(
+    # increments the numeric columns with given value of the filtered values
+    _inc: media_items_inc_input
+
     # sets the columns of the filtered rows to the given values
     _set: media_items_set_input
 
@@ -16989,6 +17114,9 @@ type mutation_root {
 
   # update single row of the table: "media_items"
   update_media_items_by_pk(
+    # increments the numeric columns with given value of the filtered values
+    _inc: media_items_inc_input
+
     # sets the columns of the filtered rows to the given values
     _set: media_items_set_input
     pk_columns: media_items_pk_columns_input!

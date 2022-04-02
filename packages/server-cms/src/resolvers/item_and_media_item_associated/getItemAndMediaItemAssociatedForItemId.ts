@@ -28,9 +28,15 @@ async function getItemAndMediaItemAssociatedForItemId(
             where: { item_id: { _eq: $item_id } }
             limit: $limit
             offset: $offset
+            order_by: { media_item: { created_at: asc } }
           ) {
             item_id
             media_item_id
+            media_item {
+              id
+              name
+              url
+            }
           }
         }
       `,

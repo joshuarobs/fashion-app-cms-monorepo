@@ -378,7 +378,8 @@ const typeDefs = gql`
 
   type item_and_media_item_associated {
     item_id: Int!
-    media_item_id: Int!
+    media_item_id: String!
+    media_item: media_items!
   }
 
   type item_families {

@@ -185,6 +185,12 @@ function LocalisationsTab() {
     ({ locale_code }) => locale_code.toString() === currentTab
   );
 
+  const mediaItemAssociated =
+    dataMediaItemAssociated.getItemAndMediaItemAssociatedForItemId.map(
+      // @ts-ignore
+      ({ media_item }) => media_item
+    );
+
   // console.error(
   //   "currentRevision:",
   //   currentRevision,
@@ -199,9 +205,10 @@ function LocalisationsTab() {
     <LocalisationDashboardTab
       itemId={id}
       latestTranslations={latestTranslationRevisions}
-      mediaItemAssociated={
-        dataMediaItemAssociated.getItemAndMediaItemAssociatedForItemId
-      }
+      // mediaItemAssociated={
+      //   dataMediaItemAssociated.getItemAndMediaItemAssociatedForItemId
+      // }
+      mediaItemAssociated={mediaItemAssociated}
       tabPath={tabPath}
       urlNumberOfParts={Url_Number_Of_Parts}
     />

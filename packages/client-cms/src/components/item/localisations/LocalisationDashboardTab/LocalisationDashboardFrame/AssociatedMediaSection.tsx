@@ -12,14 +12,17 @@ const { Paragraph, Text } = Typography;
 interface AssociatedMediaSectionProps {
   mediaItemAssociated: [];
   showTitle?: boolean;
+  setMediaItemIds: Function;
 }
 
 function AssociatedMediaSection({
   mediaItemAssociated,
   showTitle = false,
+  setMediaItemIds,
 }: AssociatedMediaSectionProps) {
   const [viewGuidelines, setViewGuidelines] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  // const [mediaItemIds, setMediaItemIds] = useState([]);
   console.log('mediaItemAssociated:', mediaItemAssociated);
 
   const openPopup = () => {
@@ -33,10 +36,10 @@ function AssociatedMediaSection({
   return (
     <>
       <AddMediaModal
-        loadColourMixParts={() => {}}
+        loadMediaItems={() => {}}
         loading={false}
         showModal={showPopup}
-        setNewColourMixParts={() => {}}
+        setNewMediaItems={setMediaItemIds}
         onCancel={closePopup}
       />
       <div>
@@ -87,8 +90,8 @@ function AssociatedMediaSection({
           </Row>
         )}
         <div style={{ width: '100%', display: 'flex', flexFlow: 'row wrap' }}>
-          {mediaItemAssociated.map(() => (
-            <MediaSmallCard onClick={() => {}} />
+          {mediaItemAssociated.map((media_item) => (
+            <MediaSmallCard media_item={media_item} onClick={() => {}} />
           ))}
           <MediaSmallCardAdd onClick={openPopup} />
         </div>

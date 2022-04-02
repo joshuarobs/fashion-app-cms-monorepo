@@ -13,6 +13,11 @@ const Get_Item_And_Media_Item_Associated_For_Item_Id = gql`
     ) {
       item_id
       media_item_id
+      media_item {
+        id
+        name
+        url
+      }
     }
   }
 `;

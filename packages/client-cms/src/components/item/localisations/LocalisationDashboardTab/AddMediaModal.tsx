@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Modal, Row, Col } from 'antd';
-import { ColourMixPartsTableView } from '../../../common/table-views/ColourMixPartsTableView';
+import React, { useState } from 'react';
+import { Button, Modal } from 'antd';
 import { TableType } from '../../../common/table-views/TableType';
 import { Get_All_Colour_Mix_Parts_Ids } from '../../../../queries/colour_mix_parts/getAllColourMixPartsIds';
 import { useQuery } from '@apollo/client';
@@ -15,8 +14,8 @@ interface AddMediaModalProps {
   // rowSelection: any;
   // submitButtonDisabled: boolean;
   // newColourMixParts: number[];
-  setNewColourMixParts: Function;
-  loadColourMixParts: Function;
+  setNewMediaItems: Function;
+  loadMediaItems: Function;
 }
 
 function AddMediaModal({
@@ -25,19 +24,16 @@ function AddMediaModal({
   // onSubmit,
   loading,
   // newColourMixParts,
-  setNewColourMixParts,
-  loadColourMixParts,
+  setNewMediaItems,
+  loadMediaItems,
 }: AddMediaModalProps) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [prevSelectedRowKeys, setPrevSelectedRowKeys] = useState([]);
-  const [allColourMixParts, setAllColourMixParts] = useState([]);
-  const [selectedColourMixPartsIds, setSelectedColourMixPartsIds] = useState(
-    []
-  );
-  const [prevSelectedColourMixPartsIds, setPrevSelectedColourMixPartsIds] =
-    useState([]);
-  const [totalPercent, setTotalPercent] = useState(0);
-  const [prevTotalPercent, setPrevTotalPercent] = useState(0);
+  // const [allColourMixParts, setAllColourMixParts] = useState([]);
+  const [selectedMediaIds, setSelectedMediaIds] = useState([]);
+  const [prevSelectedMediaIds, setPrevSelectedMediaIds] = useState([]);
+  // const [totalPercent, setTotalPercent] = useState(0);
+  // const [prevTotalPercent, setPrevTotalPercent] = useState(0);
   const submitButtonDisabled = false;
 
   // When selectedColourMixParts gets updated, update the selected keys
@@ -55,20 +51,20 @@ function AddMediaModal({
   //   console.error('selectedRowKeys:', selectedRowKeys);
   // }, [newColourMixParts, showModal]);
 
-  const {
-    loading: loadingAllColourMixParts,
-    error: errorAllColourMixParts,
-    data: dataAllColourMixParts,
-  } = useQuery(Get_All_Colour_Mix_Parts_Ids, {
-    onCompleted: setAllColourMixParts,
-  });
+  // const {
+  //   loading: loadingAllColourMixParts,
+  //   error: errorAllColourMixParts,
+  //   data: dataAllColourMixParts,
+  // } = useQuery(Get_All_Colour_Mix_Parts_Ids, {
+  //   // onCompleted: setAllColourMixParts,
+  // });
 
-  if (loadingAllColourMixParts) return <div />;
-  if (errorAllColourMixParts) {
-    console.error(errorAllColourMixParts);
-    return <p>Error :(</p>;
-  }
-  console.log('selectedColourMixParts:', selectedColourMixPartsIds);
+  // if (loadingAllColourMixParts) return <div />;
+  // if (errorAllColourMixParts) {
+  //   console.error(errorAllColourMixParts);
+  //   return <p>Error :(</p>;
+  // }
+  console.log('selectedColourMixParts:', selectedMediaIds);
   console.log('selectedRowKeys:', selectedRowKeys);
   // console.log('dataAllColourMixParts:', dataAllColourMixParts);
   // console.log('allColourMixParts:', allColourMixParts);
@@ -83,40 +79,6 @@ function AddMediaModal({
   const rowSelection = {
     selectedRowKeys,
     hideSelectAll: true,
-    // preserveSelectedRowKeys: true,
-    onChange: (selectedRowKeys: React.Key[], selectedRows: []) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows
-      );
-      // const ids: number[] = [];
-      // @ts-ignore
-      // selectedRows.forEach((value) => ids.push(value.id));
-      // selectedRowKeys.forEach((value) => ids.push(value.id));
-      // setSelectedRowsCopy(selectedRows);
-
-      console.log(
-        'dataAllColourMixParts.getAllColourMixPartsIds:',
-        // @ts-ignore
-        dataAllColourMixParts.getAllColourMixPartsIds
-      );
-
-      const colourMixParts = selectedRows.filter(({ id }) => {
-        // console.log('key:', key);
-        // @ts-ignore
-        const isSelected = dataAllColourMixParts.getAllColourMixPartsIds.find(
-          (item: any) => item.id === id
-        );
-        console.log('isSelected:', isSelected);
-        return isSelected;
-      });
-      console.log('colourMixParts!!!:', colourMixParts);
-
-      // @ts-ignore
-      setSelectedRowKeys(selectedRowKeys);
-      // console.error('selectedRows:', selectedRows);
-    },
     getCheckboxProps: (record: any) => ({
       // disabled: record.name === 'Disabled User', // Column configuration not to be checked
       disabled: true,
@@ -146,10 +108,10 @@ function AddMediaModal({
 
     // @ts-ignore
     setPrevSelectedRowKeys(selectedRowKeys);
-    setPrevSelectedColourMixPartsIds(selectedColourMixPartsIds);
-    setPrevTotalPercent(totalPercent);
-    setNewColourMixParts(selectedColourMixPartsIds);
-    loadColourMixParts();
+    setPrevSelectedMediaIds(selectedMediaIds);
+    // setPrevTotalPercent(totalPercent);
+    setNewMediaItems(selectedMediaIds);
+    loadMediaItems();
     onCancel(e);
   };
 
@@ -160,8 +122,8 @@ function AddMediaModal({
   const onCancelThisPopup = (e: any) => {
     // When cancelling, reset any changes made
     setSelectedRowKeys(prevSelectedRowKeys);
-    setSelectedColourMixPartsIds(prevSelectedColourMixPartsIds);
-    setTotalPercent(prevTotalPercent);
+    setSelectedMediaIds(prevSelectedMediaIds);
+    // setTotalPercent(prevTotalPercent);
     onCancel(e);
   };
 
@@ -173,15 +135,15 @@ function AddMediaModal({
   const onSelectEntry = (record: any, e?: any) => {
     // console.log('e:', e.target);
     console.log('onSelectEntry.record:', record);
-    console.log('selectedColourMixParts:', selectedColourMixPartsIds);
+    console.log('selectedColourMixParts:', selectedMediaIds);
     // Push if not exists
-    const recordIsSelected = _.includes(selectedColourMixPartsIds, record.id);
+    const recordIsSelected = _.includes(selectedMediaIds, record.id);
 
     if (!recordIsSelected) {
       // Add the database entry id into the selected keys
-      setSelectedColourMixPartsIds(
+      setSelectedMediaIds(
         // @ts-ignore
-        [...selectedColourMixPartsIds, record.id].sort()
+        [...selectedMediaIds, record.id].sort()
       );
       // Add the row's key into the selected rows
       // For now, use the `key` set from the data loaded from the database
@@ -191,7 +153,7 @@ function AddMediaModal({
       // @ts-ignore
       setSelectedRowKeys([...selectedRowKeys, record.key].sort());
       // Add to the total percent
-      setTotalPercent(totalPercent + record.percent);
+      // setTotalPercent(totalPercent + record.percent);
     }
   };
 
@@ -201,13 +163,13 @@ function AddMediaModal({
    */
   const onDeselectEntry = (record: any) => {
     // Push if not exists
-    const recordIsSelected = _.includes(selectedColourMixPartsIds, record.id);
+    const recordIsSelected = _.includes(selectedMediaIds, record.id);
     console.log('onDeselectEntry.recordIsSelected:', recordIsSelected);
 
     if (recordIsSelected) {
       // Remove the database entry id from the selected keys
-      setSelectedColourMixPartsIds(
-        selectedColourMixPartsIds.filter((value) => value !== record.id)
+      setSelectedMediaIds(
+        selectedMediaIds.filter((value) => value !== record.id)
       );
 
       // Add the row's key into the selected rows
@@ -219,7 +181,7 @@ function AddMediaModal({
         selectedRowKeys.filter((value) => value !== record.key)
       );
       // Remove from the total percent
-      setTotalPercent(totalPercent - record.percent);
+      // setTotalPercent(totalPercent - record.percent);
     }
   };
 
@@ -227,20 +189,19 @@ function AddMediaModal({
   // // @ts-ignore
   // actualColourMixPartsData.forEach(({ percent }) => (totalPercent += percent));
   //
-  const percentIsNot100 = totalPercent !== 1;
-  const totalPercentError =
-    selectedColourMixPartsIds.length > 0 && percentIsNot100;
+  // const percentIsNot100 = totalPercent !== 1;
+  // const totalPercentError = selectedMediaIds.length > 0 && percentIsNot100;
 
   return (
     <Modal
       visible={showModal}
-      title="Select Colour Mix Parts For New Fabric Layer"
+      title="Add Media for Item"
       onCancel={onCancelThisPopup}
       onOk={onSubmit}
       style={{
         minWidth: 1200,
         // Default values for a MacBook Pro 16
-        // top: 16,
+        top: 16,
       }}
       footer={[
         <Button key="back" onClick={onCancel}>
@@ -265,7 +226,14 @@ function AddMediaModal({
       {/*  rowSelection={rowSelection}*/}
       {/*  selectedRowKeys={selectedRowKeys}*/}
       {/*/>*/}
-      <MediaItemsTableView />
+      <MediaItemsTableView
+        isPopup
+        onSelectEntry={onSelectEntry}
+        onDeselectEntry={onDeselectEntry}
+        rowSelection={rowSelection}
+        selectedRowKeys={selectedRowKeys}
+        type={TableType.Select_Multiple}
+      />
     </Modal>
   );
 }

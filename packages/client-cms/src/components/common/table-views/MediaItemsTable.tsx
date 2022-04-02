@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 // @ts-ignore
 import Values from 'values.js';
-import { Table, Row, Button, Avatar, Tooltip, message, Col } from 'antd';
+import { Avatar, Button, Col, message, Row, Table, Tooltip } from 'antd';
 import { TableType } from './TableType';
 import { CopyOutlined } from '@ant-design/icons';
 import { DateLastUpdatedAgo } from '../DateLastUpdatedAgo';
 import { Common } from '../../../strings';
+import _ from 'lodash';
 
 const key = 'media-items-table';
 
@@ -14,6 +15,11 @@ interface MediaItemsTableProps {
   currentFabricLayerId?: number;
   selectFabricLayer?: Function;
   type: TableType;
+  isPopup?: boolean;
+  onSelectEntry?: Function;
+  onDeselectEntry?: Function;
+  rowSelection: any;
+  selectedRowKeys?: number[];
 }
 
 function MediaItemsTable({
@@ -21,8 +27,30 @@ function MediaItemsTable({
   currentFabricLayerId,
   selectFabricLayer = () => {},
   type,
+  isPopup,
+  onSelectEntry = () => {},
+  onDeselectEntry = () => {},
+  rowSelection = {},
+  selectedRowKeys = [],
 }: MediaItemsTableProps) {
+  // const marginLeft = size === 'middle' ? 16 : 8;
+  const marginLeft = 16;
   // console.log("selectedFabricLayerTypes:", selectedFabricLayerTypes);
+
+  const scroll = {
+    x: 300,
+  };
+
+  if (isPopup) {
+    Object.assign(scroll, { y: 400 });
+  }
+
+  /**
+   * This variable makes the splicing of UUID from default of 6 characters
+   * each side, to 4, for a popup table, where the width of the modal is
+   * small, and we want the UUID to be on a single line instead of two lines.
+   */
+  const uuidSpliceDiff = !isPopup ? 0 : 2;
 
   const columns = [
     {
@@ -97,10 +125,10 @@ function MediaItemsTable({
             marginLeft: 16,
           }}
         >
-          <Col span={17}>{`${text.slice(0, 6)}......${text.slice(
-            30,
-            36
-          )}`}</Col>
+          <Col span={17}>{`${text.slice(
+            0,
+            6 - uuidSpliceDiff
+          )}......${text.slice(30 + uuidSpliceDiff, 36)}`}</Col>
           <Col span={7}>
             <Tooltip title="Copy to clipboard">
               <Button
@@ -159,30 +187,70 @@ function MediaItemsTable({
         );
       },
     },
-    {
-      title: 'Actions',
-      dataIndex: 'actions',
-      width: 80,
-      render: (text: any) => (
-        <span
-          style={{
-            marginLeft: 16,
-          }}
-        >
-          {text}
-        </span>
-      ),
-    },
+    // {
+    //   title: 'Actions',
+    //   dataIndex: 'actions',
+    //   width: 80,
+    //   render: (text: any) => (
+    //     <span
+    //       style={{
+    //         marginLeft: 16,
+    //       }}
+    //     >
+    //       {text}
+    //     </span>
+    //   ),
+    // },
   ];
 
-  // const [selectedRows, setSelectedRows] = useState([]);
-  //
-  // const rowSelection = {
-  //   selectedRows,
-  //   onChange: (selectedRows: any) => {
-  //     setSelectedRows(selectedRows);
-  //   },
-  // };
+  switch (type) {
+    case TableType.All_List:
+      columns.push({
+        title: 'Actions',
+        dataIndex: '',
+        key: 'actions',
+        width: 64,
+        render: (text: any) => (
+          <span
+            style={{
+              marginLeft: marginLeft - 17,
+            }}
+          >
+            <Button type="link">View Colour</Button>
+          </span>
+        ),
+      });
+      break;
+    case TableType.Select_Multiple:
+      columns.push({
+        title: 'Actions',
+        dataIndex: '',
+        key: 'actions',
+        width: 64,
+        render: (text: any, record: any) => {
+          // console.log('RECORD:', record);
+          const rowIsSelected = _.includes(selectedRowKeys, record.key);
+          // console.log('rowIsSelected:', rowIsSelected);
+
+          return (
+            <span
+              style={{
+                marginLeft: marginLeft - 17,
+                display: 'block',
+                userSelect: 'none',
+              }}
+            >
+              {!rowIsSelected ? (
+                <a onClick={(e) => onSelectEntry(record, e)}>Select</a>
+              ) : (
+                <a onClick={(e) => onDeselectEntry(record, e)}>Deselect</a>
+              )}
+            </span>
+          );
+        },
+      });
+      break;
+  }
 
   return (
     <Table
@@ -191,12 +259,12 @@ function MediaItemsTable({
         minWidth: 1000,
         // calc(100vw - 304px)
       }}
-      // rowSelection={rowSelection}
+      rowSelection={rowSelection}
       size="small"
       columns={columns}
       dataSource={data}
       expandedRowRender={(record) => <p style={{ margin: 0 }}>{record.name}</p>}
-      scroll={{ x: 300 }}
+      scroll={scroll}
       pagination={{ pageSize: 20 }}
     />
   );

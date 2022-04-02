@@ -47,6 +47,11 @@ interface FabricLayersTableViewProps {
   currentFabricLayerId?: number;
   selectFabricLayer?: Function;
   type?: TableType;
+  isPopup?: boolean;
+  onSelectEntry?: Function;
+  onDeselectEntry?: Function;
+  rowSelection?: any;
+  selectedRowKeys?: number[];
 }
 
 function MediaItemsTableView({
@@ -54,6 +59,11 @@ function MediaItemsTableView({
   selectFabricLayer,
   currentFabricLayerId,
   type = TableType.All_List,
+  isPopup,
+  onSelectEntry = () => {},
+  onDeselectEntry = () => {},
+  rowSelection = {},
+  selectedRowKeys = [],
 }: FabricLayersTableViewProps) {
   // TODO: Load from user's settings, default: most highest option
   const [settingShow, setSettingShow] = useState(
@@ -66,12 +76,12 @@ function MediaItemsTableView({
   // practical application, if the user hasn't clicked on any of the
   // checkboxes for wanting to filter for a fabric layer type, then it's
   // assumed that they want to see all types
-  const ALL_FABRIC_LAYER_TYPES = [
-    FabricLayerType.Shell,
-    FabricLayerType.Fill,
-    FabricLayerType.Interlining,
-    FabricLayerType.Lining,
-  ];
+  // const ALL_FABRIC_LAYER_TYPES = [
+  //   FabricLayerType.Shell,
+  //   FabricLayerType.Fill,
+  //   FabricLayerType.Interlining,
+  //   FabricLayerType.Lining,
+  // ];
 
   const [selectedFabricLayerTypes, setSelectedFabricLayerTypes] = useState([]);
   useEffect(() => {
@@ -205,6 +215,11 @@ function MediaItemsTableView({
           currentFabricLayerId={currentFabricLayerId}
           selectFabricLayer={selectFabricLayer}
           type={type}
+          isPopup={isPopup}
+          onSelectEntry={onSelectEntry}
+          onDeselectEntry={onDeselectEntry}
+          rowSelection={rowSelection}
+          selectedRowKeys={selectedRowKeys}
         />
       </Row>
     </Content>

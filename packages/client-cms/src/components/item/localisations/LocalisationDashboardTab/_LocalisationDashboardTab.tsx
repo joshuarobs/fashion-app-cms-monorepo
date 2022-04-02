@@ -10,6 +10,7 @@ interface LocalisationDashboardTabProps {
   mediaItemAssociated: [];
   tabPath: any;
   urlNumberOfParts: number;
+  // setMediaItemIds: Function;
 }
 
 function LocalisationDashboardTab({
@@ -18,21 +19,26 @@ function LocalisationDashboardTab({
   mediaItemAssociated,
   tabPath,
   urlNumberOfParts,
-}: LocalisationDashboardTabProps) {
+}: // setMediaItemIds,
+LocalisationDashboardTabProps) {
+  const id = Number.parseInt(String(itemId));
+
   console.log('itemId:', itemId);
   return (
     <>
       <ColumnOfFrames freeWidth>
         <LocalisationDashboardFrame
+          id={id}
           latestTranslations={latestTranslations}
           mediaItemAssociated={mediaItemAssociated}
           tabPath={tabPath}
+          // setMediaItemIds={setMediaItemIds}
         />
       </ColumnOfFrames>
       <ColumnOfFrames>
         {/*<LocaleDashboardActivityFrame itemId={itemId} />*/}
         <OverviewActivityFrame
-          id={Number.parseInt(String(itemId))}
+          id={id}
           query={Get_Item_Translation_Revision_Changes}
           childObjectString={'getItemTranslationRevisionChanges'}
         />
