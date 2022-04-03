@@ -7,8 +7,8 @@ import { Get_Item_Translation_Revision_Changes } from '../../../../queries/item_
 interface LocalisationDashboardTabProps {
   itemId?: string;
   latestTranslations: any;
-  mediaItemAssociated: [];
-  refetchMediaItemAssociated: Function;
+  // mediaItemAssociated: [];
+  // refetchMediaItemAssociated: Function;
   tabPath: any;
   urlNumberOfParts: number;
   // setMediaItemIds: Function;
@@ -17,8 +17,8 @@ interface LocalisationDashboardTabProps {
 function LocalisationDashboardTab({
   itemId,
   latestTranslations,
-  mediaItemAssociated,
-  refetchMediaItemAssociated,
+  // mediaItemAssociated,
+  // refetchMediaItemAssociated,
   tabPath,
   urlNumberOfParts,
 }: // setMediaItemIds,
@@ -32,8 +32,8 @@ LocalisationDashboardTabProps) {
         <LocalisationDashboardFrame
           id={id}
           latestTranslations={latestTranslations}
-          mediaItemAssociated={mediaItemAssociated}
-          refetchMediaItemAssociated={refetchMediaItemAssociated}
+          // mediaItemAssociated={mediaItemAssociated}
+          // refetchMediaItemAssociated={refetchMediaItemAssociated}
           tabPath={tabPath}
           // setMediaItemIds={setMediaItemIds}
         />

@@ -109,7 +109,8 @@ function MediaItemsTableView({
   // Iterate through all data and set keys
   const newData = _.cloneDeep(data.getMediaListBB);
   newData.forEach((item: any, index: any) => {
-    item.key = index;
+    // item.key = index;
+    item.key = item.id;
   });
 
   // Get the number of all fabric layers

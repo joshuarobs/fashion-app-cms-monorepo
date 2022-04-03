@@ -59,7 +59,7 @@ function MediaItemsTable({
       key: 'name',
       width: 200,
       render: (text: any, record: any) => {
-        console.log('record:', record);
+        // console.log('record:', record);
 
         return (
           <a

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, Switch, Typography } from 'antd';
 import { MediaSmallCardAdd } from '../../../../common/media/MediaSmallCardAdd';
 import { MediaSmallCard } from '../../../../common/media/MediaSmallCard';
@@ -13,15 +13,15 @@ const { Paragraph, Text } = Typography;
 
 interface AssociatedMediaSectionProps {
   id: number;
-  mediaItemAssociated: [];
-  refetchMediaItemAssociated: Function;
+  mediaItemAssociated: any;
+  // refetchMediaItemAssociated: Function;
   showTitle?: boolean;
   setMediaItemIds: Function;
 }
 
 function AssociatedMediaSection({
   id,
-  // mediaItemAssociated,
+  mediaItemAssociated,
   // refetchMediaItemAssociated,
   showTitle = false,
   setMediaItemIds,
@@ -34,32 +34,12 @@ function AssociatedMediaSection({
   // the original data from the database
   const [originalMediaIds, setOriginalMediaIds] = useState([]);
 
-  // TODO: Make a query that does it, but takes in an array of ids
+  useEffect(() => {
+    // console.log('mediaItemAssociated:', mediaItemAssociated);
+    setCurrentMediaIds(mediaItemAssociated.map(({ id }: any) => id));
+  }, [mediaItemAssociated]);
 
-  const {
-    loading: loadingMediaItemAssociated,
-    error: errorMediaItemAssociated,
-    data: dataMediaItemAssociated,
-    refetch: refetchMediaItemAssociated,
-  } = useQuery(Get_Item_And_Media_Item_Associated_For_Item_Id, {
-    variables: { id },
-    fetchPolicy: 'network-only',
-  });
-
-  if (loadingMediaItemAssociated) return <div />;
-  if (errorMediaItemAssociated) {
-    console.error(errorMediaItemAssociated);
-    return <div>{errorMediaItemAssociated}</div>;
-  }
-
-  const mediaItemAssociated =
-    dataMediaItemAssociated.getItemAndMediaItemAssociatedForItemId.map(
-      // @ts-ignore
-      ({ media_item }) => media_item
-    );
-
-  // const [mediaItemIds, setMediaItemIds] = useState([]);
-  console.log('mediaItemAssociated:', mediaItemAssociated);
+  // console.log('currentMediaIds:', currentMediaIds);
 
   const openPopup = () => {
     setShowPopup(true);
@@ -75,6 +55,7 @@ function AssociatedMediaSection({
         loadMediaItems={() => {}}
         loading={false}
         showModal={showPopup}
+        currentMediaIds={currentMediaIds}
         setNewMediaItems={setMediaItemIds}
         onCancel={closePopup}
       />
@@ -127,7 +108,11 @@ function AssociatedMediaSection({
         )}
         <div style={{ width: '100%', display: 'flex', flexFlow: 'row wrap' }}>
           {mediaItemAssociated.map((media_item: any) => (
-            <MediaSmallCard media_item={media_item} onClick={() => {}} />
+            <MediaSmallCard
+              key={media_item.key}
+              media_item={media_item}
+              onClick={() => {}}
+            />
           ))}
           <MediaSmallCardAdd onClick={openPopup} />
         </div>

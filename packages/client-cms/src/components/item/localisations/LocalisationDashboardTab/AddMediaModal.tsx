@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'antd';
 import { TableType } from '../../../common/table-views/TableType';
 import { Get_All_Colour_Mix_Parts_Ids } from '../../../../queries/colour_mix_parts/getAllColourMixPartsIds';
@@ -14,6 +14,7 @@ interface AddMediaModalProps {
   // rowSelection: any;
   // submitButtonDisabled: boolean;
   // newColourMixParts: number[];
+  currentMediaIds: any;
   setNewMediaItems: Function;
   loadMediaItems: Function;
 }
@@ -24,6 +25,7 @@ function AddMediaModal({
   // onSubmit,
   loading,
   // newColourMixParts,
+  currentMediaIds,
   setNewMediaItems,
   loadMediaItems,
 }: AddMediaModalProps) {
@@ -35,6 +37,18 @@ function AddMediaModal({
   // const [totalPercent, setTotalPercent] = useState(0);
   // const [prevTotalPercent, setPrevTotalPercent] = useState(0);
   const submitButtonDisabled = false;
+
+  useEffect(() => {
+    setSelectedMediaIds(currentMediaIds);
+    setPrevSelectedMediaIds(currentMediaIds);
+  }, [currentMediaIds]);
+
+  console.log(
+    'selectedMediaIds:',
+    selectedMediaIds,
+    '| prevSelectedMediaIds:',
+    prevSelectedMediaIds
+  );
 
   // When selectedColourMixParts gets updated, update the selected keys
   // useEffect(() => {
@@ -77,7 +91,7 @@ function AddMediaModal({
    * when selecting multiple colour mix parts
    */
   const rowSelection = {
-    selectedRowKeys,
+    selectedRowKeys: selectedMediaIds,
     hideSelectAll: true,
     getCheckboxProps: (record: any) => ({
       // disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -120,6 +134,7 @@ function AddMediaModal({
    * @param e
    */
   const onCancelThisPopup = (e: any) => {
+    console.log('!!!onCancelThisPopup!!!');
     // When cancelling, reset any changes made
     setSelectedRowKeys(prevSelectedRowKeys);
     setSelectedMediaIds(prevSelectedMediaIds);
@@ -204,7 +219,7 @@ function AddMediaModal({
         top: 16,
       }}
       footer={[
-        <Button key="back" onClick={onCancel}>
+        <Button key="back" onClick={onCancelThisPopup}>
           Cancel
         </Button>,
         <Button

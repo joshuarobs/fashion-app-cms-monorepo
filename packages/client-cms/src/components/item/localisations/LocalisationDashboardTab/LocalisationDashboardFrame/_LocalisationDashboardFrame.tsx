@@ -9,14 +9,15 @@ import { useQuery } from '@apollo/client';
 import { Get_Item_Translation_Revisions } from '../../../../../queries/item_translation_revisions/getItemTranslationRevisions';
 import { Get_Item_And_Media_Item_Associated_For_Item_Id } from '../../../../../queries/item_and_media_item_associated/getItemAndMediaItemAssociatedForItemId';
 import { Simulate } from 'react-dom/test-utils';
+import { AssociatedMediaSectionView } from './AssociatedMediaSectionView';
 
 const { Content } = Layout;
 
 interface LocalisationDashboardFrameProps {
   id: number;
   latestTranslations: any;
-  mediaItemAssociated: [];
-  refetchMediaItemAssociated: Function;
+  // mediaItemAssociated: [];
+  // refetchMediaItemAssociated: Function;
   tabPath: string;
   // setMediaItemIds: Function;
 }
@@ -24,8 +25,8 @@ interface LocalisationDashboardFrameProps {
 function LocalisationDashboardFrame({
   id,
   latestTranslations,
-  mediaItemAssociated,
-  refetchMediaItemAssociated,
+  // mediaItemAssociated,
+  // refetchMediaItemAssociated,
   tabPath,
 }: // setMediaItemIds,
 LocalisationDashboardFrameProps) {
@@ -84,10 +85,10 @@ LocalisationDashboardFrameProps) {
       <LocalisationsTable item_translations={sortedLocales} tabPath={tabPath} />
       <p />
       {/*<FrameTitleLevel2 text="Associated Media" />*/}
-      <AssociatedMediaSection
+      <AssociatedMediaSectionView
         id={id}
-        mediaItemAssociated={mediaItemAssociated}
-        refetchMediaItemAssociated={refetchMediaItemAssociated}
+        // mediaItemAssociated={mediaItemAssociated}
+        // refetchMediaItemAssociated={refetchMediaItemAssociated}
         setMediaItemIds={setMediaItemIds}
       />
     </Content>

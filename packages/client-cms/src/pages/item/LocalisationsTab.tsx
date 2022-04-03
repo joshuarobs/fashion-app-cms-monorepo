@@ -89,33 +89,34 @@ function LocalisationsTab() {
     fetchPolicy: 'network-only',
   });
 
-  const {
-    loading: loadingMediaItemAssociated,
-    error: errorMediaItemAssociated,
-    data: dataMediaItemAssociated,
-    refetch: refetchMediaItemAssociated,
-  } = useQuery(Get_Item_And_Media_Item_Associated_For_Item_Id, {
-    variables: { id: Number.parseInt(String(id)) },
-    fetchPolicy: 'network-only',
-  });
+  // const {
+  //   loading: loadingMediaItemAssociated,
+  //   error: errorMediaItemAssociated,
+  //   data: dataMediaItemAssociated,
+  //   refetch: refetchMediaItemAssociated,
+  // } = useQuery(Get_Item_And_Media_Item_Associated_For_Item_Id, {
+  //   variables: { id: Number.parseInt(String(id)) },
+  //   fetchPolicy: 'network-only',
+  // });
 
-  if (loadingTranslationRevisions || loadingMediaItemAssociated) return <div />;
+  if (loadingTranslationRevisions /* || loadingMediaItemAssociated*/)
+    return <div />;
   if (errorTranslationRevisions) {
     return (
       <div>Error! ${JSON.stringify(errorTranslationRevisions, null, 2)}</div>
     );
   }
 
-  if (errorMediaItemAssociated) {
-    return (
-      <div>Error! ${JSON.stringify(errorMediaItemAssociated, null, 2)}</div>
-    );
-  }
+  // if (errorMediaItemAssociated) {
+  //   return (
+  //     <div>Error! ${JSON.stringify(errorMediaItemAssociated, null, 2)}</div>
+  //   );
+  // }
   console.log(
     'LocalisationsTab#dataTranslationRevisions:',
-    dataTranslationRevisions,
-    '| LocalisationsTab#dataMediaItemAssociated:',
-    dataMediaItemAssociated
+    dataTranslationRevisions
+    // '| LocalisationsTab#dataMediaItemAssociated:',
+    // dataMediaItemAssociated
   );
 
   // const item_translation_revisions = data.item_translation_revisions;
@@ -185,11 +186,11 @@ function LocalisationsTab() {
     ({ locale_code }) => locale_code.toString() === currentTab
   );
 
-  const mediaItemAssociated =
-    dataMediaItemAssociated.getItemAndMediaItemAssociatedForItemId.map(
-      // @ts-ignore
-      ({ media_item }) => media_item
-    );
+  // const mediaItemAssociated =
+  //   dataMediaItemAssociated.getItemAndMediaItemAssociatedForItemId.map(
+  //     // @ts-ignore
+  //     ({ media_item }) => media_item
+  //   );
 
   // console.error(
   //   "currentRevision:",
@@ -208,8 +209,8 @@ function LocalisationsTab() {
       // mediaItemAssociated={
       //   dataMediaItemAssociated.getItemAndMediaItemAssociatedForItemId
       // }
-      mediaItemAssociated={mediaItemAssociated}
-      refetchMediaItemAssociated={refetchMediaItemAssociated}
+      // mediaItemAssociated={mediaItemAssociated}
+      // refetchMediaItemAssociated={refetchMediaItemAssociated}
       tabPath={tabPath}
       urlNumberOfParts={Url_Number_Of_Parts}
     />
