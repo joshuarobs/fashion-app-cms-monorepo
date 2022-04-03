@@ -258,6 +258,7 @@ const Queries = gql`
     # media_items
     #--------------------------------------------------
     getMediaListBB(limit: Int, offset: Int): [media_items]
+    getMediaItemsByIds(ids: [String!]): [media_items]
     #--------------------------------------------------
     # staff_users
     #--------------------------------------------------

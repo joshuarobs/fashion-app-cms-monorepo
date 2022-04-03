@@ -14,7 +14,9 @@ const { Paragraph, Text } = Typography;
 interface AssociatedMediaSectionProps {
   id: number;
   mediaItemAssociated: any;
+  // defaultMediaItemAssociated: any;
   // refetchMediaItemAssociated: Function;
+  refetchMediaItemsByIds: Function;
   showTitle?: boolean;
   setMediaItemIds: Function;
 }
@@ -22,7 +24,9 @@ interface AssociatedMediaSectionProps {
 function AssociatedMediaSection({
   id,
   mediaItemAssociated,
+  // defaultMediaItemAssociated,
   // refetchMediaItemAssociated,
+  refetchMediaItemsByIds,
   showTitle = false,
   setMediaItemIds,
 }: AssociatedMediaSectionProps) {
@@ -36,6 +40,7 @@ function AssociatedMediaSection({
 
   useEffect(() => {
     // console.log('mediaItemAssociated:', mediaItemAssociated);
+    // console.error('@@ mediaItemAssociated:', mediaItemAssociated);
     setCurrentMediaIds(mediaItemAssociated.map(({ id }: any) => id));
   }, [mediaItemAssociated]);
 
@@ -56,7 +61,7 @@ function AssociatedMediaSection({
         loading={false}
         showModal={showPopup}
         currentMediaIds={currentMediaIds}
-        setNewMediaItems={setMediaItemIds}
+        setMediaItemIds={setMediaItemIds}
         onCancel={closePopup}
       />
       <div>
@@ -107,13 +112,14 @@ function AssociatedMediaSection({
           </Row>
         )}
         <div style={{ width: '100%', display: 'flex', flexFlow: 'row wrap' }}>
-          {mediaItemAssociated.map((media_item: any) => (
-            <MediaSmallCard
-              key={media_item.key}
-              media_item={media_item}
-              onClick={() => {}}
-            />
-          ))}
+          {mediaItemAssociated &&
+            mediaItemAssociated.map((media_item: any) => (
+              <MediaSmallCard
+                key={media_item.key}
+                media_item={media_item}
+                onClick={() => {}}
+              />
+            ))}
           <MediaSmallCardAdd onClick={openPopup} />
         </div>
       </div>

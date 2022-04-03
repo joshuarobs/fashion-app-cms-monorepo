@@ -52,6 +52,7 @@ interface FabricLayersTableViewProps {
   onDeselectEntry?: Function;
   rowSelection?: any;
   selectedRowKeys?: number[];
+  selectedMediaIds?: string[];
 }
 
 function MediaItemsTableView({
@@ -64,6 +65,7 @@ function MediaItemsTableView({
   onDeselectEntry = () => {},
   rowSelection = {},
   selectedRowKeys = [],
+  selectedMediaIds = [],
 }: FabricLayersTableViewProps) {
   // TODO: Load from user's settings, default: most highest option
   const [settingShow, setSettingShow] = useState(
@@ -221,6 +223,7 @@ function MediaItemsTableView({
           onDeselectEntry={onDeselectEntry}
           rowSelection={rowSelection}
           selectedRowKeys={selectedRowKeys}
+          selectedMediaIds={selectedMediaIds}
         />
       </Row>
     </Content>

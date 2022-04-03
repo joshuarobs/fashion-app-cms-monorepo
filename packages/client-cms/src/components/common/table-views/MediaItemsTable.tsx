@@ -20,6 +20,7 @@ interface MediaItemsTableProps {
   onDeselectEntry?: Function;
   rowSelection: any;
   selectedRowKeys?: number[];
+  selectedMediaIds?: string[];
 }
 
 function MediaItemsTable({
@@ -32,6 +33,7 @@ function MediaItemsTable({
   onDeselectEntry = () => {},
   rowSelection = {},
   selectedRowKeys = [],
+  selectedMediaIds = [],
 }: MediaItemsTableProps) {
   // const marginLeft = size === 'middle' ? 16 : 8;
   const marginLeft = 16;
@@ -229,7 +231,7 @@ function MediaItemsTable({
         width: 64,
         render: (text: any, record: any) => {
           // console.log('RECORD:', record);
-          const rowIsSelected = _.includes(selectedRowKeys, record.key);
+          const rowIsSelected = _.includes(selectedMediaIds, record.key);
           // console.log('rowIsSelected:', rowIsSelected);
 
           return (

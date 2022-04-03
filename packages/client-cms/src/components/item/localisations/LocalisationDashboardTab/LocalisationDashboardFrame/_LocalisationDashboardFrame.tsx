@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout } from 'antd';
 import { FrameTitle } from '../../../../common/typography/FrameTitle';
 import { LocalisationsTable } from './LocalisationsTable';
@@ -17,6 +17,7 @@ interface LocalisationDashboardFrameProps {
   id: number;
   latestTranslations: any;
   // mediaItemAssociated: [];
+  defaultMediaItemAssociated: [];
   // refetchMediaItemAssociated: Function;
   tabPath: string;
   // setMediaItemIds: Function;
@@ -25,12 +26,18 @@ interface LocalisationDashboardFrameProps {
 function LocalisationDashboardFrame({
   id,
   latestTranslations,
+  defaultMediaItemAssociated,
   // mediaItemAssociated,
   // refetchMediaItemAssociated,
   tabPath,
 }: // setMediaItemIds,
 LocalisationDashboardFrameProps) {
-  const [mediaItemIds, setMediaItemIds] = useState([]);
+  console.log('defaultMediaItemAssociated:', defaultMediaItemAssociated);
+  const [mediaItemIds, setMediaItemIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    setMediaItemIds(defaultMediaItemAssociated.map(({ id }) => id));
+  }, [defaultMediaItemAssociated]);
 
   // const {
   //   loading: loadingItemAndMediaItemAssociated,
@@ -87,6 +94,8 @@ LocalisationDashboardFrameProps) {
       {/*<FrameTitleLevel2 text="Associated Media" />*/}
       <AssociatedMediaSectionView
         id={id}
+        defaultMediaItemAssociated={defaultMediaItemAssociated}
+        mediaItemIds={mediaItemIds}
         // mediaItemAssociated={mediaItemAssociated}
         // refetchMediaItemAssociated={refetchMediaItemAssociated}
         setMediaItemIds={setMediaItemIds}

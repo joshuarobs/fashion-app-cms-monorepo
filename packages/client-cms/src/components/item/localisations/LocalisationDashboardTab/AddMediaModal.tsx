@@ -15,7 +15,7 @@ interface AddMediaModalProps {
   // submitButtonDisabled: boolean;
   // newColourMixParts: number[];
   currentMediaIds: any;
-  setNewMediaItems: Function;
+  setMediaItemIds: Function;
   loadMediaItems: Function;
 }
 
@@ -26,7 +26,7 @@ function AddMediaModal({
   loading,
   // newColourMixParts,
   currentMediaIds,
-  setNewMediaItems,
+  setMediaItemIds,
   loadMediaItems,
 }: AddMediaModalProps) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -124,7 +124,7 @@ function AddMediaModal({
     setPrevSelectedRowKeys(selectedRowKeys);
     setPrevSelectedMediaIds(selectedMediaIds);
     // setPrevTotalPercent(totalPercent);
-    setNewMediaItems(selectedMediaIds);
+    setMediaItemIds(selectedMediaIds);
     loadMediaItems();
     onCancel(e);
   };
@@ -248,6 +248,7 @@ function AddMediaModal({
         rowSelection={rowSelection}
         selectedRowKeys={selectedRowKeys}
         type={TableType.Select_Multiple}
+        selectedMediaIds={selectedMediaIds}
       />
     </Modal>
   );

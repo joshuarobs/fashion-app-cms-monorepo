@@ -8,6 +8,7 @@ interface LocalisationDashboardTabProps {
   itemId?: string;
   latestTranslations: any;
   // mediaItemAssociated: [];
+  defaultMediaItemAssociated: [];
   // refetchMediaItemAssociated: Function;
   tabPath: any;
   urlNumberOfParts: number;
@@ -18,6 +19,7 @@ function LocalisationDashboardTab({
   itemId,
   latestTranslations,
   // mediaItemAssociated,
+  defaultMediaItemAssociated,
   // refetchMediaItemAssociated,
   tabPath,
   urlNumberOfParts,
@@ -32,6 +34,7 @@ LocalisationDashboardTabProps) {
         <LocalisationDashboardFrame
           id={id}
           latestTranslations={latestTranslations}
+          defaultMediaItemAssociated={defaultMediaItemAssociated}
           // mediaItemAssociated={mediaItemAssociated}
           // refetchMediaItemAssociated={refetchMediaItemAssociated}
           tabPath={tabPath}
