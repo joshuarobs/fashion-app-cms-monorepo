@@ -1,15 +1,28 @@
+import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, Switch, Typography } from 'antd';
 import { MediaSmallCardAdd } from '../../../../common/media/MediaSmallCardAdd';
 import { MediaSmallCard } from '../../../../common/media/MediaSmallCard';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import {
+  CheckOutlined,
+  CloseOutlined,
+  ExperimentOutlined,
+} from '@ant-design/icons';
 import { SwitchElement } from '../../../../common/SwitchElement';
 import { FrameTitleLevel2 } from '../../../../common/typography/FrameTitleLevel2';
 import { AddMediaModal } from '../AddMediaModal';
 import { useQuery } from '@apollo/client';
 import { Get_Item_And_Media_Item_Associated_For_Item_Id } from '../../../../../queries/item_and_media_item_associated/getItemAndMediaItemAssociatedForItemId';
+import { Fabric_Layer_Details_Frame } from '../../../../../strings';
 
 const { Paragraph, Text } = Typography;
+
+const styles = {
+  sectionTitle: {
+    marginTop: 12,
+    marginBottom: 8,
+  },
+};
 
 interface AssociatedMediaSectionProps {
   id: number;
@@ -52,6 +65,28 @@ function AssociatedMediaSection({
 
   const closePopup = () => {
     setShowPopup(false);
+  };
+
+  const deleteMediaCard = (id: string) => {
+    console.log('id:', id);
+    // @ts-ignore
+    // console.log('deleteMediaCard#mediaItemAssociated:', mediaItemAssociated);
+    // setCurrentMediaIds(
+    //   _.remove(mediaItemAssociated, ({ id }) => {
+    //     return toDeleteId === id;
+    //   })
+    // );
+    // Remove the database entry id from the selected keys
+    setMediaItemIds(currentMediaIds.filter((value) => value !== id));
+    console.log(
+      '___:',
+      currentMediaIds.filter((value) => value !== id)
+      // _.filter(mediaItemAssociated, )
+      // @ts-ignore
+      // currentMediaIds.filter((id) => {
+      //   return toDeleteId === id;
+      // })
+    );
   };
 
   return (
@@ -111,17 +146,35 @@ function AssociatedMediaSection({
             </Typography>
           </Row>
         )}
-        <div style={{ width: '100%', display: 'flex', flexFlow: 'row wrap' }}>
-          {mediaItemAssociated &&
-            mediaItemAssociated.map((media_item: any) => (
-              <MediaSmallCard
-                key={media_item.key}
-                media_item={media_item}
-                onClick={() => {}}
-              />
-            ))}
-          <MediaSmallCardAdd onClick={openPopup} />
-        </div>
+        <table>
+          <tbody>
+            <tr
+              style={{ width: '100%', display: 'flex', flexFlow: 'row wrap' }}
+            >
+              {mediaItemAssociated &&
+                mediaItemAssociated.map((media_item: any, index: any) => (
+                  // <td key={media_item.key}>
+                  <td key={index}>
+                    <MediaSmallCard
+                      key={media_item.key}
+                      media_item={media_item}
+                      onClick={() => {}}
+                      // @ts-ignore
+                      onClickDelete={deleteMediaCard}
+                    />
+                  </td>
+                ))}
+              {/*<td key="manage-media">*/}
+              {/*  <MediaSmallCardAdd onClick={openPopup} />*/}
+              {/*</td>*/}
+            </tr>
+          </tbody>
+        </table>
+        <Row style={styles.sectionTitle}>
+          <Button style={{ width: '100%' }} onClick={openPopup}>
+            Select Associated Media
+          </Button>
+        </Row>
       </div>
     </>
   );

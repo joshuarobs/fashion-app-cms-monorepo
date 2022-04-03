@@ -210,7 +210,7 @@ function AddMediaModal({
   return (
     <Modal
       visible={showModal}
-      title="Add Media for Item"
+      title="Select Associated Media for Item"
       onCancel={onCancelThisPopup}
       onOk={onSubmit}
       style={{
