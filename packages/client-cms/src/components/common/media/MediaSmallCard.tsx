@@ -64,6 +64,9 @@ function MediaSmallCard({
             marginRight: 4,
             fontSize: 24,
             opacity: 0.5,
+            // Hide the close button for now since using it makes refreshing
+            // the page flicker and not smooth
+            visibility: 'hidden',
           }}
           onClick={() => onClickDelete(id)}
         />
