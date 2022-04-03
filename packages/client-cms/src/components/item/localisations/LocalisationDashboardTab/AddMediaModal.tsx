@@ -127,6 +127,7 @@ function AddMediaModal({
     setMediaItemIds(selectedMediaIds);
     loadMediaItems();
     onCancel(e);
+    e.preventDefault();
   };
 
   /**

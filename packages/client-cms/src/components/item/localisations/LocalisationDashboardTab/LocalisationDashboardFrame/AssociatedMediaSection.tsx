@@ -32,6 +32,10 @@ interface AssociatedMediaSectionProps {
   refetchMediaItemsByIds: Function;
   showTitle?: boolean;
   setMediaItemIds: Function;
+  viewGuidelines: boolean;
+  setViewGuidelines: Function;
+  showPopup: boolean;
+  setShowPopup: Function;
 }
 
 function AssociatedMediaSection({
@@ -42,9 +46,13 @@ function AssociatedMediaSection({
   refetchMediaItemsByIds,
   showTitle = false,
   setMediaItemIds,
+  viewGuidelines,
+  setViewGuidelines,
+  showPopup,
+  setShowPopup,
 }: AssociatedMediaSectionProps) {
-  const [viewGuidelines, setViewGuidelines] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
+  // const [viewGuidelines, setViewGuidelines] = useState(false);
+  // const [showPopup, setShowPopup] = useState(false);
   const [currentMediaIds, setCurrentMediaIds] = useState([]);
   const [prevMediaIds, setPrevMediaIds] = useState([]);
   // Differs from prev, as prev is part of unsaved changes, but original is

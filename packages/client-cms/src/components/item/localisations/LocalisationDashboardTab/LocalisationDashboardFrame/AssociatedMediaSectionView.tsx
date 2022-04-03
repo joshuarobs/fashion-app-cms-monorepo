@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AssociatedMediaSection } from './AssociatedMediaSection';
 import { useQuery } from '@apollo/client';
 import { Get_Item_And_Media_Item_Associated_For_Item_Id } from '../../../../../queries/item_and_media_item_associated/getItemAndMediaItemAssociatedForItemId';
@@ -26,6 +26,10 @@ function AssociatedMediaSectionView({
   showTitle = false,
   setMediaItemIds,
 }: AssociatedMediaSectionViewProps) {
+  const [viewGuidelines, setViewGuidelines] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [currentMediaIds, setCurrentMediaIds] = useState([]);
+
   const {
     loading: loadingMediaItemsByIds,
     error: errorMediaItemsByIds,
@@ -61,6 +65,10 @@ function AssociatedMediaSectionView({
         // refetchMediaItemAssociated={refetchMediaItemAssociated}
         refetchMediaItemsByIds={refetchMediaItemsByIds}
         setMediaItemIds={setMediaItemIds}
+        viewGuidelines={viewGuidelines}
+        setViewGuidelines={setViewGuidelines}
+        showPopup={showPopup}
+        setShowPopup={setShowPopup}
       />
     </>
   );
