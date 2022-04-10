@@ -1,6 +1,12 @@
 import { gql } from '@apollo/client';
+import _ from 'lodash';
 import { client } from '../../graphql-client';
 import { logger } from '../../logger';
+import { getItemBaseDataByPk } from '../items/getItemBaseDataByPk';
+import { getMediaItemByPk } from '../media_items/getMediaItemByPk';
+import { insertItemAndMediaItemAssociatedOne } from './insertItemAndMediaItemAssociatedOne';
+import { deleteItemAndMediaItemAssociatedByPk } from './deleteItemAndMediaItemAssociatedByPk';
+import { getItemAndMediaItemAssociatedForItemId } from './getItemAndMediaItemAssociatedForItemId';
 
 /**
  * This function will take an item's id, and a list of media item ids. It
@@ -39,8 +45,15 @@ async function insertAndDeleteManyMediaItemAssociatedByIds(
      * ============================================================
      */
     // Check that the item_id is a valid id with an inserted row
+    const data2 = await getItemBaseDataByPk(item_id);
+    console.log('data2:', data2);
 
-    // Get the item
+    if (!data2) {
+      logger.info(
+        `${loggerPrefix}graphql > insertAndDeleteManyMediaItemAssociatedByIds() :: No item found given item_id: ${item_id}`
+      );
+      return null;
+    }
 
     /*
      * ============================================================
@@ -48,18 +61,62 @@ async function insertAndDeleteManyMediaItemAssociatedByIds(
      *    the argument ids
      * ============================================================
      */
+    const currentIds = data2.item_and_media_item_associations.map(
+      ({ media_item_id }: any) => media_item_id
+    );
+    console.log('currentIds:', currentIds);
+
+    const idsToAdd = _.differenceWith(media_item_ids, currentIds);
+    const idsToRemove = _.differenceWith(currentIds, media_item_ids);
+    console.log('idsToAdd:', idsToAdd);
+    console.log('idsToRemove:', idsToRemove);
 
     /*
      * ============================================================
      * 4. Insert any new relationships
      * ============================================================
      */
+    for (const idToAdd of idsToAdd) {
+      // ------------------------------------------------------------
+      //  1. Ensure that the id to add is a valid media item id
+      // ------------------------------------------------------------
+      const data4a1 = await getMediaItemByPk(idToAdd);
+      console.log('data4a1:', data4a1);
+      // ------------------------------------------------------------
+      //  2. Add the new relationship
+      // ------------------------------------------------------------
+      if (data4a1) {
+        const data4a2 = await insertItemAndMediaItemAssociatedOne(
+          item_id,
+          idToAdd,
+          context
+        );
+      }
+    }
 
     /*
      * ============================================================
      * 5. Remove any obsolete relationships
      * ============================================================
      */
+    for (const idToRemove of idsToRemove) {
+      // ------------------------------------------------------------
+      //  1. Ensure that the id to add is a valid media item id
+      // ------------------------------------------------------------
+      const data5a1 = await getMediaItemByPk(idToRemove);
+      console.log('data4a1:', data5a1);
+      // ------------------------------------------------------------
+      //  2. Add the new relationship
+      // ------------------------------------------------------------
+      if (data5a1) {
+        // console.log('to remove');
+        const data5a2 = await deleteItemAndMediaItemAssociatedByPk(
+          item_id,
+          idToRemove,
+          context
+        );
+      }
+    }
 
     /*
      * ============================================================
@@ -72,6 +129,9 @@ async function insertAndDeleteManyMediaItemAssociatedByIds(
      * 7. Get the item's new associated media ids
      * ============================================================
      */
+
+    const data7 = await getItemAndMediaItemAssociatedForItemId(item_id, 0, 0);
+    console.log('data7:', data7);
 
     // const data = await client.mutate({
     //   mutation: gql`
@@ -116,10 +176,15 @@ async function insertAndDeleteManyMediaItemAssociatedByIds(
      * ============================================================
      */
     logger.info(
-      `${loggerPrefix}graphql > insertItemMaindataRevisionChange() :: Successfully returned data`
+      `${loggerPrefix}graphql > insertAndDeleteManyMediaItemAssociatedByIds() :: Successfully returned data`
     );
+    // return true;
+    if (idsToAdd || idsToRemove) {
+      return data7;
+    } else {
+      return null;
+    }
     // return data.data.insert_item_maindata_revision_changes_one;
-    return null;
   } catch (e) {
     logger.error(e);
     return null;

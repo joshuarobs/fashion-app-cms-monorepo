@@ -33,6 +33,13 @@ async function getItemBaseDataByPk(id: number) {
                 count
               }
             }
+            item_and_media_item_associations {
+              media_item_id
+              item_id
+              media_item {
+                id
+              }
+            }
           }
         }
       `,

@@ -5,12 +5,14 @@ import { LocalisationsTable } from './LocalisationsTable';
 import { Locale_Sidebar_Order } from '../../../../common/localisation/LocalisationSidebar/localeSidebarOrders';
 import { FrameTitleLevel2 } from '../../../../common/typography/FrameTitleLevel2';
 import { AssociatedMediaSection } from './AssociatedMediaSection';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { Get_Item_Translation_Revisions } from '../../../../../queries/item_translation_revisions/getItemTranslationRevisions';
 import { Get_Item_And_Media_Item_Associated_For_Item_Id } from '../../../../../queries/item_and_media_item_associated/getItemAndMediaItemAssociatedForItemId';
 import { Simulate } from 'react-dom/test-utils';
 import { AssociatedMediaSectionView } from './AssociatedMediaSectionView';
 import { UnsavedChangesCard } from '../../../../common/UnsavedChangesCard';
+import { Insert_And_Delete_Many_Media_Item_Associated_By_Ids } from '../../../../../queries/item_and_media_item_associated/insertAndDeleteManyMediaItemAssociatedByIds';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const { Content } = Layout;
 
@@ -19,7 +21,7 @@ interface LocalisationDashboardFrameProps {
   latestTranslations: any;
   // mediaItemAssociated: [];
   defaultMediaItemAssociated: [];
-  // refetchMediaItemAssociated: Function;
+  refetchMediaItemAssociated: Function;
   tabPath: string;
   // setMediaItemIds: Function;
 }
@@ -29,13 +31,32 @@ function LocalisationDashboardFrame({
   latestTranslations,
   defaultMediaItemAssociated,
   // mediaItemAssociated,
-  // refetchMediaItemAssociated,
+  refetchMediaItemAssociated,
   tabPath,
 }: // setMediaItemIds,
 LocalisationDashboardFrameProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   console.log('defaultMediaItemAssociated:', defaultMediaItemAssociated);
   const [mediaItemIds, setMediaItemIds] = useState<string[]>([]);
   const [prevMediaItemIds, setPrevMediaItemIds] = useState<string[]>([]);
+
+  const [
+    saveAssociatedMediaChanges,
+    {
+      data: dataAssociatedMediaChanges,
+      loading: loadingAssociatedMediaChanges,
+      error: errorAssociatedMediaChanges,
+    },
+  ] = useMutation(Insert_And_Delete_Many_Media_Item_Associated_By_Ids, {
+    refetchQueries: [
+      {
+        query: Get_Item_And_Media_Item_Associated_For_Item_Id,
+        variables: { id: Number.parseInt(String(id)) },
+      },
+    ],
+  });
 
   useEffect(() => {
     const ids = defaultMediaItemAssociated.map(({ id }) => id);
@@ -113,7 +134,20 @@ LocalisationDashboardFrameProps) {
     setMediaItemIds(prevMediaItemIds);
   };
 
-  const saveChanges = async () => {};
+  const saveChanges = async () => {
+    await saveAssociatedMediaChanges({
+      variables: {
+        item_id: id,
+        media_item_ids: mediaItemIds,
+      },
+    });
+    refetchMediaItemAssociated();
+    // Refresh the page to update saved changes
+    // Not the cleanest, smoothest way to do things, but somehow I can't get
+    // the original id list to update
+    // navigate(location, { replace: true });
+    // Update: This isn't necessary since we can just call the refetch
+  };
 
   return (
     <>

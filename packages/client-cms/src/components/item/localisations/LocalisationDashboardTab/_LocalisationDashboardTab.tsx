@@ -9,7 +9,7 @@ interface LocalisationDashboardTabProps {
   latestTranslations: any;
   // mediaItemAssociated: [];
   defaultMediaItemAssociated: [];
-  // refetchMediaItemAssociated: Function;
+  refetchMediaItemAssociated: Function;
   tabPath: any;
   urlNumberOfParts: number;
   // setMediaItemIds: Function;
@@ -20,7 +20,7 @@ function LocalisationDashboardTab({
   latestTranslations,
   // mediaItemAssociated,
   defaultMediaItemAssociated,
-  // refetchMediaItemAssociated,
+  refetchMediaItemAssociated,
   tabPath,
   urlNumberOfParts,
 }: // setMediaItemIds,
@@ -36,7 +36,7 @@ LocalisationDashboardTabProps) {
           latestTranslations={latestTranslations}
           defaultMediaItemAssociated={defaultMediaItemAssociated}
           // mediaItemAssociated={mediaItemAssociated}
-          // refetchMediaItemAssociated={refetchMediaItemAssociated}
+          refetchMediaItemAssociated={refetchMediaItemAssociated}
           tabPath={tabPath}
           // setMediaItemIds={setMediaItemIds}
         />

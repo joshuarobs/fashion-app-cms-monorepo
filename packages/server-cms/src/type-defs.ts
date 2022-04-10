@@ -486,6 +486,7 @@ const typeDefs = gql`
     # Relationships
     item_maindata_revisions: [item_maindata_revisions]
     item_translation_revisions: [item_translation_revisions]
+    item_and_media_item_associations: [item_and_media_item_associated]
     # Hasura Relationships
     item_maindata_revisions_aggregate: hasura_aggregate_holder
     item_translation_revisions_aggregate: hasura_aggregate_holder

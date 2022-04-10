@@ -206,6 +206,7 @@ function LocalisationsTab() {
       itemId={id}
       latestTranslations={latestTranslationRevisions}
       defaultMediaItemAssociated={defaultMediaItemAssociated}
+      refetchMediaItemAssociated={refetchMediaItemAssociated}
       // mediaItemAssociated={
       //   dataMediaItemAssociated.getItemAndMediaItemAssociatedForItemId
       // }

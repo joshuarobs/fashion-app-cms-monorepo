@@ -123,6 +123,13 @@ const Mutations = gql`
     # genders
     #--------------------------------------------------
     #--------------------------------------------------
+    # item_and_media_item_associated
+    #--------------------------------------------------
+    insertAndDeleteManyMediaItemAssociatedByIds(
+      item_id: Int!
+      media_item_ids: [String!]!
+    ): [item_and_media_item_associated]
+    #--------------------------------------------------
     # item_maindata
     #--------------------------------------------------
     deleteItemMaindataForItem: item_maindata
