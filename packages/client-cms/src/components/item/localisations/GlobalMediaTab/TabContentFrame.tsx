@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import { Button, Col, Input, Row, Tooltip, Typography } from 'antd';
 import { WarningFilled } from '@ant-design/icons';
@@ -53,6 +53,7 @@ interface TabContentFrameProps {
   hasChanged: any;
   copyFull: any;
   disabled: boolean;
+  openPopup: MouseEventHandler<HTMLElement>;
   description?: string;
   setDescription: Function;
   onPressEnterFullName: Function;
@@ -68,6 +69,7 @@ function TabContentFrame({
   copyFull,
   disabled,
   description,
+  openPopup,
   setDescription,
   onPressEnterFullName,
   onPressEnterShortName,
@@ -180,7 +182,9 @@ function TabContentFrame({
         </StyledReactSortableGrid>
       </Row>
       <Row style={{ marginTop: 16 }}>
-        <Button style={{ width: '100%' }}>Select Media</Button>
+        <Button style={{ width: '100%' }} onClick={openPopup}>
+          Select Media
+        </Button>
       </Row>
       {/* TITLE - DESCRIPTION */}
       <Row style={styles.sectionTitle} gutter={gutter}>

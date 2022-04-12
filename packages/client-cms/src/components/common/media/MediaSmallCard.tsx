@@ -76,7 +76,8 @@ function MediaSmallCard({
             style={{
               backgroundColor: '#888888',
               position: 'absolute',
-              zIndex: 100000000,
+              // zIndex: 100000000,
+              zIndex: 5,
               marginTop: 4,
               marginRight: 4,
               fontSize: 14,
@@ -94,6 +95,7 @@ function MediaSmallCard({
             // marginTop: 4,
             // borderRadius: 4,
             userSelect: 'none',
+            zIndex: 1,
           }}
         />
         <CloseOutlined

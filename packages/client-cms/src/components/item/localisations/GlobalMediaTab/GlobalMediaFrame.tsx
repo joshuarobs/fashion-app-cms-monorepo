@@ -32,6 +32,7 @@ import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../qu
 import { Delete_Item_Translation_Revision_Locale_Page } from '../../../../queries/item_translation_revisions/deleteItemTranslationRevisionLocalePage';
 import { Get_Item_Translation_Revisions } from '../../../../queries/item_translation_revisions/getItemTranslationRevisions';
 import { PictureOutlined } from '@ant-design/icons';
+import { SelectMediaModal } from './SelectMediaModal/_SelectMediaModal';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -82,6 +83,9 @@ GlobalMediaFrameProps) {
   const [currentRevision, setCurrentRevision] = useState(uniqueRevisions[0]);
   const [state, setState] = useState(null);
   const [revision_id, setRevisionId] = useState(null);
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [currentMediaIds, setCurrentMediaIds] = useState([]);
 
   useEffect(() => {
     const matchingRevision = uniqueRevisions.find(
@@ -434,6 +438,14 @@ GlobalMediaFrameProps) {
     navigate(`${location.pathname}?rev=${paramsRevision}&release=${key}`);
   };
 
+  const openPopup = () => {
+    setShowPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
   let releaseTag = <div />;
   if (translationRelease) {
     if (state === DataState.Review) {
@@ -556,6 +568,14 @@ GlobalMediaFrameProps) {
         }
         discardChanges={translationRelease ? discardChanges2 : discardChanges1}
         saveChanges={translationRelease ? saveChanges2 : saveChanges1}
+      />
+      <SelectMediaModal
+        showModal={showPopup}
+        onCancel={closePopup}
+        loading={false}
+        currentMediaIds={currentMediaIds}
+        setMediaItemIds={() => {}}
+        loadMediaItems={() => {}}
       />
       <Content
         style={{
@@ -684,6 +704,7 @@ GlobalMediaFrameProps) {
               disabled={frameIsDisabled}
               // disabled={false}
               description={!paramsIsReleaseBool ? description1 : description2}
+              openPopup={openPopup}
               setDescription={
                 !paramsIsReleaseBool ? setDescription1 : setDescription2
               }
