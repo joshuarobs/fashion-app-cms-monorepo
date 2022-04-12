@@ -259,6 +259,7 @@ function MediaItemsTable({
       style={{
         width: '100%',
         minWidth: 1000,
+        maxHeight: isPopup ? 450 : '',
         // calc(100vw - 304px)
       }}
       rowSelection={rowSelection}

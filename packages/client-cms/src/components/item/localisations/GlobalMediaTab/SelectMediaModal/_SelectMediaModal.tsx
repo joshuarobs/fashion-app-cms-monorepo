@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Tabs } from 'antd';
 import { TableType } from '../../../../common/table-views/TableType';
 import _ from 'lodash';
 import { MediaItemsTableView } from '../../../../common/table-views/MediaItemsTableView';
+import { HeaderTabLinkCountBadge } from '../../../../common/HeaderTabLinkCountBadge';
+import { NavLink } from 'react-router-dom';
+import { MediaSmallCard } from '../../../../common/media/MediaSmallCard';
+import { AssociatedMediaSectionView } from './AssociatedMediaSectionView';
+
+const { TabPane } = Tabs;
 
 interface SelectMediaModalProps {
   showModal: boolean;
@@ -229,15 +235,100 @@ function SelectMediaModal({
         </Button>,
       ]}
     >
-      <MediaItemsTableView
-        isPopup
-        onSelectEntry={onSelectEntry}
-        onDeselectEntry={onDeselectEntry}
-        rowSelection={rowSelection}
-        selectedRowKeys={selectedRowKeys}
-        type={TableType.Select_Multiple}
-        selectedMediaIds={selectedMediaIds}
-      />
+      <Tabs
+        defaultActiveKey="1"
+        style={{
+          width: '100%',
+        }}
+        size="small"
+      >
+        <TabPane
+          tab={
+            <div
+              // className="page-tab-link"
+              style={{
+                width: 600,
+                padding: '4px 0px',
+                userSelect: 'none',
+                textAlign: 'center',
+              }}
+            >
+              <div>
+                Associated Media
+                <HeaderTabLinkCountBadge count={2} />
+              </div>
+            </div>
+          }
+          key="1"
+        >
+          <div
+            style={{
+              padding: 24,
+              paddingTop: 16,
+            }}
+          >
+            <table>
+              <tbody>
+                <tr
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    flexFlow: 'row wrap',
+                  }}
+                >
+                  <AssociatedMediaSectionView
+                    id={1}
+                    defaultMediaItemAssociated={[]}
+                    mediaItemIds={selectedMediaIds}
+                    prevMediaItemIds={prevSelectedMediaIds}
+                    setMediaItemIds={setMediaItemIds}
+                  />
+                  {/*{mediaItemAssociated &&*/}
+                  {/*  mediaItemAssociated.map((media_item: any, index: any) => (*/}
+                  {/*    // <td key={media_item.key}>*/}
+                  {/*    <td key={index}>*/}
+                  {/*      <MediaSmallCard*/}
+                  {/*        key={media_item.key}*/}
+                  {/*        media_item={media_item}*/}
+                  {/*        onClick={() => {}}*/}
+                  {/*        // @ts-ignore*/}
+                  {/*        onClickDelete={deleteMediaCard}*/}
+                  {/*      />*/}
+                  {/*    </td>*/}
+                  {/*  ))}*/}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </TabPane>
+        <TabPane
+          tab={
+            <div
+              // className="page-tab-link"
+              style={{
+                width: 600,
+                padding: '4px 0px',
+                userSelect: 'none',
+                textAlign: 'center',
+              }}
+            >
+              {/*{tab.icon}*/}
+              All Media
+            </div>
+          }
+          key="2"
+        >
+          <MediaItemsTableView
+            isPopup
+            onSelectEntry={onSelectEntry}
+            onDeselectEntry={onDeselectEntry}
+            rowSelection={rowSelection}
+            selectedRowKeys={selectedRowKeys}
+            type={TableType.Select_Multiple}
+            selectedMediaIds={selectedMediaIds}
+          />
+        </TabPane>
+      </Tabs>
     </Modal>
   );
 }
