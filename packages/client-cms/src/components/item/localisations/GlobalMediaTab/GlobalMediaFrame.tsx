@@ -31,6 +31,7 @@ import { Get_Item_Translation_Revision_Changes } from '../../../../queries/item_
 import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesForLocale';
 import { Delete_Item_Translation_Revision_Locale_Page } from '../../../../queries/item_translation_revisions/deleteItemTranslationRevisionLocalePage';
 import { Get_Item_Translation_Revisions } from '../../../../queries/item_translation_revisions/getItemTranslationRevisions';
+import { PictureOutlined } from '@ant-design/icons';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -78,11 +79,6 @@ GlobalMediaFrameProps) {
 
   console.log('paramsRevision:', paramsRevision);
 
-  const country = translationRevision.locale.country.description;
-  const language = translationRevision.locale.language.description;
-  const locale_code = translationRevision.locale.code;
-  // const revision_id = translationRevision.id;
-
   const [currentRevision, setCurrentRevision] = useState(uniqueRevisions[0]);
   const [state, setState] = useState(null);
   const [revision_id, setRevisionId] = useState(null);
@@ -129,19 +125,13 @@ GlobalMediaFrameProps) {
   // The latest revision number
   const latestRevision = uniqueRevisions[0].revision;
 
-  const [tabTitle, setTabTitle] = useState(null);
-  useEffect(() => {
-    setTabTitle(translationRevision.locale.name);
-  }, [currentTab]);
-
   // `paramsIsRelease` in boolean form, since the parameter in the url is in
   // string form
   const paramsIsReleaseBool = paramsIsRelease === 'true';
 
   // STATES FOR THE DRAFT TRANSLATIONS
-  const [full_name1, setFullName1] = useState();
-  const [short_name1, setShortName1] = useState();
   const [description1, setDescription1] = useState();
+  const [mediaAllGenders, setMediaAllGenders] = useState();
 
   // STATES FOR THE RELEASE TRANSLATIONS
   const [full_name2, setFullName2] = useState();
@@ -149,8 +139,7 @@ GlobalMediaFrameProps) {
   const [description2, setDescription2] = useState();
 
   useEffect(() => {
-    setFullName1(translationDraft ? translationDraft.full_name : null);
-    setShortName1(translationDraft ? translationDraft.short_name : null);
+    // setMediaAllGenders
     setDescription1(translationDraft ? translationDraft.description : null);
 
     if (translationRelease) {
@@ -173,7 +162,7 @@ GlobalMediaFrameProps) {
   }, [currentTab, paramsRevision]);
 
   const copyFull1 = () => {
-    setShortName1(full_name1);
+    // setShortName1(full_name1);
   };
 
   const copyFull2 = () => {
@@ -198,7 +187,6 @@ GlobalMediaFrameProps) {
         query: Get_Item_Translation_Revision_Changes_For_Locale,
         variables: {
           itemId: Number.parseInt(String(itemId)),
-          localeCode: locale_code,
         },
       },
     ],
@@ -257,8 +245,8 @@ GlobalMediaFrameProps) {
   let hasChanged1: changesProps = {};
   if (translationDraft && state === DataState.Development) {
     hasChanged1 = {
-      full_name: full_name1 !== translationDraft.full_name,
-      short_name: short_name1 !== translationDraft.short_name,
+      // full_name: full_name1 !== translationDraft.full_name,
+      // short_name: short_name1 !== translationDraft.short_name,
       description: description1 !== translationDraft.description,
     };
   }
@@ -301,8 +289,7 @@ GlobalMediaFrameProps) {
   });
 
   const discardChanges1 = () => {
-    setFullName1(translationDraft.full_name);
-    setShortName1(translationDraft.short_name);
+    // setMediaAllGenders()
     setDescription1(translationDraft.description);
   };
 
@@ -324,14 +311,6 @@ GlobalMediaFrameProps) {
     };
 
     if (numberOfChanges1 > 0) {
-      if (hasChanged1.full_name) {
-        variables.changes.full_name = full_name1;
-      }
-
-      if (hasChanged1.short_name) {
-        variables.changes.short_name = short_name1;
-      }
-
       if (hasChanged1.description) {
         variables.changes.description = description1;
       }
@@ -587,7 +566,14 @@ GlobalMediaFrameProps) {
       >
         <Row>
           <Col span={16}>
-            <FrameTitle text={tabTitle} />
+            <FrameTitle
+              text={
+                <span>
+                  <PictureOutlined style={{ marginRight: 6 }} />
+                  Global Media
+                </span>
+              }
+            />
           </Col>
           <Col
             style={{
@@ -622,23 +608,6 @@ GlobalMediaFrameProps) {
             <BurgerMenuButton
               deleteRevision={deleteItemTranslationsForThisRevision}
             />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8}>
-            <TitleAndValue
-              title="Country"
-              value={country.substring(4, country.length)}
-            />
-          </Col>
-          <Col span={8}>
-            <TitleAndValue
-              title="Language"
-              value={language.substring(4, language.length)}
-            />
-          </Col>
-          <Col span={8}>
-            <TitleAndValue title="Locale Code" value={locale_code} isCode />
           </Col>
         </Row>
         <Row
@@ -714,12 +683,6 @@ GlobalMediaFrameProps) {
               copyFull={!paramsIsReleaseBool ? copyFull1 : copyFull2}
               disabled={frameIsDisabled}
               // disabled={false}
-              full_name={!paramsIsReleaseBool ? full_name1 : full_name2}
-              setFullName={!paramsIsReleaseBool ? setFullName1 : setFullName2}
-              short_name={!paramsIsReleaseBool ? short_name1 : short_name2}
-              setShortName={
-                !paramsIsReleaseBool ? setShortName1 : setShortName2
-              }
               description={!paramsIsReleaseBool ? description1 : description2}
               setDescription={
                 !paramsIsReleaseBool ? setDescription1 : setDescription2

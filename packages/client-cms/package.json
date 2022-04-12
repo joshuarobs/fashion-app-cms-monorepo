@@ -38,6 +38,7 @@
     "react-transition-group": "^4.4.2",
     "recharts": "^2.1.8",
     "sortablejs": "^1.15.0",
+    "styled-components": "^5.3.5",
     "uuid": "^8.3.2",
     "values.js": "^2.1.0",
     "web-vitals": "^2.1.4"
@@ -68,6 +69,7 @@
     "@types/react-transition-group": "^4.4.4",
     "@types/recharts": "^1.8.23",
     "@types/sortablejs": "^1.10.7",
+    "@types/styled-components": "^5.1.25",
     "@types/uuid": "^8.3.4"
   }
 }

@@ -38,10 +38,10 @@ function GlobalMediaActivityFrame({
 
   const { getItemGlobalMediaRevisionChangesGivenItemId } = data;
 
-  console.log(
-    'Global Media Activity Frame - loaded data:',
-    getItemGlobalMediaRevisionChangesGivenItemId
-  );
+  // console.log(
+  //   'Global Media Activity Frame - loaded data:',
+  //   getItemGlobalMediaRevisionChangesGivenItemId
+  // );
 
   return (
     <LatestActivityFrame

@@ -136,22 +136,22 @@ function GlobalMediaTab({
       //   paramsRevision={paramsRevision}
       //   paramsIsRelease={paramsIsRelease}
       // />
-      // <LocalisationFrame
-      //   // translation={translation}
-      //   translationDraft={translations[0] ? translations[0] : null}
-      //   translationRelease={translations[1] ? translations[1] : null}
-      //   itemId={itemId}
-      //   currentTab={currentTab}
-      //   // currentRevision={currentRevision}
-      //   location={location}
-      //   translationRevision={uniqueRevisions[0] ? uniqueRevisions[0] : null}
-      //   paramsRevision={paramsRevision}
-      //   paramsIsRelease={paramsIsRelease}
-      //   uniqueRevisions={uniqueRevisions}
-      //   refetchRevisions={refetchRevisions}
-      //   refetchTranslations={refetchTranslations}
-      // />
-      <div>test</div>
+      <GlobalMediaFrame
+        // translation={translation}
+        translationDraft={translations[0] ? translations[0] : null}
+        translationRelease={translations[1] ? translations[1] : null}
+        itemId={itemId}
+        currentTab={currentTab}
+        // currentRevision={currentRevision}
+        location={location}
+        translationRevision={uniqueRevisions[0] ? uniqueRevisions[0] : null}
+        paramsRevision={paramsRevision}
+        paramsIsRelease={paramsIsRelease}
+        uniqueRevisions={uniqueRevisions}
+        refetchRevisions={refetchRevisions}
+        refetchTranslations={refetchGlobalMedia}
+      />
+      // <div>test</div>
     );
     stateFrameToDisplay = (
       <ItemGlobalMediaStateFrame

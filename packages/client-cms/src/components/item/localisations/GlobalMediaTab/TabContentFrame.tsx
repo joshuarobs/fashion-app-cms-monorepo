@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ReactSortable } from 'react-sortablejs';
 import { Button, Col, Input, Row, Tooltip, Typography } from 'antd';
 import { WarningFilled } from '@ant-design/icons';
 import { red } from '@ant-design/colors';
+import { FrameTitleLevel2 } from '../../../common/typography/FrameTitleLevel2';
+import styled from 'styled-components';
+import { MediaSmallCard } from '../../../common/media/MediaSmallCard';
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -22,7 +26,8 @@ const styles = {
   },
   sectionTitle: {
     marginTop: 12,
-    marginBottom: 8,
+    // marginBottom: 8,
+    marginBottom: 4,
   },
   occasionsTitle: {
     marginTop: 12,
@@ -38,14 +43,16 @@ const styles = {
   },
 };
 
+const StyledReactSortableGrid = styled(ReactSortable)`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+  //gap: 0.1rem;
+`;
+
 interface TabContentFrameProps {
   hasChanged: any;
   copyFull: any;
   disabled: boolean;
-  full_name?: string;
-  setFullName: Function;
-  short_name?: string;
-  setShortName: Function;
   description?: string;
   setDescription: Function;
   onPressEnterFullName: Function;
@@ -60,17 +67,53 @@ function TabContentFrame({
   hasChanged,
   copyFull,
   disabled,
-  full_name,
-  setFullName,
-  short_name,
-  setShortName,
   description,
   setDescription,
   onPressEnterFullName,
   onPressEnterShortName,
 }: TabContentFrameProps) {
-  const errorShortNameLongerThanFullName =
-    short_name && full_name && short_name.length > full_name.length;
+  const [testItems, setTestItems] = useState([
+    {
+      id: 1,
+      name: 'shrek',
+      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
+    },
+    {
+      id: 2,
+      name: 'fiona',
+      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
+    },
+    {
+      id: 3,
+      name: 'donkey',
+      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
+    },
+    {
+      id: 4,
+      name: 'cat',
+      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
+    },
+    {
+      id: 5,
+      name: 'dog',
+      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
+    },
+    {
+      id: 6,
+      name: 'man',
+      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
+    },
+    {
+      id: 7,
+      name: 'woman',
+      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
+    },
+    {
+      id: 8,
+      name: 'man bear pig',
+      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
+    },
+  ]);
 
   return (
     <div
@@ -79,100 +122,65 @@ function TabContentFrame({
       }}
     >
       {/* TITLE - FULL NAME AND SHORT NAME */}
-      <Row style={styles.sectionTitle} gutter={gutter}>
-        <Col span={14}>
+      <Row style={styles.sectionTitle}>
+        <FrameTitleLevel2 text={'Main Picture Gallery'} />
+      </Row>
+      <Row>
+        <Col>
           {!hasChanged.full_name ? (
             // @ts-ignore
-            <Text strong type={!disabled && !full_name ? 'danger' : ''}>
-              Full Name
-            </Text>
-          ) : (
-            <Text strong mark>
-              Full Name**
-            </Text>
-          )}
-        </Col>
-        <Col span={6}>
-          {!hasChanged.short_name ? (
             <Text
               strong
-              // @ts-ignore
-              type={
-                !disabled &&
-                (!short_name ||
-                  !full_name ||
-                  short_name.length > full_name.length)
-                  ? 'danger'
-                  : ''
-              }
+              // type={!disabled && !full_name ? 'danger' : 'secondary'}
+              type={!disabled ? 'danger' : 'secondary'}
             >
-              Short Name
-              {errorShortNameLongerThanFullName && (
-                <Tooltip title="Short name should be shorter than the full name.">
-                  <WarningFilled
-                    style={{
-                      color: red[3],
-                      marginLeft: 5,
-                    }}
-                  />
-                </Tooltip>
-              )}
+              All Genders
             </Text>
           ) : (
             <Text strong mark>
-              Short Name**
+              All Genders**
             </Text>
           )}
         </Col>
-        <Col
-          span={4}
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-          }}
+      </Row>
+      <Row
+        style={{
+          width: '100%',
+        }}
+      >
+        {/* @ts-ignore */}
+        <StyledReactSortableGrid
+          // multiDrag // enables mutidrag
+          // OR
+          // swap // enables swap
+          animation={250}
+          list={testItems}
+          setList={setTestItems}
+          style={{ width: '100%' }}
+          // style={{
+          //   display: 'grid',
+          //   // grid: '270px 270px / repeat(auto-fill, minmax(4rem, 1fr))',
+          //   gridTemplateColumns: 'repeat(auto-fill, minmax(4rem, 1fr))',
+          //   gap: '0.5rem',
+          // }}
         >
-          <Button
-            size="small"
-            onClick={copyFull}
-            disabled={disabled || full_name === short_name}
-          >
-            Copy Full
-          </Button>
-        </Col>
+          {testItems.map((item, index) => (
+            // <div key={item.id} style={{
+            //   height: '6rem',
+            //   border: '1px solid #cccccc',
+            // }}>{item.name}</div>
+            <MediaSmallCard
+              key={item.id.toString()}
+              media_item={item}
+              onClick={() => {}}
+              onClickDelete={() => {}}
+              orderNumber={index + 1}
+            />
+          ))}
+        </StyledReactSortableGrid>
       </Row>
-      {/* INPUTS - FULL NAME AND SHORT NAME */}
-      <Row gutter={gutter}>
-        <Col span={14}>
-          <Input
-            value={full_name}
-            onChange={(e) => setFullName(e.target.value)}
-            autoComplete="new-password"
-            // @ts-ignore
-            onPressEnter={onPressEnterFullName}
-            disabled={disabled}
-            className="not-bold"
-          />
-        </Col>
-        <Col span={10}>
-          <Input
-            value={short_name}
-            onChange={(e) => setShortName(e.target.value)}
-            autoComplete="new-password"
-            // @ts-ignore
-            onPressEnter={onPressEnterShortName}
-            disabled={disabled}
-            className="not-bold"
-          />
-        </Col>
-      </Row>
-      <Row gutter={gutter} style={styles.descriptionColumn}>
-        <Col span={14}>
-          <Text type="secondary">The full length name of the item.</Text>
-        </Col>
-        <Col span={10}>
-          <Text type="secondary">A shortened and simpler name.</Text>
-        </Col>
+      <Row style={{ marginTop: 16 }}>
+        <Button style={{ width: '100%' }}>Select Media</Button>
       </Row>
       {/* TITLE - DESCRIPTION */}
       <Row style={styles.sectionTitle} gutter={gutter}>

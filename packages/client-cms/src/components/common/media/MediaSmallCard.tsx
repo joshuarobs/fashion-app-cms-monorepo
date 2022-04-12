@@ -1,12 +1,34 @@
 import React, { MouseEventHandler } from 'react';
 import { CloseOutlined, PlusOutlined, ZoomInOutlined } from '@ant-design/icons';
-import { Avatar, Button, Row } from 'antd';
+import { Avatar, Badge, Button, Row } from 'antd';
+import styled from 'styled-components';
+
+const Item = styled.div`
+  display: flex;
+  padding: 0.3rem;
+  border-radius: 0.2rem;
+  background-color: #fff6;
+  margin-bottom: 0.3rem;
+
+  &.sortable-ghost {
+    background-color: #c8ebfb;
+  }
+`;
+
+const GridItem = styled(Item)`
+  height: 6rem;
+  border: 1px solid #cccccc;
+  & > * {
+    margin: auto;
+  }
+`;
 
 interface MediaSmallCardProps {
   key: string;
   media_item: any;
   onClick: MouseEventHandler<HTMLDivElement>;
   onClickDelete: Function;
+  orderNumber?: number;
 }
 
 const width = 124;
@@ -16,6 +38,7 @@ function MediaSmallCard({
   media_item,
   onClick,
   onClickDelete,
+  orderNumber,
 }: MediaSmallCardProps) {
   const { name, url, id } = media_item;
 
@@ -26,7 +49,7 @@ function MediaSmallCard({
     <div
       key={1}
       style={{
-        width,
+        // width,
         height: 160,
         marginTop: 6,
         marginBottom: 6,
@@ -37,6 +60,7 @@ function MediaSmallCard({
         boxShadow: '0px 2px 12px rgba(0, 0, 0, 0.1)',
         display: 'inline-block',
         userSelect: 'none',
+        backgroundColor: 'white',
       }}
       onClick={onClick}
     >
@@ -46,6 +70,21 @@ function MediaSmallCard({
           justifyContent: 'right',
         }}
       >
+        {orderNumber && (
+          <Badge
+            count={orderNumber}
+            style={{
+              backgroundColor: '#888888',
+              position: 'absolute',
+              zIndex: 100000000,
+              marginTop: 4,
+              marginRight: 4,
+              fontSize: 14,
+              // height: 20,
+              // fontWeight: 'bolder',
+            }}
+          />
+        )}
         <Avatar
           src={url}
           size={108}
