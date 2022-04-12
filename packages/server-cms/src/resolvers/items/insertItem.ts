@@ -155,7 +155,7 @@ async function insertItem(name: string, item_type: ItemType, context: any) {
      */
     const data7 = await insertItemGlobalMediaBarebones(
       globalMediaRevisionId,
-      true
+      false
     );
     // console.log('data3:', data3);
 

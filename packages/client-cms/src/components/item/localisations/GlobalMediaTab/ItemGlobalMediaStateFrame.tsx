@@ -11,10 +11,11 @@ import { Update_Item_Translation_Revision_State_Promote_To_Production } from '..
 import { Insert_Item_Translation_Revision_Promote_New_Revision } from '../../../../queries/item_translation_revisions/insertItemTranslationRevisionPromoteNewRevision';
 import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesForLocale';
 import { Get_Item_Translation_Revisions_Given_Locale_Code } from '../../../../queries/item_translation_revisions/getItemTranslationRevisionsGivenLocaleCode';
+import { Get_Item_Global_Media_Revision_Changes_Promos_Only } from '../../../../queries/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesPromosOnly';
 
 const key = 'state-localisations';
 
-interface ItemLocalisationStateFrameProps {
+interface ItemGlobalMediaStateFrameProps {
   itemId?: string;
   currentTab: string;
   paramsRevision: any;
@@ -24,7 +25,7 @@ interface ItemLocalisationStateFrameProps {
   uniqueRevisions: any;
 }
 
-function ItemLocalisationStateFrame({
+function ItemGlobalMediaStateFrame({
   itemId,
   currentTab,
   paramsRevision,
@@ -32,11 +33,11 @@ function ItemLocalisationStateFrame({
   refetchItemTransRevs,
   refetchUniqueRevisions,
   uniqueRevisions,
-}: ItemLocalisationStateFrameProps) {
+}: ItemGlobalMediaStateFrameProps) {
   const navigate = useNavigate();
   const location = useLocation();
   console.log('STATE - history:', history);
-  console.log('ItemLocalisationStateFrame > currentTab:', currentTab);
+  console.log('ItemGlobalMediaStateFrame > currentTab:', currentTab);
 
   const [currentRevision, setCurrentRevision] = useState(uniqueRevisions[0]);
   const [state, setState] = useState(null);
@@ -83,40 +84,21 @@ function ItemLocalisationStateFrame({
   //======================================================================
   // Hooks for GraphQL queries
   //======================================================================
-  // const [updateItemUpdatedAt] = useMutation(Update_Item_Updated_At, {
-  //   onCompleted() {},
-  // });
-
   const {
     loading: loadingPromoTranslationRevs,
     error: errorPromoTranslationRevs,
     data: dataPromoTranslationRevs,
     refetch: refetchPromoTranslationRevs,
-  } = useQuery(Get_Item_Translation_Revision_Changes_Promos_Only, {
+  } = useQuery(Get_Item_Global_Media_Revision_Changes_Promos_Only, {
     variables: {
-      itemId: Number.parseInt(String(itemId)),
-      localeCode: currentTab,
+      item_id: Number.parseInt(String(itemId)),
       revision: Number.parseInt(paramsRevision),
     },
   });
 
-  // const [
-  //   insertItemTranslationIsRelease,
-  //   { loading: loadingInsertRelease, error: errorInsertRelease },
-  // ] = useMutation(Insert_Item_Translation, {
-  //   onCompleted() {
-  //     // TODO: Get the refetch from the content frame that loads all
-  //     //  revisions and then call it
-  //     // refetchTranslations();
-  //     // const variables = {
-  //     //   revisionId: currentRevision.id,
-  //     //   userId: 1
-  //     // };
-  //     // insertItemTranslationRevisionChangeActUpdate({ variables }).then(r => {});
-  //   },
-  //   notifyOnNetworkStatusChange: true,
-  // });
-
+  //==================================================
+  // PROMOTE TO REVIEW
+  //==================================================
   const [
     insertItemTranslationPromoteToReview,
     {
@@ -152,17 +134,12 @@ function ItemLocalisationStateFrame({
         query: Get_Item_Translation_Revision_Changes_For_Locale,
         variables: {
           itemId: Number.parseInt(String(itemId)),
-          localeCode: currentTab,
           // revision: Number.parseInt(paramsRevision),
         },
       },
     ],
     // notifyOnNetworkStatusChange: true,
   });
-
-  //==================================================
-  // PROMOTE TO REVIEW
-  //==================================================
 
   //==================================================
   // PROMOTE TO PRODUCTION
@@ -194,8 +171,7 @@ function ItemLocalisationStateFrame({
         {
           query: Get_Item_Translation_Revision_Changes_For_Locale,
           variables: {
-            itemId: Number.parseInt(String(itemId)),
-            localeCode: currentTab,
+            item_id: Number.parseInt(String(itemId)),
             // revision: Number.parseInt(paramsRevision),
           },
         },
@@ -203,75 +179,9 @@ function ItemLocalisationStateFrame({
     }
   );
 
-  // const [
-  //   updateItemTranslationRevisionToProduction,
-  //   {
-  //     loading: loadingUpdateRevisionProduction,
-  //     error: errorUpdateRevisionProduction,
-  //   },
-  // ] = useMutation(Update_Item_Translation_Revision_To_Production, {
-  //   onCompleted() {
-  //     // Refresh the page
-  //     history.go(0);
-  //     message
-  //       .success({
-  //         content: Common.State_Related.Promoted_To_Production,
-  //         key,
-  //       })
-  //       .then();
-  //   },
-  // });
-  //
-  // const [
-  //   insertItemTranslationRevisionChangePromoProduction,
-  //   {
-  //     loading: loadingChangePromoProduction,
-  //     error: errorChangePromoProduction,
-  //   },
-  // ] = useMutation(Insert_Item_Translation_Revision_Change_Promo_Production, {
-  //   onCompleted() {},
-  // });
-
-  //==================================================
-  // PROMOTE TO RETIRED
-  //==================================================
-  // const [
-  //   updateItemTranslationRevisionToRetired,
-  //   {
-  //     loading: loadingUpdateRevisionRetired,
-  //     error: errorUpdateRevisionRetired,
-  //   },
-  // ] = useMutation(Update_Item_Translation_Revision_To_Retired, {
-  //   onCompleted() {},
-  // });
-  //
-  // const [
-  //   insertItemTranslationRevisionChangePromoRetired,
-  //   { loading: loadingChangePromoRetired, error: errorChangePromoRetired },
-  // ] = useMutation(Insert_Item_Translation_Revision_Change_Promo_Retired, {
-  //   onCompleted() {},
-  // });
-
   //==================================================
   // NEW REVISION
   //==================================================
-  // const [
-  //   insertItemTranslationBlankDraft,
-  //   { loading: loadingInsertTransBlank, error: errorInsertTransBlank },
-  // ] = useMutation(Insert_Item_Translation_Blank_Draft, {
-  //   onCompleted() {},
-  // });
-  //
-  // const [
-  //   insertItemTranslationRevisionChangePromoDevelopment,
-  //   {
-  //     loading: loadingChangePromoDevelopment,
-  //     error: errorChangePromoDevelopment,
-  //   },
-  // ] = useMutation(Insert_Item_Translation_Revision_Change, {
-  //   onCompleted() {},
-  // });
-
   const [
     insertItemTranslationRevisionPromoteNewRevision,
     {
@@ -285,7 +195,6 @@ function ItemLocalisationStateFrame({
         query: Get_Item_Translation_Revisions_Given_Locale_Code,
         variables: {
           itemId: Number.parseInt(String(itemId)),
-          localeCode: currentTab,
           // revision: Number.parseInt(paramsRevision),
         },
       },
@@ -293,75 +202,11 @@ function ItemLocalisationStateFrame({
         query: Get_Item_Translation_Revision_Changes_For_Locale,
         variables: {
           itemId: Number.parseInt(String(itemId)),
-          localeCode: currentTab,
           // revision: Number.parseInt(paramsRevision),
         },
       },
     ],
   });
-
-  // const [
-  //   insertItemTranslationRevision,
-  //   {
-  //     loading: loadingInsertTransRev,
-  //     error: errorInsertTransRev,
-  //     data: dataInsertTransRev,
-  //   },
-  // ] = useMutation(Insert_Item_Translation_Revision, {
-  //   notifyOnNetworkStatusChange: true,
-  //   async onCompleted({ insert_item_translation_revisions_one }) {
-  //     const {
-  //       id,
-  //       locale_code,
-  //       revision,
-  //     } = insert_item_translation_revisions_one;
-  //     // console.log("!!!translationDraft:", translationDraft);
-  //     // console.log("!!!translationRelease:", translationRelease);
-  //     // 1. Create a release translation version
-  //     // Somehow we're getting the previous version's release from the
-  //     // "draft" variable, but that's just how it works
-  //     const { full_name, short_name, description } = translationDraft;
-  //     // insertItemTranslationIsRelease({
-  //
-  //     await refetchItemTransRevs();
-  //     await insertItemTranslationIsRelease({
-  //       variables: {
-  //         revision_id: id,
-  //         is_release: false,
-  //         full_name,
-  //         short_name,
-  //         description,
-  //       },
-  //     });
-  //     await insertItemTranslationRevisionChangePromoDevelopment({
-  //       variables: {
-  //         revisionId: id,
-  //         userId: 1,
-  //         changeType: DataChangeType.Promotion,
-  //         toState: DataState.Development,
-  //       },
-  //     });
-  //
-  //     await updateItemUpdatedAt({
-  //       variables: {
-  //         id: itemId,
-  //       },
-  //     });
-  //
-  //     // Redirect to the next revision
-  //     history.push(
-  //       history.location.pathname +
-  //         `?rev=${currentRevision.revision + 1}&release=false`
-  //     );
-  //     message.success(
-  //       {
-  //         content: Common.State_Related.Created_New_Revision,
-  //         key,
-  //       },
-  //       2
-  //     );
-  //   },
-  // });
 
   if (!currentRevision) {
     return <StateFrame />;
@@ -469,11 +314,9 @@ function ItemLocalisationStateFrame({
     // console.log("currentRevision:", currentRevision);
     const { revision } = currentRevision;
     const variables = {
-      // localeCode: currentTab,
       // entryId: itemId,
       // revision: revision + 1,
       id: Number.parseInt(String(itemId)),
-      locale_code: currentTab,
     };
     // await insertItemTranslationRevision({ variables });
 
@@ -499,28 +342,28 @@ function ItemLocalisationStateFrame({
       <div>Error! ${JSON.stringify(errorPromoTranslationRevs, null, 2)}</div>
     );
 
-  const { getItemTranslationRevisionChangesPromosOnly } =
+  const { getItemGlobalMediaRevisionChangesPromosOnly } =
     dataPromoTranslationRevs;
 
   console.log(
-    'getItemTranslationRevisionChangesPromosOnly:',
-    getItemTranslationRevisionChangesPromosOnly
+    'getItemGlobalMediaRevisionChangesPromosOnly:',
+    getItemGlobalMediaRevisionChangesPromosOnly
   );
 
   // Find each of the state's revision
-  const changeToDevelopment = getItemTranslationRevisionChangesPromosOnly.find(
+  const changeToDevelopment = getItemGlobalMediaRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Development
   );
-  const changeToReview = getItemTranslationRevisionChangesPromosOnly.find(
+  const changeToReview = getItemGlobalMediaRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Review
   );
-  const changeToProduction = getItemTranslationRevisionChangesPromosOnly.find(
+  const changeToProduction = getItemGlobalMediaRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Production
   );
-  const changeToRetired = getItemTranslationRevisionChangesPromosOnly.find(
+  const changeToRetired = getItemGlobalMediaRevisionChangesPromosOnly.find(
     // @ts-ignore
     ({ to_state }) => to_state === DataState.Retired
   );
@@ -570,4 +413,4 @@ function ItemLocalisationStateFrame({
   );
 }
 
-export { ItemLocalisationStateFrame };
+export { ItemGlobalMediaStateFrame };

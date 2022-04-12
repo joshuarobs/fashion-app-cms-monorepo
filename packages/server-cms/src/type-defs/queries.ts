@@ -148,6 +148,29 @@ const Queries = gql`
       offset: Int
     ): [item_and_media_item_associated]
     #--------------------------------------------------
+    # item_families
+    #--------------------------------------------------
+    #--------------------------------------------------
+    # item_global_media
+    #--------------------------------------------------
+    getItemGlobalMediaGivenUniqueKeys(
+      revision: Int!
+      item_id: Int!
+    ): [item_global_media]
+    #--------------------------------------------------
+    # item_global_media_revision_changes
+    #--------------------------------------------------
+    getItemGlobalMediaRevisionChangesPromosOnly(
+      item_id: Int!
+      revision: Int!
+    ): [item_global_media_revision_changes]
+    #--------------------------------------------------
+    # item_global_media_revisions
+    #--------------------------------------------------
+    getItemGlobalMediaRevisionsGivenItemId(
+      item_id: Int!
+    ): [item_global_media_revisions]
+    #--------------------------------------------------
     # item_maindata
     #--------------------------------------------------
     #--------------------------------------------------

@@ -151,6 +151,9 @@ import { getMediaListBB } from './resolvers/media_items/getMediaListBB';
 import { getItemAndMediaItemAssociatedForItemId } from './resolvers/item_and_media_item_associated/getItemAndMediaItemAssociatedForItemId';
 import { getMediaItemsByIds } from './resolvers/media_items/getMediaItemsByIds';
 import { insertAndDeleteManyMediaItemAssociatedByIds } from './resolvers/item_and_media_item_associated/insertAndDeleteManyMediaItemAssociatedByIds';
+import { getItemGlobalMediaRevisionsGivenItemId } from './resolvers/item_global_media_revisions/getItemGlobalMediaRevisionsGivenItemId';
+import { getItemGlobalMediaGivenUniqueKeys } from './resolvers/item_global_media/getItemGlobalMediaGivenUniqueKeys';
+import { getItemGlobalMediaRevisionChangesPromosOnly } from './resolvers/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesPromosOnly';
 
 const resolvers = {
   //**********************************************************************
@@ -275,6 +278,24 @@ const resolvers = {
     //--------------------------------------------------
     //--------------------------------------------------
     // genders
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // item_and_media_item_associated
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // item_families
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // item_global_media
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // item_global_media_revision_changes
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // item_global_media_revisions
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // item_maindata
     //--------------------------------------------------
     //--------------------------------------------------
     // item_maindata
@@ -569,6 +590,28 @@ const resolvers = {
     //--------------------------------------------------
     getItemAndMediaItemAssociatedForItemId: (_, { id, limit, offset }) =>
       getItemAndMediaItemAssociatedForItemId(id, limit, offset),
+    //--------------------------------------------------
+    // item_families
+    //--------------------------------------------------
+    //--------------------------------------------------
+    // item_global_media
+    //--------------------------------------------------
+    getItemGlobalMediaGivenUniqueKeys: (_, { revision, item_id }, context) =>
+      getItemGlobalMediaGivenUniqueKeys(revision, item_id, context),
+    //--------------------------------------------------
+    // item_global_media_revision_changes
+    //--------------------------------------------------
+    getItemGlobalMediaRevisionChangesPromosOnly: (
+      _,
+      { item_id, revision },
+      context
+    ) =>
+      getItemGlobalMediaRevisionChangesPromosOnly(item_id, revision, context),
+    //--------------------------------------------------
+    // item_global_media_revisions
+    //--------------------------------------------------
+    getItemGlobalMediaRevisionsGivenItemId: (_, { item_id }, context) =>
+      getItemGlobalMediaRevisionsGivenItemId(item_id, context),
     //--------------------------------------------------
     // item_maindata
     //--------------------------------------------------

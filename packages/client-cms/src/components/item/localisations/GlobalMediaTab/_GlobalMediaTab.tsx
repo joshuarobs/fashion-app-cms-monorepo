@@ -1,6 +1,6 @@
 import React from 'react';
 import { ColumnOfFrames } from '../../../common/frames/ColumnOfFrames';
-import { ItemLocalisationStateFrame } from './ItemLocalisationStateFrame';
+import { ItemGlobalMediaStateFrame } from './ItemGlobalMediaStateFrame';
 import { LocalisationActivityFrame } from './LocalisationFrame/LocalisationActivityFrame';
 import { useQuery } from '@apollo/client';
 import { Layout } from 'antd';
@@ -8,6 +8,8 @@ import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
 import { LocalisationFrame } from './LocalisationFrame/_LocalisationFrame';
 import { Get_Item_Translations_Given_Unique_Keys } from '../../../../queries/item_translations/getItemTranslationsGivenUniqueKeys';
 import { Get_Item_Translation_Revisions_Given_Locale_Code } from '../../../../queries/item_translation_revisions/getItemTranslationRevisionsGivenLocaleCode';
+import { Get_Item_Global_Media_Revisions_Given_Item_Id } from '../../../../queries/item_global_media_revisions/getItemGlobalMediaRevisionsGivenItemId';
+import { Get_Item_Global_Media_Given_Unique_Keys } from '../../../../queries/item_global_media/getItemGlobalMediaGivenUniqueKeys';
 
 const { Content } = Layout;
 
@@ -32,17 +34,43 @@ function GlobalMediaTab({
   location,
   refetchItemTransRevs,
 }: GlobalMediaTabProps) {
+  // const {
+  //   loading: loadingTranslations,
+  //   error: errorTranslations,
+  //   data: dataTranslations,
+  //   refetch: refetchTranslations,
+  // } = useQuery(Get_Item_Translations_Given_Unique_Keys, {
+  //   variables: {
+  //     // revisionId: paramsRevisionId
+  //     revision: Number.parseInt(paramsRevision),
+  //     itemId: Number.parseInt(String(itemId)),
+  //     localeCode: currentTab,
+  //   },
+  // });
+  //
+  // const {
+  //   loading: loadingRevisions,
+  //   error: errorRevisions,
+  //   data: dataRevisions,
+  //   refetch: refetchRevisions,
+  // } = useQuery(Get_Item_Translation_Revisions_Given_Locale_Code, {
+  //   variables: {
+  //     itemId: Number.parseInt(String(itemId)),
+  //     localeCode: currentTab,
+  //   },
+  //   fetchPolicy: 'network-only',
+  // });
+
   const {
-    loading: loadingTranslations,
-    error: errorTranslations,
-    data: dataTranslations,
-    refetch: refetchTranslations,
-  } = useQuery(Get_Item_Translations_Given_Unique_Keys, {
+    loading: loadingGlobalMedia,
+    error: errorGlobalMedia,
+    data: dataGlobalMedia,
+    refetch: refetchGlobalMedia,
+  } = useQuery(Get_Item_Global_Media_Given_Unique_Keys, {
     variables: {
       // revisionId: paramsRevisionId
       revision: Number.parseInt(paramsRevision),
-      itemId: Number.parseInt(String(itemId)),
-      localeCode: currentTab,
+      item_id: Number.parseInt(String(itemId)),
     },
   });
 
@@ -51,10 +79,9 @@ function GlobalMediaTab({
     error: errorRevisions,
     data: dataRevisions,
     refetch: refetchRevisions,
-  } = useQuery(Get_Item_Translation_Revisions_Given_Locale_Code, {
+  } = useQuery(Get_Item_Global_Media_Revisions_Given_Item_Id, {
     variables: {
-      itemId: Number.parseInt(String(itemId)),
-      localeCode: currentTab,
+      item_id: Number.parseInt(String(itemId)),
     },
     fetchPolicy: 'network-only',
   });
@@ -62,7 +89,7 @@ function GlobalMediaTab({
   let mainFrameToDisplay = null;
   let stateFrameToDisplay = null;
 
-  if (loadingTranslations || loadingRevisions) {
+  if (loadingGlobalMedia || loadingRevisions) {
     mainFrameToDisplay = (
       <Content
         style={{
@@ -73,15 +100,15 @@ function GlobalMediaTab({
       />
     );
     stateFrameToDisplay = <StateFrame />;
-  } else if (errorTranslations) {
+  } else if (errorGlobalMedia) {
     mainFrameToDisplay = (
       <div>{`Error! (Translations) ${JSON.stringify(
-        errorTranslations,
+        errorGlobalMedia,
         null,
         2
       )}`}</div>
     );
-  } else if (errorRevisions) {
+  } /*else if (errorRevisions) {
     mainFrameToDisplay = (
       <div>{`Error! (Revisions)${JSON.stringify(
         errorRevisions,
@@ -89,13 +116,13 @@ function GlobalMediaTab({
         2
       )}`}</div>
     );
-  } else {
+  } */ else {
     console.log('else');
     console.log('dataRevisions:', dataRevisions);
-    console.log('dataTranslations:', dataTranslations);
-    const translations = dataTranslations.getItemTranslationsGivenUniqueKeys;
+    console.log('dataGlobalMedia:', dataGlobalMedia);
+    const translations = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys;
     const uniqueRevisions =
-      dataRevisions.getItemTranslationRevisionsGivenLocaleCode;
+      dataRevisions.getItemGlobalMediaRevisionsGivenItemId;
 
     // console.error("translations!:", translations);
     mainFrameToDisplay = (
@@ -109,33 +136,34 @@ function GlobalMediaTab({
       //   paramsRevision={paramsRevision}
       //   paramsIsRelease={paramsIsRelease}
       // />
-      <LocalisationFrame
-        // translation={translation}
-        translationDraft={translations[0] ? translations[0] : null}
-        translationRelease={translations[1] ? translations[1] : null}
-        itemId={itemId}
-        currentTab={currentTab}
-        // currentRevision={currentRevision}
-        location={location}
-        translationRevision={uniqueRevisions[0] ? uniqueRevisions[0] : null}
-        paramsRevision={paramsRevision}
-        paramsIsRelease={paramsIsRelease}
-        uniqueRevisions={uniqueRevisions}
-        refetchRevisions={refetchRevisions}
-        refetchTranslations={refetchTranslations}
-      />
+      // <LocalisationFrame
+      //   // translation={translation}
+      //   translationDraft={translations[0] ? translations[0] : null}
+      //   translationRelease={translations[1] ? translations[1] : null}
+      //   itemId={itemId}
+      //   currentTab={currentTab}
+      //   // currentRevision={currentRevision}
+      //   location={location}
+      //   translationRevision={uniqueRevisions[0] ? uniqueRevisions[0] : null}
+      //   paramsRevision={paramsRevision}
+      //   paramsIsRelease={paramsIsRelease}
+      //   uniqueRevisions={uniqueRevisions}
+      //   refetchRevisions={refetchRevisions}
+      //   refetchTranslations={refetchTranslations}
+      // />
+      <div>test</div>
     );
     stateFrameToDisplay = (
-      <ItemLocalisationStateFrame
+      <ItemGlobalMediaStateFrame
         currentTab={currentTab}
         // currentRevision={currentRevision}
         // translations={translations}
         itemId={itemId}
         paramsRevision={paramsRevision}
-        refetchTranslations={refetchTranslations}
+        refetchTranslations={refetchGlobalMedia}
         refetchItemTransRevs={refetchItemTransRevs}
-        uniqueRevisions={uniqueRevisions}
-        refetchUniqueRevisions={refetchRevisions}
+        uniqueRevisions={[]}
+        refetchUniqueRevisions={() => {}}
       />
     );
   }

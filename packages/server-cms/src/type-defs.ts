@@ -393,6 +393,46 @@ const typeDefs = gql`
     item: [items]
   }
 
+  type item_global_media {
+    id: String!
+    revision_id: String!
+    is_release: Boolean!
+    media_1_id: String
+    media_2_id: String
+    media_3_id: String
+    media_4_id: String
+    media_5_id: String
+    media_6_id: String
+    media_7_id: String
+    media_8_id: String
+    media_9_id: String
+    media_10_id: String
+  }
+
+  type item_global_media_revision_changes {
+    id: String!
+    item_global_media_revision_id: String!
+    user_id: String!
+    change_type: String!
+    to_state: String
+    action: String
+    date: String!
+    # Relationships
+    item_global_media_revision: item_global_media_revisions
+    user: staff_users
+  }
+
+  type item_global_media_revisions {
+    id: String!
+    item_id: Int!
+    revision: Int!
+    state: String!
+    # Relationships
+    item_global_media: [item_global_media]
+    # item: items
+    # item_maindata: [item_maindata]
+  }
+
   type item_maindata {
     id: String!
     revision_id: String!
