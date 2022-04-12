@@ -7,6 +7,7 @@ import {
   DownCircleOutlined,
   UserOutlined,
   PlusSquareOutlined,
+  PictureOutlined,
 } from '@ant-design/icons';
 import {
   DataAction,
@@ -16,6 +17,7 @@ import {
 import dayjs from 'dayjs';
 import { UserAvatar } from '../UserAvatar';
 import { UserContext } from '../../../UserContext';
+import { text } from 'stream/consumers';
 
 const { Text } = Typography;
 
@@ -54,13 +56,17 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
   // All the different types of table names that can have activities
   // associated with them
   const {
-    item_translation_revision,
-    company_translation_revision,
-    item_maindata_revision,
     clothing_shell_maindata_revision,
+    company_translation_revision,
+    item_global_media_revision,
+    item_maindata_revision,
+    item_translation_revision,
   } = change;
 
   let revision = null;
+  let justShowTheTitle = false;
+
+  console.log('item_global_media_revision:', item_global_media_revision);
 
   let typeKindTitle;
   let typeName: string | JSX.Element = '';
@@ -78,6 +84,15 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
     revision = item_maindata_revision.revision;
   } else if (clothing_shell_maindata_revision) {
     revision = clothing_shell_maindata_revision.revision;
+  } else if (item_global_media_revision) {
+    typeName = (
+      <span>
+        <PictureOutlined style={{ marginRight: 6 }} />
+        Global Media
+      </span>
+    );
+    revision = item_global_media_revision.revision;
+    justShowTheTitle = true;
   }
 
   const displayDate = dayjs().to(dayjs(date));
@@ -139,7 +154,7 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
         width: '100%',
       }}
     >
-      {showType && typeName && (
+      {showType && (typeName || justShowTheTitle) && (
         <Row
           style={{
             width: '100%',

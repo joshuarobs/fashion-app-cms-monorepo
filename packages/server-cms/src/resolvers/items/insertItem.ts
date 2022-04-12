@@ -10,6 +10,7 @@ import { insertItemMaindataBarebones } from '../item_maindata/insertItemMaindata
 import { insertItemMaindataRevisionChange } from '../item_maindata_revision_changes/insertItemMaindataRevisionChange';
 import { insertItemTranslationRevisionAddLocale } from '../item_translation_revisions/insertItemTranslationRevisionAddLocale';
 import { insertItemGlobalMediaBarebones } from '../item_global_media/insertItemGlobalMediaBarebones';
+import { insertItemGlobalMediaRevisionChange } from '../item_global_media_revision_changes/insertItemGlobalMediaRevisionChange';
 
 /**
  * Insert a new Item entry with all of it's required dependent rows
@@ -106,22 +107,10 @@ async function insertItem(name: string, item_type: ItemType, context: any) {
 
     /*
      * ============================================================
-     * 5. Insert a locale for en-US
+     * 5. Insert a (Global Media) maindata revision
      * ============================================================
      */
-    const data5 = await insertItemTranslationRevisionAddLocale(
-      itemId,
-      'en-US',
-      name,
-      context
-    );
-
-    /*
-     * ============================================================
-     * 6. Insert a (Global Media) maindata revision
-     * ============================================================
-     */
-    const data6 = await client.mutate({
+    const data5 = await client.mutate({
       mutation: gql`
         mutation insertItemGlobalMediaRevision(
           $item_id: Int!
@@ -146,18 +135,45 @@ async function insertItem(name: string, item_type: ItemType, context: any) {
     });
     // console.log('data2:', data2.data.insert_item_maindata_revisions_one);
     const globalMediaRevisionId =
-      data6.data.insert_item_global_media_revisions_one.id;
+      data5.data.insert_item_global_media_revisions_one.id;
 
     /*
      * ============================================================
-     * 7. Insert a (Global Media) maindata
+     * 6. Insert a (Global Media) maindata
      * ============================================================
      */
-    const data7 = await insertItemGlobalMediaBarebones(
+    const data6 = await insertItemGlobalMediaBarebones(
       globalMediaRevisionId,
-      false
+      false,
+      context
     );
     // console.log('data3:', data3);
+
+    /*
+     * ============================================================
+     * 7. Insert a (Item Global Media) revision change
+     * ============================================================
+     */
+    const data7 = await insertItemGlobalMediaRevisionChange(
+      globalMediaRevisionId,
+      context.user.id,
+      DataChangeType.Promotion,
+      DataState.Development,
+      context,
+      '--'
+    );
+
+    /*
+     * ============================================================
+     * 8. Insert a locale for en-US
+     * ============================================================
+     */
+    const data8 = await insertItemTranslationRevisionAddLocale(
+      itemId,
+      'en-US',
+      name,
+      context
+    );
 
     /*
      * ============================================================

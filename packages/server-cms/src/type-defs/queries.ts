@@ -160,6 +160,11 @@ const Queries = gql`
     #--------------------------------------------------
     # item_global_media_revision_changes
     #--------------------------------------------------
+    getItemGlobalMediaRevisionChangesGivenItemId(
+      item_id: Int!
+      limit: Int
+      offset: Int
+    ): [item_global_media_revision_changes]
     getItemGlobalMediaRevisionChangesPromosOnly(
       item_id: Int!
       revision: Int!

@@ -9,15 +9,19 @@ import { ItemType } from '@joshuarobs/clothing-framework';
  * This is used for the Overview tab for the Item page (Revisions dropdown)
  * @param revision_id
  * @param is_release
- * @param name
- * @param type
+ * @param context - Apollo context
  */
 async function insertItemGlobalMediaBarebones(
   revision_id: string,
-  is_release: boolean
+  is_release: boolean,
+  context?: any
 ) {
   logger.info(
-    `graphql > insertItemGlobalMediaBarebones() :: args: revision_id: ${revision_id} | is_release: ${is_release}`
+    `graphql > insertItemGlobalMediaBarebones() :: args: revision_id: ${revision_id} | is_release: ${is_release} | context: ${JSON.stringify(
+      context,
+      null,
+      2
+    )}`
   );
   try {
     const data = await client.mutate({

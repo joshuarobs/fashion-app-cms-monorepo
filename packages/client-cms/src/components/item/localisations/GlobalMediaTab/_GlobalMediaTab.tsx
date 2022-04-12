@@ -1,11 +1,11 @@
 import React from 'react';
 import { ColumnOfFrames } from '../../../common/frames/ColumnOfFrames';
 import { ItemGlobalMediaStateFrame } from './ItemGlobalMediaStateFrame';
-import { LocalisationActivityFrame } from './LocalisationFrame/LocalisationActivityFrame';
+import { GlobalMediaActivityFrame } from './GlobalMediaActivityFrame';
 import { useQuery } from '@apollo/client';
 import { Layout } from 'antd';
 import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
-import { LocalisationFrame } from './LocalisationFrame/_LocalisationFrame';
+import { GlobalMediaFrame } from './GlobalMediaFrame';
 import { Get_Item_Translations_Given_Unique_Keys } from '../../../../queries/item_translations/getItemTranslationsGivenUniqueKeys';
 import { Get_Item_Translation_Revisions_Given_Locale_Code } from '../../../../queries/item_translation_revisions/getItemTranslationRevisionsGivenLocaleCode';
 import { Get_Item_Global_Media_Revisions_Given_Item_Id } from '../../../../queries/item_global_media_revisions/getItemGlobalMediaRevisionsGivenItemId';
@@ -173,7 +173,7 @@ function GlobalMediaTab({
       <ColumnOfFrames freeWidth>{mainFrameToDisplay}</ColumnOfFrames>
       <ColumnOfFrames>
         {stateFrameToDisplay}
-        <LocalisationActivityFrame currentTab={currentTab} itemId={itemId} />
+        <GlobalMediaActivityFrame currentTab={currentTab} itemId={itemId} />
       </ColumnOfFrames>
     </>
   );

@@ -7,30 +7,30 @@ import {
   DataState,
 } from '@joshuarobs/clothing-framework';
 import { Col, Layout, message, Row, Tabs, Select } from 'antd';
-import { Common } from '../../../../../strings';
-import { UnsavedChangesCard } from '../../../../common/UnsavedChangesCard';
-import { FrameTitle } from '../../../../common/typography/FrameTitle';
-import { TabContentFrame } from '../TabContentFrame';
-import { TagInDevelopment } from '../../../../common/localisation/TagInDevelopment';
-import { TagInProduction } from '../../../../common/localisation/TagInProduction';
-import { TagInReview } from '../../../../common/localisation/TagInReview';
-import { TagInRetirement } from '../../../../common/localisation/TagInRetirement';
-import { TitleAndValue } from '../../../../common/TitleAndValue';
-import { ErrorPleaseFixThis } from '../../../../common/localisation/ErrorPleaseFixThis';
-import { LocaleStateDot } from '../../../../common/localisation/LocaleStateDot';
-import { BurgerMenuButton } from '../../../../common/frames/BurgerMenuButton/_BurgerMenuButton';
-import { getSomePartsOfUrl } from '../../../../../utils/getSomePartsOfUrl';
-import { Insert_Item_Translation_Revision_Change } from '../../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChange';
-import { Delete_Item_Translations_For_Revision } from '../../../../../queries/item_translations/deleteItemTranslationForRevision';
-import { Delete_Item_Translation_Revision_Changes_For_Revision } from '../../../../../queries/item_translation_revision_changes/deleteItemTranslationRevisionChangeForRevision';
-import { Delete_Item_Translation_Revision } from '../../../../../queries/item_translation_revisions/deleteItemTranslationRevision';
-import { Update_Item_Updated_At } from '../../../../../queries/items/updateItemUpdatedAt';
-import { Update_Item_Translation } from '../../../../../queries/item_translations/updateItemTranslation';
-import { Get_Item_Maindata_Revision_Changes } from '../../../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChanges';
-import { Get_Item_Translation_Revision_Changes } from '../../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChanges';
-import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesForLocale';
-import { Delete_Item_Translation_Revision_Locale_Page } from '../../../../../queries/item_translation_revisions/deleteItemTranslationRevisionLocalePage';
-import { Get_Item_Translation_Revisions } from '../../../../../queries/item_translation_revisions/getItemTranslationRevisions';
+import { Common } from '../../../../strings';
+import { UnsavedChangesCard } from '../../../common/UnsavedChangesCard';
+import { FrameTitle } from '../../../common/typography/FrameTitle';
+import { TabContentFrame } from './TabContentFrame';
+import { TagInDevelopment } from '../../../common/localisation/TagInDevelopment';
+import { TagInProduction } from '../../../common/localisation/TagInProduction';
+import { TagInReview } from '../../../common/localisation/TagInReview';
+import { TagInRetirement } from '../../../common/localisation/TagInRetirement';
+import { TitleAndValue } from '../../../common/TitleAndValue';
+import { ErrorPleaseFixThis } from '../../../common/localisation/ErrorPleaseFixThis';
+import { LocaleStateDot } from '../../../common/localisation/LocaleStateDot';
+import { BurgerMenuButton } from '../../../common/frames/BurgerMenuButton/_BurgerMenuButton';
+import { getSomePartsOfUrl } from '../../../../utils/getSomePartsOfUrl';
+import { Insert_Item_Translation_Revision_Change } from '../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChange';
+import { Delete_Item_Translations_For_Revision } from '../../../../queries/item_translations/deleteItemTranslationForRevision';
+import { Delete_Item_Translation_Revision_Changes_For_Revision } from '../../../../queries/item_translation_revision_changes/deleteItemTranslationRevisionChangeForRevision';
+import { Delete_Item_Translation_Revision } from '../../../../queries/item_translation_revisions/deleteItemTranslationRevision';
+import { Update_Item_Updated_At } from '../../../../queries/items/updateItemUpdatedAt';
+import { Update_Item_Translation } from '../../../../queries/item_translations/updateItemTranslation';
+import { Get_Item_Maindata_Revision_Changes } from '../../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChanges';
+import { Get_Item_Translation_Revision_Changes } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChanges';
+import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesForLocale';
+import { Delete_Item_Translation_Revision_Locale_Page } from '../../../../queries/item_translation_revisions/deleteItemTranslationRevisionLocalePage';
+import { Get_Item_Translation_Revisions } from '../../../../queries/item_translation_revisions/getItemTranslationRevisions';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -40,7 +40,7 @@ const { Option } = Select;
 
 const key = 'unsaved-changes-localisations';
 
-interface LocalisationFrameProps {
+interface GlobalMediaFrameProps {
   currentTab: any;
   translationDraft: any;
   translationRelease: any;
@@ -54,7 +54,7 @@ interface LocalisationFrameProps {
   refetchTranslations: Function;
 }
 
-function LocalisationFrame({
+function GlobalMediaFrame({
   currentTab,
   // currentRevision,
   translationDraft,
@@ -67,7 +67,7 @@ function LocalisationFrame({
   uniqueRevisions,
   refetchRevisions,
 }: // refetchTranslations,
-LocalisationFrameProps) {
+GlobalMediaFrameProps) {
   // console.log("Current tab:", currentTab);
   // console.log("location:", location);
   // console.log("translationRevision:", translationRevision);
@@ -742,4 +742,4 @@ LocalisationFrameProps) {
   );
 }
 
-export { LocalisationFrame };
+export { GlobalMediaFrame };

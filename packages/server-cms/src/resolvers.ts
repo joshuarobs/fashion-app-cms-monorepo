@@ -154,6 +154,7 @@ import { insertAndDeleteManyMediaItemAssociatedByIds } from './resolvers/item_an
 import { getItemGlobalMediaRevisionsGivenItemId } from './resolvers/item_global_media_revisions/getItemGlobalMediaRevisionsGivenItemId';
 import { getItemGlobalMediaGivenUniqueKeys } from './resolvers/item_global_media/getItemGlobalMediaGivenUniqueKeys';
 import { getItemGlobalMediaRevisionChangesPromosOnly } from './resolvers/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesPromosOnly';
+import { getItemGlobalMediaRevisionChangesGivenItemId } from './resolvers/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesGivenItemId';
 
 const resolvers = {
   //**********************************************************************
@@ -601,6 +602,17 @@ const resolvers = {
     //--------------------------------------------------
     // item_global_media_revision_changes
     //--------------------------------------------------
+    getItemGlobalMediaRevisionChangesGivenItemId: (
+      _,
+      { item_id, limit, offset },
+      context
+    ) =>
+      getItemGlobalMediaRevisionChangesGivenItemId(
+        item_id,
+        limit,
+        offset,
+        context
+      ),
     getItemGlobalMediaRevisionChangesPromosOnly: (
       _,
       { item_id, revision },
