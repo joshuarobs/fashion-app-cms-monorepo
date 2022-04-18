@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import { Button, Col, Input, Row, Tooltip, Typography } from 'antd';
 import { WarningFilled } from '@ant-design/icons';
@@ -120,6 +120,7 @@ function TabContentFrame({
       url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
     },
   ]);
+  const [mediaItems, setMediaItems] = useState<object[]>([]);
 
   const {
     loading: loadingMediaItemsByIds,
@@ -131,11 +132,17 @@ function TabContentFrame({
     fetchPolicy: 'network-only',
   });
 
+  useEffect(() => {
+    if (!loadingMediaItemsByIds && dataMediaItemsByIds) {
+      setMediaItems(dataMediaItemsByIds.getMediaItemsByIds);
+    }
+  }, [loadingMediaItemsByIds, dataMediaItemsByIds]);
+
   if (loadingMediaItemsByIds) return <div />;
   if (errorMediaItemsByIds) return <div>Error :(</div>;
 
   console.log('dataMediaItemsByIds:', dataMediaItemsByIds);
-  const mediaItems = dataMediaItemsByIds.getMediaItemsByIds;
+  // const mediaItems = dataMediaItemsByIds.getMediaItemsByIds;
 
   return (
     <div
@@ -176,8 +183,8 @@ function TabContentFrame({
           // OR
           // swap // enables swap
           animation={250}
-          list={testItems}
-          setList={setTestItems}
+          list={mediaItems}
+          setList={setMediaItems}
           style={{ width: '100%' }}
           // style={{
           //   display: 'grid',

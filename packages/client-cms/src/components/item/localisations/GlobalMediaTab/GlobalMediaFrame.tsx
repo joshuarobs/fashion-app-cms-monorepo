@@ -138,6 +138,10 @@ GlobalMediaFrameProps) {
   // STATES FOR THE DRAFT TRANSLATIONS
   const [description1, setDescription1] = useState();
   const [mediaAllGenderIds1, setMediaAllGenderIds1] = useState<string[]>([]);
+  // The initial version of the draft's media all gender ids
+  const [prevMediaAllGenderIds1, setPrevMediaAllGenderIds1] = useState<
+    string[]
+  >([]);
 
   // STATES FOR THE RELEASE TRANSLATIONS
   const [full_name2, setFullName2] = useState();
@@ -271,6 +275,7 @@ GlobalMediaFrameProps) {
     full_name?: boolean | null;
     short_name?: boolean | null;
     description?: boolean | null;
+    mediaAllGenderIds1?: boolean | null;
   }
 
   // An object tracking the changes amongst all variables
@@ -283,6 +288,7 @@ GlobalMediaFrameProps) {
       // full_name: full_name1 !== translationDraft.full_name,
       // short_name: short_name1 !== translationDraft.short_name,
       description: description1 !== globalMediaDraft.description,
+      // mediaAllGenderIds1: mediaAllGenderIds1 !== mediaAllGenderIds1
     };
   }
 
