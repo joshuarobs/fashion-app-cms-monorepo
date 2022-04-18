@@ -611,8 +611,12 @@ GlobalMediaFrameProps) {
         onCancel={closePopup}
         loading={false}
         defaultMediaItemAssociated={defaultMediaItemAssociated}
-        currentMediaIds={currentMediaIds}
-        setMediaItemIds={() => {}}
+        currentMediaIds={
+          globalMediaRelease ? mediaAllGenderIds2 : mediaAllGenderIds1
+        }
+        setMediaItemIds={
+          globalMediaRelease ? setMediaAllGenderIds2 : setMediaAllGenderIds1
+        }
         loadMediaItems={() => {}}
       />
       <Content

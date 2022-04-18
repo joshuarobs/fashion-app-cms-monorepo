@@ -42,10 +42,10 @@ function SelectMediaModal({
   // const [prevTotalPercent, setPrevTotalPercent] = useState(0);
   const submitButtonDisabled = false;
 
-  // useEffect(() => {
-  //   setSelectedMediaIds(currentMediaIds);
-  //   setPrevSelectedMediaIds(currentMediaIds);
-  // }, [currentMediaIds]);
+  useEffect(() => {
+    setSelectedMediaIds(currentMediaIds);
+    setPrevSelectedMediaIds(currentMediaIds);
+  }, [currentMediaIds]);
 
   useEffect(() => {
     const ids = defaultMediaItemAssociated.map(({ id }) => id);
@@ -53,6 +53,8 @@ function SelectMediaModal({
     // setPrevSelectedMediaIds(ids);
     setAssociatedMediaIds(ids);
   }, [defaultMediaItemAssociated]);
+
+  console.log('SelectMediaModal#currentMediaIds:', currentMediaIds);
 
   console.log(
     'selectedMediaIds:',
@@ -307,9 +309,9 @@ function SelectMediaModal({
             onSelectEntry={onSelectEntry}
             onDeselectEntry={onDeselectEntry}
             rowSelection={rowSelection}
-            // selectedRowKeys={selectedRowKeys}
+            selectedRowKeys={selectedRowKeys}
             type={TableType.Select_Multiple}
-            // selectedMediaIds={selectedMediaIds}
+            selectedMediaIds={selectedMediaIds}
           />
         </TabPane>
       </Tabs>
