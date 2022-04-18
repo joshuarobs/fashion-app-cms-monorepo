@@ -4,6 +4,9 @@ import { useQuery } from '@apollo/client';
 import { Get_Item_And_Media_Item_Associated_For_Item_Id } from '../../../../../queries/item_and_media_item_associated/getItemAndMediaItemAssociatedForItemId';
 import { Get_Media_Items_By_Ids } from '../../../../../queries/media_items/getMediaItemsByIds';
 import { UnsavedChangesCard } from '../../../../common/UnsavedChangesCard';
+import { Empty, Typography } from 'antd';
+
+const { Text, Paragraph } = Typography;
 
 interface AssociatedMediaSectionViewProps {
   // id: number;
@@ -53,6 +56,40 @@ function AssociatedMediaSectionView({
     '| dataMediaItemsByIds.getMediaItemsByIds:',
     dataMediaItemsByIds
   );
+
+  // Return empty element if there's no associated media ids
+  if (mediaItemIds.length === 0) {
+    return (
+      <Empty
+        description={
+          <Text type="secondary" strong>
+            No Associated Media
+          </Text>
+        }
+      >
+        <Text>You can add Associated Media to this Item:</Text>
+        <Paragraph
+          style={{
+            width: 300,
+            margin: '0 auto',
+          }}
+        >
+          <ul>
+            <li style={{ textAlign: 'initial' }}>
+              Within the Locale Dashboard tab (close this popup)
+            </li>
+            <li style={{ textAlign: 'initial' }}>
+              By adding media in the All Media tab
+            </li>
+            <li style={{ textAlign: 'initial' }}>
+              By regenerating data loaded via the vendor's API in this Item
+              entry's header (close this popup)
+            </li>
+          </ul>
+        </Paragraph>
+      </Empty>
+    );
+  }
 
   return (
     <>
