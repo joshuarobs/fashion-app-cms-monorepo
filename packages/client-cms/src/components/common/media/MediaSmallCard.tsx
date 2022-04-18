@@ -2,6 +2,7 @@ import React, { MouseEventHandler } from 'react';
 import { CloseOutlined, PlusOutlined, ZoomInOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Button, Row } from 'antd';
 import styled from 'styled-components';
+import { truncateString } from '../../../utils/truncateString';
 
 const Item = styled.div`
   display: flex;
@@ -122,10 +123,15 @@ function MediaSmallCard({
           style={{
             marginTop: 6,
             margin: '0 auto',
-            whiteSpace: 'pre-wrap',
             textAlign: 'center',
+            whiteSpace: 'pre-line',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            maxHeight: 48,
           }}
+          title={name}
         >
+          {/*{truncateString(name, 22)}*/}
           {name}
         </span>
       </Row>
