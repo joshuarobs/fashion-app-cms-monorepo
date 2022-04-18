@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, Switch, Typography } from 'antd';
-import { MediaSmallCardAdd } from '../../../../common/media/MediaSmallCardAdd';
 import { MediaSmallCard } from '../../../../common/media/MediaSmallCard';
 import {
   CheckOutlined,

@@ -13,7 +13,7 @@ interface AssociatedMediaSectionViewProps {
   // mediaItemAssociated: [];
   // defaultMediaItemAssociated: [];
   mediaItemIds: string[];
-  prevMediaItemIds: string[];
+  prevSelectedMediaIds: string[];
   // refetchMediaItemAssociated: Function;
   showTitle?: boolean;
   setMediaItemIds: Function;
@@ -22,7 +22,7 @@ interface AssociatedMediaSectionViewProps {
 function AssociatedMediaSectionView({
   // defaultMediaItemAssociated,
   mediaItemIds,
-  prevMediaItemIds,
+  prevSelectedMediaIds,
   // mediaItemAssociated,
   // refetchMediaItemAssociated,
   showTitle = false,
@@ -92,20 +92,18 @@ function AssociatedMediaSectionView({
   }
 
   return (
-    <>
-      <AssociatedMediaSection
-        // mediaItemAssociated={mediaItemAssociated}
-        mediaItemAssociated={dataMediaItemsByIds.getMediaItemsByIds}
-        // defaultMediaItemAssociated={defaultMediaItemAssociated}
-        // refetchMediaItemAssociated={refetchMediaItemAssociated}
-        refetchMediaItemsByIds={refetchMediaItemsByIds}
-        setMediaItemIds={setMediaItemIds}
-        viewGuidelines={viewGuidelines}
-        setViewGuidelines={setViewGuidelines}
-        showPopup={showPopup}
-        setShowPopup={setShowPopup}
-      />
-    </>
+    <AssociatedMediaSection
+      // mediaItemAssociated={mediaItemAssociated}
+      mediaItemAssociated={dataMediaItemsByIds.getMediaItemsByIds}
+      // defaultMediaItemAssociated={defaultMediaItemAssociated}
+      // refetchMediaItemAssociated={refetchMediaItemAssociated}
+      refetchMediaItemsByIds={refetchMediaItemsByIds}
+      setMediaItemIds={setMediaItemIds}
+      viewGuidelines={viewGuidelines}
+      setViewGuidelines={setViewGuidelines}
+      showPopup={showPopup}
+      setShowPopup={setShowPopup}
+    />
   );
 }
 

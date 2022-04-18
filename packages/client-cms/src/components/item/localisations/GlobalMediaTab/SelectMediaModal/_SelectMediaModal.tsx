@@ -277,7 +277,7 @@ function SelectMediaModal({
           >
             <AssociatedMediaSectionView
               mediaItemIds={associatedMediaIds}
-              prevMediaItemIds={prevSelectedMediaIds}
+              prevSelectedMediaIds={prevSelectedMediaIds}
               setMediaItemIds={setMediaItemIds}
             />
           </div>

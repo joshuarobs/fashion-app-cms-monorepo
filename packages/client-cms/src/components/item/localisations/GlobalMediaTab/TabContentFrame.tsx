@@ -167,10 +167,6 @@ function TabContentFrame({
           // }}
         >
           {testItems.map((item, index) => (
-            // <div key={item.id} style={{
-            //   height: '6rem',
-            //   border: '1px solid #cccccc',
-            // }}>{item.name}</div>
             <MediaSmallCard
               key={item.id.toString()}
               media_item={item}

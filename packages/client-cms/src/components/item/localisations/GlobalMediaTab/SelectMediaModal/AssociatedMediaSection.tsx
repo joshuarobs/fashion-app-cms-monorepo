@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, Switch, Typography } from 'antd';
-import { MediaSmallCardAdd } from '../../../../common/media/MediaSmallCardAdd';
 import { MediaSmallCard } from '../../../../common/media/MediaSmallCard';
 import {
   CheckOutlined,
@@ -10,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import { SwitchElement } from '../../../../common/SwitchElement';
 import { FrameTitleLevel2 } from '../../../../common/typography/FrameTitleLevel2';
+import { MediaMediumBoxCard } from '../../../../common/media/MediaMediumBoxCard';
 
 const { Paragraph, Text } = Typography;
 
@@ -98,24 +98,27 @@ function AssociatedMediaSection({
         <table>
           <tbody>
             <tr
-              style={{ width: '100%', display: 'flex', flexFlow: 'row wrap' }}
+              style={{
+                width: '100%',
+                display: 'flex',
+                flexFlow: 'row wrap',
+                gap: 8,
+              }}
             >
               {mediaItemAssociated &&
                 mediaItemAssociated.map((media_item: any, index: any) => (
                   // <td key={media_item.key}>
                   <td key={index}>
-                    <MediaSmallCard
+                    <MediaMediumBoxCard
                       key={media_item.key}
                       media_item={media_item}
                       onClick={() => {}}
                       // @ts-ignore
                       onClickDelete={deleteMediaCard}
+                      selected
                     />
                   </td>
                 ))}
-              {/*<td key="manage-media">*/}
-              {/*  <MediaSmallCardAdd onClick={openPopup} />*/}
-              {/*</td>*/}
             </tr>
           </tbody>
         </table>
