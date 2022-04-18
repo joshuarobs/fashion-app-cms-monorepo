@@ -122,7 +122,7 @@ function GlobalMediaTab({
     console.log('else');
     console.log('dataRevisions:', dataRevisions);
     console.log('dataGlobalMedia:', dataGlobalMedia);
-    const translations = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys;
+    const globalMedia = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys;
     const uniqueRevisions =
       dataRevisions.getItemGlobalMediaRevisionsGivenItemId;
 
@@ -140,8 +140,8 @@ function GlobalMediaTab({
       // />
       <GlobalMediaFrame
         // translation={translation}
-        translationDraft={translations[0] ? translations[0] : null}
-        translationRelease={translations[1] ? translations[1] : null}
+        globalMediaDraft={globalMedia[0] ? globalMedia[0] : null}
+        globalMediaRelease={globalMedia[1] ? globalMedia[1] : null}
         defaultMediaItemAssociated={defaultMediaItemAssociated}
         itemId={itemId}
         currentTab={currentTab}

@@ -44,8 +44,8 @@ const key = 'unsaved-changes-localisations';
 
 interface GlobalMediaFrameProps {
   currentTab: any;
-  translationDraft: any;
-  translationRelease: any;
+  globalMediaDraft: any;
+  globalMediaRelease: any;
   defaultMediaItemAssociated: [];
   itemId?: string;
   location: any;
@@ -60,8 +60,8 @@ interface GlobalMediaFrameProps {
 function GlobalMediaFrame({
   currentTab,
   // currentRevision,
-  translationDraft,
-  translationRelease,
+  globalMediaDraft,
+  globalMediaRelease,
   defaultMediaItemAssociated,
   itemId,
   location,
@@ -137,34 +137,63 @@ GlobalMediaFrameProps) {
 
   // STATES FOR THE DRAFT TRANSLATIONS
   const [description1, setDescription1] = useState();
-  const [mediaAllGenders, setMediaAllGenders] = useState();
+  const [mediaAllGenderIds1, setMediaAllGenderIds1] = useState<string[]>([]);
 
   // STATES FOR THE RELEASE TRANSLATIONS
   const [full_name2, setFullName2] = useState();
   const [short_name2, setShortName2] = useState();
   const [description2, setDescription2] = useState();
+  const [mediaAllGenderIds2, setMediaAllGenderIds2] = useState();
 
   useEffect(() => {
-    // setMediaAllGenders
-    setDescription1(translationDraft ? translationDraft.description : null);
-
-    if (translationRelease) {
-      setFullName2(translationRelease.full_name);
-    } else if (translationDraft) {
-      setFullName2(translationDraft.full_name);
+    // Convert the globalMedia object's ids into an array
+    const arrayOfIds: string[] = [];
+    if (globalMediaDraft) {
+      const {
+        media_1_id,
+        media_2_id,
+        media_3_id,
+        media_4_id,
+        media_5_id,
+        media_6_id,
+        media_7_id,
+        media_8_id,
+        media_9_id,
+        media_10_id,
+      } = globalMediaDraft;
+      if (media_1_id) arrayOfIds.push(media_1_id);
+      if (media_2_id) arrayOfIds.push(media_2_id);
+      if (media_3_id) arrayOfIds.push(media_3_id);
+      if (media_4_id) arrayOfIds.push(media_4_id);
+      if (media_5_id) arrayOfIds.push(media_5_id);
+      if (media_6_id) arrayOfIds.push(media_6_id);
+      if (media_7_id) arrayOfIds.push(media_7_id);
+      if (media_8_id) arrayOfIds.push(media_8_id);
+      if (media_9_id) arrayOfIds.push(media_9_id);
+      if (media_10_id) arrayOfIds.push(media_10_id);
+      console.log('arrayOfIds:', arrayOfIds);
     }
 
-    if (translationRelease) {
-      setShortName2(translationRelease.short_name);
-    } else if (translationDraft) {
-      setShortName2(translationDraft.short_name);
-    }
-
-    if (translationRelease) {
-      setDescription2(translationRelease.description);
-    } else if (translationDraft) {
-      setDescription2(translationDraft.description);
-    }
+    setMediaAllGenderIds1(globalMediaDraft ? arrayOfIds : []);
+    // setDescription1(translationDraft ? translationDraft.description : null);
+    //
+    // if (translationRelease) {
+    //   setFullName2(translationRelease.full_name);
+    // } else if (translationDraft) {
+    //   setFullName2(translationDraft.full_name);
+    // }
+    //
+    // if (translationRelease) {
+    //   setShortName2(translationRelease.short_name);
+    // } else if (translationDraft) {
+    //   setShortName2(translationDraft.short_name);
+    // }
+    //
+    // if (translationRelease) {
+    //   setDescription2(translationRelease.description);
+    // } else if (translationDraft) {
+    //   setDescription2(translationDraft.description);
+    // }
   }, [currentTab, paramsRevision]);
 
   const copyFull1 = () => {
@@ -249,20 +278,20 @@ GlobalMediaFrameProps) {
   // that there aren't any visual changes (if any changes were to actually
   // occur)
   let hasChanged1: changesProps = {};
-  if (translationDraft && state === DataState.Development) {
+  if (globalMediaDraft && state === DataState.Development) {
     hasChanged1 = {
       // full_name: full_name1 !== translationDraft.full_name,
       // short_name: short_name1 !== translationDraft.short_name,
-      description: description1 !== translationDraft.description,
+      description: description1 !== globalMediaDraft.description,
     };
   }
 
   let hasChanged2: changesProps = {};
-  if (translationRelease && state === DataState.Review) {
+  if (globalMediaRelease && state === DataState.Review) {
     hasChanged2 = {
-      full_name: full_name2 !== translationRelease.full_name,
-      short_name: short_name2 !== translationRelease.short_name,
-      description: description2 !== translationRelease.description,
+      full_name: full_name2 !== globalMediaRelease.full_name,
+      short_name: short_name2 !== globalMediaRelease.short_name,
+      description: description2 !== globalMediaRelease.description,
     };
   }
 
@@ -296,13 +325,13 @@ GlobalMediaFrameProps) {
 
   const discardChanges1 = () => {
     // setMediaAllGenders()
-    setDescription1(translationDraft.description);
+    setDescription1(globalMediaDraft.description);
   };
 
   const discardChanges2 = () => {
-    setFullName2(translationRelease.full_name);
-    setShortName2(translationRelease.short_name);
-    setDescription2(translationRelease.description);
+    setFullName2(globalMediaRelease.full_name);
+    setShortName2(globalMediaRelease.short_name);
+    setDescription2(globalMediaRelease.description);
   };
 
   const saveChanges1 = async () => {
@@ -312,7 +341,7 @@ GlobalMediaFrameProps) {
     const variables = {
       // revisionId: translationDraft.revision_id,
       // isRelease: false,
-      id: translationDraft.id,
+      id: globalMediaDraft.id,
       changes,
     };
 
@@ -333,7 +362,7 @@ GlobalMediaFrameProps) {
     const variables = {
       // revisionId: translationDraft.revision_id,
       // isRelease: true,
-      id: translationRelease.id,
+      id: globalMediaRelease.id,
       changes,
     };
 
@@ -449,7 +478,7 @@ GlobalMediaFrameProps) {
   };
 
   let releaseTag = <div />;
-  if (translationRelease) {
+  if (globalMediaRelease) {
     if (state === DataState.Review) {
       releaseTag = <TagInReview notSelectable />;
     } else if (state === DataState.Production) {
@@ -538,7 +567,7 @@ GlobalMediaFrameProps) {
   // Handle cases for draft tab
   else {
     // Disable if there is a release version
-    if (translationRelease !== null) {
+    if (globalMediaRelease !== null) {
       frameIsDisabled = true;
     }
   }
@@ -566,10 +595,10 @@ GlobalMediaFrameProps) {
     <>
       <UnsavedChangesCard
         numberOfChanges={
-          translationRelease ? numberOfChanges2 : numberOfChanges1
+          globalMediaRelease ? numberOfChanges2 : numberOfChanges1
         }
-        discardChanges={translationRelease ? discardChanges2 : discardChanges1}
-        saveChanges={translationRelease ? saveChanges2 : saveChanges1}
+        discardChanges={globalMediaRelease ? discardChanges2 : discardChanges1}
+        saveChanges={globalMediaRelease ? saveChanges2 : saveChanges1}
       />
       <SelectMediaModal
         showModal={showPopup}
@@ -647,7 +676,7 @@ GlobalMediaFrameProps) {
             />
           </Col>
         </Row>
-        {!translationDraft ? (
+        {!globalMediaDraft ? (
           <ErrorPleaseFixThis
             message={
               'This Translation Revision does not have a Draft Translation.'
@@ -721,6 +750,7 @@ GlobalMediaFrameProps) {
                   ? onPressEnterShortName1
                   : onPressEnterShortName2
               }
+              mediaItemIds={mediaAllGenderIds1}
             />
           </>
         )}

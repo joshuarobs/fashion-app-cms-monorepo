@@ -6,6 +6,8 @@ import { red } from '@ant-design/colors';
 import { FrameTitleLevel2 } from '../../../common/typography/FrameTitleLevel2';
 import styled from 'styled-components';
 import { MediaSmallCard } from '../../../common/media/MediaSmallCard';
+import { useQuery } from '@apollo/client';
+import { Get_Media_Items_By_Ids } from '../../../../queries/media_items/getMediaItemsByIds';
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -58,6 +60,7 @@ interface TabContentFrameProps {
   setDescription: Function;
   onPressEnterFullName: Function;
   onPressEnterShortName: Function;
+  mediaItemIds: string[];
 }
 
 /**
@@ -73,6 +76,7 @@ function TabContentFrame({
   setDescription,
   onPressEnterFullName,
   onPressEnterShortName,
+  mediaItemIds,
 }: TabContentFrameProps) {
   const [testItems, setTestItems] = useState([
     {
@@ -116,6 +120,22 @@ function TabContentFrame({
       url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
     },
   ]);
+
+  const {
+    loading: loadingMediaItemsByIds,
+    error: errorMediaItemsByIds,
+    data: dataMediaItemsByIds,
+    refetch: refetchMediaItemsByIds,
+  } = useQuery(Get_Media_Items_By_Ids, {
+    variables: { ids: mediaItemIds },
+    fetchPolicy: 'network-only',
+  });
+
+  if (loadingMediaItemsByIds) return <div />;
+  if (errorMediaItemsByIds) return <div>Error :(</div>;
+
+  console.log('dataMediaItemsByIds:', dataMediaItemsByIds);
+  const mediaItems = dataMediaItemsByIds.getMediaItemsByIds;
 
   return (
     <div
@@ -166,7 +186,7 @@ function TabContentFrame({
           //   gap: '0.5rem',
           // }}
         >
-          {testItems.map((item, index) => (
+          {mediaItems.map((item: any, index: number) => (
             <MediaSmallCard
               key={item.id.toString()}
               media_item={item}
