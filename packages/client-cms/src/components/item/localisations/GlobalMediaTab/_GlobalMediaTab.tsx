@@ -16,6 +16,7 @@ const { Content } = Layout;
 interface GlobalMediaTabProps {
   itemId?: string;
   currentTab: string;
+  defaultMediaItemAssociated: [];
   // currentRevision: any;
   // setHasChangesMade: Function;
   paramsRevision: any;
@@ -27,6 +28,7 @@ interface GlobalMediaTabProps {
 function GlobalMediaTab({
   itemId,
   currentTab,
+  defaultMediaItemAssociated,
   // currentRevision,
   // setHasChangesMade,
   paramsRevision,
@@ -140,6 +142,7 @@ function GlobalMediaTab({
         // translation={translation}
         translationDraft={translations[0] ? translations[0] : null}
         translationRelease={translations[1] ? translations[1] : null}
+        defaultMediaItemAssociated={defaultMediaItemAssociated}
         itemId={itemId}
         currentTab={currentTab}
         // currentRevision={currentRevision}

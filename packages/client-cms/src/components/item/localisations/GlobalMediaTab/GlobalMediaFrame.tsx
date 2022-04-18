@@ -46,6 +46,7 @@ interface GlobalMediaFrameProps {
   currentTab: any;
   translationDraft: any;
   translationRelease: any;
+  defaultMediaItemAssociated: [];
   itemId?: string;
   location: any;
   translationRevision: any;
@@ -61,6 +62,7 @@ function GlobalMediaFrame({
   // currentRevision,
   translationDraft,
   translationRelease,
+  defaultMediaItemAssociated,
   itemId,
   location,
   translationRevision,
@@ -573,6 +575,7 @@ GlobalMediaFrameProps) {
         showModal={showPopup}
         onCancel={closePopup}
         loading={false}
+        defaultMediaItemAssociated={defaultMediaItemAssociated}
         currentMediaIds={currentMediaIds}
         setMediaItemIds={() => {}}
         loadMediaItems={() => {}}

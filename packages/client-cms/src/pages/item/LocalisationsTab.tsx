@@ -242,6 +242,7 @@ function LocalisationsTab() {
       <GlobalMediaTab
         itemId={id}
         currentTab={currentTab}
+        defaultMediaItemAssociated={defaultMediaItemAssociated}
         paramsRevision={paramsRevision}
         paramsIsRelease={paramsIsRelease}
         location={location}

@@ -4,7 +4,7 @@ import { TableType } from '../../../../common/table-views/TableType';
 import _ from 'lodash';
 import { MediaItemsTableView } from '../../../../common/table-views/MediaItemsTableView';
 import { HeaderTabLinkCountBadge } from '../../../../common/HeaderTabLinkCountBadge';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { MediaSmallCard } from '../../../../common/media/MediaSmallCard';
 import { AssociatedMediaSectionView } from './AssociatedMediaSectionView';
 
@@ -15,6 +15,7 @@ interface SelectMediaModalProps {
   onCancel: (e: React.MouseEvent) => void;
   // onSubmit: (e: React.MouseEvent) => void;
   loading: boolean;
+  defaultMediaItemAssociated: [];
   currentMediaIds: any;
   setMediaItemIds: Function;
   loadMediaItems: Function;
@@ -26,6 +27,7 @@ function SelectMediaModal({
   // onSubmit,
   loading,
   // newColourMixParts,
+  defaultMediaItemAssociated,
   currentMediaIds,
   setMediaItemIds,
   loadMediaItems,
@@ -39,10 +41,16 @@ function SelectMediaModal({
   // const [prevTotalPercent, setPrevTotalPercent] = useState(0);
   const submitButtonDisabled = false;
 
+  // useEffect(() => {
+  //   setSelectedMediaIds(currentMediaIds);
+  //   setPrevSelectedMediaIds(currentMediaIds);
+  // }, [currentMediaIds]);
+
   useEffect(() => {
-    setSelectedMediaIds(currentMediaIds);
-    setPrevSelectedMediaIds(currentMediaIds);
-  }, [currentMediaIds]);
+    const ids = defaultMediaItemAssociated.map(({ id }) => id);
+    setSelectedMediaIds(ids);
+    setPrevSelectedMediaIds(ids);
+  }, [defaultMediaItemAssociated]);
 
   console.log(
     'selectedMediaIds:',
@@ -267,38 +275,12 @@ function SelectMediaModal({
               paddingTop: 16,
             }}
           >
-            <table>
-              <tbody>
-                <tr
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    flexFlow: 'row wrap',
-                  }}
-                >
-                  <AssociatedMediaSectionView
-                    id={1}
-                    defaultMediaItemAssociated={[]}
-                    mediaItemIds={selectedMediaIds}
-                    prevMediaItemIds={prevSelectedMediaIds}
-                    setMediaItemIds={setMediaItemIds}
-                  />
-                  {/*{mediaItemAssociated &&*/}
-                  {/*  mediaItemAssociated.map((media_item: any, index: any) => (*/}
-                  {/*    // <td key={media_item.key}>*/}
-                  {/*    <td key={index}>*/}
-                  {/*      <MediaSmallCard*/}
-                  {/*        key={media_item.key}*/}
-                  {/*        media_item={media_item}*/}
-                  {/*        onClick={() => {}}*/}
-                  {/*        // @ts-ignore*/}
-                  {/*        onClickDelete={deleteMediaCard}*/}
-                  {/*      />*/}
-                  {/*    </td>*/}
-                  {/*  ))}*/}
-                </tr>
-              </tbody>
-            </table>
+            <AssociatedMediaSectionView
+              defaultMediaItemAssociated={defaultMediaItemAssociated}
+              mediaItemIds={selectedMediaIds}
+              prevMediaItemIds={prevSelectedMediaIds}
+              setMediaItemIds={setMediaItemIds}
+            />
           </div>
         </TabPane>
         <TabPane

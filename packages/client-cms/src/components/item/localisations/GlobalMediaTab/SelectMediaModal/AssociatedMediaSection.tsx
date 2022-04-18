@@ -21,7 +21,7 @@ const styles = {
 };
 
 interface AssociatedMediaSectionProps {
-  id: number;
+  // id: number;
   mediaItemAssociated: any;
   // defaultMediaItemAssociated: any;
   // refetchMediaItemAssociated: Function;
@@ -35,7 +35,6 @@ interface AssociatedMediaSectionProps {
 }
 
 function AssociatedMediaSection({
-  id,
   mediaItemAssociated,
   // defaultMediaItemAssociated,
   // refetchMediaItemAssociated,

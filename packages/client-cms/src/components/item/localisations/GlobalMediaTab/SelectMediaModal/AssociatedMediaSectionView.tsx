@@ -6,7 +6,7 @@ import { Get_Media_Items_By_Ids } from '../../../../../queries/media_items/getMe
 import { UnsavedChangesCard } from '../../../../common/UnsavedChangesCard';
 
 interface AssociatedMediaSectionViewProps {
-  id: number;
+  // id: number;
   // mediaItemAssociated: [];
   defaultMediaItemAssociated: [];
   mediaItemIds: string[];
@@ -17,7 +17,6 @@ interface AssociatedMediaSectionViewProps {
 }
 
 function AssociatedMediaSectionView({
-  id,
   defaultMediaItemAssociated,
   mediaItemIds,
   prevMediaItemIds,
@@ -58,7 +57,6 @@ function AssociatedMediaSectionView({
   return (
     <>
       <AssociatedMediaSection
-        id={id}
         // mediaItemAssociated={mediaItemAssociated}
         mediaItemAssociated={dataMediaItemsByIds.getMediaItemsByIds}
         // defaultMediaItemAssociated={defaultMediaItemAssociated}
