@@ -35,6 +35,7 @@ function SelectMediaModal({
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [prevSelectedRowKeys, setPrevSelectedRowKeys] = useState([]);
   // const [allColourMixParts, setAllColourMixParts] = useState([]);
+  const [associatedMediaIds, setAssociatedMediaIds] = useState([]);
   const [selectedMediaIds, setSelectedMediaIds] = useState([]);
   const [prevSelectedMediaIds, setPrevSelectedMediaIds] = useState([]);
   // const [totalPercent, setTotalPercent] = useState(0);
@@ -48,8 +49,9 @@ function SelectMediaModal({
 
   useEffect(() => {
     const ids = defaultMediaItemAssociated.map(({ id }) => id);
-    setSelectedMediaIds(ids);
-    setPrevSelectedMediaIds(ids);
+    // setSelectedMediaIds(ids);
+    // setPrevSelectedMediaIds(ids);
+    setAssociatedMediaIds(ids);
   }, [defaultMediaItemAssociated]);
 
   console.log(
@@ -177,8 +179,6 @@ function SelectMediaModal({
       // just a backwards approach of the same from the `key`?)
       // @ts-ignore
       setSelectedRowKeys([...selectedRowKeys, record.key].sort());
-      // Add to the total percent
-      // setTotalPercent(totalPercent + record.percent);
     }
   };
 
@@ -276,8 +276,7 @@ function SelectMediaModal({
             }}
           >
             <AssociatedMediaSectionView
-              defaultMediaItemAssociated={defaultMediaItemAssociated}
-              mediaItemIds={selectedMediaIds}
+              mediaItemIds={associatedMediaIds}
               prevMediaItemIds={prevSelectedMediaIds}
               setMediaItemIds={setMediaItemIds}
             />
@@ -305,9 +304,9 @@ function SelectMediaModal({
             onSelectEntry={onSelectEntry}
             onDeselectEntry={onDeselectEntry}
             rowSelection={rowSelection}
-            selectedRowKeys={selectedRowKeys}
+            // selectedRowKeys={selectedRowKeys}
             type={TableType.Select_Multiple}
-            selectedMediaIds={selectedMediaIds}
+            // selectedMediaIds={selectedMediaIds}
           />
         </TabPane>
       </Tabs>

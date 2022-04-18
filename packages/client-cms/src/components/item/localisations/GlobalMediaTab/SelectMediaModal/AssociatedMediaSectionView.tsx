@@ -11,7 +11,7 @@ const { Text, Paragraph } = Typography;
 interface AssociatedMediaSectionViewProps {
   // id: number;
   // mediaItemAssociated: [];
-  defaultMediaItemAssociated: [];
+  // defaultMediaItemAssociated: [];
   mediaItemIds: string[];
   prevMediaItemIds: string[];
   // refetchMediaItemAssociated: Function;
@@ -20,7 +20,7 @@ interface AssociatedMediaSectionViewProps {
 }
 
 function AssociatedMediaSectionView({
-  defaultMediaItemAssociated,
+  // defaultMediaItemAssociated,
   mediaItemIds,
   prevMediaItemIds,
   // mediaItemAssociated,
