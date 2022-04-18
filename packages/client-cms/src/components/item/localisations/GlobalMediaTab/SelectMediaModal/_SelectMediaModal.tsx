@@ -217,6 +217,8 @@ function SelectMediaModal({
   // const percentIsNot100 = totalPercent !== 1;
   // const totalPercentError = selectedMediaIds.length > 0 && percentIsNot100;
 
+  const tabWidth = 584;
+
   return (
     <Modal
       visible={showModal}
@@ -244,6 +246,7 @@ function SelectMediaModal({
       ]}
     >
       <Tabs
+        className="tab-margin-exception"
         defaultActiveKey="1"
         style={{
           width: '100%',
@@ -253,12 +256,12 @@ function SelectMediaModal({
         <TabPane
           tab={
             <div
-              // className="page-tab-link"
               style={{
-                width: 600,
+                width: tabWidth,
                 padding: '4px 0px',
                 userSelect: 'none',
                 textAlign: 'center',
+                marginRight: '16px !important',
               }}
             >
               <div>
@@ -287,7 +290,7 @@ function SelectMediaModal({
             <div
               // className="page-tab-link"
               style={{
-                width: 600,
+                width: tabWidth,
                 padding: '4px 0px',
                 userSelect: 'none',
                 textAlign: 'center',

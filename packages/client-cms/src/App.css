@@ -247,6 +247,11 @@ div.ant-tabs-tab {
   margin: 0;
 }
 
+/* But, ignore above for some exceptions if they have a specific class */
+.tab-margin-exception .ant-tabs-nav .ant-tabs-nav-wrap .ant-tabs-nav-list .ant-tabs-tab {
+  margin: 0px 6px;
+}
+
 /* Removes 16px bottom margin below a horizontal set of tab items */
 .ant-tabs-top .ant-tabs-nav[role=tablist] {
   margin: 0;
