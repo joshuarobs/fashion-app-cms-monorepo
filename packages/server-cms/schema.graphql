@@ -10236,15 +10236,45 @@ input item_families_variance_order_by {
 type item_global_media {
   id: uuid!
   is_release: Boolean!
+
+  # An object relationship
+  media_1: media_items
+
+  # An object relationship
+  media_10: media_items
   media_10_id: uuid
   media_1_id: uuid
+
+  # An object relationship
+  media_2: media_items
   media_2_id: uuid
+
+  # An object relationship
+  media_3: media_items
   media_3_id: uuid
+
+  # An object relationship
+  media_4: media_items
   media_4_id: uuid
+
+  # An object relationship
+  media_5: media_items
   media_5_id: uuid
+
+  # An object relationship
+  media_6: media_items
   media_6_id: uuid
+
+  # An object relationship
+  media_7: media_items
   media_7_id: uuid
+
+  # An object relationship
+  media_8: media_items
   media_8_id: uuid
+
+  # An object relationship
+  media_9: media_items
   media_9_id: uuid
 
   # An object relationship
@@ -10287,15 +10317,25 @@ input item_global_media_bool_exp {
   _or: [item_global_media_bool_exp!]
   id: uuid_comparison_exp
   is_release: Boolean_comparison_exp
+  media_1: media_items_bool_exp
+  media_10: media_items_bool_exp
   media_10_id: uuid_comparison_exp
   media_1_id: uuid_comparison_exp
+  media_2: media_items_bool_exp
   media_2_id: uuid_comparison_exp
+  media_3: media_items_bool_exp
   media_3_id: uuid_comparison_exp
+  media_4: media_items_bool_exp
   media_4_id: uuid_comparison_exp
+  media_5: media_items_bool_exp
   media_5_id: uuid_comparison_exp
+  media_6: media_items_bool_exp
   media_6_id: uuid_comparison_exp
+  media_7: media_items_bool_exp
   media_7_id: uuid_comparison_exp
+  media_8: media_items_bool_exp
   media_8_id: uuid_comparison_exp
+  media_9: media_items_bool_exp
   media_9_id: uuid_comparison_exp
   revision: item_global_media_revisions_bool_exp
   revision_id: uuid_comparison_exp
@@ -10314,15 +10354,25 @@ enum item_global_media_constraint {
 input item_global_media_insert_input {
   id: uuid
   is_release: Boolean
+  media_1: media_items_obj_rel_insert_input
+  media_10: media_items_obj_rel_insert_input
   media_10_id: uuid
   media_1_id: uuid
+  media_2: media_items_obj_rel_insert_input
   media_2_id: uuid
+  media_3: media_items_obj_rel_insert_input
   media_3_id: uuid
+  media_4: media_items_obj_rel_insert_input
   media_4_id: uuid
+  media_5: media_items_obj_rel_insert_input
   media_5_id: uuid
+  media_6: media_items_obj_rel_insert_input
   media_6_id: uuid
+  media_7: media_items_obj_rel_insert_input
   media_7_id: uuid
+  media_8: media_items_obj_rel_insert_input
   media_8_id: uuid
+  media_9: media_items_obj_rel_insert_input
   media_9_id: uuid
   revision: item_global_media_revisions_obj_rel_insert_input
   revision_id: uuid
@@ -10412,15 +10462,25 @@ input item_global_media_on_conflict {
 input item_global_media_order_by {
   id: order_by
   is_release: order_by
+  media_1: media_items_order_by
+  media_10: media_items_order_by
   media_10_id: order_by
   media_1_id: order_by
+  media_2: media_items_order_by
   media_2_id: order_by
+  media_3: media_items_order_by
   media_3_id: order_by
+  media_4: media_items_order_by
   media_4_id: order_by
+  media_5: media_items_order_by
   media_5_id: order_by
+  media_6: media_items_order_by
   media_6_id: order_by
+  media_7: media_items_order_by
   media_7_id: order_by
+  media_8: media_items_order_by
   media_8_id: order_by
+  media_9: media_items_order_by
   media_9_id: order_by
   revision: item_global_media_revisions_order_by
   revision_id: order_by

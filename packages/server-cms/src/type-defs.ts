@@ -407,6 +407,17 @@ const typeDefs = gql`
     media_8_id: String
     media_9_id: String
     media_10_id: String
+    # Relationships
+    media_1: media_items
+    media_2: media_items
+    media_3: media_items
+    media_4: media_items
+    media_5: media_items
+    media_6: media_items
+    media_7: media_items
+    media_8: media_items
+    media_9: media_items
+    media_10: media_items
   }
 
   type item_global_media_revision_changes {

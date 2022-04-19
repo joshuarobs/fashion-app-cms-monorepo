@@ -53,6 +53,56 @@ async function getItemGlobalMediaGivenUniqueKeys(
             media_8_id
             media_9_id
             media_10_id
+            media_1 {
+              id
+              name
+              url
+            }
+            media_2 {
+              id
+              name
+              url
+            }
+            media_3 {
+              id
+              name
+              url
+            }
+            media_4 {
+              id
+              name
+              url
+            }
+            media_5 {
+              id
+              name
+              url
+            }
+            media_6 {
+              id
+              name
+              url
+            }
+            media_7 {
+              id
+              name
+              url
+            }
+            media_8 {
+              id
+              name
+              url
+            }
+            media_9 {
+              id
+              name
+              url
+            }
+            media_10 {
+              id
+              name
+              url
+            }
           }
         }
       `,

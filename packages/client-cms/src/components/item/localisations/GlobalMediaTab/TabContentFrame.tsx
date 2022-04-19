@@ -58,9 +58,9 @@ interface TabContentFrameProps {
   openPopup: MouseEventHandler<HTMLElement>;
   description?: string;
   setDescription: Function;
-  onPressEnterFullName: Function;
-  onPressEnterShortName: Function;
-  mediaItemIds: string[];
+  mediaAllGenders: object[];
+  setMediaAllGenders: Function;
+  onSortableGridStateChangeAllGenders: Function;
 }
 
 /**
@@ -74,53 +74,12 @@ function TabContentFrame({
   description,
   openPopup,
   setDescription,
-  onPressEnterFullName,
-  onPressEnterShortName,
-  mediaItemIds,
+  mediaAllGenders,
+  setMediaAllGenders,
+  onSortableGridStateChangeAllGenders,
 }: TabContentFrameProps) {
-  const [testItems, setTestItems] = useState([
-    {
-      id: 1,
-      name: 'shrek',
-      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
-    },
-    {
-      id: 2,
-      name: 'fiona',
-      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
-    },
-    {
-      id: 3,
-      name: 'donkey',
-      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
-    },
-    {
-      id: 4,
-      name: 'cat',
-      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
-    },
-    {
-      id: 5,
-      name: 'dog',
-      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
-    },
-    {
-      id: 6,
-      name: 'man',
-      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
-    },
-    {
-      id: 7,
-      name: 'woman',
-      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
-    },
-    {
-      id: 8,
-      name: 'man bear pig',
-      url: 'https://f004.backblazeb2.com/file/fashion-cms/placeholder/Black-boots-1.png',
-    },
-  ]);
-  const [mediaItems, setMediaItems] = useState<object[]>([]);
+  // const [mediaItems, setMediaItems] = useState<object[]>([]);
+  const [mediaAllGenders1, setMediaAllGenders1] = useState<object[]>([]);
 
   const {
     loading: loadingMediaItemsByIds,
@@ -128,21 +87,32 @@ function TabContentFrame({
     data: dataMediaItemsByIds,
     refetch: refetchMediaItemsByIds,
   } = useQuery(Get_Media_Items_By_Ids, {
-    variables: { ids: mediaItemIds },
+    variables: { ids: [] },
     fetchPolicy: 'network-only',
+    // fetchPolicy: 'cache-and-network',
   });
 
-  useEffect(() => {
-    if (!loadingMediaItemsByIds && dataMediaItemsByIds) {
-      setMediaItems(dataMediaItemsByIds.getMediaItemsByIds);
-    }
-  }, [loadingMediaItemsByIds, dataMediaItemsByIds]);
+  // useEffect(() => {
+  //   if (!loadingMediaItemsByIds && dataMediaItemsByIds) {
+  //     setMediaItems(dataMediaItemsByIds.getMediaItemsByIds);
+  //   }
+  // }, [loadingMediaItemsByIds, dataMediaItemsByIds]);
 
   if (loadingMediaItemsByIds) return <div />;
   if (errorMediaItemsByIds) return <div>Error :(</div>;
 
   console.log('dataMediaItemsByIds:', dataMediaItemsByIds);
   // const mediaItems = dataMediaItemsByIds.getMediaItemsByIds;
+  console.log('TabContentFrame#mediaAllGenders:', mediaAllGenders);
+
+  // const onSortableGridStateChange = (newState: any[]) => {
+  //   setMediaItems(newState);
+  //   console.log('newState:', newState);
+  //   if (newState !== mediaItems) {
+  //     // setMediaItemIds(newState.map(({ id }) => id));
+  //   }
+  //   // setMediaItemIds(newState.map(({ id }) => id));
+  // };
 
   return (
     <div
@@ -183,8 +153,13 @@ function TabContentFrame({
           // OR
           // swap // enables swap
           animation={250}
-          list={mediaItems}
-          setList={setMediaItems}
+          list={mediaAllGenders}
+          // list={mediaAllGenders1}
+          // @ts-ignore
+          setList={setMediaAllGenders}
+          // setList={(newState: any[]) =>
+          //   onSortableGridStateChangeAllGenders(newState)
+          // }
           style={{ width: '100%' }}
           // style={{
           //   display: 'grid',
@@ -193,7 +168,7 @@ function TabContentFrame({
           //   gap: '0.5rem',
           // }}
         >
-          {mediaItems.map((item: any, index: number) => (
+          {mediaAllGenders.map((item: any, index: number) => (
             <MediaSmallCard
               key={item.id.toString()}
               media_item={item}

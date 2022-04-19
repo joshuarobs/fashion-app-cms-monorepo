@@ -202,7 +202,7 @@ function LocalisationSidebar({
                 style={cssStyles.menuTab}
                 icon={<PictureOutlined />}
               >
-                <Link to={`${tabPath}/global-media?rev=1`}>
+                <Link to={`${tabPath}/global-media?rev=1&release=false`}>
                   {Common.Localisation_Related.Global_Media}
                 </Link>
               </Menu.Item>

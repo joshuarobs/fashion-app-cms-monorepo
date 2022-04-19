@@ -2,7 +2,7 @@ import React from 'react';
 import { ColumnOfFrames } from '../../../common/frames/ColumnOfFrames';
 import { ItemGlobalMediaStateFrame } from './ItemGlobalMediaStateFrame';
 import { GlobalMediaActivityFrame } from './GlobalMediaActivityFrame';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import { Layout } from 'antd';
 import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
 import { GlobalMediaFrame } from './GlobalMediaFrame';
@@ -10,6 +10,7 @@ import { Get_Item_Translations_Given_Unique_Keys } from '../../../../queries/ite
 import { Get_Item_Translation_Revisions_Given_Locale_Code } from '../../../../queries/item_translation_revisions/getItemTranslationRevisionsGivenLocaleCode';
 import { Get_Item_Global_Media_Revisions_Given_Item_Id } from '../../../../queries/item_global_media_revisions/getItemGlobalMediaRevisionsGivenItemId';
 import { Get_Item_Global_Media_Given_Unique_Keys } from '../../../../queries/item_global_media/getItemGlobalMediaGivenUniqueKeys';
+import { Get_Media_Items_By_Ids } from '../../../../queries/media_items/getMediaItemsByIds';
 
 const { Content } = Layout;
 
@@ -87,6 +88,29 @@ function GlobalMediaTab({
     },
     fetchPolicy: 'network-only',
   });
+
+  const [
+    getMediaItemsByIds,
+    {
+      loading: loadingMediaItemsByIds,
+      error: errorMediaItemsByIds,
+      data: dataMediaItemsByIds,
+    },
+  ] = useLazyQuery(Get_Media_Items_By_Ids, {
+    // variables: { ids: mediaItemIds },
+    fetchPolicy: 'network-only',
+  });
+
+  // const {
+  //   loading: loadingMediaItemsByIds,
+  //   error: errorMediaItemsByIds,
+  //   data: dataMediaItemsByIds,
+  //   refetch: refetchMediaItemsByIds,
+  // } = useQuery(Get_Media_Items_By_Ids, {
+  //   variables: { ids: mediaItemIds },
+  //   fetchPolicy: 'network-only',
+  //   // fetchPolicy: 'cache-and-network',
+  // });
 
   let mainFrameToDisplay = null;
   let stateFrameToDisplay = null;
