@@ -135,6 +135,10 @@ const Mutations = gql`
     #--------------------------------------------------
     # item_global_media
     #--------------------------------------------------
+    updateItemGlobalMedia(
+      id: String!
+      changes: item_global_media_set_input!
+    ): item_global_media
     #--------------------------------------------------
     # item_global_media_revision_changes
     #--------------------------------------------------

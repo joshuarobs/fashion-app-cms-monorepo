@@ -7,6 +7,8 @@ import { HeaderTabLinkCountBadge } from '../../../../common/HeaderTabLinkCountBa
 import { NavLink, useParams } from 'react-router-dom';
 import { MediaSmallCard } from '../../../../common/media/MediaSmallCard';
 import { AssociatedMediaSectionView } from './AssociatedMediaSectionView';
+import { useLazyQuery } from '@apollo/client';
+import { Get_Media_Items_By_Ids } from '../../../../../queries/media_items/getMediaItemsByIds';
 
 const { TabPane } = Tabs;
 
@@ -16,8 +18,10 @@ interface SelectMediaModalProps {
   // onSubmit: (e: React.MouseEvent) => void;
   loading: boolean;
   defaultMediaItemAssociated: [];
-  currentMediaIds: any;
-  setMediaItemIds: Function;
+  // currentMediaIds: any;
+  // setMediaItemIds: Function;
+  mediaAllGenders: object[];
+  setMediaAllGenders: Function;
   loadMediaItems: Function;
 }
 
@@ -28,24 +32,29 @@ function SelectMediaModal({
   loading,
   // newColourMixParts,
   defaultMediaItemAssociated,
-  currentMediaIds,
-  setMediaItemIds,
+  // currentMediaIds,
+  mediaAllGenders,
+  setMediaAllGenders,
+  // setMediaItemIds,
   loadMediaItems,
 }: SelectMediaModalProps) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [prevSelectedRowKeys, setPrevSelectedRowKeys] = useState([]);
   // const [allColourMixParts, setAllColourMixParts] = useState([]);
   const [associatedMediaIds, setAssociatedMediaIds] = useState([]);
-  const [selectedMediaIds, setSelectedMediaIds] = useState([]);
-  const [prevSelectedMediaIds, setPrevSelectedMediaIds] = useState([]);
+  const [selectedMediaIds, setSelectedMediaIds] = useState<string[]>([]);
+  const [prevSelectedMediaIds, setPrevSelectedMediaIds] = useState<string[]>(
+    []
+  );
   // const [totalPercent, setTotalPercent] = useState(0);
   // const [prevTotalPercent, setPrevTotalPercent] = useState(0);
   const submitButtonDisabled = false;
 
   useEffect(() => {
+    const currentMediaIds: string[] = mediaAllGenders.map(({ id }: any) => id);
     setSelectedMediaIds(currentMediaIds);
     setPrevSelectedMediaIds(currentMediaIds);
-  }, [currentMediaIds]);
+  }, [mediaAllGenders]);
 
   useEffect(() => {
     const ids = defaultMediaItemAssociated.map(({ id }) => id);
@@ -54,7 +63,23 @@ function SelectMediaModal({
     setAssociatedMediaIds(ids);
   }, [defaultMediaItemAssociated]);
 
-  console.log('SelectMediaModal#currentMediaIds:', currentMediaIds);
+  // Lazy query to fetch new list of media item data after adding/removing
+  // from this popup
+  // After the data is fetched, we'll update the state in `GlobalMediaFrame`
+  // manually with the provided setState function
+  const [
+    getMediaItemsByIds,
+    {
+      loading: loadingMediaItemsByIds,
+      error: errorMediaItemsByIds,
+      data: dataMediaItemsByIds,
+    },
+  ] = useLazyQuery(Get_Media_Items_By_Ids, {
+    // variables: { ids: mediaItemIds },
+    fetchPolicy: 'network-only',
+  });
+
+  console.log('SelectMediaModal#mediaAllGenders:', mediaAllGenders);
 
   console.log(
     'selectedMediaIds:',
@@ -114,30 +139,12 @@ function SelectMediaModal({
   };
 
   const onSubmit = (e: any) => {
-    // const ids: number[] = [];
-    // selectedRowsCopy.forEach((value: any) => ids.push(value.id));
-    // setNewColourMixParts(ids);
-    // setNewColourMixParts(selectedRowsCopy.map((value: any) => value.id));
-    // @ts-ignore
-    // setNewColourMixParts(dataAllColourMixParts.getAllColourMixPartsIds.filter((tet) => return 5;));
-    // setNewColourMixParts(colourMixParts);
-
-    // const colourMixParts = selectedRowKeys.filter((key) => {
-    //   console.log('key:', key);
-    //   // @ts-ignore
-    //   const isSelected = dataAllColourMixParts.getAllColourMixPartsIds.find(
-    //     (item: any) => item.id === key
-    //   );
-    //   console.log('isSelected:', isSelected);
-    //   return isSelected;
-    // });
-    // console.log('colourMixParts!!!:', colourMixParts);
-
-    // @ts-ignore
     setPrevSelectedRowKeys(selectedRowKeys);
     setPrevSelectedMediaIds(selectedMediaIds);
     // setPrevTotalPercent(totalPercent);
-    setMediaItemIds(selectedMediaIds);
+
+    // setMediaItemIds(selectedMediaIds);
+
     loadMediaItems();
     onCancel(e);
     e.preventDefault();
@@ -283,7 +290,7 @@ function SelectMediaModal({
             <AssociatedMediaSectionView
               mediaItemIds={associatedMediaIds}
               prevSelectedMediaIds={prevSelectedMediaIds}
-              setMediaItemIds={setMediaItemIds}
+              setMediaItemIds={() => {}}
             />
           </div>
         </TabPane>

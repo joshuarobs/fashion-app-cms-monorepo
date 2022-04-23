@@ -34,6 +34,8 @@ import { Delete_Item_Translation_Revision_Locale_Page } from '../../../../querie
 import { Get_Item_Translation_Revisions } from '../../../../queries/item_translation_revisions/getItemTranslationRevisions';
 import { PictureOutlined } from '@ant-design/icons';
 import { SelectMediaModal } from './SelectMediaModal/_SelectMediaModal';
+import { Update_Item_Global_Media } from '../../../../queries/item_global_media/updateItemGlobalMedia';
+import { Get_Item_Global_Media_Revision_Changes_Given_Item_Id } from '../../../../queries/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesGivenItemId';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -142,7 +144,7 @@ GlobalMediaFrameProps) {
   // const [prevMediaAllGenderIds1, setPrevMediaAllGenderIds1] = useState<
   //   string[]
   // >([]);
-  const [mediaAllGenders1, setMediaAllGenders1] = useState<object[]>([]);
+  const [mediaAllGenders1, setMediaAllGenders1] = useState<any[]>([]);
   const [prevMediaAllGenders1, setPrevMediaAllGenders1] = useState<object[]>(
     []
   );
@@ -234,18 +236,26 @@ GlobalMediaFrameProps) {
   });
 
   const [
-    updateItemTranslation,
+    updateItemGlobalMedia,
     // { loading: mutationLoading, error: mutationError }
-  ] = useMutation(Update_Item_Translation, {
+  ] = useMutation(Update_Item_Global_Media, {
     async onCompleted() {
+      // Reset the `mediaAllGenders` placeholder change variable, otherwise
+      // the Unsaved Changes card will still remain popped up
+      // This is done by setting the previous media to the current one
+      if (globalMediaRelease) {
+        setPrevMediaAllGenders2(mediaAllGenders2);
+      } else {
+        setPrevMediaAllGenders1(mediaAllGenders1);
+      }
       message.success({ content: Common.Changes_Saved, key }, 2);
       // history.go(0);
     },
     refetchQueries: [
       {
-        query: Get_Item_Translation_Revision_Changes_For_Locale,
+        query: Get_Item_Global_Media_Revision_Changes_Given_Item_Id,
         variables: {
-          itemId: Number.parseInt(String(itemId)),
+          item_id: Number.parseInt(String(itemId)),
         },
       },
     ],
@@ -291,16 +301,32 @@ GlobalMediaFrameProps) {
   //   onCompleted() {},
   // });
 
+  interface hasChangedProps {
+    mediaAllGenders?: boolean;
+    notes?: boolean;
+  }
+
   interface changesProps {
-    description?: boolean | null;
-    mediaAllGenders1?: boolean | null;
+    // Just for client side only, for managing states of titles and heading text
+    mediaAllGenders?: string[] | null;
+    notes?: string | null;
+    media_1_id?: string | null;
+    media_2_id?: string | null;
+    media_3_id?: string | null;
+    media_4_id?: string | null;
+    media_5_id?: string | null;
+    media_6_id?: string | null;
+    media_7_id?: string | null;
+    media_8_id?: string | null;
+    media_9_id?: string | null;
+    media_10_id?: string | null;
   }
 
   // An object tracking the changes amongst all variables
   // If the frame and its buttons are disabled, then changes are ignored so
   // that there aren't any visual changes (if any changes were to actually
   // occur)
-  let hasChanged1: changesProps = {};
+  let hasChanged1: hasChangedProps = {};
   if (globalMediaDraft && state === DataState.Development) {
     console.log('CONSIDER HAS CHANGED');
     console.log(
@@ -318,18 +344,19 @@ GlobalMediaFrameProps) {
 
     hasChanged1 = {
       // full_name: full_name1 !== translationDraft.full_name,
-      mediaAllGenders1:
+      mediaAllGenders:
         mediaAllGenders1.map(({ id }: any) => id).join() !==
         prevMediaAllGenders1.map(({ id }: any) => id).join(),
     };
   }
 
-  let hasChanged2: changesProps = {};
+  let hasChanged2: hasChangedProps = {};
   if (globalMediaRelease && state === DataState.Review) {
     hasChanged2 = {
       // full_name: full_name2 !== globalMediaRelease.full_name,
-      // short_name: short_name2 !== globalMediaRelease.short_name,
-      description: description2 !== globalMediaRelease.description,
+      mediaAllGenders:
+        mediaAllGenders2.map(({ id }: any) => id).join() !==
+        prevMediaAllGenders2.map(({ id }: any) => id).join(),
     };
   }
 
@@ -370,7 +397,6 @@ GlobalMediaFrameProps) {
   };
 
   const discardChanges2 = () => {
-    // setFullName2(globalMediaRelease.full_name);
     setMediaAllGenders2(prevMediaAllGenders2);
   };
 
@@ -386,12 +412,37 @@ GlobalMediaFrameProps) {
     };
 
     if (numberOfChanges1 > 0) {
-      if (hasChanged1.description) {
-        variables.changes.description = description1;
+      if (hasChanged1.mediaAllGenders) {
+        // Special case: Turn array of media items into their respective
+        // variables on the database
+        if (mediaAllGenders1[0])
+          variables.changes.media_1_id = mediaAllGenders1[0].id;
+        if (mediaAllGenders1[1])
+          variables.changes.media_2_id = mediaAllGenders1[1].id;
+        if (mediaAllGenders1[2])
+          variables.changes.media_3_id = mediaAllGenders1[2].id;
+        if (mediaAllGenders1[3])
+          variables.changes.media_4_id = mediaAllGenders1[3].id;
+        if (mediaAllGenders1[4])
+          variables.changes.media_5_id = mediaAllGenders1[4].id;
+        if (mediaAllGenders1[5])
+          variables.changes.media_6_id = mediaAllGenders1[5].id;
+        if (mediaAllGenders1[6])
+          variables.changes.media_7_id = mediaAllGenders1[6].id;
+        if (mediaAllGenders1[7])
+          variables.changes.media_8_id = mediaAllGenders1[7].id;
+        if (mediaAllGenders1[8])
+          variables.changes.media_9_id = mediaAllGenders1[8].id;
+        if (mediaAllGenders1[9])
+          variables.changes.media_10_id = mediaAllGenders1[9].id;
+      }
+
+      if (hasChanged1.notes) {
+        variables.changes.notes = description1;
       }
 
       message.loading({ content: Common.Saving_Changes, key });
-      await updateItemTranslation({ variables });
+      await updateItemGlobalMedia({ variables });
     }
   };
 
@@ -407,12 +458,19 @@ GlobalMediaFrameProps) {
     };
 
     if (numberOfChanges2 > 0) {
-      if (hasChanged2.description) {
-        variables.changes.description = description2;
+      if (hasChanged2.mediaAllGenders) {
+        // Special case: Turn array of media items into a single array of ids
+        // variables.changes.mediaAllGenders = mediaAllGenders2.map(
+        //   ({ id }: any) => id
+        // );
+      }
+
+      if (hasChanged2.notes) {
+        variables.changes.notes = description2;
       }
 
       message.loading({ content: Common.Saving_Changes, key });
-      await updateItemTranslation({ variables });
+      await updateItemGlobalMedia({ variables });
     }
   };
 
@@ -625,19 +683,19 @@ GlobalMediaFrameProps) {
         discardChanges={globalMediaRelease ? discardChanges2 : discardChanges1}
         saveChanges={globalMediaRelease ? saveChanges2 : saveChanges1}
       />
-      {/*<SelectMediaModal*/}
-      {/*  showModal={showPopup}*/}
-      {/*  onCancel={closePopup}*/}
-      {/*  loading={false}*/}
-      {/*  defaultMediaItemAssociated={defaultMediaItemAssociated}*/}
-      {/*  currentMediaIds={*/}
-      {/*    globalMediaRelease ? mediaAllGenders2 : mediaAllGenders1*/}
-      {/*  }*/}
-      {/*  setMediaItemIds={*/}
-      {/*    globalMediaRelease ? setMediaAllGenders2 : setMediaAllGenders1*/}
-      {/*  }*/}
-      {/*  loadMediaItems={() => {}}*/}
-      {/*/>*/}
+      <SelectMediaModal
+        showModal={showPopup}
+        onCancel={closePopup}
+        loading={false}
+        defaultMediaItemAssociated={defaultMediaItemAssociated}
+        mediaAllGenders={
+          globalMediaRelease ? mediaAllGenders2 : mediaAllGenders1
+        }
+        setMediaAllGenders={
+          globalMediaRelease ? setMediaAllGenders2 : setMediaAllGenders1
+        }
+        loadMediaItems={() => {}}
+      />
       <Content
         style={{
           padding: 16,

@@ -126,12 +126,12 @@ function TabContentFrame({
       </Row>
       <Row>
         <Col>
-          {!hasChanged.full_name ? (
+          {!hasChanged.mediaAllGenders ? (
             // @ts-ignore
             <Text
               strong
               // type={!disabled && !full_name ? 'danger' : 'secondary'}
-              type={!disabled ? 'danger' : 'secondary'}
+              // type={!disabled ? 'danger' : 'secondary'}
             >
               All Genders
             </Text>

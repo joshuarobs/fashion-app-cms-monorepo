@@ -134,7 +134,7 @@ function GlobalMediaTab({
         2
       )}`}</div>
     );
-  } /*else if (errorRevisions) {
+  } else if (errorRevisions) {
     mainFrameToDisplay = (
       <div>{`Error! (Revisions)${JSON.stringify(
         errorRevisions,
@@ -142,7 +142,7 @@ function GlobalMediaTab({
         2
       )}`}</div>
     );
-  } */ else {
+  } else {
     console.log('else');
     console.log('dataRevisions:', dataRevisions);
     console.log('dataGlobalMedia:', dataGlobalMedia);
@@ -152,16 +152,6 @@ function GlobalMediaTab({
 
     // console.error("translations!:", translations);
     mainFrameToDisplay = (
-      // <LocalisationFrame
-      //   translations={translations}
-      //   itemId={itemId}
-      //   currentTab={currentTab}
-      //   currentRevision={currentRevision}
-      //   setHasChangesMade={setHasChangesMade}
-      //   location={location}
-      //   paramsRevision={paramsRevision}
-      //   paramsIsRelease={paramsIsRelease}
-      // />
       <GlobalMediaFrame
         // translation={translation}
         globalMediaDraft={globalMedia[0] ? globalMedia[0] : null}

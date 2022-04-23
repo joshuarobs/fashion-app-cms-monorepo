@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-// Generated on: Mon, 19 Apr 2021 11:13:53 GMT
+// Generated on: Sat, 23 Apr 2022 11:24:16 GMT
 
 /* ============================================================
  * !!IMPORTANT!!
@@ -152,6 +152,13 @@ const Enums = gql`
     ko
     pt
     zh
+  }
+
+  enum media_types_enum {
+    Audio
+    Image
+    JSON
+    Video
   }
 
   #============================================================
@@ -309,8 +316,10 @@ const Enums = gql`
   enum colours_select_column {
     base_colour
     colour_code
+    created_at
     id
     name
+    updated_at
   }
 
   enum companies_select_column {
@@ -406,6 +415,7 @@ const Enums = gql`
     fabric_layer_type
     id
     insulation
+    notes
     permeability
     thickness
     type
@@ -427,12 +437,50 @@ const Enums = gql`
     item_id
   }
 
+  enum item_and_media_item_associated_select_column {
+    item_id
+    media_item_id
+  }
+
   enum item_families_select_column {
     brand_id
     created_at
     id
     name
     updated_at
+  }
+
+  enum item_global_media_revision_changes_select_column {
+    action
+    change_type
+    date
+    id
+    item_global_media_revision_id
+    to_state
+    user_id
+  }
+
+  enum item_global_media_revisions_select_column {
+    id
+    item_id
+    revision
+    state
+  }
+
+  enum item_global_media_select_column {
+    id
+    is_release
+    media_10_id
+    media_1_id
+    media_2_id
+    media_3_id
+    media_4_id
+    media_5_id
+    media_6_id
+    media_7_id
+    media_8_id
+    media_9_id
+    revision_id
   }
 
   enum item_maindata_revision_changes_select_column {
@@ -529,6 +577,23 @@ const Enums = gql`
     id
     name
     non_fabric_id
+  }
+
+  enum media_items_select_column {
+    company_id
+    company_item_product_id
+    created_at
+    description
+    id
+    name
+    type
+    updated_at
+    url
+  }
+
+  enum media_types_select_column {
+    description
+    value
   }
 
   enum staff_users_select_column {
@@ -705,8 +770,10 @@ const Enums = gql`
   input colours_set_input {
     base_colour: base_colours_enum
     colour_code: String
+    created_at: String
     id: Int
     name: String
+    updated_at: String
   }
 
   input companies_set_input {
@@ -824,12 +891,50 @@ const Enums = gql`
     item_id: Int
   }
 
+  input item_and_media_item_associated_set_input {
+    item_id: Int
+    media_item_id: String
+  }
+
   input item_families_set_input {
     brand_id: Int
     created_at: String
     id: Int
     name: String
     updated_at: String
+  }
+
+  input item_global_media_revision_changes_set_input {
+    action: data_actions_enum
+    change_type: data_change_types_enum
+    date: String
+    id: String
+    item_global_media_revision_id: String
+    to_state: data_states_enum
+    user_id: Int
+  }
+
+  input item_global_media_revisions_set_input {
+    id: String
+    item_id: Int
+    revision: Int
+    state: data_states_enum
+  }
+
+  input item_global_media_set_input {
+    id: String
+    is_release: Boolean
+    media_10_id: String
+    media_1_id: String
+    media_2_id: String
+    media_3_id: String
+    media_4_id: String
+    media_5_id: String
+    media_6_id: String
+    media_7_id: String
+    media_8_id: String
+    media_9_id: String
+    revision_id: String
   }
 
   input item_maindata_revision_changes_set_input {
@@ -926,6 +1031,23 @@ const Enums = gql`
     id: Int
     name: String
     non_fabric_id: Int
+  }
+
+  input media_items_set_input {
+    company_id: Int
+    company_item_product_id: String
+    created_at: String
+    description: String
+    id: String
+    name: String
+    type: media_types_enum
+    updated_at: String
+    url: String
+  }
+
+  input media_types_set_input {
+    description: String
+    value: String
   }
 
   input staff_users_set_input {
