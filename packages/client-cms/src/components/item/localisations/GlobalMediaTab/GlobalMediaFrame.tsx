@@ -268,10 +268,20 @@ GlobalMediaFrameProps) {
       // Reset the `mediaAllGenders` placeholder change variable, otherwise
       // the Unsaved Changes card will still remain popped up
       // This is done by setting the previous media to the current one
-      if (globalMediaRelease) {
-        setPrevMediaAllGenders2(mediaAllGenders2);
+      if (paramsIsReleaseBool) {
+        await refetchMediaItemsByIds(
+          mediaAllGenders2.map(({ id }: any) => id),
+          true,
+          true
+        );
+        // setPrevMediaAllGenders2(mediaAllGenders2);
       } else {
-        setPrevMediaAllGenders1(mediaAllGenders1);
+        await refetchMediaItemsByIds(
+          mediaAllGenders1.map(({ id }: any) => id),
+          false,
+          true
+        );
+        // setPrevMediaAllGenders1(mediaAllGenders1);
       }
       message.success({ content: Common.Changes_Saved, key }, 2);
       // history.go(0);
@@ -444,26 +454,56 @@ GlobalMediaFrameProps) {
         // console.log('mediaAllGenders1:', mediaAllGenders1);
         // Special case: Turn array of media items into their respective
         // variables on the database
-        if (mediaAllGenders1[0])
+        if (mediaAllGenders1[0]) {
           variables.changes.media_1_id = mediaAllGenders1[0].id;
-        if (mediaAllGenders1[1])
+        } else {
+          variables.changes.media_1_id = null;
+        }
+        if (mediaAllGenders1[1]) {
           variables.changes.media_2_id = mediaAllGenders1[1].id;
-        if (mediaAllGenders1[2])
+        } else {
+          variables.changes.media_2_id = null;
+        }
+        if (mediaAllGenders1[2]) {
           variables.changes.media_3_id = mediaAllGenders1[2].id;
-        if (mediaAllGenders1[3])
+        } else {
+          variables.changes.media_3_id = null;
+        }
+        if (mediaAllGenders1[3]) {
           variables.changes.media_4_id = mediaAllGenders1[3].id;
-        if (mediaAllGenders1[4])
+        } else {
+          variables.changes.media_4_id = null;
+        }
+        if (mediaAllGenders1[4]) {
           variables.changes.media_5_id = mediaAllGenders1[4].id;
-        if (mediaAllGenders1[5])
+        } else {
+          variables.changes.media_5_id = null;
+        }
+        if (mediaAllGenders1[5]) {
           variables.changes.media_6_id = mediaAllGenders1[5].id;
-        if (mediaAllGenders1[6])
+        } else {
+          variables.changes.media_6_id = null;
+        }
+        if (mediaAllGenders1[6]) {
           variables.changes.media_7_id = mediaAllGenders1[6].id;
-        if (mediaAllGenders1[7])
+        } else {
+          variables.changes.media_7_id = null;
+        }
+        if (mediaAllGenders1[7]) {
           variables.changes.media_8_id = mediaAllGenders1[7].id;
-        if (mediaAllGenders1[8])
+        } else {
+          variables.changes.media_8_id = null;
+        }
+        if (mediaAllGenders1[8]) {
           variables.changes.media_9_id = mediaAllGenders1[8].id;
-        if (mediaAllGenders1[9])
+        } else {
+          variables.changes.media_9_id = null;
+        }
+        if (mediaAllGenders1[9]) {
           variables.changes.media_10_id = mediaAllGenders1[9].id;
+        } else {
+          variables.changes.media_10_id = null;
+        }
       }
 
       if (hasChanged1.notes) {
@@ -711,12 +751,12 @@ GlobalMediaFrameProps) {
   //------------------------------------------------------------
   // State change handling for adding/deselecting via the popup
   //------------------------------------------------------------
-  const loadMediaItems1 = (ids: string[]) => {
-    refetchMediaItemsByIds(ids, false);
+  const loadMediaItems1 = async (ids: string[]) => {
+    await refetchMediaItemsByIds(ids, false, false);
   };
 
-  const loadMediaItems2 = (ids: string[]) => {
-    refetchMediaItemsByIds(ids, true);
+  const loadMediaItems2 = async (ids: string[]) => {
+    await refetchMediaItemsByIds(ids, true, false);
   };
 
   console.log(

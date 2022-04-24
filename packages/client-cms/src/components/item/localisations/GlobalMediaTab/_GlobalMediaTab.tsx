@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 import { ColumnOfFrames } from '../../../common/frames/ColumnOfFrames';
 import { ItemGlobalMediaStateFrame } from './ItemGlobalMediaStateFrame';
 import { GlobalMediaActivityFrame } from './GlobalMediaActivityFrame';
@@ -229,17 +230,51 @@ function GlobalMediaTab({
     fetchPolicy: 'network-only',
   });
 
-  async function refetchMediaItemsByIds(ids: string[], isRelease: boolean) {
-    const test = await getMediaItemsByIds({
+  async function refetchMediaItemsByIds(
+    ids: string[],
+    isRelease: boolean,
+    isSave: boolean
+  ) {
+    // 1. Query data of all the new ids
+    const query = await getMediaItemsByIds({
       variables: {
         ids,
       },
     });
-    console.log('!!test:', test.data.getMediaItemsByIds);
-    if (isRelease) {
-      setGlobalMediaRelease(test.data.getMediaItemsByIds);
-    } else {
-      setGlobalMediaDraft(test.data.getMediaItemsByIds);
+    console.log('ids:', ids, 'query:', query, 'isRelease:', isRelease);
+    console.log('!!test:', query.data.getMediaItemsByIds);
+
+    if (query) {
+      // 2. Sort them, by keeping the original order, then appending the new
+      // ids by alphabetical order
+      // This is needed because the query to get media by list of ids, will
+      // return them all in order of their name, which breaks the order set by
+      // the user
+      // Sort algorithm from:
+      // https://stackoverflow.com/questions/28719795/lodash-sort-collection-based-on-external-array
+      const currentIds = globalMediaDraft.map(({ id }) => id);
+
+      if (isRelease) {
+        setGlobalMediaRelease(query.data.getMediaItemsByIds);
+        if (isSave) setPrevGlobalMediaRelease(query.data.getMediaItemsByIds);
+      } else {
+        const last = globalMediaDraft.length;
+
+        const sortedCollection = _.sortBy(
+          query.data.getMediaItemsByIds,
+          (entry) => {
+            return currentIds.indexOf(entry.id) !== -1
+              ? currentIds.indexOf(entry.id)
+              : last;
+          }
+        );
+
+        console.log('@@sortedCollection:', sortedCollection);
+
+        // setGlobalMediaDraft(query.data.getMediaItemsByIds);
+        setGlobalMediaDraft(sortedCollection);
+        if (isSave) setPrevGlobalMediaDraft(sortedCollection);
+      }
     }
   }
 
