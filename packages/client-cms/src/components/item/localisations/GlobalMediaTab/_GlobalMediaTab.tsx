@@ -104,7 +104,11 @@ function GlobalMediaTab({
   // });
   // const [changeableGlobalMedia, setChangeableGlobalMedia] = useState<any[]>([]);
   const [globalMediaDraft, setGlobalMediaDraft] = useState<any[]>([]);
+  const [prevGlobalMediaDraft, setPrevGlobalMediaDraft] = useState<any[]>([]);
   const [globalMediaRelease, setGlobalMediaRelease] = useState<any[]>([]);
+  const [prevGlobalMediaRelease, setPrevGlobalMediaRelease] = useState<any[]>(
+    []
+  );
 
   const {
     loading: loadingGlobalMedia,
@@ -184,6 +188,7 @@ function GlobalMediaTab({
       if (media_10) globalMediaItems11.push({ ...media_10 });
       console.log('globalMediaItems11:', globalMediaItems11);
       setGlobalMediaDraft(globalMediaItems11);
+      setPrevGlobalMediaDraft(globalMediaItems11);
 
       // await updateMedia(ids);
       // setChangeableGlobalMedia(
@@ -320,7 +325,7 @@ function GlobalMediaTab({
     console.log('dataRevisions:', dataRevisions);
     console.log('dataGlobalMedia:', dataGlobalMedia);
     const globalMedia = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys;
-    console.log('globalMedia:', globalMedia);
+    console.log('globalMedia!!!:', globalMedia);
 
     const uniqueRevisions =
       dataRevisions.getItemGlobalMediaRevisionsGivenItemId;
@@ -340,8 +345,12 @@ function GlobalMediaTab({
         // translation={translation}
         // globalMediaDraft={globalMedia[0] ? globalMedia[0] : null}
         // globalMediaRelease={globalMedia[1] ? globalMedia[1] : null}
+        revisionIdDraft={globalMedia[0].id}
+        revisionIdRelease={globalMedia[1] ? globalMedia[1].id : null}
         globalMediaDraft={globalMediaDraft}
+        prevGlobalMediaDraft={prevGlobalMediaDraft}
         globalMediaRelease={globalMediaRelease}
+        prevGlobalMediaRelease={prevGlobalMediaRelease}
         defaultMediaItemAssociated={defaultMediaItemAssociated}
         itemId={itemId}
         currentTab={currentTab}

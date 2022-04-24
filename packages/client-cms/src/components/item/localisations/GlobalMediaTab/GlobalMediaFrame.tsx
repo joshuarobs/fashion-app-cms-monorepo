@@ -47,8 +47,12 @@ const key = 'unsaved-changes-localisations';
 
 interface GlobalMediaFrameProps {
   currentTab: any;
+  revisionIdDraft: string | null;
+  revisionIdRelease: string | null;
   globalMediaDraft: any;
+  prevGlobalMediaDraft: any;
   globalMediaRelease: any;
+  prevGlobalMediaRelease: any;
   defaultMediaItemAssociated: [];
   itemId?: string;
   location: any;
@@ -64,8 +68,12 @@ interface GlobalMediaFrameProps {
 function GlobalMediaFrame({
   currentTab,
   // currentRevision,
+  revisionIdDraft,
+  revisionIdRelease,
   globalMediaDraft,
+  prevGlobalMediaDraft,
   globalMediaRelease,
+  prevGlobalMediaRelease,
   defaultMediaItemAssociated,
   itemId,
   location,
@@ -206,7 +214,7 @@ GlobalMediaFrameProps) {
     // as the current react one
     // setPrevMediaAllGenderIds1(globalMediaDraft ? arrayOfIds : []);
     // setPrevMediaAllGenders1(globalMediaDraft ? globalMediaItems : []);
-    setPrevMediaAllGenders1(globalMediaDraft ? globalMediaDraft : []);
+    // setPrevMediaAllGenders1(globalMediaDraft ? globalMediaDraft : []);
 
     // setDescription1(translationDraft ? translationDraft.description : null);
     //
@@ -228,6 +236,16 @@ GlobalMediaFrameProps) {
     //   setDescription2(translationDraft.description);
     // }
   }, [currentTab, paramsRevision, globalMediaDraft, globalMediaRelease]);
+
+  useEffect(() => {
+    setPrevMediaAllGenders1(prevGlobalMediaDraft ? prevGlobalMediaDraft : []);
+  }, [prevGlobalMediaDraft]);
+
+  useEffect(() => {
+    setPrevMediaAllGenders2(
+      prevGlobalMediaRelease ? prevGlobalMediaRelease : []
+    );
+  }, [prevGlobalMediaRelease]);
 
   const copyFull1 = () => {
     // setShortName1(full_name1);
@@ -410,16 +428,20 @@ GlobalMediaFrameProps) {
   const saveChanges1 = async () => {
     const changes: changesProps = {};
 
+    console.log('globalMediaDraft:', globalMediaDraft);
+
     // Variables required for the GraphQL query
     const variables = {
       // revisionId: translationDraft.revision_id,
       // isRelease: false,
-      id: globalMediaDraft.id,
+      // id: globalMediaDraft.id,
+      id: revisionIdDraft,
       changes,
     };
 
     if (numberOfChanges1 > 0) {
       if (hasChanged1.mediaAllGenders) {
+        // console.log('mediaAllGenders1:', mediaAllGenders1);
         // Special case: Turn array of media items into their respective
         // variables on the database
         if (mediaAllGenders1[0])
@@ -447,6 +469,8 @@ GlobalMediaFrameProps) {
       if (hasChanged1.notes) {
         variables.changes.notes = description1;
       }
+
+      console.log('variables:', variables);
 
       message.loading({ content: Common.Saving_Changes, key });
       await updateItemGlobalMedia({ variables });
