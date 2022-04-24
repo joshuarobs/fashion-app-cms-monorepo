@@ -81,16 +81,16 @@ function TabContentFrame({
   // const [mediaItems, setMediaItems] = useState<object[]>([]);
   const [mediaAllGenders1, setMediaAllGenders1] = useState<object[]>([]);
 
-  const {
-    loading: loadingMediaItemsByIds,
-    error: errorMediaItemsByIds,
-    data: dataMediaItemsByIds,
-    refetch: refetchMediaItemsByIds,
-  } = useQuery(Get_Media_Items_By_Ids, {
-    variables: { ids: [] },
-    fetchPolicy: 'network-only',
-    // fetchPolicy: 'cache-and-network',
-  });
+  // const {
+  //   loading: loadingMediaItemsByIds,
+  //   error: errorMediaItemsByIds,
+  //   data: dataMediaItemsByIds,
+  //   refetch: refetchMediaItemsByIds,
+  // } = useQuery(Get_Media_Items_By_Ids, {
+  //   variables: { ids: [] },
+  //   fetchPolicy: 'network-only',
+  //   // fetchPolicy: 'cache-and-network',
+  // });
 
   // useEffect(() => {
   //   if (!loadingMediaItemsByIds && dataMediaItemsByIds) {
@@ -98,12 +98,11 @@ function TabContentFrame({
   //   }
   // }, [loadingMediaItemsByIds, dataMediaItemsByIds]);
 
-  if (loadingMediaItemsByIds) return <div />;
-  if (errorMediaItemsByIds) return <div>Error :(</div>;
-
-  console.log('dataMediaItemsByIds:', dataMediaItemsByIds);
+  // if (loadingMediaItemsByIds) return <div />;
+  // if (errorMediaItemsByIds) return <div>Error :(</div>;
+  // console.log('dataMediaItemsByIds:', dataMediaItemsByIds);
   // const mediaItems = dataMediaItemsByIds.getMediaItemsByIds;
-  console.log('TabContentFrame#mediaAllGenders:', mediaAllGenders);
+  console.log('123#TabContentFrame#mediaAllGenders:', mediaAllGenders);
 
   // const onSortableGridStateChange = (newState: any[]) => {
   //   setMediaItems(newState);

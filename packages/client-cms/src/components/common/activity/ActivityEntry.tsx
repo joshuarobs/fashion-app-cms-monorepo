@@ -66,7 +66,7 @@ function ActivityEntry({ change, lastItem, showType }: ActivityEntryProps) {
   let revision = null;
   let justShowTheTitle = false;
 
-  console.log('item_global_media_revision:', item_global_media_revision);
+  // console.log('item_global_media_revision:', item_global_media_revision);
 
   let typeKindTitle;
   let typeName: string | JSX.Element = '';

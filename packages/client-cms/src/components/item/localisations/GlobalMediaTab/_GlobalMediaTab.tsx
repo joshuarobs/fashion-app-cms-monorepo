@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ColumnOfFrames } from '../../../common/frames/ColumnOfFrames';
 import { ItemGlobalMediaStateFrame } from './ItemGlobalMediaStateFrame';
 import { GlobalMediaActivityFrame } from './GlobalMediaActivityFrame';
@@ -13,6 +13,45 @@ import { Get_Item_Global_Media_Given_Unique_Keys } from '../../../../queries/ite
 import { Get_Media_Items_By_Ids } from '../../../../queries/media_items/getMediaItemsByIds';
 
 const { Content } = Layout;
+
+/**
+ * Takes in the database object of Item Global Media, and gets its media
+ * objects (e.g. media_1, media_2...) and puts them into an array in their
+ * order.
+ * @param dataGlobalMedia
+ */
+function getGlobalMediaIntoArrayFromDatabaseObject(dataGlobalMedia: any) {
+  // Convert the globalMedia object's ids into an array
+  const globalMediaItems: object[] = [];
+  const {
+    media_1,
+    media_2,
+    media_3,
+    media_4,
+    media_5,
+    media_6,
+    media_7,
+    media_8,
+    media_9,
+    media_10,
+  } = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0];
+  // Deep clone each object because the data `globalMediaDraft` which is
+  // obtained via an Apollo GraphQL query, is immutable and we can't
+  // make any modifications.
+  // ReactSortableJS bugs out if the data in the entries list are immutable
+  if (media_1) globalMediaItems.push({ ...media_1 });
+  if (media_2) globalMediaItems.push({ ...media_2 });
+  if (media_3) globalMediaItems.push({ ...media_3 });
+  if (media_4) globalMediaItems.push({ ...media_4 });
+  if (media_5) globalMediaItems.push({ ...media_5 });
+  if (media_6) globalMediaItems.push({ ...media_6 });
+  if (media_7) globalMediaItems.push({ ...media_7 });
+  if (media_8) globalMediaItems.push({ ...media_8 });
+  if (media_9) globalMediaItems.push({ ...media_9 });
+  if (media_10) globalMediaItems.push({ ...media_10 });
+  // console.log('123#globalMediaItems11:', globalMediaItems);
+  return globalMediaItems;
+}
 
 interface GlobalMediaTabProps {
   itemId?: string;
@@ -63,6 +102,9 @@ function GlobalMediaTab({
   //   },
   //   fetchPolicy: 'network-only',
   // });
+  // const [changeableGlobalMedia, setChangeableGlobalMedia] = useState<any[]>([]);
+  const [globalMediaDraft, setGlobalMediaDraft] = useState<any[]>([]);
+  const [globalMediaRelease, setGlobalMediaRelease] = useState<any[]>([]);
 
   const {
     loading: loadingGlobalMedia,
@@ -74,6 +116,87 @@ function GlobalMediaTab({
       // revisionId: paramsRevisionId
       revision: Number.parseInt(paramsRevision),
       item_id: Number.parseInt(String(itemId)),
+    },
+    onCompleted: async () => {
+      console.log(
+        'GlobalMediaTab#onCompleted - dataGlobalMedia:',
+        dataGlobalMedia
+      );
+      // const globalMedia = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys;
+      // console.log('useEffect#globalMedia:', globalMedia);
+      const {
+        media_1_id,
+        media_2_id,
+        media_3_id,
+        media_4_id,
+        media_5_id,
+        media_6_id,
+        media_7_id,
+        media_8_id,
+        media_9_id,
+        media_10_id,
+      } = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0];
+      const ids = [];
+      if (media_1_id) ids.push(media_1_id);
+      if (media_2_id) ids.push(media_2_id);
+      if (media_3_id) ids.push(media_3_id);
+      if (media_4_id) ids.push(media_4_id);
+      if (media_5_id) ids.push(media_5_id);
+      if (media_6_id) ids.push(media_6_id);
+      if (media_7_id) ids.push(media_7_id);
+      if (media_8_id) ids.push(media_8_id);
+      if (media_9_id) ids.push(media_9_id);
+      if (media_10_id) ids.push(media_10_id);
+      // console.log('ids:', ids);
+      // await getMediaItemsByIds({
+      //   variables: {
+      //     ids,
+      //   },
+      // });
+
+      // Convert the globalMedia object's ids into an array
+      const globalMediaItems11: object[] = [];
+      const {
+        media_1,
+        media_2,
+        media_3,
+        media_4,
+        media_5,
+        media_6,
+        media_7,
+        media_8,
+        media_9,
+        media_10,
+      } = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0];
+      // Deep clone each object because the data `globalMediaDraft` which is
+      // obtained via an Apollo GraphQL query, is immutable and we can't
+      // make any modifications.
+      // ReactSortableJS bugs out if the data in the entries list are immutable
+      if (media_1) globalMediaItems11.push({ ...media_1 });
+      if (media_2) globalMediaItems11.push({ ...media_2 });
+      if (media_3) globalMediaItems11.push({ ...media_3 });
+      if (media_4) globalMediaItems11.push({ ...media_4 });
+      if (media_5) globalMediaItems11.push({ ...media_5 });
+      if (media_6) globalMediaItems11.push({ ...media_6 });
+      if (media_7) globalMediaItems11.push({ ...media_7 });
+      if (media_8) globalMediaItems11.push({ ...media_8 });
+      if (media_9) globalMediaItems11.push({ ...media_9 });
+      if (media_10) globalMediaItems11.push({ ...media_10 });
+      console.log('globalMediaItems11:', globalMediaItems11);
+      setGlobalMediaDraft(globalMediaItems11);
+
+      // await updateMedia(ids);
+      // setChangeableGlobalMedia(
+      //   dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0]
+      // );
+
+      // setGlobalMediaDraft(dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0]);
+      // setGlobalMediaDraft(
+      //   getGlobalMediaIntoArrayFromDatabaseObject(dataGlobalMedia)
+      // );
+      // setGlobalMediaRelease(
+      //   dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[1]
+      // );
     },
   });
 
@@ -101,6 +224,46 @@ function GlobalMediaTab({
     fetchPolicy: 'network-only',
   });
 
+  async function refetchMediaItemsByIds(ids: string[], isRelease: boolean) {
+    const test = await getMediaItemsByIds({
+      variables: {
+        ids,
+      },
+    });
+    console.log('!!test:', test.data.getMediaItemsByIds);
+    if (isRelease) {
+      setGlobalMediaRelease(test.data.getMediaItemsByIds);
+    } else {
+      setGlobalMediaDraft(test.data.getMediaItemsByIds);
+    }
+  }
+
+  // Load the media items data based on ids of the first query
+  // First time we run this, we probably already have this data, its
+  // redundant, but this is the query that'll handle the data of the
+  // current selection of media items.
+  // Therefore, we can change the ids that get loaded, based on the media
+  // items that get selected by the `Select Media` button
+  // if (!dataMediaItemsByIds) {
+  //   getMediaItemsByIds({
+  //     variables: {
+  //       ids: [],
+  //     },
+  //   }).then();
+  // }
+  // useEffect(() => {
+  //   if (dataGlobalMedia) {
+  //     console.log('useEffect#dataGlobalMedia:', dataGlobalMedia);
+  //     setGlobalMediaDraft(
+  //       getGlobalMediaIntoArrayFromDatabaseObject(dataGlobalMedia)
+  //     );
+  //   }
+  // }, [dataGlobalMedia]);
+
+  if (dataMediaItemsByIds) {
+    console.log('dataMediaItemsByIds:', dataMediaItemsByIds);
+  }
+
   // const {
   //   loading: loadingMediaItemsByIds,
   //   error: errorMediaItemsByIds,
@@ -115,20 +278,9 @@ function GlobalMediaTab({
   let mainFrameToDisplay = null;
   let stateFrameToDisplay = null;
 
-  if (loadingGlobalMedia || loadingRevisions) {
+  if (errorGlobalMedia) {
     mainFrameToDisplay = (
-      <Content
-        style={{
-          background: '#fff',
-          minWidth: 586,
-          minHeight: 400,
-        }}
-      />
-    );
-    stateFrameToDisplay = <StateFrame />;
-  } else if (errorGlobalMedia) {
-    mainFrameToDisplay = (
-      <div>{`Error! (Translations) ${JSON.stringify(
+      <div>{`Error! (Global Media) ${JSON.stringify(
         errorGlobalMedia,
         null,
         2
@@ -142,26 +294,61 @@ function GlobalMediaTab({
         2
       )}`}</div>
     );
+  } else if (errorMediaItemsByIds) {
+    mainFrameToDisplay = (
+      <div>{`Error! (Media Items By Ids)${JSON.stringify(
+        errorMediaItemsByIds,
+        null,
+        2
+      )}`}</div>
+    );
+  }
+
+  if (loadingGlobalMedia || loadingRevisions || !globalMediaDraft) {
+    mainFrameToDisplay = (
+      <Content
+        style={{
+          background: '#fff',
+          minWidth: 586,
+          minHeight: 400,
+        }}
+      />
+    );
+    stateFrameToDisplay = <StateFrame />;
   } else {
-    console.log('else');
+    // console.log('else');
     console.log('dataRevisions:', dataRevisions);
     console.log('dataGlobalMedia:', dataGlobalMedia);
     const globalMedia = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys;
+    console.log('globalMedia:', globalMedia);
+
     const uniqueRevisions =
       dataRevisions.getItemGlobalMediaRevisionsGivenItemId;
+
+    const isReleaseVersion: boolean = globalMedia[1] !== null;
+    // let globalMediaDraft = globalMedia[0] ? globalMedia[0] : null;
+    // let globalMediaRelease = globalMedia[1] ? globalMedia[1] : null;
+    // if (isReleaseVersion) {
+    //   globalMediaRelease = changeableGlobalMedia;
+    // } else {
+    //   globalMediaDraft = changeableGlobalMedia;
+    // }
 
     // console.error("translations!:", translations);
     mainFrameToDisplay = (
       <GlobalMediaFrame
         // translation={translation}
-        globalMediaDraft={globalMedia[0] ? globalMedia[0] : null}
-        globalMediaRelease={globalMedia[1] ? globalMedia[1] : null}
+        // globalMediaDraft={globalMedia[0] ? globalMedia[0] : null}
+        // globalMediaRelease={globalMedia[1] ? globalMedia[1] : null}
+        globalMediaDraft={globalMediaDraft}
+        globalMediaRelease={globalMediaRelease}
         defaultMediaItemAssociated={defaultMediaItemAssociated}
         itemId={itemId}
         currentTab={currentTab}
         // currentRevision={currentRevision}
         location={location}
         translationRevision={uniqueRevisions[0] ? uniqueRevisions[0] : null}
+        refetchMediaItemsByIds={refetchMediaItemsByIds}
         paramsRevision={paramsRevision}
         paramsIsRelease={paramsIsRelease}
         uniqueRevisions={uniqueRevisions}

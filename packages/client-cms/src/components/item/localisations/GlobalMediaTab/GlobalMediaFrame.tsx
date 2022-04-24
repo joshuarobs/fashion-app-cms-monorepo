@@ -53,6 +53,7 @@ interface GlobalMediaFrameProps {
   itemId?: string;
   location: any;
   translationRevision: any;
+  refetchMediaItemsByIds: Function;
   paramsRevision: any;
   paramsIsRelease: string;
   uniqueRevisions: any;
@@ -69,6 +70,7 @@ function GlobalMediaFrame({
   itemId,
   location,
   translationRevision,
+  refetchMediaItemsByIds,
   paramsRevision,
   paramsIsRelease,
   uniqueRevisions,
@@ -161,46 +163,51 @@ GlobalMediaFrameProps) {
   );
 
   useEffect(() => {
-    // Convert the globalMedia object's ids into an array
-    const globalMediaItems: object[] = [];
-    if (globalMediaDraft) {
-      const {
-        media_1,
-        media_2,
-        media_3,
-        media_4,
-        media_5,
-        media_6,
-        media_7,
-        media_8,
-        media_9,
-        media_10,
-      } = globalMediaDraft;
-      // Deep clone each object because the data `globalMediaDraft` which is
-      // obtained via an Apollo GraphQL query, is immutable and we can't
-      // make any modifications.
-      // ReactSortableJS bugs out if the data in the entries list are immutable
-      if (media_1) globalMediaItems.push({ ...media_1 });
-      if (media_2) globalMediaItems.push({ ...media_2 });
-      if (media_3) globalMediaItems.push({ ...media_3 });
-      if (media_4) globalMediaItems.push({ ...media_4 });
-      if (media_5) globalMediaItems.push({ ...media_5 });
-      if (media_6) globalMediaItems.push({ ...media_6 });
-      if (media_7) globalMediaItems.push({ ...media_7 });
-      if (media_8) globalMediaItems.push({ ...media_8 });
-      if (media_9) globalMediaItems.push({ ...media_9 });
-      if (media_10) globalMediaItems.push({ ...media_10 });
-      console.log('globalMediaItems:', globalMediaItems);
-    }
+    // // Convert the globalMedia object's ids into an array
+    // const globalMediaItems: object[] = [];
+    // if (globalMediaDraft) {
+    //   const {
+    //     media_1,
+    //     media_2,
+    //     media_3,
+    //     media_4,
+    //     media_5,
+    //     media_6,
+    //     media_7,
+    //     media_8,
+    //     media_9,
+    //     media_10,
+    //   } = globalMediaDraft;
+    //   // Deep clone each object because the data `globalMediaDraft` which is
+    //   // obtained via an Apollo GraphQL query, is immutable and we can't
+    //   // make any modifications.
+    //   // ReactSortableJS bugs out if the data in the entries list are immutable
+    //   if (media_1) globalMediaItems.push({ ...media_1 });
+    //   if (media_2) globalMediaItems.push({ ...media_2 });
+    //   if (media_3) globalMediaItems.push({ ...media_3 });
+    //   if (media_4) globalMediaItems.push({ ...media_4 });
+    //   if (media_5) globalMediaItems.push({ ...media_5 });
+    //   if (media_6) globalMediaItems.push({ ...media_6 });
+    //   if (media_7) globalMediaItems.push({ ...media_7 });
+    //   if (media_8) globalMediaItems.push({ ...media_8 });
+    //   if (media_9) globalMediaItems.push({ ...media_9 });
+    //   if (media_10) globalMediaItems.push({ ...media_10 });
+    //   console.log('globalMediaItems:', globalMediaItems);
+    // }
     // console.log('media_1:', globalMediaDraft.media_1);
     // globalMediaDraft.media_1.x = 1;
 
     // setMediaAllGenderIds1(globalMediaDraft ? globalMediaItems : []);
-    setMediaAllGenders1(globalMediaDraft ? globalMediaItems : []);
+    // setMediaAllGenders1(globalMediaDraft ? globalMediaItems : []);
+    setMediaAllGenders1(globalMediaDraft ? globalMediaDraft : []);
+    console.log('123#GlobalMediaFrame#globalMediaDraft:', globalMediaDraft);
+
     // Set the previous (current database) version of the media as the same
     // as the current react one
     // setPrevMediaAllGenderIds1(globalMediaDraft ? arrayOfIds : []);
-    setPrevMediaAllGenders1(globalMediaDraft ? globalMediaItems : []);
+    // setPrevMediaAllGenders1(globalMediaDraft ? globalMediaItems : []);
+    setPrevMediaAllGenders1(globalMediaDraft ? globalMediaDraft : []);
+
     // setDescription1(translationDraft ? translationDraft.description : null);
     //
     // if (translationRelease) {
@@ -220,7 +227,7 @@ GlobalMediaFrameProps) {
     // } else if (translationDraft) {
     //   setDescription2(translationDraft.description);
     // }
-  }, [currentTab, paramsRevision]);
+  }, [currentTab, paramsRevision, globalMediaDraft, globalMediaRelease]);
 
   const copyFull1 = () => {
     // setShortName1(full_name1);
@@ -660,6 +667,9 @@ GlobalMediaFrameProps) {
     return <div>${error}</div>;
   }
 
+  //------------------------------------------------------------
+  // State change handling for sorting
+  //------------------------------------------------------------
   const onSortableGridStateChangeAllGenders1 = (newState: any[]) => {
     setMediaAllGenders1(newState);
     console.log('newState:', newState);
@@ -674,14 +684,32 @@ GlobalMediaFrameProps) {
     setMediaAllGenderIds2(newState.map(({ id }) => id));
   };
 
+  //------------------------------------------------------------
+  // State change handling for adding/deselecting via the popup
+  //------------------------------------------------------------
+  const loadMediaItems1 = (ids: string[]) => {
+    refetchMediaItemsByIds(ids, false);
+  };
+
+  const loadMediaItems2 = (ids: string[]) => {
+    refetchMediaItemsByIds(ids, true);
+  };
+
+  console.log(
+    'paramsIsReleaseBool:',
+    paramsIsReleaseBool,
+    '!paramsIsReleaseBool ?' + ' mediaAllGenders1 :' + ' mediaAllGenders2',
+    !paramsIsReleaseBool ? mediaAllGenders1 : mediaAllGenders2
+  );
+
   return (
     <>
       <UnsavedChangesCard
         numberOfChanges={
-          globalMediaRelease ? numberOfChanges2 : numberOfChanges1
+          paramsIsReleaseBool ? numberOfChanges2 : numberOfChanges1
         }
-        discardChanges={globalMediaRelease ? discardChanges2 : discardChanges1}
-        saveChanges={globalMediaRelease ? saveChanges2 : saveChanges1}
+        discardChanges={paramsIsReleaseBool ? discardChanges2 : discardChanges1}
+        saveChanges={paramsIsReleaseBool ? saveChanges2 : saveChanges1}
       />
       <SelectMediaModal
         showModal={showPopup}
@@ -689,12 +717,13 @@ GlobalMediaFrameProps) {
         loading={false}
         defaultMediaItemAssociated={defaultMediaItemAssociated}
         mediaAllGenders={
-          globalMediaRelease ? mediaAllGenders2 : mediaAllGenders1
+          paramsIsReleaseBool ? mediaAllGenders2 : mediaAllGenders1
         }
         setMediaAllGenders={
-          globalMediaRelease ? setMediaAllGenders2 : setMediaAllGenders1
+          paramsIsReleaseBool ? setMediaAllGenders2 : setMediaAllGenders1
         }
-        loadMediaItems={() => {}}
+        loadMediaItems={paramsIsReleaseBool ? loadMediaItems2 : loadMediaItems1}
+        // loadMediaItems={() => {}}
       />
       <Content
         style={{

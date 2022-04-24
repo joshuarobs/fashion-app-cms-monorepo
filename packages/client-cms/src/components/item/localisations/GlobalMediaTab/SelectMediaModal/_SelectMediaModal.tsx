@@ -145,7 +145,7 @@ function SelectMediaModal({
 
     // setMediaItemIds(selectedMediaIds);
 
-    loadMediaItems();
+    loadMediaItems(selectedMediaIds);
     onCancel(e);
     e.preventDefault();
   };
