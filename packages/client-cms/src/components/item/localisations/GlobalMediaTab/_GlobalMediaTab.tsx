@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { ColumnOfFrames } from '../../../common/frames/ColumnOfFrames';
 import { ItemGlobalMediaStateFrame } from './ItemGlobalMediaStateFrame';
@@ -110,6 +110,7 @@ function GlobalMediaTab({
   const [prevGlobalMediaRelease, setPrevGlobalMediaRelease] = useState<any[]>(
     []
   );
+  const [alreadyLoaded, setAlreadyLoaded] = useState(false);
 
   const {
     loading: loadingGlobalMedia,
@@ -123,6 +124,7 @@ function GlobalMediaTab({
       item_id: Number.parseInt(String(itemId)),
     },
     onCompleted: async () => {
+      console.error('@@');
       console.log(
         'GlobalMediaTab#onCompleted - dataGlobalMedia:',
         dataGlobalMedia
@@ -153,11 +155,13 @@ function GlobalMediaTab({
       if (media_9_id) ids.push(media_9_id);
       if (media_10_id) ids.push(media_10_id);
       // console.log('ids:', ids);
-      // await getMediaItemsByIds({
+      // const tt = await getMediaItemsByIds({
       //   variables: {
       //     ids,
       //   },
       // });
+      //
+      // console.log('tt:', tt.data.getMediaItemsByIds);
 
       // Convert the globalMedia object's ids into an array
       const globalMediaItems11: object[] = [];
@@ -188,8 +192,19 @@ function GlobalMediaTab({
       if (media_9) globalMediaItems11.push({ ...media_9 });
       if (media_10) globalMediaItems11.push({ ...media_10 });
       console.log('globalMediaItems11:', globalMediaItems11);
-      setGlobalMediaDraft(globalMediaItems11);
-      setPrevGlobalMediaDraft(globalMediaItems11);
+
+      if (!alreadyLoaded) {
+        setGlobalMediaDraft(globalMediaItems11);
+        setPrevGlobalMediaDraft(globalMediaItems11);
+        setAlreadyLoaded(true);
+      }
+
+      // async function refetchMediaItemsByIds(
+      //   ids: string[],
+      //   isRelease: boolean,
+      //   isSave: boolean
+
+      // await refetchMediaItemsByIds(ids, false, true);
 
       // await updateMedia(ids);
       // setChangeableGlobalMedia(
@@ -229,6 +244,10 @@ function GlobalMediaTab({
     // variables: { ids: mediaItemIds },
     fetchPolicy: 'network-only',
   });
+
+  // useEffect(() => {
+  //   getMediaItemsByIds();
+  // }, []);
 
   async function refetchMediaItemsByIds(
     ids: string[],
@@ -300,9 +319,9 @@ function GlobalMediaTab({
   //   }
   // }, [dataGlobalMedia]);
 
-  if (dataMediaItemsByIds) {
-    console.log('dataMediaItemsByIds:', dataMediaItemsByIds);
-  }
+  // if (dataMediaItemsByIds) {
+  //   console.log('dataMediaItemsByIds:', dataMediaItemsByIds);
+  // }
 
   // const {
   //   loading: loadingMediaItemsByIds,
@@ -387,6 +406,10 @@ function GlobalMediaTab({
         globalMediaRelease={globalMediaRelease}
         prevGlobalMediaRelease={prevGlobalMediaRelease}
         defaultMediaItemAssociated={defaultMediaItemAssociated}
+        setGlobalMediaDraft={setGlobalMediaDraft}
+        setGlobalMediaRelease={setGlobalMediaRelease}
+        setPrevGlobalMediaDraft={setPrevGlobalMediaDraft}
+        setPrevGlobalMediaRelease={setPrevGlobalMediaRelease}
         itemId={itemId}
         currentTab={currentTab}
         // currentRevision={currentRevision}
@@ -397,7 +420,7 @@ function GlobalMediaTab({
         paramsIsRelease={paramsIsRelease}
         uniqueRevisions={uniqueRevisions}
         refetchRevisions={refetchRevisions}
-        refetchTranslations={refetchGlobalMedia}
+        // refetchTranslations={refetchGlobalMedia}
       />
       // <div>test</div>
     );

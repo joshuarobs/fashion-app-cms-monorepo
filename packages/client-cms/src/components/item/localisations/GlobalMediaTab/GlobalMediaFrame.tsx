@@ -54,6 +54,10 @@ interface GlobalMediaFrameProps {
   globalMediaRelease: any;
   prevGlobalMediaRelease: any;
   defaultMediaItemAssociated: [];
+  setGlobalMediaDraft: Function;
+  setGlobalMediaRelease: Function;
+  setPrevGlobalMediaDraft: Function;
+  setPrevGlobalMediaRelease: Function;
   itemId?: string;
   location: any;
   translationRevision: any;
@@ -62,7 +66,7 @@ interface GlobalMediaFrameProps {
   paramsIsRelease: string;
   uniqueRevisions: any;
   refetchRevisions: Function;
-  refetchTranslations: Function;
+  // refetchTranslations: Function;
 }
 
 function GlobalMediaFrame({
@@ -75,6 +79,10 @@ function GlobalMediaFrame({
   globalMediaRelease,
   prevGlobalMediaRelease,
   defaultMediaItemAssociated,
+  setGlobalMediaDraft,
+  setGlobalMediaRelease,
+  setPrevGlobalMediaDraft,
+  setPrevGlobalMediaRelease,
   itemId,
   location,
   translationRevision,
@@ -735,7 +743,8 @@ GlobalMediaFrameProps) {
   // State change handling for sorting
   //------------------------------------------------------------
   const onSortableGridStateChangeAllGenders1 = (newState: any[]) => {
-    setMediaAllGenders1(newState);
+    // setMediaAllGenders1(newState);
+    setGlobalMediaDraft(newState);
     console.log('newState:', newState);
     // if (newState !== mediaItems) {
     //   // setMediaItemIds(newState.map(({ id }) => id));
@@ -744,8 +753,9 @@ GlobalMediaFrameProps) {
   };
 
   const onSortableGridStateChangeAllGenders2 = (newState: any[]) => {
-    setMediaItems2(newState);
-    setMediaAllGenderIds2(newState.map(({ id }) => id));
+    // setMediaItems2(newState);
+    // setMediaAllGenderIds2(newState.map(({ id }) => id));
+    setGlobalMediaRelease(newState);
   };
 
   //------------------------------------------------------------
@@ -783,9 +793,9 @@ GlobalMediaFrameProps) {
         mediaAllGenders={
           paramsIsReleaseBool ? mediaAllGenders2 : mediaAllGenders1
         }
-        setMediaAllGenders={
-          paramsIsReleaseBool ? setMediaAllGenders2 : setMediaAllGenders1
-        }
+        // setMediaAllGenders={
+        //   paramsIsReleaseBool ? setMediaAllGenders2 : setMediaAllGenders1
+        // }
         loadMediaItems={paramsIsReleaseBool ? loadMediaItems2 : loadMediaItems1}
         // loadMediaItems={() => {}}
       />
@@ -926,10 +936,15 @@ GlobalMediaFrameProps) {
               setMediaAllGenders={
                 !paramsIsReleaseBool ? setMediaAllGenders1 : setMediaAllGenders2
               }
+              // onSortableGridStateChangeAllGenders={
+              //   !paramsIsReleaseBool
+              //     ? onSortableGridStateChangeAllGenders1
+              //     : onSortableGridStateChangeAllGenders2
+              // }
               onSortableGridStateChangeAllGenders={
                 !paramsIsReleaseBool
-                  ? onSortableGridStateChangeAllGenders1
-                  : onSortableGridStateChangeAllGenders2
+                  ? setGlobalMediaDraft
+                  : setGlobalMediaRelease
               }
             />
           </>

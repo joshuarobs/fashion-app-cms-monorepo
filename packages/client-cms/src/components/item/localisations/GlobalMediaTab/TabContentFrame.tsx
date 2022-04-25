@@ -79,7 +79,7 @@ function TabContentFrame({
   onSortableGridStateChangeAllGenders,
 }: TabContentFrameProps) {
   // const [mediaItems, setMediaItems] = useState<object[]>([]);
-  const [mediaAllGenders1, setMediaAllGenders1] = useState<object[]>([]);
+  // const [mediaAllGenders1, setMediaAllGenders1] = useState<object[]>([]);
 
   // const {
   //   loading: loadingMediaItemsByIds,
@@ -112,6 +112,9 @@ function TabContentFrame({
   //   }
   //   // setMediaItemIds(newState.map(({ id }) => id));
   // };
+  const onChange = (a: any, b: any, c: any) => {
+    // console.error('a:', a, 'b:', b, 'c:', c);
+  };
 
   return (
     <div
@@ -156,6 +159,8 @@ function TabContentFrame({
           // list={mediaAllGenders1}
           // @ts-ignore
           setList={setMediaAllGenders}
+          onSort={onChange}
+          // setList={onSortableGridStateChangeAllGenders}
           // setList={(newState: any[]) =>
           //   onSortableGridStateChangeAllGenders(newState)
           // }

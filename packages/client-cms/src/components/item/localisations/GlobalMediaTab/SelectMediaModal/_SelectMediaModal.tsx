@@ -21,7 +21,7 @@ interface SelectMediaModalProps {
   // currentMediaIds: any;
   // setMediaItemIds: Function;
   mediaAllGenders: object[];
-  setMediaAllGenders: Function;
+  // setMediaAllGenders: Function;
   loadMediaItems: Function;
 }
 
@@ -34,7 +34,7 @@ function SelectMediaModal({
   defaultMediaItemAssociated,
   // currentMediaIds,
   mediaAllGenders,
-  setMediaAllGenders,
+  // setMediaAllGenders,
   // setMediaItemIds,
   loadMediaItems,
 }: SelectMediaModalProps) {
