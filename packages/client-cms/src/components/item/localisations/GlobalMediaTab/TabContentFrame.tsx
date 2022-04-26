@@ -53,8 +53,8 @@ interface TabContentFrameProps {
   // copyFull: any;
   disabled: boolean;
   openPopup: MouseEventHandler<HTMLElement>;
-  description?: string;
-  setDescription: Function;
+  // description?: string;
+  // setDescription: Function;
   // mediaAllGenders: object[];
   // setMediaAllGenders: Function;
   // onSortableGridStateChangeAllGenders: Function;
@@ -66,18 +66,9 @@ interface TabContentFrameProps {
  */
 function TabContentFrame({
   hasChanged,
-  // copyFull,
   disabled,
-  description,
   openPopup,
-  setDescription,
-}: // mediaAllGenders,
-// setMediaAllGenders,
-// onSortableGridStateChangeAllGenders,
-TabContentFrameProps) {
-  // const [mediaItems, setMediaItems] = useState<object[]>([]);
-  // const [mediaAllGenders1, setMediaAllGenders1] = useState<object[]>([]);
-
+}: TabContentFrameProps) {
   // const {
   //   loading: loadingMediaItemsByIds,
   //   error: errorMediaItemsByIds,
@@ -110,7 +101,7 @@ TabContentFrameProps) {
   //   // setMediaItemIds(newState.map(({ id }) => id));
   // };
 
-  const { mediaAllGenders, setMediaAllGenders, discardChanges } =
+  const { mediaAllGenders, setMediaAllGenders, notes, setNotes } =
     useGlobalMediaTabContext();
 
   const onChange = (a: any, b: any, c: any) => {
@@ -192,9 +183,12 @@ TabContentFrameProps) {
       {/* TITLE - NOTES */}
       <Row style={styles.sectionTitle} gutter={gutter}>
         <Col span={24}>
-          {!hasChanged.description ? (
+          {!hasChanged.notes ? (
             // @ts-ignore
-            <Text strong type={!disabled && !description ? 'danger' : ''}>
+            <Text
+              strong
+              // type={!disabled && !notes ? 'danger' : ''}
+            >
               Notes
             </Text>
           ) : (
@@ -208,8 +202,9 @@ TabContentFrameProps) {
       <Row>
         <TextArea
           rows={4}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          /* @ts-ignore */
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
           autoComplete="new-password"
           disabled={disabled}
         />

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-// Generated on: Sat, 23 Apr 2022 11:24:16 GMT
+// Generated on: Tue, 26 Apr 2022 13:54:55 GMT
 
 /* ============================================================
  * !!IMPORTANT!!
@@ -480,6 +480,7 @@ const Enums = gql`
     media_7_id
     media_8_id
     media_9_id
+    notes
     revision_id
   }
 
@@ -934,6 +935,7 @@ const Enums = gql`
     media_7_id: String
     media_8_id: String
     media_9_id: String
+    notes: String
     revision_id: String
   }
 

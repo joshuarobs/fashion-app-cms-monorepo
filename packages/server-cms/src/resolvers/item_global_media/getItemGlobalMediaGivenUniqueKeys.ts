@@ -53,6 +53,7 @@ async function getItemGlobalMediaGivenUniqueKeys(
             media_8_id
             media_9_id
             media_10_id
+            notes
             media_1 {
               id
               name

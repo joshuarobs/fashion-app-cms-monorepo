@@ -71,6 +71,10 @@ interface GlobalMediaTabContextValues {
   setMediaAllGenders: Function;
   prevMediaAllGenders: any[];
   setPrevMediaAllGenders: Function;
+  notes: string;
+  setNotes: Function;
+  prevNotes: string;
+  setPrevNotes: Function;
   discardChanges: Function;
 }
 
@@ -122,6 +126,10 @@ function GlobalMediaTab({
   const [prevMediaAllGendersRelease, setPrevMediaAllGendersRelease] = useState<
     any[]
   >([]);
+  const [notesDraft, setNotesDraft] = useState('');
+  const [prevNotesDraft, setPrevNotesDraft] = useState('');
+  const [notesRelease, setNotesRelease] = useState('');
+  const [prevNotesRelease, setPrevNotesRelease] = useState('');
 
   const {
     loading: loadingGlobalMedia,
@@ -179,6 +187,11 @@ function GlobalMediaTab({
         setMediaAllGendersDraft(globalMediaItems11);
         setPrevMediaAllGendersDraft(globalMediaItems11);
       }
+
+      setNotesDraft(dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0].notes);
+      setPrevNotesDraft(
+        dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0].notes
+      );
     },
   });
 
@@ -211,10 +224,12 @@ function GlobalMediaTab({
   // }, []);
   function discardChangesDraft() {
     setMediaAllGendersDraft(prevMediaAllGendersDraft);
+    setNotesDraft(prevNotesDraft);
   }
 
   function discardChangesRelease() {
     setMediaAllGendersRelease(prevMediaAllGendersRelease);
+    setNotesRelease(prevNotesRelease);
   }
 
   async function refetchMediaItemsByIds(
@@ -384,6 +399,12 @@ function GlobalMediaTab({
             discardChanges: paramsIsReleaseBool
               ? discardChangesRelease
               : discardChangesDraft,
+            notes: paramsIsReleaseBool ? notesRelease : notesDraft,
+            setNotes: paramsIsReleaseBool ? setNotesRelease : setNotesDraft,
+            prevNotes: paramsIsReleaseBool ? prevNotesRelease : prevNotesDraft,
+            setPrevNotes: paramsIsReleaseBool
+              ? setPrevNotesRelease
+              : setPrevNotesDraft,
           }}
         >
           {mainFrameToDisplay}

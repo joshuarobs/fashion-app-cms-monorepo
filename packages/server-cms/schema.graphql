@@ -10276,6 +10276,7 @@ type item_global_media {
   # An object relationship
   media_9: media_items
   media_9_id: uuid
+  notes: String
 
   # An object relationship
   revision: item_global_media_revisions!
@@ -10337,6 +10338,7 @@ input item_global_media_bool_exp {
   media_8_id: uuid_comparison_exp
   media_9: media_items_bool_exp
   media_9_id: uuid_comparison_exp
+  notes: String_comparison_exp
   revision: item_global_media_revisions_bool_exp
   revision_id: uuid_comparison_exp
 }
@@ -10374,6 +10376,7 @@ input item_global_media_insert_input {
   media_8_id: uuid
   media_9: media_items_obj_rel_insert_input
   media_9_id: uuid
+  notes: String
   revision: item_global_media_revisions_obj_rel_insert_input
   revision_id: uuid
 }
@@ -10391,6 +10394,7 @@ type item_global_media_max_fields {
   media_7_id: uuid
   media_8_id: uuid
   media_9_id: uuid
+  notes: String
   revision_id: uuid
 }
 
@@ -10407,6 +10411,7 @@ input item_global_media_max_order_by {
   media_7_id: order_by
   media_8_id: order_by
   media_9_id: order_by
+  notes: order_by
   revision_id: order_by
 }
 
@@ -10423,6 +10428,7 @@ type item_global_media_min_fields {
   media_7_id: uuid
   media_8_id: uuid
   media_9_id: uuid
+  notes: String
   revision_id: uuid
 }
 
@@ -10439,6 +10445,7 @@ input item_global_media_min_order_by {
   media_7_id: order_by
   media_8_id: order_by
   media_9_id: order_by
+  notes: order_by
   revision_id: order_by
 }
 
@@ -10482,6 +10489,7 @@ input item_global_media_order_by {
   media_8_id: order_by
   media_9: media_items_order_by
   media_9_id: order_by
+  notes: order_by
   revision: item_global_media_revisions_order_by
   revision_id: order_by
 }
@@ -11007,6 +11015,9 @@ enum item_global_media_select_column {
   media_9_id
 
   # column name
+  notes
+
+  # column name
   revision_id
 }
 
@@ -11024,6 +11035,7 @@ input item_global_media_set_input {
   media_7_id: uuid
   media_8_id: uuid
   media_9_id: uuid
+  notes: String
   revision_id: uuid
 }
 
@@ -11064,6 +11076,9 @@ enum item_global_media_update_column {
 
   # column name
   media_9_id
+
+  # column name
+  notes
 
   # column name
   revision_id

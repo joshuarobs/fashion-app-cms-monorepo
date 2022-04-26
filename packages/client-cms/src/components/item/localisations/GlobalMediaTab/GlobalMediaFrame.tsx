@@ -81,6 +81,9 @@ GlobalMediaFrameProps) {
     prevMediaAllGenders,
     setPrevMediaAllGenders,
     discardChanges,
+    notes,
+    prevNotes,
+    setPrevNotes,
   } = useGlobalMediaTabContext();
 
   const [currentRevision, setCurrentRevision] = useState(uniqueRevisions[0]);
@@ -146,6 +149,7 @@ GlobalMediaFrameProps) {
   ] = useMutation(Update_Item_Global_Media, {
     async onCompleted() {
       setPrevMediaAllGenders(mediaAllGenders);
+      setPrevNotes(notes);
       message.success({ content: Common.Changes_Saved, key }, 2);
       // history.go(0);
     },
@@ -238,16 +242,17 @@ GlobalMediaFrameProps) {
       mediaAllGenders:
         mediaAllGenders.map(({ id }: any) => id).join() !==
         prevMediaAllGenders.map(({ id }: any) => id).join(),
+      notes: notes !== prevNotes,
     };
   }
 
   let hasChanged2: hasChangedProps = {};
   if (mediaAllGenders && state === DataState.Review) {
     hasChanged2 = {
-      // full_name: full_name2 !== globalMediaRelease.full_name,
       mediaAllGenders:
         mediaAllGenders.map(({ id }: any) => id).join() !==
         prevMediaAllGenders.map(({ id }: any) => id).join(),
+      notes: notes !== prevNotes,
     };
   }
 
@@ -345,7 +350,7 @@ GlobalMediaFrameProps) {
       }
 
       if (hasChanged1.notes) {
-        // variables.changes.notes = description1;
+        variables.changes.notes = notes;
       }
 
       console.log('variables:', variables);
@@ -375,7 +380,7 @@ GlobalMediaFrameProps) {
       }
 
       if (hasChanged2.notes) {
-        // variables.changes.notes = description2;
+        variables.changes.notes = notes;
       }
 
       message.loading({ content: Common.Saving_Changes, key });
@@ -715,9 +720,9 @@ GlobalMediaFrameProps) {
               hasChanged={!paramsIsReleaseBool ? hasChanged1 : hasChanged2}
               disabled={frameIsDisabled}
               // disabled={false}
-              description={''}
+              // description={''}
               openPopup={openPopup}
-              setDescription={() => {}}
+              // setDescription={() => {}}
             />
           </>
         )}

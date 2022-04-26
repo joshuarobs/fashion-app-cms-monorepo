@@ -16,6 +16,7 @@ const Get_Item_Global_Media_Given_Unique_Keys = gql`
       media_8_id
       media_9_id
       media_10_id
+      notes
       media_1 {
         id
         name

@@ -110,6 +110,7 @@ async function updateItemGlobalMedia(id: string, changes: any, context: any) {
             media_8_id
             media_9_id
             media_10_id
+            notes
           }
         }
       `,

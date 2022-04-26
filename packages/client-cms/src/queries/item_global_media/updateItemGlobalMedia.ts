@@ -19,6 +19,7 @@ const Update_Item_Global_Media = gql`
       media_8_id
       media_9_id
       media_10_id
+      notes
     }
   }
 `;

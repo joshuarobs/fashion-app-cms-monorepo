@@ -407,6 +407,7 @@ const typeDefs = gql`
     media_8_id: String
     media_9_id: String
     media_10_id: String
+    notes: String
     # Relationships
     media_1: media_items
     media_2: media_items
