@@ -1,12 +1,13 @@
-import React, { MouseEventHandler, useState } from 'react';
+import React, { MouseEventHandler } from 'react';
 import { ReactSortable } from 'react-sortablejs';
-import { Button, Col, Input, Row, Tooltip, Typography } from 'antd';
+import { Button, Col, Input, Row, Typography } from 'antd';
 import { FrameTitleLevel2 } from '../../../common/typography/FrameTitleLevel2';
 import styled from 'styled-components';
 import { MediaSmallCard } from '../../../common/media/MediaSmallCard';
 import { useGlobalMediaTabContext } from './_GlobalMediaTab';
+import { SwitchElement } from '../../../common/SwitchElement';
 
-const { Text } = Typography;
+const { Paragraph, Text } = Typography;
 const { TextArea } = Input;
 
 const gutter = 12;
@@ -53,11 +54,8 @@ interface TabContentFrameProps {
   // copyFull: any;
   disabled: boolean;
   openPopup: MouseEventHandler<HTMLElement>;
-  // description?: string;
-  // setDescription: Function;
-  // mediaAllGenders: object[];
-  // setMediaAllGenders: Function;
-  // onSortableGridStateChangeAllGenders: Function;
+  viewGuidelines: boolean;
+  setViewGuidelines: Function;
 }
 
 /**
@@ -68,6 +66,8 @@ function TabContentFrame({
   hasChanged,
   disabled,
   openPopup,
+  viewGuidelines,
+  setViewGuidelines,
 }: TabContentFrameProps) {
   // const {
   //   loading: loadingMediaItemsByIds,
@@ -114,10 +114,66 @@ function TabContentFrame({
         padding: 2,
       }}
     >
-      {/* TITLE - FULL NAME AND SHORT NAME */}
+      {/* TITLE */}
       <Row style={styles.sectionTitle}>
-        <FrameTitleLevel2 text={'Main Picture Gallery'} />
+        <Col span={16}>
+          <FrameTitleLevel2 text="Main Picture Gallery" />
+        </Col>
+        <Col span={8}>
+          <label
+            style={{
+              userSelect: 'none',
+              padding: 6,
+            }}
+          >
+            <Text
+              style={{
+                marginRight: 12,
+              }}
+              type="secondary"
+            >
+              View Guidelines
+            </Text>
+            <SwitchElement
+              checked={viewGuidelines}
+              onChange={(checked: any) => setViewGuidelines(checked)}
+            />
+          </label>
+        </Col>
       </Row>
+      {viewGuidelines && (
+        <Row style={{ whiteSpace: 'pre-wrap' }}>
+          {/*<Button style={{ width: '100%' }}>View Guidelines</Button>*/}
+          <Typography>
+            <Text>Guidelines:</Text>
+            <Paragraph
+              style={{
+                // width: 300,
+                margin: '0 auto',
+              }}
+            >
+              <ul>
+                <li style={{ textAlign: 'initial' }}>
+                  The pictures of the item by itself should be prioritised at
+                  the front of the list (positions 1-5)
+                  <li style={{ textAlign: 'initial' }}>
+                    The forward-facing (front) picture should always be the
+                    first picture
+                  </li>
+                  <li style={{ textAlign: 'initial' }}>
+                    A side picture as the first picture is only appropriate for
+                    shoes
+                  </li>
+                </li>
+                <li style={{ textAlign: 'initial' }}>
+                  Prioritise other pictures based on what people will most
+                  likely see and want to see
+                </li>
+              </ul>
+            </Paragraph>
+          </Typography>
+        </Row>
+      )}
       <Row>
         <Col>
           {!hasChanged.mediaAllGenders ? (

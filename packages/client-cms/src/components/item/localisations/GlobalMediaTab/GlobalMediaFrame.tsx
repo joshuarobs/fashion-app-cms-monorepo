@@ -92,6 +92,7 @@ function GlobalMediaFrame({
   const [revision_id, setRevisionId] = useState(null);
 
   const [showPopup, setShowPopup] = useState(false);
+  const [viewGuidelines, setViewGuidelines] = useState(false);
 
   useEffect(() => {
     const matchingRevision = uniqueRevisions.find(
@@ -723,6 +724,8 @@ function GlobalMediaFrame({
               disabled={frameIsDisabled}
               // disabled={false}
               // description={''}
+              viewGuidelines={viewGuidelines}
+              setViewGuidelines={setViewGuidelines}
               openPopup={openPopup}
               // setDescription={() => {}}
             />
