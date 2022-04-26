@@ -1,14 +1,6 @@
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Row, Switch, Typography } from 'antd';
-import { MediaSmallCard } from '../../../../common/media/MediaSmallCard';
-import {
-  CheckOutlined,
-  CloseOutlined,
-  ExperimentOutlined,
-} from '@ant-design/icons';
-import { SwitchElement } from '../../../../common/SwitchElement';
-import { FrameTitleLevel2 } from '../../../../common/typography/FrameTitleLevel2';
 import { MediaMediumBoxCard } from '../../../../common/media/MediaMediumBoxCard';
 
 const { Paragraph, Text } = Typography;
@@ -28,10 +20,13 @@ interface AssociatedMediaSectionProps {
   refetchMediaItemsByIds: Function;
   showTitle?: boolean;
   setMediaItemIds: Function;
+  selectedMediaIds: string[];
   viewGuidelines: boolean;
   setViewGuidelines: Function;
   showPopup: boolean;
   setShowPopup: Function;
+  onSelectEntry: Function;
+  onDeselectEntry: Function;
 }
 
 function AssociatedMediaSection({
@@ -41,11 +36,12 @@ function AssociatedMediaSection({
   refetchMediaItemsByIds,
   showTitle = false,
   setMediaItemIds,
-  viewGuidelines,
-  setViewGuidelines,
-  showPopup,
+  selectedMediaIds,
   setShowPopup,
+  onSelectEntry,
+  onDeselectEntry,
 }: AssociatedMediaSectionProps) {
+  console.log('selectedMediaIds:', selectedMediaIds);
   // const [viewGuidelines, setViewGuidelines] = useState(false);
   // const [showPopup, setShowPopup] = useState(false);
   const [currentMediaIds, setCurrentMediaIds] = useState([]);
@@ -92,6 +88,18 @@ function AssociatedMediaSection({
     );
   };
 
+  /**
+   * Toggle adding/removing the media item from the list of selected media items
+   * @param media_item
+   */
+  const onClick = (media_item: any) => {
+    if (selectedMediaIds.includes(media_item.id)) {
+      onDeselectEntry(media_item);
+    } else {
+      onSelectEntry(media_item);
+    }
+  };
+
   return (
     <>
       <div>
@@ -112,10 +120,9 @@ function AssociatedMediaSection({
                     <MediaMediumBoxCard
                       key={media_item.key}
                       media_item={media_item}
-                      onClick={() => {}}
-                      // @ts-ignore
+                      onClick={() => onClick(media_item)}
                       onClickDelete={deleteMediaCard}
-                      selected
+                      selected={selectedMediaIds.includes(media_item.id)}
                     />
                   </td>
                 ))}

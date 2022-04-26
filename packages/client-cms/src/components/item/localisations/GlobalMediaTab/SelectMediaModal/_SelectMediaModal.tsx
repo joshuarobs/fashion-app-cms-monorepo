@@ -288,9 +288,12 @@ function SelectMediaModal({
             }}
           >
             <AssociatedMediaSectionView
-              mediaItemIds={associatedMediaIds}
+              associatedMediaIds={associatedMediaIds}
               prevSelectedMediaIds={prevSelectedMediaIds}
+              selectedMediaIds={selectedMediaIds}
               setMediaItemIds={() => {}}
+              onSelectEntry={onSelectEntry}
+              onDeselectEntry={onDeselectEntry}
             />
           </div>
         </TabPane>

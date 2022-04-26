@@ -12,21 +12,27 @@ interface AssociatedMediaSectionViewProps {
   // id: number;
   // mediaItemAssociated: [];
   // defaultMediaItemAssociated: [];
-  mediaItemIds: string[];
+  associatedMediaIds: string[];
   prevSelectedMediaIds: string[];
+  selectedMediaIds: string[];
   // refetchMediaItemAssociated: Function;
   showTitle?: boolean;
   setMediaItemIds: Function;
+  onSelectEntry: Function;
+  onDeselectEntry: Function;
 }
 
 function AssociatedMediaSectionView({
   // defaultMediaItemAssociated,
-  mediaItemIds,
+  associatedMediaIds,
+  selectedMediaIds,
   prevSelectedMediaIds,
   // mediaItemAssociated,
   // refetchMediaItemAssociated,
   showTitle = false,
   setMediaItemIds,
+  onSelectEntry,
+  onDeselectEntry,
 }: AssociatedMediaSectionViewProps) {
   const [viewGuidelines, setViewGuidelines] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
@@ -38,7 +44,7 @@ function AssociatedMediaSectionView({
     data: dataMediaItemsByIds,
     refetch: refetchMediaItemsByIds,
   } = useQuery(Get_Media_Items_By_Ids, {
-    variables: { ids: mediaItemIds },
+    variables: { ids: associatedMediaIds },
     fetchPolicy: 'network-only',
   });
 
@@ -51,14 +57,14 @@ function AssociatedMediaSectionView({
   }
 
   console.log(
-    'mediaItemIds:',
-    mediaItemIds,
+    'associatedMediaIds:',
+    associatedMediaIds,
     '| dataMediaItemsByIds.getMediaItemsByIds:',
     dataMediaItemsByIds
   );
 
   // Return empty element if there's no associated media ids
-  if (mediaItemIds.length === 0) {
+  if (associatedMediaIds.length === 0) {
     return (
       <Empty
         description={
@@ -99,10 +105,13 @@ function AssociatedMediaSectionView({
       // refetchMediaItemAssociated={refetchMediaItemAssociated}
       refetchMediaItemsByIds={refetchMediaItemsByIds}
       setMediaItemIds={setMediaItemIds}
+      selectedMediaIds={selectedMediaIds}
       viewGuidelines={viewGuidelines}
       setViewGuidelines={setViewGuidelines}
       showPopup={showPopup}
       setShowPopup={setShowPopup}
+      onSelectEntry={onSelectEntry}
+      onDeselectEntry={onDeselectEntry}
     />
   );
 }

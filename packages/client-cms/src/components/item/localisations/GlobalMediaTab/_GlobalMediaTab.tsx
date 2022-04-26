@@ -252,14 +252,13 @@ function GlobalMediaTab({
       // the user
       // Sort algorithm from:
       // https://stackoverflow.com/questions/28719795/lodash-sort-collection-based-on-external-array
-      // const currentIds = globalMediaDraft.map(({ id }) => id);
-      const currentIds = ids;
 
       if (isRelease) {
         setMediaAllGendersRelease(query.data.getMediaItemsByIds);
         if (isSave)
           setPrevMediaAllGendersRelease(query.data.getMediaItemsByIds);
       } else {
+        const currentIds = mediaAllGendersDraft.map(({ id }) => id);
         const last = mediaAllGendersDraft.length;
 
         const sortedCollection = _.sortBy(
@@ -270,10 +269,7 @@ function GlobalMediaTab({
               : last;
           }
         );
-
-        console.log('@@sortedCollection:', sortedCollection);
-
-        // setGlobalMediaDraft(query.data.getMediaItemsByIds);
+        // console.log('@@sortedCollection:', sortedCollection);
         setMediaAllGendersDraft(sortedCollection);
         if (isSave) setPrevMediaAllGendersDraft(sortedCollection);
       }
