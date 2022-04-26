@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import { ColumnOfFrames } from '../../../common/frames/ColumnOfFrames';
 import { ItemGlobalMediaStateFrame } from './ItemGlobalMediaStateFrame';
@@ -7,8 +7,6 @@ import { useLazyQuery, useQuery } from '@apollo/client';
 import { Layout } from 'antd';
 import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
 import { GlobalMediaFrame } from './GlobalMediaFrame';
-import { Get_Item_Translations_Given_Unique_Keys } from '../../../../queries/item_translations/getItemTranslationsGivenUniqueKeys';
-import { Get_Item_Translation_Revisions_Given_Locale_Code } from '../../../../queries/item_translation_revisions/getItemTranslationRevisionsGivenLocaleCode';
 import { Get_Item_Global_Media_Revisions_Given_Item_Id } from '../../../../queries/item_global_media_revisions/getItemGlobalMediaRevisionsGivenItemId';
 import { Get_Item_Global_Media_Given_Unique_Keys } from '../../../../queries/item_global_media/getItemGlobalMediaGivenUniqueKeys';
 import { Get_Media_Items_By_Ids } from '../../../../queries/media_items/getMediaItemsByIds';
@@ -69,17 +67,11 @@ interface GlobalMediaTabProps {
 // https://reacttraining.com/blog/react-context-with-typescript/
 
 interface GlobalMediaTabContextValues {
-  // The name of the group that will be used for the name attribute for
-  // each of our radio inputs
-  name: string;
-  setName: Function;
-  globalMedia: any[];
-  setGlobalMedia: Function;
-  prevGlobalMedia: any[];
-  setPrevGlobalMedia: Function;
+  mediaAllGenders: any[];
+  setMediaAllGenders: Function;
+  prevMediaAllGenders: any[];
+  setPrevMediaAllGenders: Function;
   discardChanges: Function;
-  // The change handler that will be used for each input
-  // handleChange(event: React.ChangeEvent<HTMLInputElement>): void;
 }
 
 const GlobalMediaTabContext = React.createContext<
@@ -120,14 +112,16 @@ function GlobalMediaTab({
   // string form
   const paramsIsReleaseBool = paramsIsRelease === 'true';
 
-  const [name, setName] = useState('Bob');
-
-  const [globalMediaDraft, setGlobalMediaDraft] = useState<any[]>([]);
-  const [prevGlobalMediaDraft, setPrevGlobalMediaDraft] = useState<any[]>([]);
-  const [globalMediaRelease, setGlobalMediaRelease] = useState<any[]>([]);
-  const [prevGlobalMediaRelease, setPrevGlobalMediaRelease] = useState<any[]>(
+  const [mediaAllGendersDraft, setMediaAllGendersDraft] = useState<any[]>([]);
+  const [prevMediaAllGendersDraft, setPrevMediaAllGendersDraft] = useState<
+    any[]
+  >([]);
+  const [mediaAllGendersRelease, setMediaAllGendersRelease] = useState<any[]>(
     []
   );
+  const [prevMediaAllGendersRelease, setPrevMediaAllGendersRelease] = useState<
+    any[]
+  >([]);
 
   const {
     loading: loadingGlobalMedia,
@@ -146,40 +140,6 @@ function GlobalMediaTab({
         'GlobalMediaTab#onCompleted - dataGlobalMedia:',
         dataGlobalMedia
       );
-      // const globalMedia = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys;
-      // console.log('useEffect#globalMedia:', globalMedia);
-      const {
-        media_1_id,
-        media_2_id,
-        media_3_id,
-        media_4_id,
-        media_5_id,
-        media_6_id,
-        media_7_id,
-        media_8_id,
-        media_9_id,
-        media_10_id,
-      } = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0];
-      const ids = [];
-      if (media_1_id) ids.push(media_1_id);
-      if (media_2_id) ids.push(media_2_id);
-      if (media_3_id) ids.push(media_3_id);
-      if (media_4_id) ids.push(media_4_id);
-      if (media_5_id) ids.push(media_5_id);
-      if (media_6_id) ids.push(media_6_id);
-      if (media_7_id) ids.push(media_7_id);
-      if (media_8_id) ids.push(media_8_id);
-      if (media_9_id) ids.push(media_9_id);
-      if (media_10_id) ids.push(media_10_id);
-      // console.log('ids:', ids);
-      // const tt = await getMediaItemsByIds({
-      //   variables: {
-      //     ids,
-      //   },
-      // });
-      //
-      // console.log('tt:', tt.data.getMediaItemsByIds);
-
       // Convert the globalMedia object's ids into an array
       const globalMediaItems11: object[] = [];
       const {
@@ -210,35 +170,15 @@ function GlobalMediaTab({
       if (media_10) globalMediaItems11.push({ ...media_10 });
       console.log('globalMediaItems11:', globalMediaItems11);
 
-      console.log('globalMediaDraft:', globalMediaDraft);
+      console.log('globalMediaDraft:', mediaAllGendersDraft);
       console.log(
         'globalMediaDraft.length === 0:',
-        globalMediaDraft.length === 0
+        mediaAllGendersDraft.length === 0
       );
-      if (globalMediaDraft.length === 0) {
-        setGlobalMediaDraft(globalMediaItems11);
-        setPrevGlobalMediaDraft(globalMediaItems11);
+      if (mediaAllGendersDraft.length === 0) {
+        setMediaAllGendersDraft(globalMediaItems11);
+        setPrevMediaAllGendersDraft(globalMediaItems11);
       }
-
-      // async function refetchMediaItemsByIds(
-      //   ids: string[],
-      //   isRelease: boolean,
-      //   isSave: boolean
-
-      // await refetchMediaItemsByIds(ids, false, true);
-
-      // await updateMedia(ids);
-      // setChangeableGlobalMedia(
-      //   dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0]
-      // );
-
-      // setGlobalMediaDraft(dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0]);
-      // setGlobalMediaDraft(
-      //   getGlobalMediaIntoArrayFromDatabaseObject(dataGlobalMedia)
-      // );
-      // setGlobalMediaRelease(
-      //   dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[1]
-      // );
     },
   });
 
@@ -270,11 +210,11 @@ function GlobalMediaTab({
   //   getMediaItemsByIds();
   // }, []);
   function discardChangesDraft() {
-    setGlobalMediaDraft(prevGlobalMediaDraft);
+    setMediaAllGendersDraft(prevMediaAllGendersDraft);
   }
 
   function discardChangesRelease() {
-    setGlobalMediaRelease(prevGlobalMediaRelease);
+    setMediaAllGendersRelease(prevMediaAllGendersRelease);
   }
 
   async function refetchMediaItemsByIds(
@@ -303,10 +243,11 @@ function GlobalMediaTab({
       const currentIds = ids;
 
       if (isRelease) {
-        setGlobalMediaRelease(query.data.getMediaItemsByIds);
-        if (isSave) setPrevGlobalMediaRelease(query.data.getMediaItemsByIds);
+        setMediaAllGendersRelease(query.data.getMediaItemsByIds);
+        if (isSave)
+          setPrevMediaAllGendersRelease(query.data.getMediaItemsByIds);
       } else {
-        const last = globalMediaDraft.length;
+        const last = mediaAllGendersDraft.length;
 
         const sortedCollection = _.sortBy(
           query.data.getMediaItemsByIds,
@@ -320,8 +261,8 @@ function GlobalMediaTab({
         console.log('@@sortedCollection:', sortedCollection);
 
         // setGlobalMediaDraft(query.data.getMediaItemsByIds);
-        setGlobalMediaDraft(sortedCollection);
-        if (isSave) setPrevGlobalMediaDraft(sortedCollection);
+        setMediaAllGendersDraft(sortedCollection);
+        if (isSave) setPrevMediaAllGendersDraft(sortedCollection);
       }
     }
   }
@@ -355,7 +296,7 @@ function GlobalMediaTab({
     );
   }
 
-  if (loadingGlobalMedia || loadingRevisions || !globalMediaDraft) {
+  if (loadingGlobalMedia || loadingRevisions || !mediaAllGendersDraft) {
     mainFrameToDisplay = (
       <Content
         style={{
@@ -376,32 +317,23 @@ function GlobalMediaTab({
     const uniqueRevisions =
       dataRevisions.getItemGlobalMediaRevisionsGivenItemId;
 
-    const isReleaseVersion: boolean = globalMedia[1] !== null;
-    // let globalMediaDraft = globalMedia[0] ? globalMedia[0] : null;
-    // let globalMediaRelease = globalMedia[1] ? globalMedia[1] : null;
-    // if (isReleaseVersion) {
-    //   globalMediaRelease = changeableGlobalMedia;
-    // } else {
-    //   globalMediaDraft = changeableGlobalMedia;
-    // }
-
     // console.error("translations!:", translations);
     mainFrameToDisplay = (
       <GlobalMediaFrame
         // translation={translation}
-        // globalMediaDraft={globalMedia[0] ? globalMedia[0] : null}
-        // globalMediaRelease={globalMedia[1] ? globalMedia[1] : null}
+        globalMediaDraft={globalMedia[0] ? globalMedia[0] : null}
+        globalMediaRelease={globalMedia[1] ? globalMedia[1] : null}
         revisionIdDraft={globalMedia[0].id}
         revisionIdRelease={globalMedia[1] ? globalMedia[1].id : null}
-        globalMediaDraft={globalMediaDraft}
-        prevGlobalMediaDraft={prevGlobalMediaDraft}
-        globalMediaRelease={globalMediaRelease}
-        prevGlobalMediaRelease={prevGlobalMediaRelease}
+        // globalMediaDraft={mediaAllGendersDraft}
+        // prevGlobalMediaDraft={prevMediaAllGendersDraft}
+        // globalMediaRelease={mediaAllGendersRelease}
+        // prevGlobalMediaRelease={prevMediaAllGendersRelease}
         defaultMediaItemAssociated={defaultMediaItemAssociated}
-        setGlobalMediaDraft={setGlobalMediaDraft}
-        setGlobalMediaRelease={setGlobalMediaRelease}
-        setPrevGlobalMediaDraft={setPrevGlobalMediaDraft}
-        setPrevGlobalMediaRelease={setPrevGlobalMediaRelease}
+        // setGlobalMediaDraft={setMediaAllGendersDraft}
+        // setGlobalMediaRelease={setMediaAllGendersRelease}
+        // setPrevGlobalMediaDraft={setPrevMediaAllGendersDraft}
+        // setPrevGlobalMediaRelease={setPrevMediaAllGendersRelease}
         itemId={itemId}
         currentTab={currentTab}
         // currentRevision={currentRevision}
@@ -437,20 +369,18 @@ function GlobalMediaTab({
         {/* @ts-ignore */}
         <GlobalMediaTabContext.Provider
           value={{
-            name,
-            setName,
-            globalMedia: paramsIsReleaseBool
-              ? globalMediaRelease
-              : globalMediaDraft,
-            setGlobalMedia: paramsIsReleaseBool
-              ? setGlobalMediaRelease
-              : setGlobalMediaDraft,
-            prevGlobalMedia: paramsIsReleaseBool
-              ? prevGlobalMediaRelease
-              : prevGlobalMediaDraft,
-            setPrevGlobalMedia: paramsIsReleaseBool
-              ? setPrevGlobalMediaRelease
-              : setPrevGlobalMediaDraft,
+            mediaAllGenders: paramsIsReleaseBool
+              ? mediaAllGendersRelease
+              : mediaAllGendersDraft,
+            setMediaAllGenders: paramsIsReleaseBool
+              ? setMediaAllGendersRelease
+              : setMediaAllGendersDraft,
+            prevMediaAllGenders: paramsIsReleaseBool
+              ? prevMediaAllGendersRelease
+              : prevMediaAllGendersDraft,
+            setPrevMediaAllGenders: paramsIsReleaseBool
+              ? setPrevMediaAllGendersRelease
+              : setPrevMediaAllGendersDraft,
             discardChanges: paramsIsReleaseBool
               ? discardChangesRelease
               : discardChangesDraft,

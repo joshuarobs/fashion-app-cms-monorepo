@@ -1,13 +1,9 @@
-import React, { MouseEventHandler, useEffect, useState } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import { Button, Col, Input, Row, Tooltip, Typography } from 'antd';
-import { WarningFilled } from '@ant-design/icons';
-import { red } from '@ant-design/colors';
 import { FrameTitleLevel2 } from '../../../common/typography/FrameTitleLevel2';
 import styled from 'styled-components';
 import { MediaSmallCard } from '../../../common/media/MediaSmallCard';
-import { useQuery } from '@apollo/client';
-import { Get_Media_Items_By_Ids } from '../../../../queries/media_items/getMediaItemsByIds';
 import { useGlobalMediaTabContext } from './_GlobalMediaTab';
 
 const { Text } = Typography;
@@ -54,14 +50,14 @@ const StyledReactSortableGrid = styled(ReactSortable)`
 
 interface TabContentFrameProps {
   hasChanged: any;
-  copyFull: any;
+  // copyFull: any;
   disabled: boolean;
   openPopup: MouseEventHandler<HTMLElement>;
   description?: string;
   setDescription: Function;
-  mediaAllGenders: object[];
-  setMediaAllGenders: Function;
-  onSortableGridStateChangeAllGenders: Function;
+  // mediaAllGenders: object[];
+  // setMediaAllGenders: Function;
+  // onSortableGridStateChangeAllGenders: Function;
 }
 
 /**
@@ -70,15 +66,15 @@ interface TabContentFrameProps {
  */
 function TabContentFrame({
   hasChanged,
-  copyFull,
+  // copyFull,
   disabled,
   description,
   openPopup,
   setDescription,
-  mediaAllGenders,
-  setMediaAllGenders,
-  onSortableGridStateChangeAllGenders,
-}: TabContentFrameProps) {
+}: // mediaAllGenders,
+// setMediaAllGenders,
+// onSortableGridStateChangeAllGenders,
+TabContentFrameProps) {
   // const [mediaItems, setMediaItems] = useState<object[]>([]);
   // const [mediaAllGenders1, setMediaAllGenders1] = useState<object[]>([]);
 
@@ -103,7 +99,7 @@ function TabContentFrame({
   // if (errorMediaItemsByIds) return <div>Error :(</div>;
   // console.log('dataMediaItemsByIds:', dataMediaItemsByIds);
   // const mediaItems = dataMediaItemsByIds.getMediaItemsByIds;
-  console.log('123#TabContentFrame#mediaAllGenders:', mediaAllGenders);
+  // console.log('123#TabContentFrame#mediaAllGenders:', mediaAllGenders);
 
   // const onSortableGridStateChange = (newState: any[]) => {
   //   setMediaItems(newState);
@@ -114,15 +110,8 @@ function TabContentFrame({
   //   // setMediaItemIds(newState.map(({ id }) => id));
   // };
 
-  const {
-    name,
-    setName,
-    globalMedia,
-    setGlobalMedia,
-    prevGlobalMedia,
-    setPrevGlobalMedia,
-    discardChanges,
-  } = useGlobalMediaTabContext();
+  const { mediaAllGenders, setMediaAllGenders, discardChanges } =
+    useGlobalMediaTabContext();
 
   const onChange = (a: any, b: any, c: any) => {
     // console.error('a:', a, 'b:', b, 'c:', c);
@@ -170,7 +159,7 @@ function TabContentFrame({
           list={mediaAllGenders}
           // list={mediaAllGenders1}
           // @ts-ignore
-          setList={setGlobalMedia}
+          setList={setMediaAllGenders}
           onSort={onChange}
           // setList={onSortableGridStateChangeAllGenders}
           // setList={(newState: any[]) =>
@@ -200,17 +189,17 @@ function TabContentFrame({
           Select Media
         </Button>
       </Row>
-      {/* TITLE - DESCRIPTION */}
+      {/* TITLE - NOTES */}
       <Row style={styles.sectionTitle} gutter={gutter}>
         <Col span={24}>
           {!hasChanged.description ? (
             // @ts-ignore
             <Text strong type={!disabled && !description ? 'danger' : ''}>
-              Description
+              Notes
             </Text>
           ) : (
             <Text strong mark>
-              Description**
+              Notes**
             </Text>
           )}
         </Col>
@@ -227,7 +216,9 @@ function TabContentFrame({
       </Row>
       <Row gutter={gutter} style={styles.descriptionColumn}>
         <Col>
-          <Text type="secondary">The description of the item.</Text>
+          <Text type="secondary">
+            Any notes relevant to this item's Global Media.
+          </Text>
         </Col>
       </Row>
     </div>

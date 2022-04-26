@@ -1,12 +1,7 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
-import _ from 'lodash';
 import { useNavigate } from 'react-router-dom';
-import { gql, useMutation } from '@apollo/client';
-import {
-  DataChangeType,
-  DataAction,
-  DataState,
-} from '@joshuarobs/clothing-framework';
+import { useMutation } from '@apollo/client';
+import { DataState } from '@joshuarobs/clothing-framework';
 import { Col, Layout, message, Row, Tabs, Select, Button } from 'antd';
 import { Common } from '../../../../strings';
 import { UnsavedChangesCard } from '../../../common/UnsavedChangesCard';
@@ -21,15 +16,8 @@ import { ErrorPleaseFixThis } from '../../../common/localisation/ErrorPleaseFixT
 import { LocaleStateDot } from '../../../common/localisation/LocaleStateDot';
 import { BurgerMenuButton } from '../../../common/frames/BurgerMenuButton/_BurgerMenuButton';
 import { getSomePartsOfUrl } from '../../../../utils/getSomePartsOfUrl';
-import { Insert_Item_Translation_Revision_Change } from '../../../../queries/item_translation_revision_changes/insertItemTranslationRevisionChange';
 import { Delete_Item_Translations_For_Revision } from '../../../../queries/item_translations/deleteItemTranslationForRevision';
-import { Delete_Item_Translation_Revision_Changes_For_Revision } from '../../../../queries/item_translation_revision_changes/deleteItemTranslationRevisionChangeForRevision';
-import { Delete_Item_Translation_Revision } from '../../../../queries/item_translation_revisions/deleteItemTranslationRevision';
 import { Update_Item_Updated_At } from '../../../../queries/items/updateItemUpdatedAt';
-import { Update_Item_Translation } from '../../../../queries/item_translations/updateItemTranslation';
-import { Get_Item_Maindata_Revision_Changes } from '../../../../queries/item_maindata_revision_changes/getItemMaindataRevisionChanges';
-import { Get_Item_Translation_Revision_Changes } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChanges';
-import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesForLocale';
 import { Delete_Item_Translation_Revision_Locale_Page } from '../../../../queries/item_translation_revisions/deleteItemTranslationRevisionLocalePage';
 import { Get_Item_Translation_Revisions } from '../../../../queries/item_translation_revisions/getItemTranslationRevisions';
 import { PictureOutlined } from '@ant-design/icons';
@@ -42,8 +30,6 @@ const { Content } = Layout;
 const { TabPane } = Tabs;
 const { Option } = Select;
 
-// const size = "small";
-
 const key = 'unsaved-changes-localisations';
 
 interface GlobalMediaFrameProps {
@@ -51,14 +37,8 @@ interface GlobalMediaFrameProps {
   revisionIdDraft: string | null;
   revisionIdRelease: string | null;
   globalMediaDraft: any;
-  prevGlobalMediaDraft: any;
   globalMediaRelease: any;
-  prevGlobalMediaRelease: any;
   defaultMediaItemAssociated: [];
-  setGlobalMediaDraft: Function;
-  setGlobalMediaRelease: Function;
-  setPrevGlobalMediaDraft: Function;
-  setPrevGlobalMediaRelease: Function;
   itemId?: string;
   location: any;
   translationRevision: any;
@@ -76,14 +56,8 @@ function GlobalMediaFrame({
   revisionIdDraft,
   revisionIdRelease,
   globalMediaDraft,
-  prevGlobalMediaDraft,
   globalMediaRelease,
-  prevGlobalMediaRelease,
   defaultMediaItemAssociated,
-  setGlobalMediaDraft,
-  setGlobalMediaRelease,
-  setPrevGlobalMediaDraft,
-  setPrevGlobalMediaRelease,
   itemId,
   location,
   translationRevision,
@@ -96,21 +70,16 @@ function GlobalMediaFrame({
 GlobalMediaFrameProps) {
   // console.log("Current tab:", currentTab);
   // console.log("location:", location);
-  // console.log("translationRevision:", translationRevision);
-  // console.log("TRANSLATION DRAFT:", translationDraft);
-  // console.log("TRANSLATION RELEASE:", translationRelease);
   const navigate = useNavigate();
   const localisationsUrl = getSomePartsOfUrl(location.pathname, 6);
 
   console.log('paramsRevision:', paramsRevision);
 
   const {
-    name,
-    setName,
-    globalMedia,
-    setGlobalMedia,
-    prevGlobalMedia,
-    setPrevGlobalMedia,
+    mediaAllGenders,
+    setMediaAllGenders,
+    prevMediaAllGenders,
+    setPrevMediaAllGenders,
     discardChanges,
   } = useGlobalMediaTabContext();
 
@@ -166,37 +135,6 @@ GlobalMediaFrameProps) {
   // string form
   const paramsIsReleaseBool = paramsIsRelease === 'true';
 
-  // STATES FOR THE DRAFT TRANSLATIONS
-  const [description1, setDescription1] = useState();
-  // const [mediaAllGenderIds1, setMediaAllGenderIds1] = useState<string[]>([]);
-  // The initial version of the draft's media all gender ids
-  // const [prevMediaAllGenderIds1, setPrevMediaAllGenderIds1] = useState<
-  //   string[]
-  // >([]);
-  // const [mediaAllGenders1, setMediaAllGenders1] = useState<any[]>([]);
-  // const [prevMediaAllGenders1, setPrevMediaAllGenders1] = useState<object[]>(
-  //   []
-  // );
-
-  // STATES FOR THE RELEASE TRANSLATIONS
-  const [full_name2, setFullName2] = useState();
-  const [short_name2, setShortName2] = useState();
-  const [description2, setDescription2] = useState();
-  const [mediaAllGenderIds2, setMediaAllGenderIds2] = useState<string[]>([]);
-  const [mediaItems2, setMediaItems2] = useState<object[]>([]);
-  const [mediaAllGenders2, setMediaAllGenders2] = useState<object[]>([]);
-  const [prevMediaAllGenders2, setPrevMediaAllGenders2] = useState<object[]>(
-    []
-  );
-
-  const copyFull1 = () => {
-    // setShortName1(full_name1);
-  };
-
-  const copyFull2 = () => {
-    setShortName2(full_name2);
-  };
-
   // Hooks for GraphQL queries
   const [updateItemUpdatedAt] = useMutation(Update_Item_Updated_At, {
     onCompleted() {},
@@ -207,25 +145,7 @@ GlobalMediaFrameProps) {
     // { loading: mutationLoading, error: mutationError }
   ] = useMutation(Update_Item_Global_Media, {
     async onCompleted() {
-      // Reset the `mediaAllGenders` placeholder change variable, otherwise
-      // the Unsaved Changes card will still remain popped up
-      // This is done by setting the previous media to the current one
-      if (paramsIsReleaseBool) {
-        await refetchMediaItemsByIds(
-          mediaAllGenders2.map(({ id }: any) => id),
-          true,
-          true
-        );
-        // setPrevMediaAllGenders2(mediaAllGenders2);
-      } else {
-        // await refetchMediaItemsByIds(
-        //   mediaAllGenders1.map(({ id }: any) => id),
-        //   false,
-        //   true
-        // );
-        // setPrevMediaAllGenders1(mediaAllGenders1);
-        setPrevGlobalMedia(globalMedia);
-      }
+      setPrevMediaAllGenders(mediaAllGenders);
       message.success({ content: Common.Changes_Saved, key }, 2);
       // history.go(0);
     },
@@ -305,14 +225,8 @@ GlobalMediaFrameProps) {
   // that there aren't any visual changes (if any changes were to actually
   // occur)
   let hasChanged1: hasChangedProps = {};
-  if (globalMediaDraft && state === DataState.Development) {
+  if (mediaAllGenders && state === DataState.Development) {
     console.log('CONSIDER HAS CHANGED');
-    // console.log(
-    //   'mediaAllGenders1:',
-    //   mediaAllGenders1,
-    //   '| prevMediaItems1:',
-    //   prevMediaAllGenders1
-    // );
     // Special case for the list of media, because we aren't just comparing
     // ids, but instead objects (which include name and url)
     // This is because of our implementation of list of media, with React
@@ -321,31 +235,21 @@ GlobalMediaFrameProps) {
     // string, and comparing with that value
 
     hasChanged1 = {
-      // mediaAllGenders:
-      //   mediaAllGenders1.map(({ id }: any) => id).join() !==
-      //   prevMediaAllGenders1.map(({ id }: any) => id).join(),
       mediaAllGenders:
-        globalMedia.map(({ id }: any) => id).join() !==
-        prevGlobalMedia.map(({ id }: any) => id).join(),
+        mediaAllGenders.map(({ id }: any) => id).join() !==
+        prevMediaAllGenders.map(({ id }: any) => id).join(),
     };
   }
 
   let hasChanged2: hasChangedProps = {};
-  if (globalMediaRelease && state === DataState.Review) {
+  if (mediaAllGenders && state === DataState.Review) {
     hasChanged2 = {
       // full_name: full_name2 !== globalMediaRelease.full_name,
       mediaAllGenders:
-        mediaAllGenders2.map(({ id }: any) => id).join() !==
-        prevMediaAllGenders2.map(({ id }: any) => id).join(),
+        mediaAllGenders.map(({ id }: any) => id).join() !==
+        prevMediaAllGenders.map(({ id }: any) => id).join(),
     };
   }
-
-  // console.log(
-  //   "short_name:",
-  //   short_name1,
-  //   "\ntranslation_short_name:",
-  //   translationDraft.short_name
-  // );
 
   // Do not count changes if this frame and its buttons are disabled
   // This is so that the save changes popup on the bottom of the screen
@@ -370,20 +274,9 @@ GlobalMediaFrameProps) {
 
   console.log('numberOfChanges1:', numberOfChanges1);
 
-  const discardChanges1 = () => {
-    // setMediaAllGenders()
-    // setDescription1(globalMediaDraft.description);
-    // setMediaAllGenders1(prevMediaAllGenders1);
-  };
-
-  const discardChanges2 = () => {
-    setMediaAllGenders2(prevMediaAllGenders2);
-  };
-
   const saveChanges1 = async () => {
     const changes: changesProps = {};
-
-    console.log('globalMediaDraft:', globalMediaDraft);
+    // console.log('mediaAllGenders:', mediaAllGenders);
 
     // Variables required for the GraphQL query
     const variables = {
@@ -399,60 +292,60 @@ GlobalMediaFrameProps) {
         // console.log('mediaAllGenders1:', mediaAllGenders1);
         // Special case: Turn array of media items into their respective
         // variables on the database
-        if (globalMedia[0]) {
-          variables.changes.media_1_id = globalMedia[0].id;
+        if (mediaAllGenders[0]) {
+          variables.changes.media_1_id = mediaAllGenders[0].id;
         } else {
           variables.changes.media_1_id = null;
         }
-        if (globalMedia[1]) {
-          variables.changes.media_2_id = globalMedia[1].id;
+        if (mediaAllGenders[1]) {
+          variables.changes.media_2_id = mediaAllGenders[1].id;
         } else {
           variables.changes.media_2_id = null;
         }
-        if (globalMedia[2]) {
-          variables.changes.media_3_id = globalMedia[2].id;
+        if (mediaAllGenders[2]) {
+          variables.changes.media_3_id = mediaAllGenders[2].id;
         } else {
           variables.changes.media_3_id = null;
         }
-        if (globalMedia[3]) {
-          variables.changes.media_4_id = globalMedia[3].id;
+        if (mediaAllGenders[3]) {
+          variables.changes.media_4_id = mediaAllGenders[3].id;
         } else {
           variables.changes.media_4_id = null;
         }
-        if (globalMedia[4]) {
-          variables.changes.media_5_id = globalMedia[4].id;
+        if (mediaAllGenders[4]) {
+          variables.changes.media_5_id = mediaAllGenders[4].id;
         } else {
           variables.changes.media_5_id = null;
         }
-        if (globalMedia[5]) {
-          variables.changes.media_6_id = globalMedia[5].id;
+        if (mediaAllGenders[5]) {
+          variables.changes.media_6_id = mediaAllGenders[5].id;
         } else {
           variables.changes.media_6_id = null;
         }
-        if (globalMedia[6]) {
-          variables.changes.media_7_id = globalMedia[6].id;
+        if (mediaAllGenders[6]) {
+          variables.changes.media_7_id = mediaAllGenders[6].id;
         } else {
           variables.changes.media_7_id = null;
         }
-        if (globalMedia[7]) {
-          variables.changes.media_8_id = globalMedia[7].id;
+        if (mediaAllGenders[7]) {
+          variables.changes.media_8_id = mediaAllGenders[7].id;
         } else {
           variables.changes.media_8_id = null;
         }
-        if (globalMedia[8]) {
-          variables.changes.media_9_id = globalMedia[8].id;
+        if (mediaAllGenders[8]) {
+          variables.changes.media_9_id = mediaAllGenders[8].id;
         } else {
           variables.changes.media_9_id = null;
         }
-        if (globalMedia[9]) {
-          variables.changes.media_10_id = globalMedia[9].id;
+        if (mediaAllGenders[9]) {
+          variables.changes.media_10_id = mediaAllGenders[9].id;
         } else {
           variables.changes.media_10_id = null;
         }
       }
 
       if (hasChanged1.notes) {
-        variables.changes.notes = description1;
+        // variables.changes.notes = description1;
       }
 
       console.log('variables:', variables);
@@ -482,7 +375,7 @@ GlobalMediaFrameProps) {
       }
 
       if (hasChanged2.notes) {
-        variables.changes.notes = description2;
+        // variables.changes.notes = description2;
       }
 
       message.loading({ content: Common.Saving_Changes, key });
@@ -550,7 +443,6 @@ GlobalMediaFrameProps) {
   // N/A in this component
 
   const onTabClick = (key: any) => {
-    // history.push(`${location.pathname}?id=${paramsRevisionId}&release=${key}`);
     navigate(`${location.pathname}?rev=${paramsRevision}&release=${key}`);
   };
 
@@ -571,17 +463,6 @@ GlobalMediaFrameProps) {
     } else if (state === DataState.Retired) {
       releaseTag = <TagInRetirement notSelectable />;
     }
-    // switch (state) {
-    //   case DATA_STATES.REVIEW:
-    //     releaseTag = <TagInReview />;
-    //     break;
-    //   case DATA_STATES.PRODUCTION:
-    //     releaseTag = <TagInProduction />;
-    //     break;
-    //   case DATA_STATES.RETIRED:
-    //     releaseTag = <TagInRetirement />;
-    //     break;
-    // }
   }
 
   const [selectValue, setSelectValue] = useState(
@@ -677,25 +558,6 @@ GlobalMediaFrameProps) {
   }
 
   //------------------------------------------------------------
-  // State change handling for sorting
-  //------------------------------------------------------------
-  const onSortableGridStateChangeAllGenders1 = (newState: any[]) => {
-    // setMediaAllGenders1(newState);
-    setGlobalMediaDraft(newState);
-    console.log('newState:', newState);
-    // if (newState !== mediaItems) {
-    //   // setMediaItemIds(newState.map(({ id }) => id));
-    // }
-    // setMediaAllGenderIds1(newState.map(({ id }) => id));
-  };
-
-  const onSortableGridStateChangeAllGenders2 = (newState: any[]) => {
-    // setMediaItems2(newState);
-    // setMediaAllGenderIds2(newState.map(({ id }) => id));
-    setGlobalMediaRelease(newState);
-  };
-
-  //------------------------------------------------------------
   // State change handling for adding/deselecting via the popup
   //------------------------------------------------------------
   const loadMediaItems1 = async (ids: string[]) => {
@@ -721,7 +583,7 @@ GlobalMediaFrameProps) {
         onCancel={closePopup}
         loading={false}
         defaultMediaItemAssociated={defaultMediaItemAssociated}
-        mediaAllGenders={globalMedia}
+        mediaAllGenders={mediaAllGenders}
         // setMediaAllGenders={
         //   paramsIsReleaseBool ? setMediaAllGenders2 : setMediaAllGenders1
         // }
@@ -779,12 +641,6 @@ GlobalMediaFrameProps) {
             <BurgerMenuButton
               deleteRevision={deleteItemTranslationsForThisRevision}
             />
-          </Col>
-        </Row>
-        <Row>
-          <Col>Name: {name}</Col>
-          <Col>
-            <Button onClick={() => setName('John')}>Change name</Button>
           </Col>
         </Row>
         <Row
@@ -857,32 +713,11 @@ GlobalMediaFrameProps) {
             </Tabs>
             <TabContentFrame
               hasChanged={!paramsIsReleaseBool ? hasChanged1 : hasChanged2}
-              copyFull={!paramsIsReleaseBool ? copyFull1 : copyFull2}
               disabled={frameIsDisabled}
               // disabled={false}
-              description={!paramsIsReleaseBool ? description1 : description2}
+              description={''}
               openPopup={openPopup}
-              setDescription={
-                !paramsIsReleaseBool ? setDescription1 : setDescription2
-              }
-              mediaAllGenders={
-                // !paramsIsReleaseBool ? mediaAllGenders1 : mediaAllGenders2
-                globalMedia
-              }
-              setMediaAllGenders={
-                // !paramsIsReleaseBool ? setMediaAllGenders1 : setMediaAllGenders2
-                setGlobalMedia
-              }
-              // onSortableGridStateChangeAllGenders={
-              //   !paramsIsReleaseBool
-              //     ? onSortableGridStateChangeAllGenders1
-              //     : onSortableGridStateChangeAllGenders2
-              // }
-              onSortableGridStateChangeAllGenders={
-                !paramsIsReleaseBool
-                  ? setGlobalMediaDraft
-                  : setGlobalMediaRelease
-              }
+              setDescription={() => {}}
             />
           </>
         )}
