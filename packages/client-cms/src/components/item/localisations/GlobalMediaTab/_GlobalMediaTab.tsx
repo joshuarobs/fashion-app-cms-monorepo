@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { ColumnOfFrames } from '../../../common/frames/ColumnOfFrames';
 import { ItemGlobalMediaStateFrame } from './ItemGlobalMediaStateFrame';
@@ -142,12 +142,34 @@ function GlobalMediaTab({
       revision: Number.parseInt(paramsRevision),
       item_id: Number.parseInt(String(itemId)),
     },
-    onCompleted: async () => {
-      console.error('@@');
-      console.log(
-        'GlobalMediaTab#onCompleted - dataGlobalMedia:',
-        dataGlobalMedia
-      );
+  });
+
+  const {
+    loading: loadingRevisions,
+    error: errorRevisions,
+    data: dataRevisions,
+    refetch: refetchRevisions,
+  } = useQuery(Get_Item_Global_Media_Revisions_Given_Item_Id, {
+    variables: {
+      item_id: Number.parseInt(String(itemId)),
+    },
+    fetchPolicy: 'network-only',
+  });
+
+  const [
+    getMediaItemsByIds,
+    {
+      loading: loadingMediaItemsByIds,
+      error: errorMediaItemsByIds,
+      data: dataMediaItemsByIds,
+    },
+  ] = useLazyQuery(Get_Media_Items_By_Ids, {
+    // variables: { ids: mediaItemIds },
+    fetchPolicy: 'network-only',
+  });
+
+  useEffect(() => {
+    if (dataGlobalMedia) {
       // Convert the globalMedia object's ids into an array
       const globalMediaItems11: object[] = [];
       const {
@@ -192,32 +214,8 @@ function GlobalMediaTab({
       setPrevNotesDraft(
         dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0].notes
       );
-    },
-  });
-
-  const {
-    loading: loadingRevisions,
-    error: errorRevisions,
-    data: dataRevisions,
-    refetch: refetchRevisions,
-  } = useQuery(Get_Item_Global_Media_Revisions_Given_Item_Id, {
-    variables: {
-      item_id: Number.parseInt(String(itemId)),
-    },
-    fetchPolicy: 'network-only',
-  });
-
-  const [
-    getMediaItemsByIds,
-    {
-      loading: loadingMediaItemsByIds,
-      error: errorMediaItemsByIds,
-      data: dataMediaItemsByIds,
-    },
-  ] = useLazyQuery(Get_Media_Items_By_Ids, {
-    // variables: { ids: mediaItemIds },
-    fetchPolicy: 'network-only',
-  });
+    }
+  }, [dataGlobalMedia]);
 
   // useEffect(() => {
   //   getMediaItemsByIds();
@@ -340,18 +338,9 @@ function GlobalMediaTab({
         globalMediaRelease={globalMedia[1] ? globalMedia[1] : null}
         revisionIdDraft={globalMedia[0].id}
         revisionIdRelease={globalMedia[1] ? globalMedia[1].id : null}
-        // globalMediaDraft={mediaAllGendersDraft}
-        // prevGlobalMediaDraft={prevMediaAllGendersDraft}
-        // globalMediaRelease={mediaAllGendersRelease}
-        // prevGlobalMediaRelease={prevMediaAllGendersRelease}
         defaultMediaItemAssociated={defaultMediaItemAssociated}
-        // setGlobalMediaDraft={setMediaAllGendersDraft}
-        // setGlobalMediaRelease={setMediaAllGendersRelease}
-        // setPrevGlobalMediaDraft={setPrevMediaAllGendersDraft}
-        // setPrevGlobalMediaRelease={setPrevMediaAllGendersRelease}
         itemId={itemId}
         currentTab={currentTab}
-        // currentRevision={currentRevision}
         location={location}
         translationRevision={uniqueRevisions[0] ? uniqueRevisions[0] : null}
         refetchMediaItemsByIds={refetchMediaItemsByIds}
@@ -359,7 +348,7 @@ function GlobalMediaTab({
         paramsIsRelease={paramsIsRelease}
         uniqueRevisions={uniqueRevisions}
         refetchRevisions={refetchRevisions}
-        // refetchTranslations={refetchGlobalMedia}
+        refetchGlobalMedia={refetchGlobalMedia}
       />
       // <div>test</div>
     );

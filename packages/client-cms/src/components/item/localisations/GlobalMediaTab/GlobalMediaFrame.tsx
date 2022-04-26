@@ -47,6 +47,7 @@ interface GlobalMediaFrameProps {
   paramsIsRelease: string;
   uniqueRevisions: any;
   refetchRevisions: Function;
+  refetchGlobalMedia: Function;
   // refetchTranslations: Function;
 }
 
@@ -66,8 +67,8 @@ function GlobalMediaFrame({
   paramsIsRelease,
   uniqueRevisions,
   refetchRevisions,
-}: // refetchTranslations,
-GlobalMediaFrameProps) {
+  refetchGlobalMedia,
+}: GlobalMediaFrameProps) {
   // console.log("Current tab:", currentTab);
   // console.log("location:", location);
   const navigate = useNavigate();
@@ -148,6 +149,7 @@ GlobalMediaFrameProps) {
     // { loading: mutationLoading, error: mutationError }
   ] = useMutation(Update_Item_Global_Media, {
     async onCompleted() {
+      await refetchGlobalMedia();
       setPrevMediaAllGenders(mediaAllGenders);
       setPrevNotes(notes);
       message.success({ content: Common.Changes_Saved, key }, 2);
