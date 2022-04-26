@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { MediaSmallCard } from '../../../common/media/MediaSmallCard';
 import { useQuery } from '@apollo/client';
 import { Get_Media_Items_By_Ids } from '../../../../queries/media_items/getMediaItemsByIds';
+import { useGlobalMediaTabContext } from './_GlobalMediaTab';
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -112,6 +113,17 @@ function TabContentFrame({
   //   }
   //   // setMediaItemIds(newState.map(({ id }) => id));
   // };
+
+  const {
+    name,
+    setName,
+    globalMedia,
+    setGlobalMedia,
+    prevGlobalMedia,
+    setPrevGlobalMedia,
+    discardChanges,
+  } = useGlobalMediaTabContext();
+
   const onChange = (a: any, b: any, c: any) => {
     // console.error('a:', a, 'b:', b, 'c:', c);
   };
@@ -158,7 +170,7 @@ function TabContentFrame({
           list={mediaAllGenders}
           // list={mediaAllGenders1}
           // @ts-ignore
-          setList={setMediaAllGenders}
+          setList={setGlobalMedia}
           onSort={onChange}
           // setList={onSortableGridStateChangeAllGenders}
           // setList={(newState: any[]) =>

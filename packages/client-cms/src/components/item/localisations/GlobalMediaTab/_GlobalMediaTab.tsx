@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import _ from 'lodash';
 import { ColumnOfFrames } from '../../../common/frames/ColumnOfFrames';
 import { ItemGlobalMediaStateFrame } from './ItemGlobalMediaStateFrame';
@@ -66,6 +66,45 @@ interface GlobalMediaTabProps {
   refetchItemTransRevs: Function;
 }
 
+// https://reacttraining.com/blog/react-context-with-typescript/
+
+interface GlobalMediaTabContextValues {
+  // The name of the group that will be used for the name attribute for
+  // each of our radio inputs
+  name: string;
+  setName: Function;
+  globalMedia: any[];
+  setGlobalMedia: Function;
+  prevGlobalMedia: any[];
+  setPrevGlobalMedia: Function;
+  discardChanges: Function;
+  // The change handler that will be used for each input
+  // handleChange(event: React.ChangeEvent<HTMLInputElement>): void;
+}
+
+const GlobalMediaTabContext = React.createContext<
+  GlobalMediaTabContextValues | undefined
+>(undefined);
+
+function useGlobalMediaTabContext() {
+  const context = React.useContext(GlobalMediaTabContext);
+  // If context is undefined, we know we used RadioGroupItem
+  // outside our provider, so we can throw a more helpful error!
+  if (context === undefined) {
+    throw Error(
+      'GlobalMediaTabItem must be used inside of a GlobalMediaTab, ' +
+        'otherwise it will not function correctly. See: ' +
+        'https://reacttraining.com/blog/react-context-with-typescript/'
+    );
+  }
+
+  // Because of TypeScript's type narrowing, if we make it past
+  // the error the compiler knows that context is always defined
+  // at this point, so we don't need to do any conditional
+  // checking on its values when we use this hook!
+  return context;
+}
+
 function GlobalMediaTab({
   itemId,
   currentTab,
@@ -77,40 +116,18 @@ function GlobalMediaTab({
   location,
   refetchItemTransRevs,
 }: GlobalMediaTabProps) {
-  // const {
-  //   loading: loadingTranslations,
-  //   error: errorTranslations,
-  //   data: dataTranslations,
-  //   refetch: refetchTranslations,
-  // } = useQuery(Get_Item_Translations_Given_Unique_Keys, {
-  //   variables: {
-  //     // revisionId: paramsRevisionId
-  //     revision: Number.parseInt(paramsRevision),
-  //     itemId: Number.parseInt(String(itemId)),
-  //     localeCode: currentTab,
-  //   },
-  // });
-  //
-  // const {
-  //   loading: loadingRevisions,
-  //   error: errorRevisions,
-  //   data: dataRevisions,
-  //   refetch: refetchRevisions,
-  // } = useQuery(Get_Item_Translation_Revisions_Given_Locale_Code, {
-  //   variables: {
-  //     itemId: Number.parseInt(String(itemId)),
-  //     localeCode: currentTab,
-  //   },
-  //   fetchPolicy: 'network-only',
-  // });
-  // const [changeableGlobalMedia, setChangeableGlobalMedia] = useState<any[]>([]);
+  // `paramsIsRelease` in boolean form, since the parameter in the url is in
+  // string form
+  const paramsIsReleaseBool = paramsIsRelease === 'true';
+
+  const [name, setName] = useState('Bob');
+
   const [globalMediaDraft, setGlobalMediaDraft] = useState<any[]>([]);
   const [prevGlobalMediaDraft, setPrevGlobalMediaDraft] = useState<any[]>([]);
   const [globalMediaRelease, setGlobalMediaRelease] = useState<any[]>([]);
   const [prevGlobalMediaRelease, setPrevGlobalMediaRelease] = useState<any[]>(
     []
   );
-  const [alreadyLoaded, setAlreadyLoaded] = useState(false);
 
   const {
     loading: loadingGlobalMedia,
@@ -193,10 +210,14 @@ function GlobalMediaTab({
       if (media_10) globalMediaItems11.push({ ...media_10 });
       console.log('globalMediaItems11:', globalMediaItems11);
 
-      if (!alreadyLoaded) {
+      console.log('globalMediaDraft:', globalMediaDraft);
+      console.log(
+        'globalMediaDraft.length === 0:',
+        globalMediaDraft.length === 0
+      );
+      if (globalMediaDraft.length === 0) {
         setGlobalMediaDraft(globalMediaItems11);
         setPrevGlobalMediaDraft(globalMediaItems11);
-        setAlreadyLoaded(true);
       }
 
       // async function refetchMediaItemsByIds(
@@ -248,6 +269,13 @@ function GlobalMediaTab({
   // useEffect(() => {
   //   getMediaItemsByIds();
   // }, []);
+  function discardChangesDraft() {
+    setGlobalMediaDraft(prevGlobalMediaDraft);
+  }
+
+  function discardChangesRelease() {
+    setGlobalMediaRelease(prevGlobalMediaRelease);
+  }
 
   async function refetchMediaItemsByIds(
     ids: string[],
@@ -271,7 +299,8 @@ function GlobalMediaTab({
       // the user
       // Sort algorithm from:
       // https://stackoverflow.com/questions/28719795/lodash-sort-collection-based-on-external-array
-      const currentIds = globalMediaDraft.map(({ id }) => id);
+      // const currentIds = globalMediaDraft.map(({ id }) => id);
+      const currentIds = ids;
 
       if (isRelease) {
         setGlobalMediaRelease(query.data.getMediaItemsByIds);
@@ -296,43 +325,6 @@ function GlobalMediaTab({
       }
     }
   }
-
-  // Load the media items data based on ids of the first query
-  // First time we run this, we probably already have this data, its
-  // redundant, but this is the query that'll handle the data of the
-  // current selection of media items.
-  // Therefore, we can change the ids that get loaded, based on the media
-  // items that get selected by the `Select Media` button
-  // if (!dataMediaItemsByIds) {
-  //   getMediaItemsByIds({
-  //     variables: {
-  //       ids: [],
-  //     },
-  //   }).then();
-  // }
-  // useEffect(() => {
-  //   if (dataGlobalMedia) {
-  //     console.log('useEffect#dataGlobalMedia:', dataGlobalMedia);
-  //     setGlobalMediaDraft(
-  //       getGlobalMediaIntoArrayFromDatabaseObject(dataGlobalMedia)
-  //     );
-  //   }
-  // }, [dataGlobalMedia]);
-
-  // if (dataMediaItemsByIds) {
-  //   console.log('dataMediaItemsByIds:', dataMediaItemsByIds);
-  // }
-
-  // const {
-  //   loading: loadingMediaItemsByIds,
-  //   error: errorMediaItemsByIds,
-  //   data: dataMediaItemsByIds,
-  //   refetch: refetchMediaItemsByIds,
-  // } = useQuery(Get_Media_Items_By_Ids, {
-  //   variables: { ids: mediaItemIds },
-  //   fetchPolicy: 'network-only',
-  //   // fetchPolicy: 'cache-and-network',
-  // });
 
   let mainFrameToDisplay = null;
   let stateFrameToDisplay = null;
@@ -441,7 +433,32 @@ function GlobalMediaTab({
 
   return (
     <>
-      <ColumnOfFrames freeWidth>{mainFrameToDisplay}</ColumnOfFrames>
+      <ColumnOfFrames freeWidth>
+        {/* @ts-ignore */}
+        <GlobalMediaTabContext.Provider
+          value={{
+            name,
+            setName,
+            globalMedia: paramsIsReleaseBool
+              ? globalMediaRelease
+              : globalMediaDraft,
+            setGlobalMedia: paramsIsReleaseBool
+              ? setGlobalMediaRelease
+              : setGlobalMediaDraft,
+            prevGlobalMedia: paramsIsReleaseBool
+              ? prevGlobalMediaRelease
+              : prevGlobalMediaDraft,
+            setPrevGlobalMedia: paramsIsReleaseBool
+              ? setPrevGlobalMediaRelease
+              : setPrevGlobalMediaDraft,
+            discardChanges: paramsIsReleaseBool
+              ? discardChangesRelease
+              : discardChangesDraft,
+          }}
+        >
+          {mainFrameToDisplay}
+        </GlobalMediaTabContext.Provider>
+      </ColumnOfFrames>
       <ColumnOfFrames>
         {stateFrameToDisplay}
         <GlobalMediaActivityFrame currentTab={currentTab} itemId={itemId} />
@@ -450,4 +467,4 @@ function GlobalMediaTab({
   );
 }
 
-export { GlobalMediaTab };
+export { GlobalMediaTab, useGlobalMediaTabContext };

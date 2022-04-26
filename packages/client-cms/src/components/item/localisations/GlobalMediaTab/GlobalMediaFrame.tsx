@@ -7,7 +7,7 @@ import {
   DataAction,
   DataState,
 } from '@joshuarobs/clothing-framework';
-import { Col, Layout, message, Row, Tabs, Select } from 'antd';
+import { Col, Layout, message, Row, Tabs, Select, Button } from 'antd';
 import { Common } from '../../../../strings';
 import { UnsavedChangesCard } from '../../../common/UnsavedChangesCard';
 import { FrameTitle } from '../../../common/typography/FrameTitle';
@@ -36,6 +36,7 @@ import { PictureOutlined } from '@ant-design/icons';
 import { SelectMediaModal } from './SelectMediaModal/_SelectMediaModal';
 import { Update_Item_Global_Media } from '../../../../queries/item_global_media/updateItemGlobalMedia';
 import { Get_Item_Global_Media_Revision_Changes_Given_Item_Id } from '../../../../queries/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesGivenItemId';
+import { useGlobalMediaTabContext } from './_GlobalMediaTab';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -103,6 +104,16 @@ GlobalMediaFrameProps) {
 
   console.log('paramsRevision:', paramsRevision);
 
+  const {
+    name,
+    setName,
+    globalMedia,
+    setGlobalMedia,
+    prevGlobalMedia,
+    setPrevGlobalMedia,
+    discardChanges,
+  } = useGlobalMediaTabContext();
+
   const [currentRevision, setCurrentRevision] = useState(uniqueRevisions[0]);
   const [state, setState] = useState(null);
   const [revision_id, setRevisionId] = useState(null);
@@ -162,10 +173,10 @@ GlobalMediaFrameProps) {
   // const [prevMediaAllGenderIds1, setPrevMediaAllGenderIds1] = useState<
   //   string[]
   // >([]);
-  const [mediaAllGenders1, setMediaAllGenders1] = useState<any[]>([]);
-  const [prevMediaAllGenders1, setPrevMediaAllGenders1] = useState<object[]>(
-    []
-  );
+  // const [mediaAllGenders1, setMediaAllGenders1] = useState<any[]>([]);
+  // const [prevMediaAllGenders1, setPrevMediaAllGenders1] = useState<object[]>(
+  //   []
+  // );
 
   // STATES FOR THE RELEASE TRANSLATIONS
   const [full_name2, setFullName2] = useState();
@@ -177,83 +188,6 @@ GlobalMediaFrameProps) {
   const [prevMediaAllGenders2, setPrevMediaAllGenders2] = useState<object[]>(
     []
   );
-
-  useEffect(() => {
-    // // Convert the globalMedia object's ids into an array
-    // const globalMediaItems: object[] = [];
-    // if (globalMediaDraft) {
-    //   const {
-    //     media_1,
-    //     media_2,
-    //     media_3,
-    //     media_4,
-    //     media_5,
-    //     media_6,
-    //     media_7,
-    //     media_8,
-    //     media_9,
-    //     media_10,
-    //   } = globalMediaDraft;
-    //   // Deep clone each object because the data `globalMediaDraft` which is
-    //   // obtained via an Apollo GraphQL query, is immutable and we can't
-    //   // make any modifications.
-    //   // ReactSortableJS bugs out if the data in the entries list are immutable
-    //   if (media_1) globalMediaItems.push({ ...media_1 });
-    //   if (media_2) globalMediaItems.push({ ...media_2 });
-    //   if (media_3) globalMediaItems.push({ ...media_3 });
-    //   if (media_4) globalMediaItems.push({ ...media_4 });
-    //   if (media_5) globalMediaItems.push({ ...media_5 });
-    //   if (media_6) globalMediaItems.push({ ...media_6 });
-    //   if (media_7) globalMediaItems.push({ ...media_7 });
-    //   if (media_8) globalMediaItems.push({ ...media_8 });
-    //   if (media_9) globalMediaItems.push({ ...media_9 });
-    //   if (media_10) globalMediaItems.push({ ...media_10 });
-    //   console.log('globalMediaItems:', globalMediaItems);
-    // }
-    // console.log('media_1:', globalMediaDraft.media_1);
-    // globalMediaDraft.media_1.x = 1;
-
-    // setMediaAllGenderIds1(globalMediaDraft ? globalMediaItems : []);
-    // setMediaAllGenders1(globalMediaDraft ? globalMediaItems : []);
-    setMediaAllGenders1(globalMediaDraft ? globalMediaDraft : []);
-    console.log('123#GlobalMediaFrame#globalMediaDraft:', globalMediaDraft);
-
-    // Set the previous (current database) version of the media as the same
-    // as the current react one
-    // setPrevMediaAllGenderIds1(globalMediaDraft ? arrayOfIds : []);
-    // setPrevMediaAllGenders1(globalMediaDraft ? globalMediaItems : []);
-    // setPrevMediaAllGenders1(globalMediaDraft ? globalMediaDraft : []);
-
-    // setDescription1(translationDraft ? translationDraft.description : null);
-    //
-    // if (translationRelease) {
-    //   setFullName2(translationRelease.full_name);
-    // } else if (translationDraft) {
-    //   setFullName2(translationDraft.full_name);
-    // }
-    //
-    // if (translationRelease) {
-    //   setShortName2(translationRelease.short_name);
-    // } else if (translationDraft) {
-    //   setShortName2(translationDraft.short_name);
-    // }
-    //
-    // if (translationRelease) {
-    //   setDescription2(translationRelease.description);
-    // } else if (translationDraft) {
-    //   setDescription2(translationDraft.description);
-    // }
-  }, [currentTab, paramsRevision, globalMediaDraft, globalMediaRelease]);
-
-  useEffect(() => {
-    setPrevMediaAllGenders1(prevGlobalMediaDraft ? prevGlobalMediaDraft : []);
-  }, [prevGlobalMediaDraft]);
-
-  useEffect(() => {
-    setPrevMediaAllGenders2(
-      prevGlobalMediaRelease ? prevGlobalMediaRelease : []
-    );
-  }, [prevGlobalMediaRelease]);
 
   const copyFull1 = () => {
     // setShortName1(full_name1);
@@ -284,12 +218,13 @@ GlobalMediaFrameProps) {
         );
         // setPrevMediaAllGenders2(mediaAllGenders2);
       } else {
-        await refetchMediaItemsByIds(
-          mediaAllGenders1.map(({ id }: any) => id),
-          false,
-          true
-        );
+        // await refetchMediaItemsByIds(
+        //   mediaAllGenders1.map(({ id }: any) => id),
+        //   false,
+        //   true
+        // );
         // setPrevMediaAllGenders1(mediaAllGenders1);
+        setPrevGlobalMedia(globalMedia);
       }
       message.success({ content: Common.Changes_Saved, key }, 2);
       // history.go(0);
@@ -372,12 +307,12 @@ GlobalMediaFrameProps) {
   let hasChanged1: hasChangedProps = {};
   if (globalMediaDraft && state === DataState.Development) {
     console.log('CONSIDER HAS CHANGED');
-    console.log(
-      'mediaAllGenders1:',
-      mediaAllGenders1,
-      '| prevMediaItems1:',
-      prevMediaAllGenders1
-    );
+    // console.log(
+    //   'mediaAllGenders1:',
+    //   mediaAllGenders1,
+    //   '| prevMediaItems1:',
+    //   prevMediaAllGenders1
+    // );
     // Special case for the list of media, because we aren't just comparing
     // ids, but instead objects (which include name and url)
     // This is because of our implementation of list of media, with React
@@ -386,10 +321,12 @@ GlobalMediaFrameProps) {
     // string, and comparing with that value
 
     hasChanged1 = {
-      // full_name: full_name1 !== translationDraft.full_name,
+      // mediaAllGenders:
+      //   mediaAllGenders1.map(({ id }: any) => id).join() !==
+      //   prevMediaAllGenders1.map(({ id }: any) => id).join(),
       mediaAllGenders:
-        mediaAllGenders1.map(({ id }: any) => id).join() !==
-        prevMediaAllGenders1.map(({ id }: any) => id).join(),
+        globalMedia.map(({ id }: any) => id).join() !==
+        prevGlobalMedia.map(({ id }: any) => id).join(),
     };
   }
 
@@ -436,7 +373,7 @@ GlobalMediaFrameProps) {
   const discardChanges1 = () => {
     // setMediaAllGenders()
     // setDescription1(globalMediaDraft.description);
-    setMediaAllGenders1(prevMediaAllGenders1);
+    // setMediaAllGenders1(prevMediaAllGenders1);
   };
 
   const discardChanges2 = () => {
@@ -462,53 +399,53 @@ GlobalMediaFrameProps) {
         // console.log('mediaAllGenders1:', mediaAllGenders1);
         // Special case: Turn array of media items into their respective
         // variables on the database
-        if (mediaAllGenders1[0]) {
-          variables.changes.media_1_id = mediaAllGenders1[0].id;
+        if (globalMedia[0]) {
+          variables.changes.media_1_id = globalMedia[0].id;
         } else {
           variables.changes.media_1_id = null;
         }
-        if (mediaAllGenders1[1]) {
-          variables.changes.media_2_id = mediaAllGenders1[1].id;
+        if (globalMedia[1]) {
+          variables.changes.media_2_id = globalMedia[1].id;
         } else {
           variables.changes.media_2_id = null;
         }
-        if (mediaAllGenders1[2]) {
-          variables.changes.media_3_id = mediaAllGenders1[2].id;
+        if (globalMedia[2]) {
+          variables.changes.media_3_id = globalMedia[2].id;
         } else {
           variables.changes.media_3_id = null;
         }
-        if (mediaAllGenders1[3]) {
-          variables.changes.media_4_id = mediaAllGenders1[3].id;
+        if (globalMedia[3]) {
+          variables.changes.media_4_id = globalMedia[3].id;
         } else {
           variables.changes.media_4_id = null;
         }
-        if (mediaAllGenders1[4]) {
-          variables.changes.media_5_id = mediaAllGenders1[4].id;
+        if (globalMedia[4]) {
+          variables.changes.media_5_id = globalMedia[4].id;
         } else {
           variables.changes.media_5_id = null;
         }
-        if (mediaAllGenders1[5]) {
-          variables.changes.media_6_id = mediaAllGenders1[5].id;
+        if (globalMedia[5]) {
+          variables.changes.media_6_id = globalMedia[5].id;
         } else {
           variables.changes.media_6_id = null;
         }
-        if (mediaAllGenders1[6]) {
-          variables.changes.media_7_id = mediaAllGenders1[6].id;
+        if (globalMedia[6]) {
+          variables.changes.media_7_id = globalMedia[6].id;
         } else {
           variables.changes.media_7_id = null;
         }
-        if (mediaAllGenders1[7]) {
-          variables.changes.media_8_id = mediaAllGenders1[7].id;
+        if (globalMedia[7]) {
+          variables.changes.media_8_id = globalMedia[7].id;
         } else {
           variables.changes.media_8_id = null;
         }
-        if (mediaAllGenders1[8]) {
-          variables.changes.media_9_id = mediaAllGenders1[8].id;
+        if (globalMedia[8]) {
+          variables.changes.media_9_id = globalMedia[8].id;
         } else {
           variables.changes.media_9_id = null;
         }
-        if (mediaAllGenders1[9]) {
-          variables.changes.media_10_id = mediaAllGenders1[9].id;
+        if (globalMedia[9]) {
+          variables.changes.media_10_id = globalMedia[9].id;
         } else {
           variables.changes.media_10_id = null;
         }
@@ -769,20 +706,14 @@ GlobalMediaFrameProps) {
     await refetchMediaItemsByIds(ids, true, false);
   };
 
-  console.log(
-    'paramsIsReleaseBool:',
-    paramsIsReleaseBool,
-    '!paramsIsReleaseBool ?' + ' mediaAllGenders1 :' + ' mediaAllGenders2',
-    !paramsIsReleaseBool ? mediaAllGenders1 : mediaAllGenders2
-  );
-
   return (
     <>
       <UnsavedChangesCard
         numberOfChanges={
           paramsIsReleaseBool ? numberOfChanges2 : numberOfChanges1
         }
-        discardChanges={paramsIsReleaseBool ? discardChanges2 : discardChanges1}
+        // discardChanges={paramsIsReleaseBool ? discardChanges2 : discardChanges1}
+        discardChanges={discardChanges}
         saveChanges={paramsIsReleaseBool ? saveChanges2 : saveChanges1}
       />
       <SelectMediaModal
@@ -790,9 +721,7 @@ GlobalMediaFrameProps) {
         onCancel={closePopup}
         loading={false}
         defaultMediaItemAssociated={defaultMediaItemAssociated}
-        mediaAllGenders={
-          paramsIsReleaseBool ? mediaAllGenders2 : mediaAllGenders1
-        }
+        mediaAllGenders={globalMedia}
         // setMediaAllGenders={
         //   paramsIsReleaseBool ? setMediaAllGenders2 : setMediaAllGenders1
         // }
@@ -850,6 +779,12 @@ GlobalMediaFrameProps) {
             <BurgerMenuButton
               deleteRevision={deleteItemTranslationsForThisRevision}
             />
+          </Col>
+        </Row>
+        <Row>
+          <Col>Name: {name}</Col>
+          <Col>
+            <Button onClick={() => setName('John')}>Change name</Button>
           </Col>
         </Row>
         <Row
@@ -931,10 +866,12 @@ GlobalMediaFrameProps) {
                 !paramsIsReleaseBool ? setDescription1 : setDescription2
               }
               mediaAllGenders={
-                !paramsIsReleaseBool ? mediaAllGenders1 : mediaAllGenders2
+                // !paramsIsReleaseBool ? mediaAllGenders1 : mediaAllGenders2
+                globalMedia
               }
               setMediaAllGenders={
-                !paramsIsReleaseBool ? setMediaAllGenders1 : setMediaAllGenders2
+                // !paramsIsReleaseBool ? setMediaAllGenders1 : setMediaAllGenders2
+                setGlobalMedia
               }
               // onSortableGridStateChangeAllGenders={
               //   !paramsIsReleaseBool
