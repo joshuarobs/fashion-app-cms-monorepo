@@ -46,7 +46,6 @@ function GlobalMediaActivityFrame({
   return (
     <LatestActivityFrame
       changes={getItemGlobalMediaRevisionChangesGivenItemId}
-      showType
     />
   );
 }
