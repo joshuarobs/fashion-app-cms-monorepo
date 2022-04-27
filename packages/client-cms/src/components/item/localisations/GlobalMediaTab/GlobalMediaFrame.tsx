@@ -376,10 +376,59 @@ function GlobalMediaFrame({
 
     if (numberOfChanges2 > 0) {
       if (hasChanged2.mediaAllGenders) {
-        // Special case: Turn array of media items into a single array of ids
-        // variables.changes.mediaAllGenders = mediaAllGenders2.map(
-        //   ({ id }: any) => id
-        // );
+        // console.log('mediaAllGenders1:', mediaAllGenders1);
+        // Special case: Turn array of media items into their respective
+        // variables on the database
+        if (mediaAllGenders[0]) {
+          variables.changes.media_1_id = mediaAllGenders[0].id;
+        } else {
+          variables.changes.media_1_id = null;
+        }
+        if (mediaAllGenders[1]) {
+          variables.changes.media_2_id = mediaAllGenders[1].id;
+        } else {
+          variables.changes.media_2_id = null;
+        }
+        if (mediaAllGenders[2]) {
+          variables.changes.media_3_id = mediaAllGenders[2].id;
+        } else {
+          variables.changes.media_3_id = null;
+        }
+        if (mediaAllGenders[3]) {
+          variables.changes.media_4_id = mediaAllGenders[3].id;
+        } else {
+          variables.changes.media_4_id = null;
+        }
+        if (mediaAllGenders[4]) {
+          variables.changes.media_5_id = mediaAllGenders[4].id;
+        } else {
+          variables.changes.media_5_id = null;
+        }
+        if (mediaAllGenders[5]) {
+          variables.changes.media_6_id = mediaAllGenders[5].id;
+        } else {
+          variables.changes.media_6_id = null;
+        }
+        if (mediaAllGenders[6]) {
+          variables.changes.media_7_id = mediaAllGenders[6].id;
+        } else {
+          variables.changes.media_7_id = null;
+        }
+        if (mediaAllGenders[7]) {
+          variables.changes.media_8_id = mediaAllGenders[7].id;
+        } else {
+          variables.changes.media_8_id = null;
+        }
+        if (mediaAllGenders[8]) {
+          variables.changes.media_9_id = mediaAllGenders[8].id;
+        } else {
+          variables.changes.media_9_id = null;
+        }
+        if (mediaAllGenders[9]) {
+          variables.changes.media_10_id = mediaAllGenders[9].id;
+        } else {
+          variables.changes.media_10_id = null;
+        }
       }
 
       if (hasChanged2.notes) {

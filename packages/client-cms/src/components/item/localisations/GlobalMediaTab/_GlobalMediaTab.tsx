@@ -170,49 +170,97 @@ function GlobalMediaTab({
 
   useEffect(() => {
     if (dataGlobalMedia) {
-      // Convert the globalMedia object's ids into an array
-      const globalMediaItems11: object[] = [];
-      const {
-        media_1,
-        media_2,
-        media_3,
-        media_4,
-        media_5,
-        media_6,
-        media_7,
-        media_8,
-        media_9,
-        media_10,
-      } = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0];
-      // Deep clone each object because the data `globalMediaDraft` which is
-      // obtained via an Apollo GraphQL query, is immutable and we can't
-      // make any modifications.
-      // ReactSortableJS bugs out if the data in the entries list are immutable
-      if (media_1) globalMediaItems11.push({ ...media_1 });
-      if (media_2) globalMediaItems11.push({ ...media_2 });
-      if (media_3) globalMediaItems11.push({ ...media_3 });
-      if (media_4) globalMediaItems11.push({ ...media_4 });
-      if (media_5) globalMediaItems11.push({ ...media_5 });
-      if (media_6) globalMediaItems11.push({ ...media_6 });
-      if (media_7) globalMediaItems11.push({ ...media_7 });
-      if (media_8) globalMediaItems11.push({ ...media_8 });
-      if (media_9) globalMediaItems11.push({ ...media_9 });
-      if (media_10) globalMediaItems11.push({ ...media_10 });
-      console.log('globalMediaItems11:', globalMediaItems11);
-
-      console.log('globalMediaDraft:', mediaAllGendersDraft);
-      console.log(
-        'globalMediaDraft.length === 0:',
-        mediaAllGendersDraft.length === 0
-      );
+      console.log('dataGlobalMedia:', dataGlobalMedia);
       if (mediaAllGendersDraft.length === 0) {
+        // Convert the globalMedia object's ids into an array
+        const globalMediaItems11: object[] = [];
+        const {
+          media_1,
+          media_2,
+          media_3,
+          media_4,
+          media_5,
+          media_6,
+          media_7,
+          media_8,
+          media_9,
+          media_10,
+        } = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0];
+        // Deep clone each object because the data `globalMediaDraft` which is
+        // obtained via an Apollo GraphQL query, is immutable and we can't
+        // make any modifications.
+        // ReactSortableJS bugs out if the data in the entries list are immutable
+        if (media_1) globalMediaItems11.push({ ...media_1 });
+        if (media_2) globalMediaItems11.push({ ...media_2 });
+        if (media_3) globalMediaItems11.push({ ...media_3 });
+        if (media_4) globalMediaItems11.push({ ...media_4 });
+        if (media_5) globalMediaItems11.push({ ...media_5 });
+        if (media_6) globalMediaItems11.push({ ...media_6 });
+        if (media_7) globalMediaItems11.push({ ...media_7 });
+        if (media_8) globalMediaItems11.push({ ...media_8 });
+        if (media_9) globalMediaItems11.push({ ...media_9 });
+        if (media_10) globalMediaItems11.push({ ...media_10 });
+        console.log('globalMediaItems11:', globalMediaItems11);
+        console.log('globalMediaDraft:', mediaAllGendersDraft);
+        // console.log(
+        //   'globalMediaDraft.length === 0:',
+        //   mediaAllGendersDraft.length === 0
+        // );
+
         setMediaAllGendersDraft(globalMediaItems11);
         setPrevMediaAllGendersDraft(globalMediaItems11);
+      }
+
+      if (mediaAllGendersRelease.length === 0) {
+        // Convert the globalMedia object's ids into an array
+        const globalMediaItems11: object[] = [];
+        const {
+          media_1,
+          media_2,
+          media_3,
+          media_4,
+          media_5,
+          media_6,
+          media_7,
+          media_8,
+          media_9,
+          media_10,
+        } = dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[1];
+        // Deep clone each object because the data `globalMediaDraft` which is
+        // obtained via an Apollo GraphQL query, is immutable and we can't
+        // make any modifications.
+        // ReactSortableJS bugs out if the data in the entries list are immutable
+        if (media_1) globalMediaItems11.push({ ...media_1 });
+        if (media_2) globalMediaItems11.push({ ...media_2 });
+        if (media_3) globalMediaItems11.push({ ...media_3 });
+        if (media_4) globalMediaItems11.push({ ...media_4 });
+        if (media_5) globalMediaItems11.push({ ...media_5 });
+        if (media_6) globalMediaItems11.push({ ...media_6 });
+        if (media_7) globalMediaItems11.push({ ...media_7 });
+        if (media_8) globalMediaItems11.push({ ...media_8 });
+        if (media_9) globalMediaItems11.push({ ...media_9 });
+        if (media_10) globalMediaItems11.push({ ...media_10 });
+        console.log('globalMediaItems11:', globalMediaItems11);
+        console.log('mediaAllGendersRelease:', mediaAllGendersRelease);
+        // console.log(
+        //   'globalMediaDraft.length === 0:',
+        //   mediaAllGendersDraft.length === 0
+        // );
+
+        setMediaAllGendersRelease(globalMediaItems11);
+        setPrevMediaAllGendersRelease(globalMediaItems11);
       }
 
       setNotesDraft(dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0].notes);
       setPrevNotesDraft(
         dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0].notes
+      );
+
+      setNotesRelease(
+        dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[1].notes
+      );
+      setPrevNotesRelease(
+        dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[1].notes
       );
     }
   }, [dataGlobalMedia]);
@@ -254,9 +302,20 @@ function GlobalMediaTab({
       // https://stackoverflow.com/questions/28719795/lodash-sort-collection-based-on-external-array
 
       if (isRelease) {
-        setMediaAllGendersRelease(query.data.getMediaItemsByIds);
-        if (isSave)
-          setPrevMediaAllGendersRelease(query.data.getMediaItemsByIds);
+        const currentIds = mediaAllGendersRelease.map(({ id }) => id);
+        const last = mediaAllGendersRelease.length;
+
+        const sortedCollection = _.sortBy(
+          query.data.getMediaItemsByIds,
+          (entry) => {
+            return currentIds.indexOf(entry.id) !== -1
+              ? currentIds.indexOf(entry.id)
+              : last;
+          }
+        );
+        // console.log('@@sortedCollection:', sortedCollection);
+        setMediaAllGendersRelease(sortedCollection);
+        if (isSave) setPrevMediaAllGendersRelease(sortedCollection);
       } else {
         const currentIds = mediaAllGendersDraft.map(({ id }) => id);
         const last = mediaAllGendersDraft.length;
