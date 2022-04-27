@@ -158,6 +158,7 @@ import { getItemGlobalMediaRevisionChangesGivenItemId } from './resolvers/item_g
 import { updateItemGlobalMedia } from './resolvers/item_global_media/updateItemGlobalMedia';
 import { insertItemGlobalMediaPromoteToReview } from './resolvers/item_global_media/insertItemGlobalMediaPromoteToReview';
 import { updateItemGlobalMaindataRevisionStatePromoteToProduction } from './resolvers/item_global_media_revisions/updateItemGlobalMaindataRevisionStatePromoteToProduction';
+import { insertItemGlobalMediaRevisionPromoteNewRevision } from './resolvers/item_global_media_revisions/insertItemGlobalMediaRevisionPromoteNewRevision';
 
 const resolvers = {
   //**********************************************************************
@@ -302,6 +303,8 @@ const resolvers = {
     //--------------------------------------------------
     // item_global_media_revisions
     //--------------------------------------------------
+    insertItemGlobalMediaRevisionPromoteNewRevision: (_, { id }, context) =>
+      insertItemGlobalMediaRevisionPromoteNewRevision(id, context),
     updateItemGlobalMaindataRevisionStatePromoteToProduction: (
       _,
       { id },

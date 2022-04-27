@@ -5,16 +5,11 @@ import { StateFrame } from '../../../common/frames/StateFrame/_StateFrame';
 import { message } from 'antd';
 import { Common } from '../../../../strings';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Get_Item_Translation_Revision_Changes_Promos_Only } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesPromosOnly';
-import { Insert_Item_Translation_Promote_To_Review } from '../../../../queries/item_translations/insertItemTranslationPromoteToReview';
-import { Update_Item_Translation_Revision_State_Promote_To_Production } from '../../../../queries/item_translation_revisions/updateItemTranslationRevisionStatePromoteToProduction';
-import { Insert_Item_Translation_Revision_Promote_New_Revision } from '../../../../queries/item_translation_revisions/insertItemTranslationRevisionPromoteNewRevision';
-import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesForLocale';
-import { Get_Item_Translation_Revisions_Given_Locale_Code } from '../../../../queries/item_translation_revisions/getItemTranslationRevisionsGivenLocaleCode';
 import { Get_Item_Global_Media_Revision_Changes_Promos_Only } from '../../../../queries/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesPromosOnly';
 import { Insert_Item_Global_Media_Promote_To_Review } from '../../../../queries/item_global_media/insertItemGlobalMediaPromoteToReview';
 import { Get_Item_Global_Media_Revision_Changes_Given_Item_Id } from '../../../../queries/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesGivenItemId';
 import { Update_Item_Global_Media_Revision_State_Promote_To_Production } from '../../../../queries/item_global_media_revisions/updateItemGlobalMediaRevisionStatePromoteToProduction';
+import { Insert_Item_Global_Media_Revision_Promote_New_Revision } from '../../../../queries/item_global_media_revisions/insertItemGlobalMediaRevisionPromoteNewRevision';
 
 const key = 'state-localisations';
 
@@ -104,7 +99,7 @@ function ItemGlobalMediaStateFrame({
   // PROMOTE TO REVIEW
   //==================================================
   const [
-    insertItemTranslationPromoteToReview,
+    insertItemGlobalMediaPromoteToReview,
     {
       loading: loadingInsertItemGlobalMediaPromoteToReview,
       error: errorInsertItemGlobalMediaPromoteToReview,
@@ -182,25 +177,18 @@ function ItemGlobalMediaStateFrame({
   // NEW REVISION
   //==================================================
   const [
-    insertItemTranslationRevisionPromoteNewRevision,
+    insertItemGlobalMediaRevisionPromoteNewRevision,
     {
-      loading: loadingInsertItemTranslationRevisionPromoteNewRevision,
-      error: errorInsertItemTranslationRevisionPromoteNewRevision,
-      data: dataInsertItemTranslationRevisionPromoteNewRevision,
+      loading: loadingInsertItemGlobalMediaRevisionPromoteNewRevision,
+      error: errorInsertItemGlobalMediaRevisionPromoteNewRevision,
+      data: dataInsertItemGlobalMediaRevisionPromoteNewRevision,
     },
-  ] = useMutation(Insert_Item_Translation_Revision_Promote_New_Revision, {
+  ] = useMutation(Insert_Item_Global_Media_Revision_Promote_New_Revision, {
     refetchQueries: [
       {
-        query: Get_Item_Translation_Revisions_Given_Locale_Code,
+        query: Get_Item_Global_Media_Revision_Changes_Given_Item_Id,
         variables: {
-          itemId: Number.parseInt(String(itemId)),
-          // revision: Number.parseInt(paramsRevision),
-        },
-      },
-      {
-        query: Get_Item_Translation_Revision_Changes_For_Locale,
-        variables: {
-          itemId: Number.parseInt(String(itemId)),
+          item_id: Number.parseInt(String(itemId)),
           // revision: Number.parseInt(paramsRevision),
         },
       },
@@ -223,7 +211,7 @@ function ItemGlobalMediaStateFrame({
     await new Promise((r) => setTimeout(r, 500));
     message.loading({ content: Common.State_Related.Promoting_To_Review, key });
     // 1. Create a release translation version
-    await insertItemTranslationPromoteToReview({
+    await insertItemGlobalMediaPromoteToReview({
       variables: {
         revision_id: currentRevision.id,
       },
@@ -319,7 +307,7 @@ function ItemGlobalMediaStateFrame({
     };
     // await insertItemTranslationRevision({ variables });
 
-    await insertItemTranslationRevisionPromoteNewRevision({ variables });
+    await insertItemGlobalMediaRevisionPromoteNewRevision({ variables });
 
     // Redirect to the next revision
     navigate(
