@@ -139,6 +139,9 @@ const Mutations = gql`
       id: String!
       changes: item_global_media_set_input!
     ): item_global_media
+    insertItemGlobalMediaPromoteToReview(
+      revision_id: String!
+    ): item_global_media
     #--------------------------------------------------
     # item_global_media_revision_changes
     #--------------------------------------------------
@@ -239,7 +242,7 @@ const Mutations = gql`
     insertItemTranslation: item_translations
     insertItemTranslationBlankDraft: item_translations
     insertItemTranslationPromoteToReview(
-      revision_id: String! #      is_release: Boolean! #      full_name: String! #      short_name: String #      description: String
+      revision_id: String!
     ): item_translations
     updateItemTranslation(
       id: String!

@@ -40,6 +40,7 @@ interface LocalisationSidebarProps {
   tabPath: string;
   urlNumberOfParts: number;
   locales: any;
+  latestGlobalMediaRevision: any;
   refetchTranslationRevisions: any;
   invalidPath: any;
   mutationInsertTranslationRevision: any;
@@ -50,6 +51,7 @@ function LocalisationSidebar({
   tabPath,
   urlNumberOfParts = 6,
   locales,
+  latestGlobalMediaRevision,
   refetchTranslationRevisions,
   invalidPath,
   mutationInsertTranslationRevision,
@@ -202,7 +204,7 @@ function LocalisationSidebar({
                 style={cssStyles.menuTab}
                 icon={<PictureOutlined />}
               >
-                <Link to={`${tabPath}/global-media?rev=1&release=false`}>
+                <Link to={`${latestGlobalMediaRevision.path}`}>
                   {Common.Localisation_Related.Global_Media}
                 </Link>
               </Menu.Item>

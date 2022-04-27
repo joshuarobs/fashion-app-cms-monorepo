@@ -12,6 +12,8 @@ import { Insert_Item_Translation_Revision_Promote_New_Revision } from '../../../
 import { Get_Item_Translation_Revision_Changes_For_Locale } from '../../../../queries/item_translation_revision_changes/getItemTranslationRevisionChangesForLocale';
 import { Get_Item_Translation_Revisions_Given_Locale_Code } from '../../../../queries/item_translation_revisions/getItemTranslationRevisionsGivenLocaleCode';
 import { Get_Item_Global_Media_Revision_Changes_Promos_Only } from '../../../../queries/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesPromosOnly';
+import { Insert_Item_Global_Media_Promote_To_Review } from '../../../../queries/item_global_media/insertItemGlobalMediaPromoteToReview';
+import { Get_Item_Global_Media_Revision_Changes_Given_Item_Id } from '../../../../queries/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesGivenItemId';
 
 const key = 'state-localisations';
 
@@ -19,7 +21,7 @@ interface ItemGlobalMediaStateFrameProps {
   itemId?: string;
   currentTab: string;
   paramsRevision: any;
-  refetchTranslations: Function;
+  refetchGlobalMedia: Function;
   refetchItemTransRevs: Function;
   refetchUniqueRevisions: Function;
   uniqueRevisions: any;
@@ -29,7 +31,7 @@ function ItemGlobalMediaStateFrame({
   itemId,
   currentTab,
   paramsRevision,
-  refetchTranslations,
+  refetchGlobalMedia,
   refetchItemTransRevs,
   refetchUniqueRevisions,
   uniqueRevisions,
@@ -38,6 +40,7 @@ function ItemGlobalMediaStateFrame({
   const location = useLocation();
   console.log('STATE - history:', history);
   console.log('ItemGlobalMediaStateFrame > currentTab:', currentTab);
+  console.log('uniqueRevisions:', uniqueRevisions);
 
   const [currentRevision, setCurrentRevision] = useState(uniqueRevisions[0]);
   const [state, setState] = useState(null);
@@ -85,10 +88,10 @@ function ItemGlobalMediaStateFrame({
   // Hooks for GraphQL queries
   //======================================================================
   const {
-    loading: loadingPromoTranslationRevs,
-    error: errorPromoTranslationRevs,
-    data: dataPromoTranslationRevs,
-    refetch: refetchPromoTranslationRevs,
+    loading: loadingPromoGlobalMediaRevs,
+    error: errorPromoGlobalMediaRevs,
+    data: dataPromoGlobalMediaRevs,
+    refetch: refetchPromoGlobalMediaRevs,
   } = useQuery(Get_Item_Global_Media_Revision_Changes_Promos_Only, {
     variables: {
       item_id: Number.parseInt(String(itemId)),
@@ -102,22 +105,17 @@ function ItemGlobalMediaStateFrame({
   const [
     insertItemTranslationPromoteToReview,
     {
-      loading: loadingInsertItemTranslationPromoteToReview,
-      error: errorInsertItemTranslationPromoteToReview,
+      loading: loadingInsertItemGlobalMediaPromoteToReview,
+      error: errorInsertItemGlobalMediaPromoteToReview,
     },
-  ] = useMutation(Insert_Item_Translation_Promote_To_Review, {
+  ] = useMutation(Insert_Item_Global_Media_Promote_To_Review, {
     async onCompleted() {
       // TODO: Get the refetch from the content frame that loads all
       //  revisions and then call it
       // refetchTranslations();
-      await refetchPromoTranslationRevs();
-      await refetchTranslations();
+      await refetchPromoGlobalMediaRevs();
+      await refetchGlobalMedia();
       refetchUniqueRevisions();
-      // const variables = {
-      //   revisionId: currentRevision.id,
-      //   userId: 1
-      // };
-      // insertItemTranslationRevisionChangeActUpdate({ variables }).then(r => {});
       navigate(
         location.pathname + `?rev=${currentRevision.revision}&release=true`
       );
@@ -131,7 +129,7 @@ function ItemGlobalMediaStateFrame({
     refetchQueries: [
       // TODO: Refetch the state, and latest activity
       {
-        query: Get_Item_Translation_Revision_Changes_For_Locale,
+        query: Get_Item_Global_Media_Revision_Changes_Given_Item_Id,
         variables: {
           itemId: Number.parseInt(String(itemId)),
           // revision: Number.parseInt(paramsRevision),
@@ -154,7 +152,7 @@ function ItemGlobalMediaStateFrame({
     Update_Item_Translation_Revision_State_Promote_To_Production,
     {
       async onCompleted() {
-        await refetchPromoTranslationRevs();
+        await refetchPromoGlobalMediaRevs();
         // await refetchTranslations();
         // setReactUseStateVars();
         refetchUniqueRevisions();
@@ -207,13 +205,13 @@ function ItemGlobalMediaStateFrame({
       },
     ],
   });
+  console.log('Current Revision:', currentRevision);
 
   if (!currentRevision) {
     return <StateFrame />;
   }
 
-  console.log('Current Revision:', currentRevision);
-  const translationDraft = currentRevision.item_translations[0];
+  // const translationDraft = currentRevision.item_translations[0];
   // const translationRelease = currentRevision.item_translations[1];
 
   // const { pathNoRelease } = currentRevision;
@@ -336,14 +334,14 @@ function ItemGlobalMediaStateFrame({
     setButtonIsPromoting(false);
   };
 
-  if (loadingPromoTranslationRevs) return <StateFrame />;
-  if (errorPromoTranslationRevs)
+  if (loadingPromoGlobalMediaRevs) return <StateFrame />;
+  if (errorPromoGlobalMediaRevs)
     return (
-      <div>Error! ${JSON.stringify(errorPromoTranslationRevs, null, 2)}</div>
+      <div>Error! ${JSON.stringify(errorPromoGlobalMediaRevs, null, 2)}</div>
     );
 
   const { getItemGlobalMediaRevisionChangesPromosOnly } =
-    dataPromoTranslationRevs;
+    dataPromoGlobalMediaRevs;
 
   console.log(
     'getItemGlobalMediaRevisionChangesPromosOnly:',

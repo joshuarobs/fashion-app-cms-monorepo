@@ -15,6 +15,7 @@ import { Update_Item_Updated_At } from '../../queries/items/updateItemUpdatedAt'
 import { Get_Item_Translation_Revisions } from '../../queries/item_translation_revisions/getItemTranslationRevisions';
 import { GlobalMediaTab } from '../../components/item/localisations/GlobalMediaTab/_GlobalMediaTab';
 import { Get_Item_And_Media_Item_Associated_For_Item_Id } from '../../queries/item_and_media_item_associated/getItemAndMediaItemAssociatedForItemId';
+import { Get_Item_Global_Media_Revisions_Given_Item_Id } from '../../queries/item_global_media_revisions/getItemGlobalMediaRevisionsGivenItemId';
 
 // const GET_ITEM_TRANSLATIONS = gql`
 //   query getItemTranslations($id: Int!) {
@@ -90,6 +91,16 @@ function LocalisationsTab() {
   });
 
   const {
+    loading: loadingGlobalMediaRevisions,
+    error: errorGlobalMediaRevisions,
+    data: dataGlobalMediaRevisions,
+    refetch: refetchGlobalMediaRevs,
+  } = useQuery(Get_Item_Global_Media_Revisions_Given_Item_Id, {
+    variables: { item_id: Number.parseInt(String(id)) },
+    fetchPolicy: 'network-only',
+  });
+
+  const {
     loading: loadingMediaItemAssociated,
     error: errorMediaItemAssociated,
     data: dataMediaItemAssociated,
@@ -99,7 +110,12 @@ function LocalisationsTab() {
     fetchPolicy: 'network-only',
   });
 
-  if (loadingTranslationRevisions || loadingMediaItemAssociated) return <div />;
+  if (
+    loadingTranslationRevisions ||
+    loadingMediaItemAssociated ||
+    loadingGlobalMediaRevisions
+  )
+    return <div />;
   if (errorTranslationRevisions) {
     return (
       <div>Error! ${JSON.stringify(errorTranslationRevisions, null, 2)}</div>
@@ -111,11 +127,20 @@ function LocalisationsTab() {
       <div>Error! ${JSON.stringify(errorMediaItemAssociated, null, 2)}</div>
     );
   }
+
+  if (errorGlobalMediaRevisions) {
+    return (
+      <div>Error! ${JSON.stringify(errorGlobalMediaRevisions, null, 2)}</div>
+    );
+  }
+
   console.log(
     'LocalisationsTab#dataTranslationRevisions:',
     dataTranslationRevisions,
-    '| LocalisationsTab#dataMediaItemAssociated:',
-    dataMediaItemAssociated
+    '| dataMediaItemAssociated:',
+    dataMediaItemAssociated,
+    '| dataGlobalMediaRevisions:',
+    dataGlobalMediaRevisions
   );
 
   // const item_translation_revisions = data.item_translation_revisions;
@@ -144,6 +169,30 @@ function LocalisationsTab() {
       }
     );
   console.log('latestTranslationRevisions:', latestTranslationRevisions);
+
+  // Convert the latest global media map object into an array
+  const latestGlobalMediaRevisions =
+    dataGlobalMediaRevisions.getItemGlobalMediaRevisionsGivenItemId.map(
+      (globalMediaRevision: any) => {
+        console.log('globalMediaRevision:', globalMediaRevision);
+        const { revision, item_global_media } = globalMediaRevision;
+        // Create a url that we can load the latest revision with
+        // const pathNoRelease = `${tabPath}/${locale_code}/?id=${id}&rev=${revision}&release=`;
+        // const pathNoRelease = `${tabPath}/?rev=${revision}&release=`;
+        const pathNoRelease = `${tabPath}/global-media/?rev=${revision}&release=`;
+        // Set is release to either its actual value (true or false), or if we
+        // can't find it, play it safe and assume that it would be false (a
+        // revision SHOULD have at least a draft version, i.e. is_release = false)
+        // We are selecting the first item (array index 0), typically is the
+        // most latest version (i.e. the release version)
+        const path = `${pathNoRelease}${
+          item_global_media.length > 0 ? item_global_media[0].is_release : false
+        }`;
+        // console.log("Path:", path);
+        return { ...globalMediaRevision, path, pathNoRelease };
+      }
+    );
+  console.log('latestGlobalMediaRevisions:', latestGlobalMediaRevisions);
 
   // Get the locales data from each most latest translation to display in
   // the sidebar
@@ -259,6 +308,7 @@ function LocalisationsTab() {
           tabPath={tabPath}
           urlNumberOfParts={Url_Number_Of_Parts}
           locales={translationLocales}
+          latestGlobalMediaRevision={latestGlobalMediaRevisions[0]}
           // @ts-ignore
           hasChangesMade={hasChangesMade}
           refetchTranslationRevisions={refetchItemTransRevs}

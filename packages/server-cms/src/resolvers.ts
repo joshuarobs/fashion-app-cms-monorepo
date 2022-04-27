@@ -156,6 +156,7 @@ import { getItemGlobalMediaGivenUniqueKeys } from './resolvers/item_global_media
 import { getItemGlobalMediaRevisionChangesPromosOnly } from './resolvers/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesPromosOnly';
 import { getItemGlobalMediaRevisionChangesGivenItemId } from './resolvers/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesGivenItemId';
 import { updateItemGlobalMedia } from './resolvers/item_global_media/updateItemGlobalMedia';
+import { insertItemGlobalMediaPromoteToReview } from './resolvers/item_global_media/insertItemGlobalMediaPromoteToReview';
 
 const resolvers = {
   //**********************************************************************
@@ -292,6 +293,8 @@ const resolvers = {
     //--------------------------------------------------
     updateItemGlobalMedia: (_, { id, changes }, context) =>
       updateItemGlobalMedia(id, changes, context),
+    insertItemGlobalMediaPromoteToReview: (_, { revision_id }, context) =>
+      insertItemGlobalMediaPromoteToReview(revision_id, context),
     //--------------------------------------------------
     // item_global_media_revision_changes
     //--------------------------------------------------

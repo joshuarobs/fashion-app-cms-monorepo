@@ -109,6 +109,7 @@ function LocalisationsTab() {
           tabPath={tabPath}
           urlNumberOfParts={Url_Number_Of_Parts}
           locales={translationLocales}
+          latestGlobalMediaRevision={{}}
           refetchTranslationRevisions={refetchCompanyTransRevs}
           invalidPath={!currentRevision}
           mutationInsertTranslationRevision={

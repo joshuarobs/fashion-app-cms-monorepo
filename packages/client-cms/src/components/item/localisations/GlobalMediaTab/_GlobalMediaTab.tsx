@@ -355,9 +355,9 @@ function GlobalMediaTab({
         // translations={translations}
         itemId={itemId}
         paramsRevision={paramsRevision}
-        refetchTranslations={refetchGlobalMedia}
+        refetchGlobalMedia={refetchGlobalMedia}
         refetchItemTransRevs={refetchItemTransRevs}
-        uniqueRevisions={[]}
+        uniqueRevisions={uniqueRevisions}
         refetchUniqueRevisions={() => {}}
       />
     );
