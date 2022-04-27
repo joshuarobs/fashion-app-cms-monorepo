@@ -10276,7 +10276,7 @@ type item_global_media {
   # An object relationship
   media_9: media_items
   media_9_id: uuid
-  notes: String
+  notes: String!
 
   # An object relationship
   revision: item_global_media_revisions!
@@ -10740,6 +10740,9 @@ type item_global_media_revision_changes_variance_fields {
 type item_global_media_revisions {
   id: uuid!
 
+  # An object relationship
+  item: items!
+
   # An array relationship
   item_global_media(
     # distinct select on columns
@@ -10801,10 +10804,39 @@ type item_global_media_revisions_aggregate_fields {
   variance: item_global_media_revisions_variance_fields
 }
 
+# order by aggregate values of table "item_global_media_revisions"
+input item_global_media_revisions_aggregate_order_by {
+  avg: item_global_media_revisions_avg_order_by
+  count: order_by
+  max: item_global_media_revisions_max_order_by
+  min: item_global_media_revisions_min_order_by
+  stddev: item_global_media_revisions_stddev_order_by
+  stddev_pop: item_global_media_revisions_stddev_pop_order_by
+  stddev_samp: item_global_media_revisions_stddev_samp_order_by
+  sum: item_global_media_revisions_sum_order_by
+  var_pop: item_global_media_revisions_var_pop_order_by
+  var_samp: item_global_media_revisions_var_samp_order_by
+  variance: item_global_media_revisions_variance_order_by
+}
+
+# input type for inserting array relation for remote table "item_global_media_revisions"
+input item_global_media_revisions_arr_rel_insert_input {
+  data: [item_global_media_revisions_insert_input!]!
+
+  # upsert condition
+  on_conflict: item_global_media_revisions_on_conflict
+}
+
 # aggregate avg on columns
 type item_global_media_revisions_avg_fields {
   item_id: Float
   revision: Float
+}
+
+# order by avg() on columns of table "item_global_media_revisions"
+input item_global_media_revisions_avg_order_by {
+  item_id: order_by
+  revision: order_by
 }
 
 # Boolean expression to filter rows from the table "item_global_media_revisions".
@@ -10814,6 +10846,7 @@ input item_global_media_revisions_bool_exp {
   _not: item_global_media_revisions_bool_exp
   _or: [item_global_media_revisions_bool_exp!]
   id: uuid_comparison_exp
+  item: items_bool_exp
   item_global_media: item_global_media_bool_exp
   item_id: Int_comparison_exp
   revision: Int_comparison_exp
@@ -10838,6 +10871,7 @@ input item_global_media_revisions_inc_input {
 # input type for inserting data into table "item_global_media_revisions"
 input item_global_media_revisions_insert_input {
   id: uuid
+  item: items_obj_rel_insert_input
   item_global_media: item_global_media_arr_rel_insert_input
   item_id: Int
   revision: Int
@@ -10851,11 +10885,25 @@ type item_global_media_revisions_max_fields {
   revision: Int
 }
 
+# order by max() on columns of table "item_global_media_revisions"
+input item_global_media_revisions_max_order_by {
+  id: order_by
+  item_id: order_by
+  revision: order_by
+}
+
 # aggregate min on columns
 type item_global_media_revisions_min_fields {
   id: uuid
   item_id: Int
   revision: Int
+}
+
+# order by min() on columns of table "item_global_media_revisions"
+input item_global_media_revisions_min_order_by {
+  id: order_by
+  item_id: order_by
+  revision: order_by
 }
 
 # response of any mutation on the table "item_global_media_revisions"
@@ -10885,6 +10933,7 @@ input item_global_media_revisions_on_conflict {
 # Ordering options when selecting data from "item_global_media_revisions".
 input item_global_media_revisions_order_by {
   id: order_by
+  item: items_order_by
   item_global_media_aggregate: item_global_media_aggregate_order_by
   item_id: order_by
   revision: order_by
@@ -10925,10 +10974,22 @@ type item_global_media_revisions_stddev_fields {
   revision: Float
 }
 
+# order by stddev() on columns of table "item_global_media_revisions"
+input item_global_media_revisions_stddev_order_by {
+  item_id: order_by
+  revision: order_by
+}
+
 # aggregate stddev_pop on columns
 type item_global_media_revisions_stddev_pop_fields {
   item_id: Float
   revision: Float
+}
+
+# order by stddev_pop() on columns of table "item_global_media_revisions"
+input item_global_media_revisions_stddev_pop_order_by {
+  item_id: order_by
+  revision: order_by
 }
 
 # aggregate stddev_samp on columns
@@ -10937,10 +10998,22 @@ type item_global_media_revisions_stddev_samp_fields {
   revision: Float
 }
 
+# order by stddev_samp() on columns of table "item_global_media_revisions"
+input item_global_media_revisions_stddev_samp_order_by {
+  item_id: order_by
+  revision: order_by
+}
+
 # aggregate sum on columns
 type item_global_media_revisions_sum_fields {
   item_id: Int
   revision: Int
+}
+
+# order by sum() on columns of table "item_global_media_revisions"
+input item_global_media_revisions_sum_order_by {
+  item_id: order_by
+  revision: order_by
 }
 
 # update columns of table "item_global_media_revisions"
@@ -10964,16 +11037,34 @@ type item_global_media_revisions_var_pop_fields {
   revision: Float
 }
 
+# order by var_pop() on columns of table "item_global_media_revisions"
+input item_global_media_revisions_var_pop_order_by {
+  item_id: order_by
+  revision: order_by
+}
+
 # aggregate var_samp on columns
 type item_global_media_revisions_var_samp_fields {
   item_id: Float
   revision: Float
 }
 
+# order by var_samp() on columns of table "item_global_media_revisions"
+input item_global_media_revisions_var_samp_order_by {
+  item_id: order_by
+  revision: order_by
+}
+
 # aggregate variance on columns
 type item_global_media_revisions_variance_fields {
   item_id: Float
   revision: Float
+}
+
+# order by variance() on columns of table "item_global_media_revisions"
+input item_global_media_revisions_variance_order_by {
+  item_id: order_by
+  revision: order_by
 }
 
 # select columns of table "item_global_media"
@@ -13312,6 +13403,42 @@ type items {
   item_family_id: Int
 
   # An array relationship
+  item_global_media_revisions(
+    # distinct select on columns
+    distinct_on: [item_global_media_revisions_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [item_global_media_revisions_order_by!]
+
+    # filter the rows returned
+    where: item_global_media_revisions_bool_exp
+  ): [item_global_media_revisions!]!
+
+  # An aggregate relationship
+  item_global_media_revisions_aggregate(
+    # distinct select on columns
+    distinct_on: [item_global_media_revisions_select_column!]
+
+    # limit the number of rows returned
+    limit: Int
+
+    # skip the first n rows. Use only with order_by
+    offset: Int
+
+    # sort the rows by one or more columns
+    order_by: [item_global_media_revisions_order_by!]
+
+    # filter the rows returned
+    where: item_global_media_revisions_bool_exp
+  ): item_global_media_revisions_aggregate!
+
+  # An array relationship
   item_maindata_revisions(
     # distinct select on columns
     distinct_on: [item_maindata_revisions_select_column!]
@@ -13453,6 +13580,7 @@ input items_bool_exp {
   id: Int_comparison_exp
   item_and_media_item_associations: item_and_media_item_associated_bool_exp
   item_family_id: Int_comparison_exp
+  item_global_media_revisions: item_global_media_revisions_bool_exp
   item_maindata_revisions: item_maindata_revisions_bool_exp
   item_translation_revisions: item_translation_revisions_bool_exp
   short_id: numeric_comparison_exp
@@ -13481,6 +13609,7 @@ input items_insert_input {
   id: Int
   item_and_media_item_associations: item_and_media_item_associated_arr_rel_insert_input
   item_family_id: Int
+  item_global_media_revisions: item_global_media_revisions_arr_rel_insert_input
   item_maindata_revisions: item_maindata_revisions_arr_rel_insert_input
   item_translation_revisions: item_translation_revisions_arr_rel_insert_input
   short_id: numeric
@@ -13553,6 +13682,7 @@ input items_order_by {
   id: order_by
   item_and_media_item_associations_aggregate: item_and_media_item_associated_aggregate_order_by
   item_family_id: order_by
+  item_global_media_revisions_aggregate: item_global_media_revisions_aggregate_order_by
   item_maindata_revisions_aggregate: item_maindata_revisions_aggregate_order_by
   item_translation_revisions_aggregate: item_translation_revisions_aggregate_order_by
   short_id: order_by
@@ -19393,7 +19523,7 @@ type query_root {
   # fetch data from the table: "item_global_media_revision_changes" using primary key columns
   item_global_media_revision_changes_by_pk(id: uuid!): item_global_media_revision_changes
 
-  # fetch data from the table: "item_global_media_revisions"
+  # An array relationship
   item_global_media_revisions(
     # distinct select on columns
     distinct_on: [item_global_media_revisions_select_column!]
@@ -19411,7 +19541,7 @@ type query_root {
     where: item_global_media_revisions_bool_exp
   ): [item_global_media_revisions!]!
 
-  # fetch aggregated fields from the table: "item_global_media_revisions"
+  # An aggregate relationship
   item_global_media_revisions_aggregate(
     # distinct select on columns
     distinct_on: [item_global_media_revisions_select_column!]
@@ -22009,7 +22139,7 @@ type subscription_root {
   # fetch data from the table: "item_global_media_revision_changes" using primary key columns
   item_global_media_revision_changes_by_pk(id: uuid!): item_global_media_revision_changes
 
-  # fetch data from the table: "item_global_media_revisions"
+  # An array relationship
   item_global_media_revisions(
     # distinct select on columns
     distinct_on: [item_global_media_revisions_select_column!]
@@ -22027,7 +22157,7 @@ type subscription_root {
     where: item_global_media_revisions_bool_exp
   ): [item_global_media_revisions!]!
 
-  # fetch aggregated fields from the table: "item_global_media_revisions"
+  # An aggregate relationship
   item_global_media_revisions_aggregate(
     # distinct select on columns
     distinct_on: [item_global_media_revisions_select_column!]

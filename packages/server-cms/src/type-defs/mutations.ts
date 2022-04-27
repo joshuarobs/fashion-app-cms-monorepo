@@ -148,6 +148,9 @@ const Mutations = gql`
     #--------------------------------------------------
     # item_global_media_revisions
     #--------------------------------------------------
+    updateItemGlobalMaindataRevisionStatePromoteToProduction(
+      id: String!
+    ): item_global_media_revisions
     #--------------------------------------------------
     # item_maindata
     #--------------------------------------------------

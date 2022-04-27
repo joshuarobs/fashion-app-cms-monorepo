@@ -14,6 +14,7 @@ import { Get_Item_Translation_Revisions_Given_Locale_Code } from '../../../../qu
 import { Get_Item_Global_Media_Revision_Changes_Promos_Only } from '../../../../queries/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesPromosOnly';
 import { Insert_Item_Global_Media_Promote_To_Review } from '../../../../queries/item_global_media/insertItemGlobalMediaPromoteToReview';
 import { Get_Item_Global_Media_Revision_Changes_Given_Item_Id } from '../../../../queries/item_global_media_revision_changes/getItemGlobalMediaRevisionChangesGivenItemId';
+import { Update_Item_Global_Media_Revision_State_Promote_To_Production } from '../../../../queries/item_global_media_revisions/updateItemGlobalMediaRevisionStatePromoteToProduction';
 
 const key = 'state-localisations';
 
@@ -131,7 +132,7 @@ function ItemGlobalMediaStateFrame({
       {
         query: Get_Item_Global_Media_Revision_Changes_Given_Item_Id,
         variables: {
-          itemId: Number.parseInt(String(itemId)),
+          item_id: Number.parseInt(String(itemId)),
           // revision: Number.parseInt(paramsRevision),
         },
       },
@@ -143,13 +144,13 @@ function ItemGlobalMediaStateFrame({
   // PROMOTE TO PRODUCTION
   //==================================================
   const [
-    updateItemTranslationRevisionStatePromoteToProduction,
+    updateItemGlobalMediaRevisionStatePromoteToProduction,
     {
-      loading: loadingUpdateItemTranslationRevisionStatePromoteToProduction,
-      error: errorUpdateItemTranslationRevisionStatePromoteToProduction,
+      loading: loadingUpdateItemGlobalMediaRevisionStatePromoteToProduction,
+      error: errorUpdateItemGlobalMediaRevisionStatePromoteToProduction,
     },
   ] = useMutation(
-    Update_Item_Translation_Revision_State_Promote_To_Production,
+    Update_Item_Global_Media_Revision_State_Promote_To_Production,
     {
       async onCompleted() {
         await refetchPromoGlobalMediaRevs();
@@ -167,7 +168,7 @@ function ItemGlobalMediaStateFrame({
       },
       refetchQueries: [
         {
-          query: Get_Item_Translation_Revision_Changes_For_Locale,
+          query: Get_Item_Global_Media_Revision_Changes_Given_Item_Id,
           variables: {
             item_id: Number.parseInt(String(itemId)),
             // revision: Number.parseInt(paramsRevision),
@@ -285,7 +286,7 @@ function ItemGlobalMediaStateFrame({
       content: Common.State_Related.Promoting_To_Production,
       key,
     });
-    await updateItemTranslationRevisionStatePromoteToProduction({
+    await updateItemGlobalMediaRevisionStatePromoteToProduction({
       variables: {
         id: currentRevision.id,
       },
