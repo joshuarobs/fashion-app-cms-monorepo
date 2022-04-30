@@ -6,6 +6,7 @@ import {
   DataChangeType,
   DataState,
 } from '@joshuarobs/clothing-framework';
+import { getItemAndMediaItemAssociatedForItemId } from '../item_and_media_item_associated/getItemAndMediaItemAssociatedForItemId';
 
 /**
  * Updates an Item Global Media, alongside updating the Item's `updated_at`
@@ -31,8 +32,10 @@ async function updateItemGlobalMedia(id: string, changes: any, context: any) {
   delete changes.is_release;
 
   try {
-    /**
+    /*
+     * ============================================================
      * 1. Get information about the item maindata's related revision
+     * ============================================================
      */
     const data1 = await client.query({
       query: gql`
@@ -56,7 +59,7 @@ async function updateItemGlobalMedia(id: string, changes: any, context: any) {
     });
     console.log('data1-query:', data1.data.item_global_media_by_pk);
 
-    /**
+    /*
      * 1-a. Check for valid state before continuing
      */
     const isRelease = data1.data.item_global_media_by_pk.is_release;
@@ -84,9 +87,15 @@ async function updateItemGlobalMedia(id: string, changes: any, context: any) {
       return null;
     }
 
-    /**
+    /*
+     * ============================================================
      * 2. Mutation to update the Global Media
+     * ============================================================
      */
+    // Maybe we should validate the ids in-case they get corrupted during
+    // the transfer to the server? Might not be necessary because the
+    // mutation will fail because ids have strict foreign key requirements
+
     const data2 = await client.mutate({
       mutation: gql`
         mutation updateItemGlobalMedia(
@@ -119,9 +128,90 @@ async function updateItemGlobalMedia(id: string, changes: any, context: any) {
         changes,
       },
     });
+    console.log('data2:', data2);
 
-    /**
-     * 3. Mutation to update the Item's updated_at
+    /*
+     * ============================================================
+     * 3. Add any new media to the associated media tables
+     * ============================================================
+     */
+    // Get all the ids of the item global media into an array we can easily
+    // work with
+    const updatedMediaIds = [];
+    const {
+      media_1_id,
+      media_2_id,
+      media_3_id,
+      media_4_id,
+      media_5_id,
+      media_6_id,
+      media_7_id,
+      media_8_id,
+      media_9_id,
+      media_10_id,
+    } = data2.data.update_item_global_media_by_pk;
+
+    if (media_1_id) updatedMediaIds.push(media_1_id);
+    if (media_2_id) updatedMediaIds.push(media_2_id);
+    if (media_3_id) updatedMediaIds.push(media_3_id);
+    if (media_4_id) updatedMediaIds.push(media_4_id);
+    if (media_5_id) updatedMediaIds.push(media_5_id);
+    if (media_6_id) updatedMediaIds.push(media_6_id);
+    if (media_7_id) updatedMediaIds.push(media_7_id);
+    if (media_8_id) updatedMediaIds.push(media_8_id);
+    if (media_9_id) updatedMediaIds.push(media_9_id);
+    if (media_10_id) updatedMediaIds.push(media_10_id);
+    console.log('updatedMediaIds:', updatedMediaIds);
+
+    // Get a list of all existing associated media with this item
+    const data3a = await getItemAndMediaItemAssociatedForItemId(
+      relatedRevision.item_id,
+      0,
+      0
+    );
+    console.log('data3a:', data3a);
+    const existingIds = new Set(
+      data3a.map(({ media_item_id }: any) => media_item_id)
+    );
+    console.log('existingIds:', existingIds);
+
+    const remainingNewIdsToAdd = updatedMediaIds.filter(
+      (x) => !existingIds.has(x)
+    );
+    console.log('remainingNewIdsToAdd:', remainingNewIdsToAdd);
+
+    const objects: any[] = remainingNewIdsToAdd.map((media_item_id) => ({
+      item_id: relatedRevision.item_id,
+      media_item_id,
+    }));
+    // [{ item_id: 10, media_item_id: "" }]
+
+    // eslint-disable-next-line no-constant-condition
+    if (objects.length > 0) {
+      const data3 = await client.mutate({
+        mutation: gql`
+          mutation insertItemAndMediaItemAssociatedMultiple(
+            $objects: [item_and_media_item_associated_insert_input!]!
+          ) {
+            insert_item_and_media_item_associated(objects: $objects) {
+              returning {
+                item_id
+                media_item_id
+              }
+            }
+          }
+        `,
+        variables: {
+          objects,
+        },
+      });
+      console.log('data3:', data3);
+    }
+
+    /*
+     * ============================================================
+     * 4. Mutation to update the Item's updated_at
+     * ============================================================
      */
     await client.mutate({
       mutation: gql`
@@ -140,10 +230,12 @@ async function updateItemGlobalMedia(id: string, changes: any, context: any) {
       },
     });
 
-    /**
-     * 4. Create an activity entry
+    /*
+     * ============================================================
+     * 5. Create an activity entry
+     * ============================================================
      */
-    const data4 = await client.mutate({
+    const data5 = await client.mutate({
       mutation: gql`
         mutation insertItemGlobalMediaRevisionChange(
           $revision_id: uuid!
@@ -179,6 +271,11 @@ async function updateItemGlobalMedia(id: string, changes: any, context: any) {
       },
     });
 
+    /*
+     * ============================================================
+     * Return the result
+     * ============================================================
+     */
     logger.info(
       `graphql > updateItemGlobalMedia() | Successfully returned data`
     );
