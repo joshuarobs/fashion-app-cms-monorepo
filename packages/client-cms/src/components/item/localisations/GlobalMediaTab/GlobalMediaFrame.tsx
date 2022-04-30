@@ -535,7 +535,7 @@ function GlobalMediaFrame({
     );
     console.log('value:', value);
     console.log('matchingRevision:', matchingRevision);
-    const { revision, item_translations } = matchingRevision;
+    const { revision, item_global_media } = matchingRevision;
     console.log(
       'value:',
       value,
@@ -553,7 +553,7 @@ function GlobalMediaFrame({
     // We are selecting the first item (array index 0), typically is the
     // most latest version (i.e. the release version)
     const is_release =
-      item_translations.length > 0 ? item_translations[0].is_release : false;
+      item_global_media.length > 0 ? item_global_media[0].is_release : false;
     navigate(`${location.pathname}?rev=${revision}&release=${is_release}`);
   };
 
