@@ -410,7 +410,7 @@ const resolvers = {
     // items
     //--------------------------------------------------
     deleteItemByPk,
-    deleteItem: (_, { id }) => deleteItem(id),
+    deleteItem: (_, { id }, context) => deleteItem(id, context),
     insertItem: (_, { name, item_type }, context) =>
       insertItem(name, item_type, context),
     updateItemUpdatedAt,
