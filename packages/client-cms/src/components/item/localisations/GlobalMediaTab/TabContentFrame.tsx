@@ -202,6 +202,7 @@ function TabContentFrame({
           // multiDrag // enables mutidrag
           // OR
           // swap // enables swap
+          disabled={disabled}
           animation={250}
           list={mediaAllGenders}
           // list={mediaAllGenders1}
