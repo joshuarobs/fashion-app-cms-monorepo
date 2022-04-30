@@ -460,19 +460,7 @@ function GlobalMediaFrame({
       id: currentRevision.id,
     };
     console.log('variables:', variables);
-    // 1. Delete all changes (i.e. the activity log) for the revision
-    // await deleteItemTranslationRevisionChangesForRevision({ variables });
     await deleteItemTranslationsForRevisionLocalePage({ variables });
-    // 2. Delete the item translation revision itself
-    // await deleteItemTranslationRevision({ variables });
-    // 3. Redirect the user either to the previous revision (if any) or
-    // to the dashboard if there isn't
-    // await updateItemUpdatedAt({
-    //   variables: {
-    //     id: itemId,
-    //   },
-    // });
-
     message.success({
       content: Common.State_Related.Deleted_Revision,
       key,
@@ -717,7 +705,7 @@ function GlobalMediaFrame({
         {!globalMediaDraft ? (
           <ErrorPleaseFixThis
             message={
-              'This Translation Revision does not have a Draft Translation.'
+              'This Global Media Revision does not have a Draft Translation.'
             }
             onClick={deleteRevision}
           />

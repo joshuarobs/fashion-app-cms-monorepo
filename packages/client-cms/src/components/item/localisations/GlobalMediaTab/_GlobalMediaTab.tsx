@@ -169,9 +169,15 @@ function GlobalMediaTab({
   });
 
   useEffect(() => {
-    if (dataGlobalMedia) {
+    if (
+      dataGlobalMedia &&
+      dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys.length > 0
+    ) {
       console.log('dataGlobalMedia:', dataGlobalMedia);
-      if (mediaAllGendersDraft.length === 0) {
+      if (
+        mediaAllGendersDraft.length === 0 &&
+        dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0]
+      ) {
         // Convert the globalMedia object's ids into an array
         const globalMediaItems11: object[] = [];
         const {
@@ -209,9 +215,19 @@ function GlobalMediaTab({
 
         setMediaAllGendersDraft(globalMediaItems11);
         setPrevMediaAllGendersDraft(globalMediaItems11);
+
+        setNotesDraft(
+          dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0].notes
+        );
+        setPrevNotesDraft(
+          dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0].notes
+        );
       }
 
-      if (mediaAllGendersRelease.length === 0) {
+      if (
+        mediaAllGendersRelease.length === 0 &&
+        dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[1]
+      ) {
         // Convert the globalMedia object's ids into an array
         const globalMediaItems11: object[] = [];
         const {
@@ -249,19 +265,14 @@ function GlobalMediaTab({
 
         setMediaAllGendersRelease(globalMediaItems11);
         setPrevMediaAllGendersRelease(globalMediaItems11);
+
+        setNotesRelease(
+          dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[1].notes
+        );
+        setPrevNotesRelease(
+          dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[1].notes
+        );
       }
-
-      setNotesDraft(dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0].notes);
-      setPrevNotesDraft(
-        dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[0].notes
-      );
-
-      setNotesRelease(
-        dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[1].notes
-      );
-      setPrevNotesRelease(
-        dataGlobalMedia.getItemGlobalMediaGivenUniqueKeys[1].notes
-      );
     }
   }, [dataGlobalMedia]);
 
@@ -391,7 +402,7 @@ function GlobalMediaTab({
         // translation={translation}
         globalMediaDraft={globalMedia[0] ? globalMedia[0] : null}
         globalMediaRelease={globalMedia[1] ? globalMedia[1] : null}
-        revisionIdDraft={globalMedia[0].id}
+        revisionIdDraft={globalMedia[0] ? globalMedia[0].id : null}
         revisionIdRelease={globalMedia[1] ? globalMedia[1].id : null}
         defaultMediaItemAssociated={defaultMediaItemAssociated}
         itemId={itemId}

@@ -31,7 +31,11 @@ async function insertItemGlobalMediaBarebones(
           $is_release: Boolean!
         ) {
           insert_item_global_media_one(
-            object: { revision_id: $revision_id, is_release: $is_release }
+            object: {
+              revision_id: $revision_id
+              is_release: $is_release
+              notes: ""
+            }
           ) {
             id
             is_release

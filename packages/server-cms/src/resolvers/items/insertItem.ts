@@ -147,7 +147,7 @@ async function insertItem(name: string, item_type: ItemType, context: any) {
       false,
       context
     );
-    // console.log('data3:', data3);
+    console.log('data6:', data6);
 
     /*
      * ============================================================
