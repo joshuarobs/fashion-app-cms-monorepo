@@ -428,7 +428,7 @@ function GlobalMediaTab({
         refetchGlobalMedia={refetchGlobalMedia}
         refetchItemTransRevs={refetchItemTransRevs}
         uniqueRevisions={uniqueRevisions}
-        refetchUniqueRevisions={() => {}}
+        refetchUniqueRevisions={refetchRevisions}
       />
     );
   }
