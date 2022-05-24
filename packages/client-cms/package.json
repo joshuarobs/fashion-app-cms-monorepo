@@ -9,7 +9,7 @@
     "@apollo/client": "^3.5.10",
     "@babel/preset-env": "^7.16.11",
     "@iconfu/svg-inject": "^1.2.3",
-    "@joshuarobs/clothing-framework": "0.1.6",
+    "@joshuarobs/clothing-framework": "0.1.7",
     "@namespace/components": "^0.1.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
